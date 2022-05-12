@@ -1,11 +1,13 @@
 package com.example.SOMusic.service;
 
 import java.util.List;
+
+import com.example.SOMusic.controller.PurchaseRequest;
 import com.example.SOMusic.domain.Purchase;
 
 public interface PurchaseService {
 
-	void createPurchase(Purchase purchase);
+	Purchase registerPurchase(PurchaseRequest purchaseReq);
 	
 	Purchase findPurchase(String userId);
 	
