@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<style type="text/css">
+	body {
+		background-color: #f2eee5;
+	}
+	    
+	#out {
+        width: 1000px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .top_view {
+    	border: 1px solid #afafc7;
+    	border-radius:3px;
+    }
+    
+    .row {
+        margin: 20px;
+    }
+    
+    h4 {
+    	margin-left: 30px;
+    	font-size: 15px;
+    	color: #5f7caf;
+    }
+    
+    .info_view {
+    	width: 900px;
+    	margin-left: auto;
+        margin-right: auto;
+     	display: flex;
+    }
+    
+    .image {
+    	width: 200px;
+    	height: 200px;
+    	border:1px black solid;
+    	margin-left: 30px;
+    	margin-top: 20px;
+    }
+    
+    .info {
+    	font-size: 20px;
+    	margin-left: 30px;
+    }
+    
+    .btn_view {
+    	text-align: right;
+    	height: 20px;
+    }
+    
+    .btn {
+    	font-size: 15px;
+    	font-weight: bold;
+    	color: #ccabaf;
+    	border: none;
+    	background: none;
+    }
+    
+    .btn:hover {
+    	border-bottom: 2px solid #ccabaf;
+    }
+    
+    #line {
+    	border:1px #afafc7 solid;
+    }
+    
+    .table_view {
+    	width: 900px;
+    	margin-left: auto;
+        margin-right: auto;
+    }
+    
+    table {
+		border-collapse: collapse;
+		text-align: center;
+    }
+    
+    td {
+    	height: 40px;
+    	border-left:1px #afafc7 solid;
+    	border-bottom:1px #afafc7 solid;
+    }
+    
+    td:first-child {
+    	border-left:none;
+    }
+    
+    .tb_mar {
+		margin-left: auto;
+        margin-right: auto;
+        width: 850px;
+    }
+    
+    .first_tr {
+    	border-top:2px #afafc7 solid;
+    	border-bottom:2px #afafc7 solid;
+    	font-weight: bold;
+    }
+    
+    .excel_view {
+    	text-align: right;
+    	height: 30px;
+    }
+    
+    .ex {
+    	font-size: 12px;
+    	font-weight: bold;
+    	color: #5f7caf;
+    	border: none;
+    }
+    
+    .ex:hover {
+    	border-bottom: 1px solid #5f7caf;
+    }
+</style>
+<meta charset="UTF-8">
+<title>공구 정보</title>
+</head>
+<body>
+<div id="out">
+	<div class="top_view">
+		<div class="row">
+			<h4>제목</h4>
+		</div>
+		<div class="info_view">
+			<div class="image">
+				<img src="../../../image/image_upload.png"
+					style="border:1px black solid; width:100%;"/>
+			</div>
+			<div class="info">
+				<div class="row">제목</div>
+				<div class="row">기간 ~ 기간</div>
+				<div class="row">가격</div>
+				<div class="row">상세 설명</div>
+				<div class="row">해시태그</div>
+				<div class="row">은행 정보</div>
+			</div>
+		</div>
+		<div class="row btn_view">
+			<form method="GET" action="/gp/update">
+				<input class="btn" type="submit" value="수정하기" />
+			</form>
+		</div>
+	</div>
+	<div class="row excel_view">
+		<!-- 
+		<button class="ex" id="excel" onclick="exportReportToExcel(this)">엑셀로 다운 받기</button>
+		-->
+	</div>
+	<div class="table_view">
+		<table id="list" class="tb tb_mar">
+			<tr class="first_tr">
+				<td class="tb">폼 제출 시간</td>
+				<td class="tb">이름</td>
+				<td class="tb">총 금액</td>
+				<td class="tb">배송지</td>
+				<td class="tb">환불 계좌</td>
+				<td class="tb">기타 정보</td>
+				<td class="tb">상태</td>
+			</tr>
+				<td class="tb">폼 제출 시간</td>
+				<td class="tb">박솜솜</td>
+				<td class="tb">10000</td>
+				<td class="tb">배송지</td>
+				<td class="tb">환불 계좌</td>
+				<td class="tb">기타 정보</td>
+				<td class="tb">상태</td>
+			<tr>
+			</tr>
+			<tr>
+				<td class="tb">폼 제출 시간</td>
+				<td class="tb">이름</td>
+				<td class="tb">총 금액</td>
+				<td class="tb">배송지</td>
+				<td class="tb">환불 계좌</td>
+				<td class="tb">기타 정보</td>
+				<td class="tb">상태</td>
+			</tr>
+		</table>
+	</div>
+</div>
+</body>
+</html>
