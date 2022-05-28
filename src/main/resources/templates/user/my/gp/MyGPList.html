@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<style>
+	body {
+        background-color: #f2eee5;
+    }
+
+	#out {
+		width: 1000px;
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	.row {
+		margin: 10px;
+	}
+	
+	.one {
+		border: 1px solid #afafc7;
+		height: 110px;
+		display: flex;
+		margin: 5px;
+		border-radius: 3px;
+	}
+	
+	.image_view {
+		height: 90px;
+		width: 90px;
+	}
+	
+	.image {
+		height: 100%;
+		width: 100%;
+	}
+	
+	.title {
+		padding-top: 10px;
+		padding-left: 10px;
+		width: 670px;
+	}
+
+	.btn {
+		background: none;
+    	font-size: 13px;
+    	color: #ccabaf;
+    	border: none;
+    }
+    
+    .btn:hover {
+    	font-weight: bold;
+    	border-bottom: 2px solid #ccabaf;
+    }
+
+	.ul {
+		padding-left: 15px;
+	}
+
+	.li {
+		display: inline;
+		font: bold 12px;
+		border-left: 2px solid #afafc7;
+		padding-left: 10px;
+		padding-right: 6px;
+	}
+
+	.li:first-child {
+		border-left: none;
+	}
+
+	.link {
+		text-decoration: none;
+	}
+
+	.select {
+		color: #5f7caf;
+	}
+
+	.unselect {
+		color: #bababf;
+	}
+
+	.unselect:hover {
+		color: #5f7caf;
+		border-bottom: 1px solid #5f7caf;
+	}
+</style>
+<meta charset="UTF-8">
+<title>공구 리스트</title>
+</head>
+<body>
+<div id="out">
+	<div class="row">
+		<h3>공구 리스트</h3>
+	</div>
+	<div class="row">
+		<nav>
+			<ul class="ul">
+				<li class="li"><a class="link select">등록한 공구</a></li>
+				<li class="li"><a class="link unselect" href="/user/my/gp/join/list">참가한 공구</a></li>
+			</ul>
+		</nav>
+	</div>
+	<div class="row">
+		<div class="one">
+			<div class="row image_view">
+				<img class="image" src="x.png"/>
+			</div>
+			<div class="row title">
+				<h3>제목</h3>
+			</div>
+			<div class="row" style="width:60px;"></div>
+			<div class="row">
+				<div class="row" style="height:40px;"></div>
+				<div class="row">
+					<button class="btn" type="button">삭제</button>
+				</div>
+			</div>
+		</div>
+		<div class="one">
+			<div class="row image_view">
+				<img class="image" src="x.png"/>
+			</div>
+			<div class="row title">
+				<h3>제목</h3>
+			</div>
+			<div class="row" style="width:60px;"></div>
+			<div class="row">
+				<div class="row" style="height:40px;"></div>
+				<div class="row">
+					<button class="btn" type="button">삭제</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>
