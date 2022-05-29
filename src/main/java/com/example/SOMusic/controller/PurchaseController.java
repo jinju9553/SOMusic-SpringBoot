@@ -20,11 +20,11 @@ public class PurchaseController {
 	
 	private static final String PURCHASE_FORM = "purchase/purchaseForm";
 	
-	//@Autowired
-	//private PurchaseService purchaseService;
-	//public void setPurchaseService(PurchaseService purchaseService) {
-	//	this.purchaseService = purchaseService;
-	//}
+//	@Autowired	// 자동주입이 계속 실패하여 잠시 주석처리 해둡니다.
+	private PurchaseService purchaseService;
+	public void setPurchaseService(PurchaseService purchaseService) {
+		this.purchaseService = purchaseService;
+	}
 	
 	//1.Validator 작성 필요
 	//@Autowired
@@ -45,7 +45,8 @@ public class PurchaseController {
 			//만약 배송지 '주문자와 동일' 옵션을 선택했을 경우 ==> ajax 콜 사용
 			//1.UserSession에서 UserId를 뽑아낸다.
 			//2.Account를 통해 이 유저의 address 및 기본 정보를 읽어와서 세팅한다.
-			//purchaseReq.setAddress("address"); //정보를 세팅하여 Form에 초기값으로 나타낸다.
+//			purchaseReq.setAddress("address"); //정보를 세팅하여 Form에 초기값으로 나타낸다.	// 메소드가 정의되지 않아 오류가 나는 상태로 잠시 주석처리 했습니다.
+
 			return purchaseReq;
 		}
 		else return new PurchaseRequest(); //?: get 요청이 아닐 때 실행하는 것인지?

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import com.example.SOMusic.controller.PurchaseRequest;
 import com.example.SOMusic.domain.Purchase;
 
-//@Service
+@Service
 public interface PurchaseService {
 
 	Purchase registerPurchase(PurchaseRequest purchaseReq);

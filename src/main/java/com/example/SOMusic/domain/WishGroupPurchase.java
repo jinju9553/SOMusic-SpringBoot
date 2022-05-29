@@ -1,23 +1,30 @@
 package com.example.SOMusic.domain;
 
 public class WishGroupPurchase {
-	private String user_id;
-	private String groupPurchase_id;
+	private String userId;
+	private GroupPurchase gp;
 	
-	public String getUser_id() {
-		return user_id;
+	public WishGroupPurchase() {}
+	
+	public WishGroupPurchase(String userId, GroupPurchase gp) {
+		this.userId = userId;
+		this.gp = gp;
 	}
-	
-	public void setUser_id(String user_id) {
-		this.user_id = user_id;
+
+	public String getUserId() {
+		return userId;
 	}
-	
-	public String getGroupPurchase_id() {
-		return groupPurchase_id;
+
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
-	
-	public void setGroupPurchase_id(String groupPurchase_id) {
-		this.groupPurchase_id = groupPurchase_id;
+
+	public GroupPurchase getGp() {
+		return gp;
+	}
+
+	public void setGp(GroupPurchase gp) {
+		this.gp = gp;
 	}
 	
 }
