@@ -19,6 +19,7 @@ import com.example.SOMusic.service.PurchaseService;
 public class PurchaseController {
 	
 	private static final String PURCHASE_FORM = "purchase/purchaseForm";
+	private static final String PURCHASE_INFO = "purchase/myPurchaseInfo";
 	
 //	@Autowired	// 자동주입이 계속 실패하여 잠시 주석처리 해둡니다.
 	private PurchaseService purchaseService;
@@ -30,10 +31,20 @@ public class PurchaseController {
 	//@Autowired
 	//private OrderValidator orderValidator;
 
+	@ModelAttribute("paymentOption")
+	public String[] referenceData() {
+		return new String[] { "신용/체크카드", "무통장 입금", "실시간 계좌이체", "네이버 페이", "toss" };
+	}
+
 	//2.showForm()
 	@GetMapping
 	public String showForm() {
 		return PURCHASE_FORM;
+	}
+	
+	@GetMapping("/id")
+	public String showForm2() {
+		return PURCHASE_INFO;
 	}
 	
 	//3.formBacking()
@@ -45,7 +56,7 @@ public class PurchaseController {
 			//만약 배송지 '주문자와 동일' 옵션을 선택했을 경우 ==> ajax 콜 사용
 			//1.UserSession에서 UserId를 뽑아낸다.
 			//2.Account를 통해 이 유저의 address 및 기본 정보를 읽어와서 세팅한다.
-//			purchaseReq.setAddress("address"); //정보를 세팅하여 Form에 초기값으로 나타낸다.	// 메소드가 정의되지 않아 오류가 나는 상태로 잠시 주석처리 했습니다.
+			//purchaseReq.setAddress("address"); //정보를 세팅하여 Form에 초기값으로 나타낸다.	// 메소드가 정의되지 않아 오류가 나는 상태로 잠시 주석처리 했습니다.
 
 			return purchaseReq;
 		}
@@ -71,4 +82,11 @@ public class PurchaseController {
 		//model.addAttribute("purchase", p); //View에 객체 전달하고 간략한 정보 출력
 		return "purchase/registered";
 	}
+	
+	//5.PurchaseInfo - 사용자가 구매한 특정 중고상품 하나의 정보
+	//6.PurchaseList - 사용자가 구매한 중고상품 목록
+	//7.PurchaseSearch - 특정 중고상품 하나를 검색
+	//8.PurchaseUpdate - 사용자가 구매한 특정 중고상품 하나의 배송지 수정
+	//9.PurchaseView(Confirm) - 사용자가 작성한 구매폼을 판매자가 승인함
+	
 }
