@@ -4,9 +4,11 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.SOMusic.domain.WishProduct;
@@ -16,21 +18,21 @@ import com.example.SOMusic.domain.WishGroupPurchase;
 
 
 @Controller
+@RequestMapping("/user/my/wish")
 public class WishlistController {
 	
-	@Autowired
+	//@Autowired
 	private WishProductService wishproductService;
-	public void setPurchaseService(WishProductService wishProductService, WishProductService wishproductService) {
+	public void setWishproductService(WishProductService wishproductService) {
 		this.wishproductService = wishproductService;
 	}
-
-	@RequestMapping("uri넣기")
-	public String handleRequest(
-			@RequestParam("ProductId") String productId,
-			@RequestParam("UserId") String UserId,
-			ModelMap model) throws Exception {
+	
+	@RequestMapping(value="/view", method = RequestMethod.GET)
+	public String ProductWishList(Model model) throws Exception {
 		
-		return "Wish"; //Wish 객체를리턴해야하나?
+		return "user/my/wish/wishList"; 
 	}
+
+
 	
 }
