@@ -1,0 +1,35 @@
+body {
+		background-color: #f2eee5;
+}
+
+.txLeft {
+	text-align:left;
+}
+.txCenter {
+	text-align:center;
+}
+.txRight {
+	text-align:right;
+}
+
+/*자주 쓰는 색상*/
+
+.color_beige {
+	color: #f2eee5;
+}
+
+.color_purple { /*진보라*/
+	color: #5f7caf; 
+}
+
+.color_lavender { /*연보라*/
+	color: #afafc7;
+}
+
+.color_pink { /*진분홍*/
+	color: #ccabaf;
+}
+
+.color_grey { /*회색*/
+	color: #bababf;
+}
