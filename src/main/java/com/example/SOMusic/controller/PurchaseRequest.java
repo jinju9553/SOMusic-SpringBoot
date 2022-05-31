@@ -1,5 +1,7 @@
 package com.example.SOMusic.controller;
 
+import com.example.SOMusic.domain.Product;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,7 +12,9 @@ public class PurchaseRequest {
 	private int zipcode; //우편번호
 	private String phone; //전화번호
 	private String shippingRequest; //배송 시 요청사항
+	
 	private int paymentOption; //결제수단
+	private Product product; //참조하는 객체
 	
 	private int totalAmount; //배송비 포함 금액
 }
