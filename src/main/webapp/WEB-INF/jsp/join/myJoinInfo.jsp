@@ -1,16 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<%-- <%@ include file="IncludeTop.jsp"%> --%>
+<%@ include file="../header.jsp"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 <html>
 <meta charset="UTF-8">
-<title>내가 참여한 공동구매</title>
 <head> 
-	<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 	<!-- 나중에 별도의 파일로 빼기 -->
 	<style type="text/css">
 		.starR1{
@@ -82,11 +78,11 @@
   <table class="n13">
   	<!-- 상품 정보 -->
   	<tr>
-  		<td> <font color="green" size="8"><b>공동구매 상세 내역</b></font> </td>
+  		<td> <font class="color_purple" size="8"><b>공동구매 상세 내역</b></font> </td>
   	</tr>
   	
   	<tr> <!-- div 또는 <hr> -->
-  		<td> <div style="height: auto; width: 170%; border-top:1px solid gold; margin-bottom: 5%;"></div> </td>
+  		<td> <div class="color_purple" style="height: auto; width: 170%; border-top:1px solid; margin-bottom: 5%;"></div> </td>
   	</tr>
   	
   	<tr>
@@ -112,8 +108,8 @@
   	
   	<!-- 세부 항목 1 -->
     <tr>
-      <td style="padding-top: 5%;"> <font color="green" size="4"><b>공동구매 폼 보기</b></font> </td>
-      <td style="padding-top: 5%;"> <font color="green" size="4"><b>등록자 정보</b></font> </td>
+      <td style="padding-top: 5%;"> <font class="color_purple" size="4"><b>공동구매 폼 보기</b></font> </td>
+      <td style="padding-top: 5%;"> <font class="color_purple" size="4"><b>등록자 정보</b></font> </td>
     </tr>   
     <tr>
       <td>- 마감 일자: (날짜)</td>
@@ -126,10 +122,10 @@
     
     <!-- 세부 항목 2 -->
     <tr>
-  		<td style="padding-top: 5%;"> <font color="green" size="4"><b>기본 정보</b></font> </td>
+  		<td style="padding-top: 5%;"> <font class="color_purple" size="4"><b>기본 정보</b></font> </td>
   	</tr>
   	<tr>
-  		<td> <div style="height: auto; width: 170%; border-top:1px solid gold; margin-bottom: 5%;"></div> </td>
+  		<td> <div class="color_purple" style="height: auto; width: 170%; border-top:1px solid; margin-bottom: 5%;"></div> </td>
   	</tr>
   	
   	<tr>
@@ -168,14 +164,14 @@
   	</tr>
   	
   	<tr>
-  		<td colspan="3" align="right"> <button>수정 내역 저장</button> </td>
+  		<td colspan="3" align="right"> <button class="btn">수정 내역 저장</button> </td>
   	</tr>
   	
   	<tr>
-  		<td style="padding-top: 5%;"> <font color="green" size="4"><b>주문 정보</b></font> </td>
+  		<td style="padding-top: 5%;"> <font class="color_purple" size="4"><b>주문 정보</b></font> </td>
   	</tr>  	
   	<tr>
-  		<td> <div style="height: auto; width: 170%; border-top:1px solid gold; margin-bottom: 5%;"></div> </td>
+  		<td> <div class="color_purple" style="height: auto; width: 170%; border-top:1px solid; margin-bottom: 5%;"></div> </td>
   	</tr>
   	
   	<tr>
@@ -195,7 +191,7 @@
       		<input type='radio' name='shippingOption' value='2' onclick='setShipping(event)'/> 택배 (+3,000원)
       		<input type='radio' name='shippingOption' value='3' onclick='setShipping(event)'/> 택배(제주산간) (+6,000원)
 		</td>
-		<td colspan="3" style="padding-bottom: 5%;"> <button>수정 내역 저장</button> </td>
+		<td colspan="3" style="padding-bottom: 5%;"> <button class="btn">수정 내역 저장</button> </td>
   	</tr> 
   	<tr>
   		
@@ -210,10 +206,10 @@
   	</tr>  
     
     <tr>
-  		<td style="padding-top: 5%;" colspan="2"> <font color="green" size="4"><b>배송 정보</b></font> </td>
+  		<td style="padding-top: 5%;" colspan="2"> <font class="color_purple" size="4"><b>배송 정보</b></font> </td>
   	</tr>
   	<tr>
-  		<td> <div style="height: auto; width: 170%; border-top:1px solid gold; margin-bottom: 5%;"></div> </td>
+  		<td> <div class="color_purple" style="height: auto; width: 170%; border-top:1px solid; margin-bottom: 5%;"></div> </td>
   	</tr>
   	
   	<tr>
@@ -243,7 +239,7 @@
     </tr>
     
     <tr>
-  		<td colspan="3" align="right"> <button>수정 내역 저장</button> </td>
+  		<td colspan="3" align="right"> <button class="btn">수정 내역 저장</button> </td>
   	</tr>
     
     <tr> <!-- 거래 종료 이후 활성화되는 메뉴 -->
@@ -262,7 +258,7 @@
 		  <span class="starR2"></span>
 		</div>
 	  </td>
-  	  <td style="padding-top: 5%; colspan="2" align="left"> <button>등록</button> </td>
+  	  <td style="padding-top: 5%; colspan="2" align="left"> <button class="btn">등록</button> </td>
     </tr> 
     
   </table>
