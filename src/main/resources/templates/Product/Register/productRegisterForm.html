@@ -1,11 +1,134 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<html>
 <head>
+<style type="text/css">
+	body {
+		background-color: #f2eee5;
+	}
+	    
+	#out {
+        width: 1000px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .top_view {
+    	border: 1px solid #afafc7;
+    	border-radius:3px;
+    }
+    
+    .row {
+        margin: 5px;
+    }
+    
+    input {
+    	margin: 20px;
+    }
+    
+    
+    .info_view {
+
+     	display: flex;
+    }
+    
+    .image {
+    	width: 500px;
+    	height: 500px;
+    	border:1px black solid;
+
+    }
+    
+    .info {
+    	font-size: 20px;
+    	margin-left: 30px;
+    }
+    
+    .btn_view {
+    	text-align: right;
+    	height: 20px;
+    }
+    
+    .btn {
+    	font-size: 50px;
+    	font-weight: bold;
+    	color: #ccabaf;
+    	border: none;
+    	background: none;
+    	margin: auto;
+    	width: 300px;
+    	display:block;
+    }
+    
+    .btn:hover {
+    	border-bottom: 2px solid #ccabaf;
+    }
+    
+    #line {
+    	border:1px #afafc7 solid;
+    }
+    
+  
+</style>
 <meta charset="UTF-8">
 <title>상품 등록 폼</title>
 </head>
 <body>
+<div id="out">
+	<div class="form_view">
+	<form action="#" th:action="@{/product/register}" th:object="${productReq}" method="POST">
+<!--		<div class="row">
+			<h4>가격</h4>
+		</div>   -->
+		<div class="info_view">
+			<div class="image">
+				<img src="../../../image/image_upload.png"/>
+				<br/>
+				<input name="image" type="file" />	
+			</div>
 
+			
+			<div class="info">
+				<inline class="row">음반 제목
+				<input type="text" name ="title" size="20"></inline>
+				<br/>
+				<inline id="blue" class="row">가격 
+				<input type="text" name ="title" size="20"></inline>
+				<br/>
+				<inline class="row">레이블 
+				<input type="text" name ="title" size="20"></inline>
+				<br/>
+				<inline class="row">형식
+				<input type="text" name ="title" size="20"></inline>
+				<br/>
+				<inline class="row">국가
+				<input type="text" name ="title" size="20"></inline>
+				<br/>
+				<inline class="row">발매됨
+				<input type="text" name ="title" size="20"></inline>
+				<br/>
+				<inline class="row">장르
+				<input type="text" name ="title" size="20"></inline>
+				<br/>
+				<inline class="row">스타일
+				<input type="text" name ="title" size="20"></inline>
+				<br/>
+				<inline class="row">재생 횟수
+				<input type="text" name ="title" size="20"> 번</inline>
+				
+				<div class="row">전반적인 상태</div>
+				<input type="radio" name ="status" value="4">매우좋음
+				<input type="radio" name ="status" value="3">좋음
+				<input type="radio" name ="status" value="2">보통
+				<input type="radio" name ="status" value="1">별로임 
+				<div class="row">슬리브 상태</div>
+				<input type="radio" name ="slvstatus" value="4">매우좋음
+				<input type="radio" name ="slvstatus" value="3">좋음
+				<input type="radio" name ="slvstatus" value="2">보통
+				<input type="radio" name ="slvstatus" value="1">별로임 
+				<div class="row">코멘트</div>
+				<input type="text" name ="comment" size="80">
+				</form>
+				</div>
+			</div>
 </body>
 </html>

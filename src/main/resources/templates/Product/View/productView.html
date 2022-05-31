@@ -1,10 +1,114 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
+<style type="text/css">
+	body {
+		background-color: #f2eee5;
+	}
+	    
+	#out {
+        width: 1000px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .top_view {
+    	border: 1px solid #afafc7;
+    	border-radius:3px;
+    }
+    
+    .row {
+        margin: 20px;
+    }
+    
+    #blue {
+    	margin-left: 30px;
+    	font-size: 15px;
+    	color: #5f7caf;
+    }
+    
+    
+    .info_view {
+    	width: 900px;
+    	margin-left: auto;
+        margin-right: auto;
+     	display: flex;
+    }
+    
+    .image {
+    	width: 400px;
+    	height: 400px;
+    	border:1px black solid;
+    	margin-left: 30px;
+    	margin-top: 20px;
+    }
+    
+    .info {
+    	font-size: 20px;
+    	margin-left: 30px;
+    }
+    
+    .btn_view {
+    	text-align: right;
+    	height: 20px;
+    }
+    
+    .btn {
+    	font-size: 50px;
+    	font-weight: bold;
+    	color: #ccabaf;
+    	border: none;
+    	background: none;
+    	margin: auto;
+    	width: 300px;
+    	display:block;
+    }
+    
+    .btn:hover {
+    	border-bottom: 2px solid #ccabaf;
+    }
+    
+    #line {
+    	border:1px #afafc7 solid;
+    }
+    
+  
+</style>
 <meta charset="UTF-8">
-<title>상품 상세 정보</title>
+<title>상세 정보</title>
 </head>
 <body>
-
+<div id="out">
+	<div class="top_view">
+<!--		<div class="row">
+			<h4>가격</h4>
+		</div>   -->
+		<div class="info_view">
+			<div class="image">
+				<img src="../../../image/image_upload.png"
+					style="border:1px black solid; width:100%;"/>
+			</div>
+			<div class="info">
+				<div class="row"><h1>음반 제목 </h1></div>
+				<div id="blue" class="row"><h2>가격</h2> </div>
+				<div class="row">레이블 </div>
+				<div class="row">형식</div>
+				<div class="row">국가</div>
+				<div class="row">발매됨</div>
+				<div class="row">장르</div>
+				<div class="row">스타일</div>
+				<br/>
+				<div class="row">재생 횟수</div>
+				<div class="row">전반적인 상태</div>
+				<div class="row">슬리브 상태</div>
+				<div class="row">코멘트</div>
+				<div class="row">
+				<button class="btn" type="button">구매하기</button>
+			</div>
+		</div>
+		</div>
+		
+	</div>
+	</div>
 </body>
 </html>
