@@ -19,7 +19,7 @@ public class JoinController {
 private static final String JOIN_FORM = "join/joinForm";
 private static final String JOIN_INFO = "join/myJoinInfo";
 	
-//	@Autowired	// 자동주입이 계속 실패하여 잠시 주석처리 해둡니다.
+	@Autowired
 	private JoinService joinService;
 	public void setJoinService(JoinService joinService) {
 		this.joinService = joinService;
