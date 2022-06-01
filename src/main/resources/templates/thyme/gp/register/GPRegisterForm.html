@@ -169,9 +169,9 @@
                 상세 설명 <b class="star">*</b>
             </div>
             <div class="row input">
-                <textarea name="discription" th:field="*{discription}" class="form_color line" style="width:99%; height: 250px;" placeholder="상세 설명을 입력하세요."></textarea>
+                <textarea name="description" th:field="*{description}" class="form_color line" style="width:99%; height: 250px;" placeholder="상세 설명을 입력하세요."></textarea>
                 <div class="row error">
-                	<span th:each="err : ${#fields.errors('discription')}" th:text="${err}">에러 메세지</span>
+                	<span th:each="err : ${#fields.errors('description')}" th:text="${err}">에러 메세지</span>
                 </div>
             </div>
 

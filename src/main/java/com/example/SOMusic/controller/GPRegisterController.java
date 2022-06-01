@@ -20,9 +20,9 @@ import com.example.SOMusic.service.GPService;
 @RequestMapping("/gp")
 public class GPRegisterController {
 	
-	private static final String GP_REGISTER_FORM = "gp/register/GPRegisterForm";
+	private static final String GP_REGISTER_FORM = "thyme/gp/register/GPRegisterForm";
 	private static final String GP_REGISTER_SEUCCESS = "/gp/register/success";	// redirect : uri
-	private static final String GP_REGISTER_SEUCCESS_View = "gp/register/GPRegisterSuccess";
+	private static final String GP_REGISTER_SEUCCESS_View = "thyme/gp/register/GPRegisterSuccess";
 	
 	private static final String GP_UPDATE_FORM = "gp/update/GPUpdateForm";
 	private static final String GP_UPDATE_SEUCCESS = "/user/my/gp/info";	// redirect : uri
@@ -39,7 +39,6 @@ public class GPRegisterController {
 	}
 	
 	// 공구 등록
-	
 	@RequestMapping(value="/register", method = RequestMethod.GET)
 	public String showRegisterForm() {
 		return GP_REGISTER_FORM;
@@ -56,10 +55,8 @@ public class GPRegisterController {
 			return GP_REGISTER_FORM;
 		}
 
-		// 공구 등록
-//		GPRequest gp = gpSvc.gpRegister(gpReq);
-		
-		model.addAttribute("grupPurchase", gpReq);
+		gpReq.setSellerId("jinju");	// 임의로 설정, sellerId 삽입
+		gpSvc.insertGP(gpReq);
 		
 		return "redirect:" + GP_REGISTER_SEUCCESS;	// redirect로 넘기기
 	}

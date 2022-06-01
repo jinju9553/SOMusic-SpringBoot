@@ -1,5 +1,7 @@
 package com.example.SOMusic.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,9 +17,9 @@ import com.example.SOMusic.service.GPService;
 @RequestMapping("/user/my/gp")
 public class MyGPController {
 	
-	private static final String MY_GP_INFO = "user/my/gp/myGPInfo";
-	private static final String MY_REGISTER_LIST = "user/my/gp/MyGPList";
-	private static final String MY_JOIN_LIST = "user/my/gp/MyJoinList";
+	private static final String MY_GP_INFO = "thyme/user/my/gp/myGPInfo";
+	private static final String MY_REGISTER_LIST = "thyme/user/my/gp/MyGPList";
+	private static final String MY_JOIN_LIST = "thyme/user/my/gp/MyJoinList";
 
 	@Autowired
 	private GPService gpSvc;
@@ -32,20 +34,21 @@ public class MyGPController {
 //	}
 
 	@RequestMapping(value="/info", method = RequestMethod.GET)
-	public String info(Model model) throws Exception {
+	public String info(@RequestParam("gpId") int gpId, Model model) throws Exception {
 		System.out.println("GP 정보 : ");
 
 		// 공구 검색
-//		GPRequest gp = gpSvc.gpfind(gpReq);
-		
-//		model.addAttribute("grupPurchase", gp);
+		GPRequest gp = gpSvc.getGP(gpId);
+		model.addAttribute("gp", gp);
 		
 		return MY_GP_INFO;
 	}
 	
 	@RequestMapping(value="/register/list", method = RequestMethod.GET)
-	public String registerList(Model model) throws Exception {
-
+	public String registerList(@RequestParam("sellerId") String sellerId, Model model) throws Exception {
+		
+		List<GPRequest> gpList = gpSvc.getMyGPList(sellerId);
+		model.addAttribute("gpList", gpList);
 		
 		return MY_REGISTER_LIST;
 	}
