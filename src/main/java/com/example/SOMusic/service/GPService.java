@@ -1,29 +1,33 @@
 package com.example.SOMusic.service;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.example.SOMusic.controller.GPRequest;
+import com.example.SOMusic.dao.GPDao;
+import com.example.SOMusic.repository.GPRepository;
 
 @Service
 public class GPService {
-
 	
-//	public GPRequest gpRegister(GPRequest gp) {}
+	@Autowired
+	private GPDao dao;
 	
+	@Autowired
+	private GPRepository gpRepository;
 	
+	public void insertGP(GPRequest gp) {
+		dao.insertGP(gp);
+	}
 	
-//	public void gpUpdate() {}
-//	
-//	public void gpDelete() {}
-//	
-//	public List<Object> findUserList() {}
-//	
-//	public void gpStatusUpdate() {}
-//	
-//	public List<GroupPuchase> findGpList() {}
-//	
-//	public GroupPurchase findGP() {}
-//	
-//	public void wishGpRegister() {}
-//	
-//	public void joinGP() {}
-
+	public GPRequest getGP(int gpId) {
+		return gpRepository.findByGpId(gpId);
+	}
+	
+	public List<GPRequest> getMyGPList(String sellerId) {
+		return gpRepository.findBySellerId(sellerId);
+	}
+	
 }

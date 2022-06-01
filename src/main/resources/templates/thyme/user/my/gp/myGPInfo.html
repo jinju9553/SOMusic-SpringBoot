@@ -43,7 +43,7 @@
     }
     
     .info {
-    	font-size: 20px;
+    	font-size: 18px;
     	margin-left: 30px;
     }
     
@@ -132,16 +132,17 @@
 					style="border:1px black solid; width:100%;"/>
 			</div>
 			<div class="info">
-				<div class="row">제목</div>
-				<div class="row">기간 ~ 기간</div>
-				<div class="row">가격</div>
-				<div class="row">상세 설명</div>
-				<div class="row">해시태그</div>
-				<div class="row">은행 정보</div>
+				<div class="row"><p th:text="${gp.title}">제목</p></div>
+				<div class="row"><p th:text="${gp.startDate} + '  ~  ' + ${gp.endDate}">시작 ~ 마지막</p></div>
+				<div class="row"><p th:text="${gp.price} + ' 원'">가격</p></div>
+				<div class="row"><p th:text="${gp.description}">상세 설명</p></div>
+				<div class="row"><p th:text="${gp.category}">해시태그</p></div>
+				<div class="row"><p th:text="${gp.bank} + '  ' + ${gp.account}">은행 정보</p></div>
 			</div>
 		</div>
 		<div class="row btn_view">
-			<form method="GET" action="/gp/update">
+			<form action="#" method="GET" th:action="@{/gp/update}">
+				<input type="hidden" id="gpId" name="gpId" th:value="#{gp.gpId}" />
 				<input class="btn" type="submit" value="수정하기" />
 			</form>
 		</div>
