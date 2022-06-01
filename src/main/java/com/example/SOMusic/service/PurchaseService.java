@@ -2,17 +2,14 @@ package com.example.SOMusic.service;
 
 import java.util.List;
 
-import org.springframework.stereotype.Service;
-
 import com.example.SOMusic.controller.PurchaseRequest;
 import com.example.SOMusic.domain.Purchase;
 
-@Service
 public interface PurchaseService {
 
 	Purchase registerPurchase(PurchaseRequest purchaseReq);
 	
-	Purchase findPurchase(String userId);
+	Purchase findPurchaseByUserId(String userId);
 	
 	List<Purchase> findPurchaseList(String userId);
 	
@@ -23,4 +20,7 @@ public interface PurchaseService {
 	void updateAddress(String purchaseId); //*JoinService에도 있는 메소드
 	
 	void confirmPurchase(String purchaseId, int status);
+	
+	/* Spring Data JPA */
+	Purchase findPurchaseByPurchaseId(int purchaseId);
 }

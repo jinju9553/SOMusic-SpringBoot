@@ -65,6 +65,10 @@
 		});
 	});
 	
+	function confirmAccount() {
+		alert("계좌번호는 ${product.bank} ${product.account} 입니다.");
+	}
+	
 	/*
 	function interest() {
 		if (ecoerId == 'null') {
@@ -75,8 +79,8 @@
 	}*/
 </script>
 
-<form:form>
-  <form:errors cssClass="error" /> <br><br>
+<form:form modelAttribute="purchaseReq" action="${targetUrl}" method="post">
+  <form:errors cssClass="error"/> <br><br>
   <table class="n13">
   	<!-- 상품 정보 -->
   	<tr>
@@ -96,11 +100,11 @@
   		<td> <button id="noInterest" type="button" onclick="interest();">❤</button> </td>
   	</tr>
   	<tr>
-  		<td style="padding-bottom: 10;"> 상품 이름 </td>
+  		<td style="padding-bottom: 10;"> 상품 이름: ${product.productName} </td>
   	</tr>
   	<tr>
-  		<td style="padding-bottom: 10;"> 상품 가격 </td>
-  		<td> <input type="button" value="판매자 계좌 확인"> </td>
+  		<td style="padding-bottom: 10;"> 상품 가격: ${purchaseReq.totalAmount} </td>
+  		<td> <input type="button" value="판매자 계좌 확인" onClick="confirmAccount()"> </td>
   	</tr>
   	<tr>
   		<td style="padding-bottom: 10;"> 배송비 별도 / 없음 </td>
@@ -121,7 +125,7 @@
       <td style="padding-top: 5%;"> <font color="green" size="4"><b>판매자 정보</b></font> </td>
     </tr>   
     <tr>
-      <td>- 아티스트: (아티스트 이름)</td>
+      <td>- 아티스트: ${product.artistName} </td>
       <td>- 판매자: (판매자 이름)</td>
     </tr>  
     <tr>

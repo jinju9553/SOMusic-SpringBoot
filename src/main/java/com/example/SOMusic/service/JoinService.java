@@ -1,6 +1,7 @@
 package com.example.SOMusic.service;
 
 import java.util.List;
+
 import com.example.SOMusic.domain.Join;
 
 public interface JoinService {

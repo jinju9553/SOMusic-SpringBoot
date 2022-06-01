@@ -4,7 +4,16 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter 
-public class Join extends Order{
+public class Join { //extends Order{
+	
+	/*공통 필드*/
+	public String consumerId;
+	public String consumerName;
+	public int totalAmount;
+	public String address;
+	public int zipcode;
+	public String phone;
+	
 	private int joinId;
 	private int shippingCost;
 	private int quantity;
