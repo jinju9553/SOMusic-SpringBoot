@@ -23,17 +23,18 @@ public class Purchase implements Serializable { //extends Order { //상속되는
 	
 	/*공통 필드*/
 	@Column(name="consumer_id") 
-	public String consumerId;
+	private String consumerId;
 	@Column(name="consumer_name")
-	public String consumerName;
+	private String consumerName;
 	@Column(name="total_amount")
-	public int totalAmount;
-	public String address;
-	public String zipcode;
-	public String phone;
+	private int totalAmount;
+	private String address;
+	private String zipcode;
+	private String phone;
 
-	//transient: DB에 저장되지 않음
+	//transient: DB에 저장되지 않음 ==> 저장 vs 세션에 담아서 전송
 	transient private int status;
+	transient private int shippingMethod;
 	
 	@ManyToOne //Many가 Purchase, One이 Product
 	@JoinColumn(name="product_id") //DB 상에서 FK의 이름

@@ -24,10 +24,10 @@
   <table class="n13">
   	<!-- 공구 정보 -->
   	<tr>
-  		<td> <font color="green" size="8"><b>공동구매 참여하기</b></font> </td>
+  		<td> <font class="color_purple" size="8"><b>공동구매 참여하기</b></font> </td>
   	</tr>
   	<tr>
-  		<td> <div style="height: auto; width: 170%; border-top:1px solid gold; margin-bottom: 5%;"></div> </td>
+  		<td> <div class="color_purple" style="height: auto; width: 170%; border-top:1px solid; margin-bottom: 5%;"></div> </td>
   	</tr>
   	
   	<tr> <!-- rowspan : 이 칸 옆에 row(<tr>)가 몇 개까지 들어갈 수 있는지 -->
@@ -57,10 +57,10 @@
   	
   	<!-- 세부 항목 1 -->
   	<tr>
-      <td style="padding-top: 5%"> <font color="green" size="4"><b>입금 정보</b></font> </td>
+      <td style="padding-top: 5%"> <font class="color_purple" size="4"><b>입금 정보</b></font> </td>
     </tr>
     <tr>
-  		<td> <div style="height: auto; width: 170%; border-top:1px solid gold; margin-bottom: 5%;"></div> </td>
+  		<td> <div class="color_purple" style="height: auto; width: 170%; border-top:1px solid; margin-bottom: 5%;"></div> </td>
   	</tr>
     
   	<tr>
@@ -100,10 +100,10 @@
   	
   	<!-- 세부 항목 2 -->
     <tr>
-      <td style="padding-top: 5%"> <font color="green" size="4"><b>구매자 정보</b></font> </td>
+      <td style="padding-top: 5%"> <font class="color_purple" size="4"><b>구매자 정보</b></font> </td>
     </tr>
     <tr>
-  		<td> <div style="height: auto; width: 170%; border-top:1px solid gold; margin-bottom: 5%;"></div> </td>
+  		<td> <div class="color_purple" style="height: auto; width: 170%; border-top:1px solid; margin-bottom: 5%;"></div> </td>
   	</tr>
     <tr>
       <td>배송지 선택</td>

@@ -1,6 +1,14 @@
-body {
-		background-color: #f2eee5;
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap');
+
+* {
+	font-family: 'Nanum Gothic', sans-serif;
 }
+
+body {
+	background-color: #f2eee5;
+}
+
+/*왼쪽, 중앙, 오른쪽 정렬 속성*/
 
 .txLeft {
 	text-align:left;
@@ -32,4 +40,91 @@ body {
 
 .color_grey { /*회색*/
 	color: #bababf;
+}
+
+/*버튼 부트 스트랩1*/
+/*<p> - <a> 순서로 생성하고 클래스 적용*/
+
+.transitionalButton { /*가장 바깥 <p>에 이 클래스 적용*/
+	font-weight: bold;
+	font-size: 14px;
+	text-align: center;
+}
+
+p > a { /*transitionalButton 안의 <a> 태그 속성. <a> 하나가 버튼 역할을 함*/
+	-webkit-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+	-moz-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+	-ms-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+	-o-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+	transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+	display: block;
+	margin: 20px auto;
+	max-width: 180px;
+	text-decoration: none;
+	border-radius: 4px;
+	padding: 20px 30px;
+}
+
+a.tButton { /*마우스 오버 애니메이션을 재현하는 tButton 클래스들. <a>에 적용합니다.*/
+	color: rgba(30, 22, 54, 0.6);
+	box-shadow: rgba(30, 22, 54, 0.4) 0 0px 0px 2px inset;
+}
+
+a.tButton:hover {
+	color: rgba(255, 255, 255, 0.85);
+	box-shadow: rgba(30, 22, 54, 0.7) 0 0px 0px 40px inset;
+}
+
+a.tButton2 {
+	color: rgba(30, 22, 54, 0.6);
+	box-shadow: rgba(30, 22, 54, 0.4) 0 0px 0px 2px inset;
+}
+
+a.tButton2:hover {
+	color: rgba(255, 255, 255, 0.85);
+	box-shadow: rgba(30, 22, 54, 0.7) 0 80px 0px 2px inset;
+}
+
+/*버튼 부트 스트랩2*/
+/*<Button> 태그에 .hButton 클래스만 적용하면 완료*/
+
+.hButton{
+  background:#1AAB8A;
+  color:#fff;
+  border:none;
+  position:relative;
+  height:60px;
+  font-size:1.6em;
+  padding:0 2em;
+  cursor:pointer;
+  transition:800ms ease all;
+  outline:none;
+}
+
+.hButton:hover{
+  background:#fff;
+  color:#1AAB8A;
+}
+
+.hButton:before,.hButton:after{
+  content:'';
+  position:absolute;
+  top:0;
+  right:0;
+  height:2px;
+  width:0;
+  background: #1AAB8A;
+  transition:400ms ease all;
+}
+
+.hButton:after{
+  right:inherit;
+  top:inherit;
+  left:0;
+  bottom:0;
+}
+
+.hButton:hover:before,.hButton:hover:after{
+  width:100%;
+  transition:800ms ease all;
 }
