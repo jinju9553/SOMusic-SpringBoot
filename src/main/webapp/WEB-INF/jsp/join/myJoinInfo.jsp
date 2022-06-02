@@ -244,7 +244,7 @@
     
     <tr> <!-- 거래 종료 이후 활성화되는 메뉴 -->
       <td style="padding-top: 5%;">이 거래가 만족스러우셨다면, 판매자에게 별점을 부여해주세요.</td>
-      <td style="padding-top: 5%; padding-left: 5%;" align="right">
+      <td style="padding-top: 5%; padding-left: 3%;" align="right">
 		<div class="starRev">
 		  <span class="starR1 on"></span>
 		  <span class="starR2"></span>

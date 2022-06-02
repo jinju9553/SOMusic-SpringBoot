@@ -50,7 +50,7 @@ public class PurchaseController {
 		return PURCHASE_INFO;
 	}
 	
-	//3.formBacking() //Accessor 메소드
+	//3.formBacking()
 	@ModelAttribute("purchaseReq") // request handler methods 보다 먼저 호출됨
 	public PurchaseRequest formBacking(HttpServletRequest request) { //,
 									//@RequestParam("productId") String productId) {
@@ -81,9 +81,9 @@ public class PurchaseController {
 			purchaseReq.setAddress(pr.getAddress());
 			purchaseReq.setZipcode(pr.getZipcode()); 
 			purchaseReq.setPhone(pr.getPhone());
+			purchaseReq.setStatus(pr.getStatus());
 			//purchaseReq.setShippingRequest(); ==> 이건 어디서 얻어올지?
 			//purchaseReq.setPaymentOption();
-			//purchaseReq.setProduct(pr.getProduct());
 
 			//3.model에 세팅한다.
 			model.addAttribute("purchaseReq", purchaseReq);
@@ -94,7 +94,7 @@ public class PurchaseController {
 	
 	//4.submit() ==> 같은 url의 POST로 매핑
 	@PostMapping
-	public String register( //"regReq" 명칭의 출처는
+	public String register( //"regReq" 명칭의 출처는??
 			@ModelAttribute("regReq") PurchaseRequest purchaseReq, //Commmand 객체로 사용
 			BindingResult bindingResult, Model model) {
 		System.out.println("command 객체: " + purchaseReq);

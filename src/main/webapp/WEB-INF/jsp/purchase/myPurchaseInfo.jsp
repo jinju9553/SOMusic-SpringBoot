@@ -38,8 +38,8 @@
 		}
 		
 		#noInterest {
-			left: 45%;
-    		top: 50%;
+			left: 45.5%;
+    		top: 53.5%;
 			position: absolute;
 		    border: 2px solid;
 		    border-color: #d2d2d2;
@@ -84,11 +84,11 @@
   <table class="n13">
   	<!-- 상품 정보 -->
   	<tr>
-  		<td> <font color="green" size="8"><b>상품 상세 내역</b></font> </td>
+  		<td> <font class="color_purple" size="8"><b>상품 상세 내역</b></font> </td>
   	</tr>
   	
   	<tr> <!-- div 또는 <hr> -->
-  		<td> <div style="height: auto; width: 170%; border-top:1px solid gold; margin-bottom: 5%;"></div> </td>
+  		<td> <div class="color_purple" style="height: auto; width: 170%; border-top:1px solid; margin-bottom: 5%;"></div> </td>
   	</tr>
   	
   	<tr>
@@ -96,7 +96,7 @@
   	</tr>
   	
   	<tr> <!-- padding은 나중에 별도의 CSS 파일로 & 파일 경로 및 값은 product.name 등으로 접근 -->
-  		<td rowspan="7"> <img id="noImage" src="<c:url value='../images/purchase/noImage.png'/>"> </td>
+  		<td rowspan="6"> <img id="noImage" src="<c:url value='../../images/purchase/noImage.png'/>"> </td>
   		<td> <button id="noInterest" type="button" onclick="interest();">❤</button> </td>
   	</tr>
   	<tr>
@@ -107,22 +107,19 @@
   		<td> <input type="button" value="판매자 계좌 확인" onClick="confirmAccount()"> </td>
   	</tr>
   	<tr>
-  		<td style="padding-bottom: 10;"> 배송비 별도 / 없음 </td>
+  		<td style="padding-bottom: 10;"> 거래 지역: </td>
   	</tr>
   	<tr>
-  		<td style="padding-bottom: 10;"> 거래 지역 </td>
+  		<td style="padding-bottom: 10;"> 거래 상태: ${purchaseReq.status} </td>
   	</tr>
   	<tr>
-  		<td style="padding-bottom: 10;"> 거래 상태 </td>
-  	</tr>
-  	<tr>
-  		<td style="padding-bottom: 10;"> 상품 상태 </td>
+  		<td style="padding-bottom: 10;"> 상품 상태: ${product.condition} </td>
   	</tr>
   	
   	<!-- 세부 항목 1 -->
     <tr>
-      <td style="padding-top: 5%;"> <font color="green" size="4"><b>아티스트 정보</b></font> </td>
-      <td style="padding-top: 5%;"> <font color="green" size="4"><b>판매자 정보</b></font> </td>
+      <td style="padding-top: 5%;"> <font class="color_purple" size="4"><b>아티스트 정보</b></font> </td>
+      <td style="padding-top: 5%;"> <font class="color_purple" size="4"><b>판매자 정보</b></font> </td>
     </tr>   
     <tr>
       <td>- 아티스트: ${product.artistName} </td>
@@ -139,23 +136,39 @@
     
     <!-- 세부 항목 2 -->
     <tr>
-  		<td style="padding-top: 5%;"> <font color="green" size="4"><b>상품 정보</b></font> </td>
+  		<td style="padding-top: 5%;"> <font class="color_purple" size="4"><b>상품 정보</b></font> </td>
   	</tr>
   	
   	<tr>
-  		<td> <div style="height: auto; width: 170%; border-top:1px solid gold; margin-bottom: 5%;"></div> </td>
+  		<td> <div class="color_purple" style="height: auto; width: 170%; border-top:1px solid; margin-bottom: 5%;"></div> </td>
   	</tr>
   	
   	<tr>
-      <td>사용자가 직접 안내문을 작성하는 곳.</td> <!-- 표현식으로 받아오기 -->
+      	<td> ${product.description} </td> <!-- 표현식으로 받아오기 -->
     </tr>  
   	
   	<tr>
-  		<td style="padding-top: 5%;"> <font color="green" size="4"><b>상품 문의</b></font> </td>
+  		<td style="padding-top: 5%;"> <font class="color_purple" size="4"><b>내 거래 정보</b></font> </td>
   	</tr>
   	
   	<tr>
-  		<td> <div style="height: auto; width: 170%; border-top:1px solid gold; margin-bottom: 5%;"></div> </td>
+  		<td> <div class="color_purple" style="height: auto; width: 170%; border-top:1px solid; margin-bottom: 5%;"></div> </td>
+  	</tr>
+  	
+  	<tr>
+    	<td>- 거래 방식: 직거래 / 택배</td>
+    </tr> 
+    
+    <tr>
+  		<td>- 배송비: 별도 / 없음 </td>
+  	</tr>
+  	
+  	<tr>
+  		<td style="padding-top: 5%;"> <font class="color_purple" size="4"><b>상품 문의</b></font> </td>
+  	</tr>
+  	
+  	<tr>
+  		<td> <div class="color_purple" style="height: auto; width: 170%; border-top:1px solid; margin-bottom: 5%;"></div> </td>
   	</tr>
   	
   	<tr>
@@ -164,7 +177,7 @@
     
     <tr> <!-- 거래 종료 이후 활성화되는 메뉴 -->
       <td style="padding-top: 5%;">이 거래가 만족스러우셨다면, 판매자에게 별점을 부여해주세요.</td>
-      <td style="padding-top: 5%; padding-left: 5%;" align="right">
+      <td style="padding-top: 5%; padding-left: 3%;" align="right">
 		<div class="starRev">
 		  <span class="starR1 on"></span>
 		  <span class="starR2"></span>

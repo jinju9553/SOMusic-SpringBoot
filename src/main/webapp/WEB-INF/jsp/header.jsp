@@ -6,7 +6,7 @@
 <head>
 	<title>SOMusic</title>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-	<link rel="stylesheet" href="../style/header.css" type="text/css" />
+	<link rel="stylesheet" href="../../style/header.css" type="text/css" /> <!-- 주의: 경로 맞는지 확인 -->
 </head>
 
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
@@ -17,8 +17,8 @@
 <body bgcolor="white">
 	<table width="100%">
 		<tr>
-			<td class="txLeft"> <!-- 배너 위치 -->
-				<a href="<c:url value=''/>"><img id="logo" src="<c:url value="../images/배너(임시).png"/>"></a>
+			<td class="txLeft"> <!-- 배너 위치 --> <!-- 주의: 경로 맞는지 확인 -->
+				<a href="<c:url value=''/>"><img id="logo" src="<c:url value="../../images/배너(임시).png"/>"></a>
 			</td>
 			<td></td>
 			

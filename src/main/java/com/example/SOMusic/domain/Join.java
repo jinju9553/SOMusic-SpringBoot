@@ -7,12 +7,12 @@ import lombok.Setter;
 public class Join { //extends Order{
 	
 	/*공통 필드*/
-	public String consumerId;
-	public String consumerName;
-	public int totalAmount;
-	public String address;
-	public int zipcode;
-	public String phone;
+	private String consumerId;
+	private String consumerName;
+	private int totalAmount;
+	private String address;
+	private int zipcode;
+	private String phone;
 	
 	private int joinId;
 	private int shippingCost;
