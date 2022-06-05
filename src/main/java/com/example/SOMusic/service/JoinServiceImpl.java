@@ -2,53 +2,47 @@ package com.example.SOMusic.service;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.SOMusic.dao.JoinDao;
 import com.example.SOMusic.domain.Join;
+import com.example.SOMusic.repository.JoinRepository;
 
 @Service
 public class JoinServiceImpl implements JoinService{
 
+	@Autowired
+	private JoinRepository joinRepository;
+	
+	@Autowired
+	private JoinDao joinDao;
+	
 	@Override
-	public void createJoin(Join join) {
-		// TODO Auto-generated method stub
-		
+	public void registerJoin(Join join) {
+		joinDao.createJoin(join);
 	}
 
 	@Override
-	public Join findJoin(String userId) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Join> findAllByUserId(String consumerId) {
+		return joinRepository.findAllByConsumerId(consumerId);
 	}
 
 	@Override
-	public List<Join> findJoinList(String userId) {
-		// TODO Auto-generated method stub
-		return null;
+	public void modifyJoin(Join join) {
+		joinDao.updateJoin(join);
 	}
 
-	@Override
-	public void modifyJoin(String joinId) {
-		// TODO Auto-generated method stub
-		
-	}
-
+	@Transactional
 	@Override
 	public void deleteJoin(String joinId) {
-		// TODO Auto-generated method stub
-		
+		joinRepository.deleteByJoinId(joinId);
 	}
 
 	@Override
-	public void updateAddress(String joinId) {
-		// TODO Auto-generated method stub
-		
+	public Join findJoinByJoinId(int joinId) {
+		return joinRepository.findJoinByJoinId(joinId);
 	}
-
-	@Override
-	public void updateStatus(String joinId) {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

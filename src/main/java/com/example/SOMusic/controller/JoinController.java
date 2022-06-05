@@ -8,9 +8,13 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.example.SOMusic.domain.GroupPurchase;
+import com.example.SOMusic.domain.Join;
+import com.example.SOMusic.service.GPService;
 import com.example.SOMusic.service.JoinService;
 
 @Controller //또는 @RestController
@@ -25,17 +29,28 @@ private static final String JOIN_INFO = "join/myJoinInfo";
 		this.joinService = joinService;
 	}
 	
+	@Autowired
+	private GPService gpService;
+	public void setGPService(GPService gpService) {
+		this.gpService = gpService;
+	}
+
+	@ModelAttribute("shippingOption")
+	public Object[] referenceData() { //String이나 Object만 전송 가능
+		return new Object[] { 1, 2, 3 }; //"준등기 (+1,800원)", "택배 (+3,000원)", "택배(제주산간) (+6,000원)"
+	}
+	
 	//1.Validator 작성 필요
 	//@Autowired
 	//private OrderValidator orderValidator;
 
-	//2.showForm()
-	@GetMapping
+	//2.showForm() //@GetMapping("/{id}")
+	@GetMapping("/{id}")
 	public String showForm() {
 		return JOIN_FORM;
 	}
 	
-	@GetMapping("/id")
+	@GetMapping("/info")
 	public String showForm2() {
 		return JOIN_INFO;
 	}
@@ -45,6 +60,8 @@ private static final String JOIN_INFO = "join/myJoinInfo";
 	public JoinRequest formBacking(HttpServletRequest request) { //Accessor 메소드
 		if (request.getMethod().equalsIgnoreCase("GET")) { //equalsIgnoreCase: 대소문자 구분없이 비교
 			JoinRequest joinReq = new JoinRequest();
+			//GroupPurchase gp = gpService.findById
+			
 			
 			//만약 배송지 '주문자와 동일' 옵션을 선택했을 경우 ==> ajax 콜 사용
 			//1.UserSession에서 UserId를 뽑아낸다.
@@ -53,26 +70,60 @@ private static final String JOIN_INFO = "join/myJoinInfo";
 
 			return joinReq;
 		}
-		else return new JoinRequest(); //?: get 요청이 아닐 때 실행하는 것인지?
+		else return new JoinRequest(); 
 	}
 	
 	//4.submit() ==> 같은 url의 POST로 매핑
-	@PostMapping
+	@PostMapping("/{id}")
 	public String register( 
-			@ModelAttribute("regReq") JoinRequest joinReq, //Commmand 객체로 사용
+			@ModelAttribute("joinReq") JoinRequest joinReq, //Commmand 객체로 사용
 			BindingResult bindingResult, Model model) {
 		System.out.println("command 객체: " + joinReq);
+		
+		Join join = new Join();
+		join.initJoin(joinReq);
 		
 		// validator 생성 및 호출 (입력 값 검증), validator 패키지에 포함됨
 		//new OrderValidator().validate(purchaseReq, bindingResult);
 		if (bindingResult.hasErrors()) {
-			return JOIN_FORM;
+			return JOIN_FORM; 
 		}
 
-		//Purchase p = purchaseService.registerPurchase(purchaseReq); //신청자를 등록하고 객체를 리턴
+		joinService.registerJoin(join); //신청자를 등록하고 객체를 리턴
 
-		//JPetStore: mav.addObject("order", orderForm.getOrder());
-		//model.addAttribute("purchase", p); //View에 객체 전달하고 간략한 정보 출력
-		return "join/joined";
+		//JPetStore - OrderController : mav.addObject("order", orderForm.getOrder());
+		//model.addAttribute("join", p); //View에 객체 전달하고 간략한 정보 출력
+		return "join/successed";
+	}
+	
+	@GetMapping("/info/{joinId}")
+	public String formBacking2(HttpServletRequest request,
+									@PathVariable("joinId") int joinId, Model model) {
+			JoinRequest joinReq = new JoinRequest();
+			Join j = joinService.findJoinByJoinId(joinId); //DB에서 특정 join을 읽어온다.
+
+			//2.Join에서 뽑아온 값을 joinReq에 세팅한다.
+			joinReq.initJoinReq(j);
+
+			//3.model에 세팅한다.
+			model.addAttribute("joinReq", joinReq);
+
+			return JOIN_INFO;
+	}
+	
+	@PostMapping("/info/{joinId}")
+	public String onSubmit(
+			@ModelAttribute("joinReq") JoinRequest joinReq,
+			Model model, BindingResult result) throws Exception {
+		Join join = new Join();
+
+		//1.form으로부터 받은 joinReq에 담겨있는 값을 Join에 세팅한다.
+		join.initJoin(joinReq);
+		
+		//2.DAO를 통해 값을 수정한다.
+		joinService.modifyJoin(join); //문제: POST할 때 join만 반영되고 다른 값들이 GET 되지 않음
+		joinReq.initJoinReq(join);
+
+		return "redirect:/" + "join/info/{joinId}"; //본래의 경로로 redirection
 	}
 }

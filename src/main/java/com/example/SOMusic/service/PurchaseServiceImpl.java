@@ -17,43 +17,34 @@ public class PurchaseServiceImpl implements PurchaseService {
 	
 	@Override
 	public Purchase registerPurchase(PurchaseRequest purchaseReq) {
-		// TODO Auto-generated method stub
+		//DAO에서 구현
 		return null;
 	}
 
 	@Override
-	public Purchase findPurchaseByUserId(String userId) {
-		// TODO Auto-generated method stub
-		return null;
+	public Purchase findPurchaseByUserId(String consumerId) {
+		return purchaseRepository.findPurchaseByConsumerId(consumerId);
 	}
 
 	@Override
-	public List<Purchase> findPurchaseList(String userId) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Purchase> findPurchaseList(String consumerId) {
+		return purchaseRepository.findAllByConsumerId(consumerId);
 	}
 
 	@Override
 	public void modifyPurchase(String purchaseId) {
-		// TODO Auto-generated method stub
+		//DAO에서 구현
 		
 	}
 
 	@Override
 	public void deletePurchase(String purchaseId) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void updateAddress(String purchaseId) {
-		// TODO Auto-generated method stub
-		
+		purchaseRepository.deleteByPurchaseId(purchaseId);
 	}
 
 	@Override
 	public void confirmPurchase(String purchaseId, int status) {
-		// TODO Auto-generated method stub
+		//DAO에서 구현
 		
 	}
 
