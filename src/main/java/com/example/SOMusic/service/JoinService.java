@@ -1,23 +1,20 @@
 package com.example.SOMusic.service;
 
 import java.util.List;
-
 import com.example.SOMusic.domain.Join;
 
 public interface JoinService {
-
-	//접근제어: default
-	void createJoin(Join join);
 	
-	Join findJoin(String userId);
+	void registerJoin(Join join);
 	
-	List<Join> findJoinList(String userId);
-	
-	void modifyJoin(String joinId);
+	void modifyJoin(Join join);
 	
 	void deleteJoin(String joinId);
+
+	//void updateStatus(String joinId);
 	
-	void updateAddress(String joinId); //*PurchaseService에도 있는 메소드
+	/* Spring Data JPA */
+	Join findJoinByJoinId(int joinId);
 	
-	void updateStatus(String joinId);
+	List<Join> findAllByUserId(String userId);
 }

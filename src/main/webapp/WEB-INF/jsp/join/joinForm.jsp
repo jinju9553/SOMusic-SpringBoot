@@ -4,7 +4,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
-<c:set var="targetUrl"><c:url value="/shop/newOrderSubmitted.do" /></c:set>
+<c:set var="targetUrl"><c:url value="/join/{id}" /></c:set>
 
 <title>공구 참여</title>
 <div align="center">
@@ -35,7 +35,7 @@
   	</tr>
   	
   	<tr> <!-- padding은 나중에 별도의 CSS 파일로 & 파일 경로 및 값은 groupPurchase.name 등으로 접근 -->
-  		<td style="padding-bottom: 50;"> 공구 상품명 </td>
+  		<td style="padding-bottom: 50;"> 공동구매 제목: ${joinReq.groupPurchase.title}  </td>
   	</tr>
   	<tr>
   	  	<td style="padding-bottom: 50;"> 주문 수량 

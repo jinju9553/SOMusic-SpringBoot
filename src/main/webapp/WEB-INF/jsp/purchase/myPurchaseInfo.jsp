@@ -110,7 +110,7 @@
   		<td style="padding-bottom: 10;"> 거래 지역: </td>
   	</tr>
   	<tr>
-  		<td style="padding-bottom: 10;"> 거래 상태: ${purchaseReq.status} </td>
+  		<td style="padding-bottom: 10;"> 거래 상태: ${product.status} </td>
   	</tr>
   	<tr>
   		<td style="padding-bottom: 10;"> 상품 상태: ${product.condition} </td>
@@ -123,7 +123,7 @@
     </tr>   
     <tr>
       <td>- 아티스트: ${product.artistName} </td>
-      <td>- 판매자: (판매자 이름)</td>
+      <td>- 판매자: ${product.sellerId} </td>
     </tr>  
     <tr>
       <td>- 장르: (장르 이름)</td>
@@ -144,7 +144,7 @@
   	</tr>
   	
   	<tr>
-      	<td> ${product.description} </td> <!-- 표현식으로 받아오기 -->
+      	<td> ${product.description} </td>
     </tr>  
   	
   	<tr>
