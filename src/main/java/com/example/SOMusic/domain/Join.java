@@ -13,10 +13,11 @@ import com.example.SOMusic.controller.JoinRequest;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name="join") 
-@Getter @Setter 
+@Getter @Setter
 @SuppressWarnings("serial")
 public class Join implements Serializable { 
 	

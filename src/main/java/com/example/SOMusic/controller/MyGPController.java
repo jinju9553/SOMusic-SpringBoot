@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.SOMusic.domain.GroupPurchase;
 import com.example.SOMusic.service.GPService;
 
 @Controller
@@ -19,7 +20,7 @@ public class MyGPController {
 	
 	private static final String MY_GP_INFO = "thyme/user/my/gp/myGPInfo";
 	private static final String MY_REGISTER_LIST = "thyme/user/my/gp/MyGPList";
-	private static final String MY_JOIN_LIST = "thyme/user/my/gp/MyJoinList";
+	private static final String MY_JOIN_LIST = "thyme/user/my/join/MyJoinList";
 
 	@Autowired
 	private GPService gpSvc;
@@ -35,10 +36,10 @@ public class MyGPController {
 
 	@RequestMapping(value="/info", method = RequestMethod.GET)
 	public String info(@RequestParam("gpId") int gpId, Model model) throws Exception {
-		System.out.println("GP 정보 : ");
+		System.out.println("GP 정보 : " + gpId);
 
 		// 공구 검색
-		GPRequest gp = gpSvc.getGP(gpId);
+		GroupPurchase gp = gpSvc.getGP(gpId);
 		model.addAttribute("gp", gp);
 		
 		return MY_GP_INFO;
@@ -47,8 +48,10 @@ public class MyGPController {
 	@RequestMapping(value="/register/list", method = RequestMethod.GET)
 	public String registerList(@RequestParam("sellerId") String sellerId, Model model) throws Exception {
 		
-		List<GPRequest> gpList = gpSvc.getMyGPList(sellerId);
+		List<GroupPurchase> gpList = gpSvc.getMyGPList(sellerId);
 		model.addAttribute("gpList", gpList);
+		
+		System.out.println("등록한 공구 리스트 : " + gpList.toString());
 		
 		return MY_REGISTER_LIST;
 	}

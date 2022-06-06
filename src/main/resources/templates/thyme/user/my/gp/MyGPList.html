@@ -121,8 +121,11 @@
 			<div class="row" style="width:60px;"></div>
 			<div class="row">
 				<div class="row" style="height:40px;"></div>
-				<div class="row">
-					<button class="btn" type="button">삭제</button>
+				<div class="row" th:if="${#lists.isEmpty(gp.joinList)}">
+					<form action="#" method="GET" th:action="@{/gp/delete}">
+						<input type="hidden" id="gpId" name="gpId" th:value="${gp.gpId}" />
+						<input class="btn" type="submit" value="삭제" />
+					</form>
 				</div>
 			</div>
 		</div>
