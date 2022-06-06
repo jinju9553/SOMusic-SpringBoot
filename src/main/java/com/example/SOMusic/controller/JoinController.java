@@ -44,13 +44,13 @@ private static final String JOIN_INFO = "join/myJoinInfo";
 	//@Autowired
 	//private OrderValidator orderValidator;
 
-	//2.showForm() //@GetMapping("/{id}")
+	//2.showForm()
 	@GetMapping("/{id}")
 	public String showForm() {
 		return JOIN_FORM;
 	}
 	
-	@GetMapping("/info")
+	@GetMapping("/info") //테스트용 uri
 	public String showForm2() {
 		return JOIN_INFO;
 	}
@@ -61,7 +61,6 @@ private static final String JOIN_INFO = "join/myJoinInfo";
 		if (request.getMethod().equalsIgnoreCase("GET")) { //equalsIgnoreCase: 대소문자 구분없이 비교
 			JoinRequest joinReq = new JoinRequest();
 			//GroupPurchase gp = gpService.findById
-			
 			
 			//만약 배송지 '주문자와 동일' 옵션을 선택했을 경우 ==> ajax 콜 사용
 			//1.UserSession에서 UserId를 뽑아낸다.
@@ -81,7 +80,6 @@ private static final String JOIN_INFO = "join/myJoinInfo";
 		System.out.println("command 객체: " + joinReq);
 		
 		Join join = new Join();
-		join.initJoin(joinReq);
 		
 		// validator 생성 및 호출 (입력 값 검증), validator 패키지에 포함됨
 		//new OrderValidator().validate(purchaseReq, bindingResult);
@@ -89,7 +87,8 @@ private static final String JOIN_INFO = "join/myJoinInfo";
 			return JOIN_FORM; 
 		}
 
-		joinService.registerJoin(join); //신청자를 등록하고 객체를 리턴
+		join.initJoin(joinReq);
+		joinService.registerJoin(join);
 
 		//JPetStore - OrderController : mav.addObject("order", orderForm.getOrder());
 		//model.addAttribute("join", p); //View에 객체 전달하고 간략한 정보 출력
@@ -112,18 +111,21 @@ private static final String JOIN_INFO = "join/myJoinInfo";
 	}
 	
 	@PostMapping("/info/{joinId}")
-	public String onSubmit(
+	public String update(
 			@ModelAttribute("joinReq") JoinRequest joinReq,
-			Model model, BindingResult result) throws Exception {
+			BindingResult result) throws Exception {
 		Join join = new Join();
 
 		//1.form으로부터 받은 joinReq에 담겨있는 값을 Join에 세팅한다.
 		join.initJoin(joinReq);
 		
 		//2.DAO를 통해 값을 수정한다.
-		joinService.modifyJoin(join); //문제: POST할 때 join만 반영되고 다른 값들이 GET 되지 않음
+		joinService.modifyJoin(join);
 		joinReq.initJoinReq(join);
 
 		return "redirect:/" + "join/info/{joinId}"; //본래의 경로로 redirection
 	}
+	
+	//6.PurchaseList - 사용자가 참여한 공동구매 목록
+	//7.PurchaseSearch - 키워드를 포함하는 공동구매 들을 검색
 }

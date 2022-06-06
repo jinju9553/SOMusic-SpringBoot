@@ -1,5 +1,7 @@
 package com.example.SOMusic.controller;
 
+import java.time.LocalDate;
+
 import com.example.SOMusic.domain.GroupPurchase;
 import com.example.SOMusic.domain.Join;
 
@@ -26,6 +28,7 @@ public class JoinRequest {
 	private String refundBank; //참여자의 환불계좌 은행명
 	private String refundHolder; //참여자의 환불 예금주명
 	
+	private LocalDate regDate;
 	private GroupPurchase groupPurchase; //주최자 정보 포함
 	
 	/* Public Methods */
@@ -48,6 +51,7 @@ public class JoinRequest {
  		refundBank = j.getRefundBank();
  		refundHolder = j.getRefundHolder();
  		
+ 		regDate = j.getRegDate();
  		groupPurchase = j.getGroupPurchase();
 	}
 }
