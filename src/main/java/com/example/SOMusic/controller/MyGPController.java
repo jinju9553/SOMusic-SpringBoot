@@ -58,7 +58,7 @@ public class MyGPController {
 	
 	@RequestMapping(value="/join/list", method = RequestMethod.GET)
 	public String joinList(Model model) throws Exception {
-
+		//진주: 여기 제가 할게요~
 
 		return MY_JOIN_LIST;
 	}

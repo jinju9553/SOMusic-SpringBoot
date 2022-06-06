@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.SOMusic.controller.PurchaseRequest;
+import com.example.SOMusic.dao.PurchaseDao;
 import com.example.SOMusic.domain.Purchase;
 import com.example.SOMusic.repository.PurchaseRepository;
 
@@ -15,10 +15,12 @@ public class PurchaseServiceImpl implements PurchaseService {
 	@Autowired
 	private PurchaseRepository purchaseRepository;
 	
+	@Autowired
+	private PurchaseDao purchaseDao;
+	
 	@Override
-	public Purchase registerPurchase(PurchaseRequest purchaseReq) {
-		//DAO에서 구현
-		return null;
+	public void registerPurchase(Purchase purchase) {
+		purchaseDao.createPurchase(purchase);
 	}
 
 	@Override
@@ -32,9 +34,8 @@ public class PurchaseServiceImpl implements PurchaseService {
 	}
 
 	@Override
-	public void modifyPurchase(String purchaseId) {
-		//DAO에서 구현
-		
+	public void modifyPurchase(Purchase purchase) {
+		purchaseDao.updatePurchase(purchase);
 	}
 
 	@Override
@@ -44,8 +45,7 @@ public class PurchaseServiceImpl implements PurchaseService {
 
 	@Override
 	public void confirmPurchase(String purchaseId, int status) {
-		//DAO에서 구현
-		
+		purchaseDao.confirmPurchase(purchaseId, status);
 	}
 
 	@Override
