@@ -142,7 +142,7 @@
 		</div>
 		<div class="row btn_view">
 			<form action="#" method="GET" th:action="@{/gp/update}">
-				<input type="hidden" id="gpId" name="gpId" th:value="#{gp.gpId}" />
+				<input type="hidden" id="gpId" name="gpId" th:value="${gp.gpId}" />
 				<input class="btn" type="submit" value="수정하기" />
 			</form>
 		</div>

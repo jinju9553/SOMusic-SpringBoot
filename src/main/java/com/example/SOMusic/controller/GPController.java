@@ -1,7 +1,5 @@
 package com.example.SOMusic.controller;
 
-import java.text.SimpleDateFormat;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -13,18 +11,19 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.SOMusic.service.GPService;
 
 @Controller
 @RequestMapping("/gp")
-public class GPRegisterController {
+public class GPController {
 	
 	private static final String GP_REGISTER_FORM = "thyme/gp/register/GPRegisterForm";
 	private static final String GP_REGISTER_SEUCCESS = "/gp/register/success";	// redirect : uri
 	private static final String GP_REGISTER_SEUCCESS_View = "thyme/gp/register/GPRegisterSuccess";
 	
-	private static final String GP_UPDATE_FORM = "gp/update/GPUpdateForm";
+	private static final String GP_UPDATE_FORM = "thyme/gp/update/GPUpdateForm";
 	private static final String GP_UPDATE_SEUCCESS = "/user/my/gp/info";	// redirect : uri
 	
 	@Autowired
@@ -34,8 +33,12 @@ public class GPRegisterController {
 	}
 	
 	@ModelAttribute("gpReq")
-	public GPRequest formBacking() throws Exception {
-		return new GPRequest();
+	public GPRequest formBacking(HttpServletRequest request) throws Exception {
+		String gpId = request.getParameter("gpId");
+		if (gpId == null)
+			return new GPRequest();		// 등록
+		else
+			return gpSvc.getGPReq(Integer.parseInt(gpId));		// 수정
 	}
 	
 	// 공구 등록
@@ -88,16 +91,21 @@ public class GPRegisterController {
 		}
 
 		// 공구 수정
-//		GPRequest gp = gpSvc.gpRegister(gpReq);
+		gpReq.setSellerId("jinju");		// 임의 설정
+		gpSvc.updateGP(gpReq);
 		
-		return "redirect:" + GP_UPDATE_SEUCCESS;
+		return "redirect:" + GP_UPDATE_SEUCCESS + "?gpId=" + gpReq.getGpId();
 	}
 	
+	// 등록한 공구 정보 삭제
 	
-	
-	
-//	public String delete() {
-//		
-//	}
+	@RequestMapping(value="/delete", method = RequestMethod.GET)
+	public String delete(@RequestParam("gpId") int gpId) {
+		
+		// 삭제
+		gpSvc.deleteGP(gpId);
+			
+		return "redirect:" + "/user/my/gp/register/list?sellerId=jinju";
+	}
 	
 }

@@ -17,7 +17,7 @@ import lombok.Setter;
 public class Product implements Serializable {
 	
 	@Id
-	private String productId;
+	private int productId;
 	
 	@Column(name="product_name")
 	private String productName;
