@@ -84,15 +84,6 @@
 		color: #5f7caf;
 		border-bottom: 1px solid #5f7caf;
 	}
-	
-	.linkTitle {
-		text-decoration: none;
-		color: black;
-	}
-
-	.linkTitle:hover {
-		color: #afafc7;
-	}
 </style>
 <meta charset="UTF-8">
 <title>공구 리스트</title>
@@ -105,27 +96,39 @@
 	<div class="row">
 		<nav>
 			<ul class="ul">
-				<li class="li"><a class="link select">등록한 공구</a></li>
-				<li class="li"><a class="link unselect" href="#" th:href="@{/user/my/gp/join/list}">참가한 공구</a></li>
+				<li class="li"><a class="link unselect" href="#" th:href="@{/user/my/gp/register/list?sellerId=jinju}">등록한 공구</a></li>
+				<li class="li"><a class="link select">참가한 공구</a></li>
 			</ul>
 		</nav>
 	</div>
 	<div class="row">
-		<div class="one" th:each="gp : ${gpList}">
+		<div class="one">
 			<div class="row image_view">
 				<img class="image" src="x.png"/>
 			</div>
 			<div class="row title">
-				<h3><a class="linkTitle" th:text="${gp.title}" href="#" th:href="@{/user/my/gp/info(gpId=${gp.gpId})}">제목</a></h3>
+				<h3>제목</h3>
 			</div>
 			<div class="row" style="width:60px;"></div>
 			<div class="row">
 				<div class="row" style="height:40px;"></div>
-				<div class="row" th:if="${#lists.isEmpty(gp.joinList)}">
-					<form action="#" method="GET" th:action="@{/gp/delete}">
-						<input type="hidden" id="gpId" name="gpId" th:value="${gp.gpId}" />
-						<input class="btn" type="submit" value="삭제" />
-					</form>
+				<div class="row">
+					<button class="btn" type="button">삭제</button>
+				</div>
+			</div>
+		</div>
+		<div class="one">
+			<div class="row image_view">
+				<img class="image" src="x.png"/>
+			</div>
+			<div class="row title">
+				<h3>제목</h3>
+			</div>
+			<div class="row" style="width:60px;"></div>
+			<div class="row">
+				<div class="row" style="height:40px;"></div>
+				<div class="row">
+					<button class="btn" type="button">삭제</button>
 				</div>
 			</div>
 		</div>

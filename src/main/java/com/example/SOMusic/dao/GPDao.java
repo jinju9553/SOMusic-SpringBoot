@@ -24,4 +24,9 @@ public class GPDao {
 	public void updateGP(GPRequest gp) throws DataAccessException {
 		em.merge(gp);
 	}
+	
+	@Transactional
+	public GPRequest findGP(int gpId) throws DataAccessException {
+		return em.find(GPRequest.class, gpId);
+	}
 }

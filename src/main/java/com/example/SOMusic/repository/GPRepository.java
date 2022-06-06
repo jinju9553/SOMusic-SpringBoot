@@ -2,13 +2,18 @@ package com.example.SOMusic.repository;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.example.SOMusic.controller.GPRequest;
+import com.example.SOMusic.domain.GroupPurchase;
 
-public interface GPRepository extends JpaRepository<GPRequest, Integer> {
+public interface GPRepository extends JpaRepository<GroupPurchase, Integer> {
 
-	public GPRequest findByGpId(Integer id);
+	public GroupPurchase findByGpId(Integer id);
 	
-	public List<GPRequest> findBySellerId(String sellerId);
+	public List<GroupPurchase> findBySellerId(String sellerId);
+	
+	@Transactional
+	public void deleteByGpId(int id);
 }

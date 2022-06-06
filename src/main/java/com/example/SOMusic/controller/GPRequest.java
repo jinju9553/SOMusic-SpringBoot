@@ -1,7 +1,7 @@
 package com.example.SOMusic.controller;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -42,12 +42,12 @@ public class GPRequest implements Serializable {
 	@Column(name="START_DATE")
 	@NotNull(message="필수 입력 항목입니다.")
 	@DateTimeFormat(pattern="yyyy-MM-dd")
-	private Date startDate;
+	private LocalDate startDate;
 	
 	@Column(name="END_DATE")
 	@NotNull(message="필수 입력 항목입니다.")
 	@DateTimeFormat(pattern="yyyy-MM-dd")
-	private Date endDate;
+	private LocalDate endDate;
 	
 	@Column(name="CATEGORY")
 	private String category;
@@ -70,8 +70,9 @@ public class GPRequest implements Serializable {
 	
 	public GPRequest() { }
 
-	public GPRequest(int gpId, String sellerId, String title, String image, Date startDate, Date endDate,
-			String category, String account, String bank, int price, String description) {
+	public GPRequest(int gpId, String sellerId, String title, String image,
+			LocalDate startDate, LocalDate endDate, String category,
+			String account, String bank, int price, String description) {
 		this.gpId = gpId;
 		this.sellerId = sellerId;
 		this.title = title;
@@ -84,6 +85,5 @@ public class GPRequest implements Serializable {
 		this.price = price;
 		this.description = description;
 	}
-
 	
 }

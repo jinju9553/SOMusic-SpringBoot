@@ -1,25 +1,74 @@
 package com.example.SOMusic.domain;
 
-import java.util.Date;
+import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.List;
 
-public class GroupPurchase {
-	private String gpId;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Entity
+@Table(name="grouppurchase")
+@Getter @Setter
+@SequenceGenerator(name="SEQ_GP", sequenceName="SEQUENCE_GROUPPURCHASE", allocationSize=1)
+@SuppressWarnings("serial")
+public class GroupPurchase implements Serializable {
+	@Id @Column(name="GROUPPURCHASE_ID")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="SEQ_GP")
+	private int gpId;
+	
+	@Column(name="SELLER_ID")
 	private String sellerId;
+	
+	@NotBlank(message="필수 입력 항목입니다.")
 	private String title;
+	
 	private String image;
-	private Date startDate;
-	private Date endDate;
-	private List<String> category;
+	
+	@Column(name="START_DATE")
+	@NotNull(message="필수 입력 항목입니다.")
+	@DateTimeFormat(pattern="yyyy-MM-dd")
+	private LocalDate startDate;
+	
+	@Column(name="END_DATE")
+	@NotNull(message="필수 입력 항목입니다.")
+	@DateTimeFormat(pattern="yyyy-MM-dd")
+	private LocalDate endDate;
+	
+	private String category;
+
+	@NotBlank(message="필수 입력 항목입니다.")
 	private String account;
+	
+	@NotBlank(message="필수 입력 항목입니다.")
 	private String bank;
+	
+	@Min(value = 1, message="필수 입력 항목입니다.")
 	private int price;
+	
+	@NotBlank(message="필수 입력 항목입니다.")
 	private String description;
 	
 	public GroupPurchase() {}
 
-	public GroupPurchase(String gpId, String sellerId, String title, String image, Date startDate, Date endDate,
-			List<String> category, String account, String bank, int price, String description) {
+	public GroupPurchase(int gpId, String sellerId, String title, String image, LocalDate startDate, LocalDate endDate,
+			String category, String account, String bank, int price, String description) {
 		this.gpId = gpId;
 		this.sellerId = sellerId;
 		this.title = title;
@@ -32,93 +81,17 @@ public class GroupPurchase {
 		this.price = price;
 		this.description = description;
 	}
+	
+	@OneToMany
+	@JoinColumn(name="GROUPPURCHASE_ID")
+	private List<Join> joinList;
 
-	public String getGpId() {
-		return gpId;
-	}
-
-	public void setGpId(String gpId) {
-		this.gpId = gpId;
-	}
-
-	public String getSellerId() {
-		return sellerId;
-	}
-
-	public void setSellerId(String sellerId) {
-		this.sellerId = sellerId;
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	public String getImage() {
-		return image;
-	}
-
-	public void setImage(String image) {
-		this.image = image;
-	}
-
-	public Date getStartDate() {
-		return startDate;
-	}
-
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
-	}
-
-	public Date getEndDate() {
-		return endDate;
-	}
-
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
-	}
-
-	public List<String> getCategory() {
-		return category;
-	}
-
-	public void setCategory(List<String> category) {
-		this.category = category;
-	}
-
-	public String getAccount() {
-		return account;
-	}
-
-	public void setAccount(String account) {
-		this.account = account;
-	}
-
-	public String getBank() {
-		return bank;
-	}
-
-	public void setBank(String bank) {
-		this.bank = bank;
-	}
-
-	public int getPrice() {
-		return price;
-	}
-
-	public void setPrice(int price) {
-		this.price = price;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
+	@Override
+	public String toString() {
+		return "GroupPurchase [gpId=" + gpId + ", sellerId=" + sellerId + ", title=" + title + ", image=" + image
+				+ ", startDate=" + startDate + ", endDate=" + endDate + ", category=" + category + ", account="
+				+ account + ", bank=" + bank + ", price=" + price + ", description=" + description + ", joinList="
+				+ joinList.toString() + "]";
 	}
 
 }

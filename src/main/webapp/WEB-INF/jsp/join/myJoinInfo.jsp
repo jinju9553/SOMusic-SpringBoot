@@ -36,8 +36,8 @@
 		}
 		
 		#noInterest {
-			left: 45%;
-    		top: 50%;
+			left: 45.5%;
+    		top: 53.5%;
 			position: absolute;
 		    border: 2px solid;
 		    border-color: #d2d2d2;
@@ -61,6 +61,32 @@
 			$(this).addClass('on').prevAll('span').addClass('on');
 			return false;
 		});
+		
+		var status = ${joinReq.status};
+		switch (status) { //1: 승인됨, 입금 대기 & 2: 입금 확인, 배송 대기중 & 3:배송 시작 & 4: 거래 완료
+		  case 1:
+		    $(".statusAnchor").text('입금 대기');
+		    $(".payAnchor").text('입금 대기');
+		    break;
+		  case 2:
+			$(".statusAnchor").text('입금 확인');
+			$(".payAnchor").text('입금 완료');
+		    break;
+		  case 3:
+			$(".statusAnchor").text('배송 시작');
+		    break;
+		  case 4:
+			$(".statusAnchor").text('거래 완료');
+			break;
+		  default:
+			$(".statusAnchor").text('참여 정보 없음');
+		  	$(".payAnchor").text('입금 대기');
+		}
+		
+		//radio buttoun 옆의 label 변경
+		$("#shippingMethod1").next().text('준등기 (+1,800원)');
+		$("#shippingMethod2").next().text('택배 (+3,000원)');
+		$("#shippingMethod3").next().text('택배(제주산간) (+6,000원)');
 	});
 	
 	/*
@@ -86,24 +112,24 @@
   	</tr>
   	
   	<tr>
-  		<td colspan="3" align="right"> 등록 날짜: </td>
+  		<td colspan="3" align="right"> 공동구매 등록 날짜: <fmt:formatDate value="${joinReq.groupPurchase.startDate}" pattern="yyyy-MM-dd hh:mm:ss" /> </td>
   	</tr>
-  	
-  	<tr> <!-- padding은 나중에 별도의 CSS 파일로 & 파일 경로 및 값은 product.name 등으로 접근 -->
-  		<td rowspan="5"> <img id="noImage" src="<c:url value='../images/purchase/noImage.png'/>"> </td>
+  
+  	<tr>
+  		<td rowspan="5"> <img id="noImage" src="<c:url value='../../images/purchase/noImage.png'/>"> </td>
   		<td> <button id="noInterest" type="button" onclick="interest();">❤</button> </td>
   	</tr>
   	<tr>
-  		<td style="padding-bottom: 10;"> 공동구매 이름 </td>
+  		<td style="padding-bottom: 10;"> 공동구매 이름: ${joinReq.groupPurchase.title} </td>
   	</tr>
   	<tr>
-  		<td style="padding-bottom: 10;"> 공동구매 등록자 </td>
+  		<td style="padding-bottom: 10;"> 공동구매 등록자: ${joinReq.groupPurchase.sellerId} </td>
   	</tr>
   	<tr>
-  		<td style="padding-bottom: 10;"> 진행 상태 </td>
+  		<td style="padding-bottom: 10;"> 진행 상태: <a class="statusAnchor"></a></td>
   	</tr>
   	<tr>
-  		<td style="padding-bottom: 10;"> 폼 등록 날짜 </td>
+  		<td> 폼 작성 날짜: <fmt:formatDate value="${}" pattern="yyyy-MM-dd hh:mm:ss" /></td>
   	</tr>
   	
   	<!-- 세부 항목 1 -->
@@ -112,7 +138,7 @@
       <td style="padding-top: 5%;"> <font class="color_purple" size="4"><b>등록자 정보</b></font> </td>
     </tr>   
     <tr>
-      <td>- 마감 일자: (날짜)</td>
+      <td>- 마감 일자: <fmt:formatDate value="${joinReq.groupPurchase.endDate}" pattern="yyyy-MM-dd hh:mm:ss" /></td>
       <td>- 등록자: (등록자 이름)</td>
     </tr>   
     <tr>
@@ -130,19 +156,19 @@
   	
   	<tr>
 		<td>입금자명</td>
-        <td><form:input path="AccountHolder"/>
-        <form:errors path="AccountHolder"/></td>
+        <td><form:input path="accountHolder"/>
+        <form:errors path="accountHolder"/></td>
   	</tr>  
   	
   	<tr>
-  		<td>입금은행</td>
-        <td><form:input path="consumerName"/> 
-        <form:errors path="consumerName"/></td>
-  	</tr>
+		<td>입금액</td>
+		<td><fmt:formatNumber
+                value="${joinReq.totalAmount}" pattern="###,##0" /> 원</td>
+  	</tr> 
   	
-  	<tr> <!-- 입금 완료 후에는 입금자명, 입금은행 변경불가 -->
+  	<tr> <!-- status 2부터는 입금자명 수정 불가, 환불은 상시 가능 -->
 		<td style="padding-bottom: 5%;">결제 상태</td>
-		<td>(데이터)</td>
+		<td style="padding-bottom: 5%;"><a class="payAnchor"></a></td>
   	</tr>
   	
   	<tr>
@@ -180,32 +206,34 @@
   	</tr> 
   	<tr>
 		<td>상품 금액</td>
-        <td>(데이터)</td>
+        <td><fmt:formatNumber
+                value="${joinReq.groupPurchase.price}" pattern="###,##0" /> 원 × ${joinReq.quantity} 개</td>
   	</tr> 
   	<tr>
 		<td>배송 방법</td>
   	</tr> 
-  	<tr> <!-- 입금 완료 이후에는 배송방법 수정 불가 -->
+  	<tr> <!-- status 3부터는 수정 불가 -->
 		<td colspan="2" align="center" style="padding-bottom: 5%;">
-			<input type='radio' name='shippingOption' value='1' onclick='setShipping(event)'/> 준등기 (+1,800원)
-      		<input type='radio' name='shippingOption' value='2' onclick='setShipping(event)'/> 택배 (+3,000원)
-      		<input type='radio' name='shippingOption' value='3' onclick='setShipping(event)'/> 택배(제주산간) (+6,000원)
+			<form:radiobuttons path="shippingMethod" items="${shippingOption}" /> 
 		</td>
 		<td colspan="3" style="padding-bottom: 5%;"> <button class="btn">수정 내역 저장</button> </td>
   	</tr> 
   	<tr>
-  		
+  		<td>배송비</td>
+		<td><fmt:formatNumber
+                value="${joinReq.shippingCost}" pattern="###,##0" /> 원</td>
   	</tr>  	
   	<tr>
-		<td>합계</td>
-		<td>(데이터)</td>
+		<td>총 주문 금액</td>
+		<td><fmt:formatNumber
+                value="${joinReq.totalAmount}" pattern="###,##0" /> 원</td>
   	</tr>
   	<tr>
 		<td>결제일</td>
         <td>(데이터)</td>
   	</tr>  
     
-    <tr>
+    <tr> <!-- status 3부터는 수정 불가 -->
   		<td style="padding-top: 5%;" colspan="2"> <font class="color_purple" size="4"><b>배송 정보</b></font> </td>
   	</tr>
   	<tr>
@@ -242,9 +270,9 @@
   		<td colspan="3" align="right"> <button class="btn">수정 내역 저장</button> </td>
   	</tr>
     
-    <tr> <!-- 거래 종료 이후 활성화되는 메뉴 -->
+    <tr> <!-- 거래 종료(status: 4) 이후 활성화되는 메뉴 -->
       <td style="padding-top: 5%;">이 거래가 만족스러우셨다면, 판매자에게 별점을 부여해주세요.</td>
-      <td style="padding-top: 5%; padding-left: 5%;" align="right">
+      <td style="padding-top: 5%; padding-left: 3%;" align="right">
 		<div class="starRev">
 		  <span class="starR1 on"></span>
 		  <span class="starR2"></span>
