@@ -22,7 +22,7 @@
     }
     
     #blue {
-    	margin-left: 30px;
+    	margin-left: 20px;
     	font-size: 15px;
     	color: #5f7caf;
     }
@@ -72,7 +72,21 @@
     	border:1px #afafc7 solid;
     }
     
-  
+    .condition {
+    	float: left;
+    }
+    #sw {
+    	display: inline-block;
+    }
+    .comment {
+    	float: left;
+    }
+    #dis {
+    	display: inline-block;
+    }
+    
+
+
 </style>
 <meta charset="UTF-8">
 <title>상세 정보</title>
@@ -89,20 +103,28 @@
 					style="border:1px black solid; width:100%;"/>
 			</div>
 			<div class="info">
-				<div class="row"><h1>음반 제목 </h1></div>
-				<div id="blue" class="row"><h2>가격</h2> </div>
-				<div class="row">레이블 </div>
-				<div class="row">형식</div>
-				<div class="row">국가</div>
-				<div class="row">발매됨</div>
+				<div class="row"><h1><p th:text="${productReq.productName}">음반 제목</p> </h1></div>
+				<div id="blue" class="row"><h2><p th:text="${productReq.price}">가격</p></h2> </div>
+				<div id ="comment" class="row">판매자 :&nbsp
+				<div id="dis" th:text="${productReq.artistName}"></div>
+				</div>
 				<div class="row">장르</div>
 				<div class="row">스타일</div>
 				<br/>
-				<div class="row">재생 횟수</div>
-				<div class="row">전반적인 상태</div>
-				<div class="row">슬리브 상태</div>
-				<div class="row">코멘트</div>
 				<div class="row">
+				<div class="condition">전반적인 상태 :&nbsp</div>
+				<div id="sw" th:switch="${productReq.condition}">
+				<span th:case="1">나쁨</span>
+				<span th:case="2">보통</span>
+				<span th:case="3">좋음</span>
+				<span th:case="4">매우 좋음</span>
+				</div><br></div>
+				<div class="row">
+				<div class=comment>코멘트 :&nbsp </div>
+				<div id="dis" th:text="${productReq.description}"></div></div>
+				<div class="row">
+				<br>
+				<br>
 				<button class="btn" type="button">구매하기</button>
 			</div>
 		</div>
