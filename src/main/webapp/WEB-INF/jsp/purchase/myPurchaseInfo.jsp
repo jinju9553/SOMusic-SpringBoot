@@ -63,6 +63,50 @@
 			$(this).addClass('on').prevAll('span').addClass('on');
 			return false;
 		});
+		
+		var status = ${product.status};
+		switch (status) { //0: 승인 전 & 1: 승인됨, 입금 대기 & 2: 입금 완료 & 3:배송 시작 & 4: 거래 완료
+		  case 0:
+			$(".statusAnchor").text('구매폼 승인 전');
+			break;
+		  case 1:
+		    $(".statusAnchor").text('입금 대기');
+		    break;
+		  case 2:
+			$(".statusAnchor").text('입금 확인');
+		    break;
+		  case 3:
+			$(".statusAnchor").text('배송 시작');
+		    break;
+		  case 4:
+			$(".statusAnchor").text('거래 완료');
+			break;
+		  default:
+			$(".statusAnchor").text('참여 정보 없음');
+		}
+		
+		var method = ${purchaseReq.shippingMethod};
+		switch (method) { //0: 직거래만 & 1: 택배만 & 2: 둘 다 가능 & 3: 기타(알아서 기재)
+		  case 0:
+			$(".methodAnchor").text('직거래');
+			break;
+		  case 1:
+		    $(".methodAnchor").text('택배');
+		    break;
+		  case 2:
+			$(".methodAnchor").text('직거래 또는 택배');
+		    break;
+		  case 3:
+			$(".methodAnchor").text('기타 거래 방식');
+		    break;
+		  default:
+			$(".methodAnchor").text('정보 없음');
+		}
+		
+		if (method == 0) { //직거래에서는 필요 X
+			$(".methodAnchor").parent().parent().next().hide();
+			$(".shippingMenu").hide();
+		}
 	});
 	
 	function confirmAccount() {
@@ -95,7 +139,7 @@
   		<td colspan="3" align="right"> 등록 날짜: </td>
   	</tr>
   	
-  	<tr> <!-- padding은 나중에 별도의 CSS 파일로 & 파일 경로 및 값은 product.name 등으로 접근 -->
+  	<tr> <!-- padding은 나중에 별도의 CSS 파일로 & 파일 경로 및 값은 product.image 등으로 접근 -->
   		<td rowspan="6"> <img id="noImage" src="<c:url value='../../images/purchase/noImage.png'/>"> </td>
   		<td> <button id="noInterest" type="button" onclick="interest();">❤</button> </td>
   	</tr>
@@ -103,14 +147,15 @@
   		<td style="padding-bottom: 10;"> 상품 이름: ${product.productName} </td>
   	</tr>
   	<tr>
-  		<td style="padding-bottom: 10;"> 상품 가격: ${purchaseReq.totalAmount} </td>
+  		<td style="padding-bottom: 10;"> 상품 가격: <fmt:formatNumber
+                value="${purchaseReq.totalAmount}" pattern="###,##0" /> 원</td>
   		<td> <input type="button" value="판매자 계좌 확인" onClick="confirmAccount()"> </td>
   	</tr>
   	<tr>
   		<td style="padding-bottom: 10;"> 거래 지역: </td>
   	</tr>
   	<tr>
-  		<td style="padding-bottom: 10;"> 거래 상태: ${product.status} </td>
+  		<td style="padding-bottom: 10;"> 거래 상태: <a class="statusAnchor"></a></td>
   	</tr>
   	<tr>
   		<td style="padding-bottom: 10;"> 상품 상태: ${product.condition} </td>
@@ -123,11 +168,11 @@
     </tr>   
     <tr>
       <td>- 아티스트: ${product.artistName} </td>
-      <td>- 판매자: ${product.sellerId} </td>
+      <td>- 판매자: ${product.sellerId} </td> <!-- account 쪽에서 뽑아올 것 -->
     </tr>  
     <tr>
       <td>- 장르: (장르 이름)</td>
-      <td>- 판매중인 상품: n개</td>
+      <td>- 판매중인 상품: n개</td> <!-- 판매중인 상품 개수를 count해서 command 객체에만 넣어주기 -->
     </tr>  
     <tr>
       <td>- 발매 연도: (날짜)</td>
@@ -156,11 +201,42 @@
   	</tr>
   	
   	<tr>
-    	<td>- 거래 방식: 직거래 / 택배</td>
+    	<td>거래 방식: <a class="methodAnchor"></a></td>
     </tr> 
     
     <tr>
-  		<td>- 배송비: 별도 / 없음 </td>
+  		<td style="padding-bottom: 5%;">
+  		배송비: <fmt:formatNumber value="${product.shippingCost}" pattern="###,##0" /> 원</td>
+  	</tr>
+  	
+  	<tr class="shippingMenu">
+		<td>수령인</td>
+        <td><form:input path="consumerName"/> 
+        <form:errors path="consumerName"/></td>
+  	</tr> 
+  	<tr class="shippingMenu">
+		<td>연락처</td>
+        <td><form:input path="phone"/>
+        <form:errors path="phone"/></td>
+  	</tr> 
+  	<tr class="shippingMenu">
+      <td>우편번호</td>
+      <td><form:input path="zipcode"/> 
+        <form:errors path="zipcode"/></td>
+    </tr>
+  	<tr class="shippingMenu">
+      <td>주소</td>
+      <td><form:input path="address"/> 
+        <form:errors path="address"/></td>
+    </tr>
+    <tr class="shippingMenu">
+      <td>배송시 요청사항</td>
+      <td><form:input path="shippingRequest"/> 
+        <form:errors path="shippingRequest"/></td>
+    </tr>
+    
+    <tr class="shippingMenu">
+  		<td colspan="3" align="right"> <button class="btn">수정 내역 저장</button> </td>
   	</tr>
   	
   	<tr>

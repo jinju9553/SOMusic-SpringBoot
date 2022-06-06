@@ -16,9 +16,32 @@ public class JdbcJoinDao implements JoinDao {
 		this.jdbcTemplate = jdbcTemplate;
 	}
 	
+	private static final String INSERT_SQL = 
+			"INSERT INTO join (join_id, shipping_cost, quantity, status, total_amount, consumer_name, address, zipcode, phone, shipping_request, shipping_method, "
+			+ "account_holder, refund_account, refund_bank, refund_holder, grouppurchase_id) "
+			+ "VALUE (sequence_join.nextval, :shipping_cost, :quantity, :status, :total_amount, :consumer_name, :address, :zipcode, :phone, :shipping_request, :shipping_method, "
+			+ ":account_holder, :refund_account, :refund_bank, :refund_holder, :grouppurchase_id)";
 	@Override
 	public void createJoin(Join join) {
-		// TODO Auto-generated method stub
+		jdbcTemplate.update(INSERT_SQL,
+				new Object[] { 
+						join.getJoinId(),
+						join.getShippingCost(),
+						join.getQuantity(),
+						join.getStatus(),
+						join.getTotalAmount(),
+						join.getConsumerName(),
+						join.getAddress(),
+						join.getZipcode(),
+						join.getPhone(),
+						join.getShippingRequest(),
+						join.getShippingMethod(),
+						//다음 행
+						join.getAccountHolder(), 		
+						join.getRefundAccount(),
+						join.getRefundBank(),
+						join.getRefundHolder(),
+						join.getGroupPurchase().getGpId()});
 	}
 	
 	private static final String UPDATE_SQL = "UPDATE join "
