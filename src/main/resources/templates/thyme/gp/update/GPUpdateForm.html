@@ -105,6 +105,7 @@
     <h3>공구 수정</h3>
     <div class="form_view">
         <form action="#" th:action="@{/gp/update}" th:object="${gpReq}" method="POST">
+        	<input type="hidden" id="gpId" name="gpId" th:value="*{gpId}" />
             <div class="row">
                 폼 제목 <b class="star">*</b>
             </div>
@@ -169,9 +170,9 @@
                 상세 설명 <b class="star">*</b>
             </div>
             <div class="row input">
-                <textarea name="discription" th:field="*{discription}" class="form_color line" style="width:99%; height: 250px;" placeholder="상세 설명을 입력하세요."></textarea>
+                <textarea name="discription" th:field="*{description}" class="form_color line" style="width:99%; height: 250px;" placeholder="상세 설명을 입력하세요."></textarea>
                 <div class="row error">
-                	<span th:each="err : ${#fields.errors('discription')}" th:text="${err}">에러 메세지</span>
+                	<span th:each="err : ${#fields.errors('description')}" th:text="${err}">에러 메세지</span>
                 </div>
             </div>
 
@@ -179,7 +180,7 @@
               해시태그
             </div>
             <div class="row">
-                <input name="category" class="form_color line" type="text" style="width:99%;" placeholder="ex) #공구 #솜뮤직 #앨범"/>
+                <input name="category" th:field="*{category}" class="form_color line" type="text" style="width:99%;" placeholder="ex) #공구 #솜뮤직 #앨범"/>
             </div>
 
             <div class="row">
