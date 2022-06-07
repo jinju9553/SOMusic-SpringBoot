@@ -45,7 +45,7 @@ public class PurchaseServiceImpl implements PurchaseService {
 
 	@Override
 	public void confirmPurchase(String purchaseId, int status) {
-		purchaseDao.confirmPurchase(purchaseId, status);
+		purchaseRepository.confirmPurchase(purchaseId, status);
 	}
 
 	@Override
