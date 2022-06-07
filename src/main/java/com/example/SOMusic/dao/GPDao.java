@@ -7,7 +7,7 @@ import javax.transaction.Transactional;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
-import com.example.SOMusic.controller.GPRequest;
+import com.example.SOMusic.domain.GroupPurchase;
 
 @Repository
 public class GPDao {
@@ -16,17 +16,13 @@ public class GPDao {
 	private EntityManager em;
 	
 	@Transactional
-	public void insertGP(GPRequest gp) throws DataAccessException {
+	public void insertGP(GroupPurchase gp) throws DataAccessException {
 		em.persist(gp);
 	}
 	
 	@Transactional
-	public void updateGP(GPRequest gp) throws DataAccessException {
+	public void updateGP(GroupPurchase gp) throws DataAccessException {
 		em.merge(gp);
 	}
-	
-	@Transactional
-	public GPRequest findGP(int gpId) throws DataAccessException {
-		return em.find(GPRequest.class, gpId);
-	}
+
 }

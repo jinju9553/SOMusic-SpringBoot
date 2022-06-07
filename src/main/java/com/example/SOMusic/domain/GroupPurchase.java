@@ -19,6 +19,8 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.example.SOMusic.controller.GPRequest;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -65,6 +67,10 @@ public class GroupPurchase implements Serializable {
 	@NotBlank(message="필수 입력 항목입니다.")
 	private String description;
 	
+	@OneToMany
+	@JoinColumn(name="GROUPPURCHASE_ID")
+	private List<Join> joinList;
+	
 	public GroupPurchase() {}
 
 	public GroupPurchase(int gpId, String sellerId, String title, String image, LocalDate startDate, LocalDate endDate,
@@ -82,9 +88,19 @@ public class GroupPurchase implements Serializable {
 		this.description = description;
 	}
 	
-	@OneToMany
-	@JoinColumn(name="GROUPPURCHASE_ID")
-	private List<Join> joinList;
+	public void initGP(GPRequest gpReq, String filename) {
+		gpId = gpReq.getGpId();
+		sellerId = gpReq.getSellerId();
+		title = gpReq.getTitle();
+		image = filename;
+		startDate = gpReq.getStartDate();
+		endDate = gpReq.getEndDate();
+		category = gpReq.getCategory();
+		account = gpReq.getAccount();
+		bank = gpReq.getBank();
+		price = gpReq.getPrice();
+		description = gpReq.getDescription();
+	}
 
 	@Override
 	public String toString() {
