@@ -73,7 +73,7 @@ private static final String JOIN_INFO = "join/myJoinInfo";
 	}
 	
 	//4.submit() ==> 같은 url의 POST로 매핑
-	@PostMapping("/{id}")
+	@PostMapping("/{productId}")
 	public String register( 
 			@ModelAttribute("joinReq") JoinRequest joinReq, //Commmand 객체로 사용
 			BindingResult bindingResult, Model model) {

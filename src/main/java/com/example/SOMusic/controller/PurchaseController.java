@@ -11,9 +11,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
-import com.example.SOMusic.domain.Join;
+import com.example.SOMusic.domain.Product;
 import com.example.SOMusic.domain.Purchase;
+import com.example.SOMusic.service.ProductService;
 import com.example.SOMusic.service.PurchaseService;
 
 @Controller //또는 @RestController
@@ -27,6 +30,12 @@ public class PurchaseController {
 	private PurchaseService purchaseService;
 	public void setPurchaseService(PurchaseService purchaseService) {
 		this.purchaseService = purchaseService;
+	}
+	
+	@Autowired 
+	private ProductService productService;
+	public void setProductService(ProductService productService) {
+		this.productService = productService;
 	}
 	
 	//1.Validator 작성 필요
@@ -50,13 +59,14 @@ public class PurchaseController {
 	}
 	
 	//3.formBacking()
+	@GetMapping
 	@ModelAttribute("purchaseReq") // request handler methods 보다 먼저 호출됨
-	public PurchaseRequest formBacking(HttpServletRequest request) { //,
-									//@RequestParam("productId") String productId) {
+	public ModelAndView formBacking(HttpServletRequest request ,
+			@RequestParam("productId") int productId, Model model) {
 		if (request.getMethod().equalsIgnoreCase("GET")) { //equalsIgnoreCase: 대소문자 구분없이 비교
 			PurchaseRequest purchaseReq = new PurchaseRequest();
 			
-			//Product p = ; //id로 검색해서 Product 객체를 세팅
+			Product p = productService.findProductByProductId(productId);
 			
 			//만약 배송지 '주문자와 동일' 옵션을 선택했을 경우 ==> ajax 콜 사용
 			//1.UserSession에서 UserId를 뽑아낸다.
@@ -65,17 +75,19 @@ public class PurchaseController {
 			//2.Account를 통해 이 유저의 address 및 기본 정보를 읽어와서 세팅한다.
 			//Account account = petStore.getAccount(userSession.getAccount().getUsername());
 			
-			//purchaseReq.setAddress("address"); //정보를 세팅하여 Form에 초기값으로 나타낸다.
-
-			return purchaseReq;
+			purchaseReq.setProduct(p); //정보를 세팅하여 Form에 초기값으로 나타낸다.
+			model.addAttribute("purchaseReq", purchaseReq);
+			
+			return new ModelAndView(PURCHASE_FORM);
 		}
-		else return new PurchaseRequest(); 
+		else return new ModelAndView(PURCHASE_FORM);
 	}
 	
 	//4.submit() ==> 같은 url의 POST로 매핑
 	@PostMapping
 	public String register( //"regReq" 명칭의 출처는??
 			@ModelAttribute("regReq") PurchaseRequest purchaseReq, //Commmand 객체로 사용
+			@RequestParam("productId") int productId,
 			BindingResult bindingResult, Model model) {
 		System.out.println("command 객체: " + purchaseReq);
 		
@@ -88,11 +100,14 @@ public class PurchaseController {
 		}
 
 		p.initPurchase(purchaseReq);
+		p.setProduct(productService.findProductByProductId(productId)); //왜 purchaseReq에서 product를 못 꺼내는지
 		purchaseService.registerPurchase(p); //신청자를 등록
+		//consumerId 없이 삽입됨 
 
 		//JPetStore: mav.addObject("order", orderForm.getOrder());
-		//model.addAttribute("purchase", p); //View에 객체 전달하고 간략한 정보 출력
-		return "purchase/registered";
+		model.addAttribute("purchaseReq", p); //View에 객체 전달하고 간략한 정보 출력
+		
+		return PURCHASE_FORM; //결과 화면 새로 만들기
 	}
 	
 	@GetMapping("/info/{purchaseId}")

@@ -4,21 +4,24 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
+import org.springframework.stereotype.Repository;
+
 import com.example.SOMusic.domain.Purchase;
 
-public class PurchaseDaoImpl implements PurchaseDao {
+@Repository
+public class PurchaseDaoImpl{
 	
 	@PersistenceContext
 	private EntityManager em;
 	
 	@Transactional
-	@Override
+	//@Override
 	public void createPurchase(Purchase purchase) {
 		em.persist(purchase);
 	}
 
 	@Transactional
-	@Override
+	//@Override
 	public void updatePurchase(Purchase purchase) {
 		em.merge(purchase);
 	}

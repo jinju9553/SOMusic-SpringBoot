@@ -39,13 +39,8 @@ public class PurchaseServiceImpl implements PurchaseService {
 	}
 
 	@Override
-	public void deletePurchase(String purchaseId) {
+	public void deletePurchase(int purchaseId) {
 		purchaseRepository.deleteByPurchaseId(purchaseId);
-	}
-
-	@Override
-	public void confirmPurchase(String purchaseId, int status) {
-		purchaseRepository.confirmPurchase(purchaseId, status);
 	}
 
 	@Override

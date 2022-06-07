@@ -4,7 +4,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
-<c:set var="targetUrl"><c:url value="/shop/newOrderSubmitted.do" /></c:set>
+<c:set var="targetUrl"><c:url value="/purchase?productId=${purchaseReq.product.productId}" /></c:set>
 
 <title>중고 상품 구매</title>
 <div align="center">
@@ -47,8 +47,8 @@
   	
   	<tr> <!-- padding은 나중에 별도의 CSS 파일로 & 파일 경로 및 값은 product.name 등으로 접근 -->
   		<td> <img id="noImage" src="<c:url value='../images/purchase/noImage.png'/>"> </td>
-  		<td style="padding-bottom: 5%;"> 상품 이름 </td> 
-  		<td style="padding-bottom: 5%;"> 상품 가격 </td> 
+  		<td style="padding-bottom: 5%;"> 상품 이름: ${purchaseReq.product.productName} </td> 
+  		<td style="padding-bottom: 5%;"> 상품 가격: ${purchaseReq.product.price}</td> 
   	</tr>
   	
   	<!-- 세부 항목 1 -->
