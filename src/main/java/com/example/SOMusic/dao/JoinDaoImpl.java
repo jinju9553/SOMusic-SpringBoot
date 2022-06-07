@@ -5,9 +5,11 @@ import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
 import org.springframework.dao.DataAccessException;
+import org.springframework.stereotype.Repository;
 
 import com.example.SOMusic.domain.Join;
 
+@Repository
 public class JoinDaoImpl implements JoinDao {
 
 	@PersistenceContext
