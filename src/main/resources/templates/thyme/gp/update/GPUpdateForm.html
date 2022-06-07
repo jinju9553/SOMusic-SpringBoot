@@ -98,13 +98,32 @@
     input:focus { outline: none; }
 </style>
 <meta charset="UTF-8">
+<script type="text/javascript" src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
+<script>
+	$(function() {
+	    $("#image").on('change', function(){
+	        readURL(this);
+	    });
+	});
+	
+	function readURL(input) {
+	    if (input.files && input.files[0]) {
+	        var reader = new FileReader();
+	        reader.onload = function (e) {
+	            $('#View').attr('src', e.target.result);
+	        }
+	        $('#isModify').attr('value', 'true');
+	        reader.readAsDataURL(input.files[0]);
+	    }
+	}
+</script>
 <title>공구 수정</title>
 </head>
 <body>
 <div id="out">
     <h3>공구 수정</h3>
     <div class="form_view">
-        <form action="#" th:action="@{/gp/update}" th:object="${gpReq}" method="POST">
+        <form action="#" th:action="@{/gp/update}" th:object="${gpReq}" method="POST" enctype="multipart/form-data">
         	<input type="hidden" id="gpId" name="gpId" th:value="*{gpId}" />
             <div class="row">
                 폼 제목 <b class="star">*</b>
@@ -146,12 +165,18 @@
             </div>
             <div class="row">
                 <div class="row image_view">
-                    <img src="../../../image/image_upload.png" width="100%" />
+                    <img id="View" th:src="@{${imgPath}}" width="100%" />
+                    <input type="hidden" id="imgPath" name="imgPath" th:value="${imgPath}" />
                 </div>
+                 
                 <div class="row">
-                    <input name="image" type="file" />
-                    <form:errors path="image" />
+                    <input name="image" type="file" th:value="*{image}" th:field="*{image}" accept="image/*"/>
+                    <input type="hidden" name="isModify" id="isModify" value="false" />
+                    <div class="row error">
+		            	<span th:each="err : ${#fields.errors('title')}" th:text="${err}">에러 메세지</span>
+		            </div>
                 </div>
+                
             </div>
 
             <div class="row">

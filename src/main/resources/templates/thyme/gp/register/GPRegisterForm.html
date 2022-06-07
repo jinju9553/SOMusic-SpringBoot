@@ -97,13 +97,31 @@
 
     input:focus { outline: none; }
 </style>
+<script type="text/javascript" src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
+<script>
+	$(function() {
+	    $("#image").on('change', function(){
+	        readURL(this);
+	    });
+	});
+	
+	function readURL(input) {
+	    if (input.files && input.files[0]) {
+	        var reader = new FileReader();
+	        reader.onload = function (e) {
+	            $('#View').attr('src', e.target.result);
+	        }
+	        reader.readAsDataURL(input.files[0]);
+	    }
+	}
+</script>
 <title>공구 등록</title>
 </head>
 <body>
 <div id="out">
     <h3>공구 등록</h3>
     <div class="form_view">
-        <form action="#" th:action="@{/gp/register}" th:object="${gpReq}" method="POST">
+        <form action="#" th:action="@{/gp/register}" th:object="${gpReq}" method="POST" enctype="multipart/form-data">
             <div class="row">
                 폼 제목 <b class="star">*</b>
             </div>
@@ -144,11 +162,13 @@
             </div>
             <div class="row">
                 <div class="row image_view">
-                    <img th:src="@{/images/gp/gpUpload.png}" width="100%" />
+                    <img id="View" src="/images/gp/gpUpload.png" width="100%" />
                 </div>
-                <div class="row">
-                    <input name="image" type="file" />
-                    <form:errors path="image" />
+               <div class="row" style="width:200px;">
+                	<input id="image" name="image" type="file" accept="image/*"/>
+                    <div class="row error">
+		            	<span th:each="err : ${#fields.errors('title')}" th:text="${err}">에러 메세지</span>
+		            </div>
                 </div>
             </div>
 
