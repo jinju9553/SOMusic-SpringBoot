@@ -2,61 +2,15 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <style>
-	body {
-        background-color: #f2eee5;
-    }
-
-	#out {
-		width: 1000px;
-		margin-left: auto;
-		margin-right: auto;
-	}
-
-	.row {
-		margin: 10px;
+	.linkNav {
+		text-decoration: none;
 	}
 	
-	.one {
-		border: 1px solid #afafc7;
-		height: 110px;
-		display: flex;
-		margin: 5px;
-		border-radius: 3px;
-	}
-	
-	.image_view {
-		height: 90px;
-		width: 90px;
-	}
-	
-	.image {
-		height: 100%;
-		width: 100%;
-	}
-	
-	.title {
-		padding-top: 10px;
-		padding-left: 10px;
-		width: 670px;
-	}
-
-	.btn {
-		background: none;
-    	font-size: 13px;
-    	color: #ccabaf;
-    	border: none;
-    }
-    
-    .btn:hover {
-    	font-weight: bold;
-    	border-bottom: 2px solid #ccabaf;
-    }
-
-	.ul {
+	.ulNav {
 		padding-left: 15px;
 	}
 
-	.li {
+	.liNav {
 		display: inline;
 		font: bold 12px;
 		border-left: 2px solid #afafc7;
@@ -64,15 +18,11 @@
 		padding-right: 6px;
 	}
 
-	.li:first-child {
+	.liNav:first-child {
 		border-left: none;
-	}
+	}	
 
-	.link {
-		text-decoration: none;
-	}
-
-	.select {
+	.selectNav {
 		color: #5f7caf;
 	}
 
@@ -83,48 +33,43 @@
 	.unselect:hover {
 		color: #5f7caf;
 		border-bottom: 1px solid #5f7caf;
-	}
-	
-	.linkTitle {
 		text-decoration: none;
-		color: black;
-	}
-
-	.linkTitle:hover {
-		color: #afafc7;
 	}
 </style>
+<link rel="stylesheet" th:href="@{/style/list.css}" type="text/css" />
 <meta charset="UTF-8">
 <title>공구 리스트</title>
 </head>
 <body>
+<div th:insert="~{thyme/header}"></div>
 <div id="out">
-	<div class="row">
-		<h3>공구 리스트</h3>
+	<div class="element">
+		<h4>공구 리스트</h4>
 	</div>
-	<div class="row">
+	<div class="element">
 		<nav>
-			<ul class="ul">
-				<li class="li"><a class="link select">등록한 공구</a></li>
-				<li class="li"><a class="link unselect" href="#" th:href="@{/user/my/gp/join/list}">참가한 공구</a></li>
+			<ul class="ulNav">
+				<li class="liNav"><a class="linkNav" style="color: #5f7caf;">등록한 공구</a></li>
+				<li class="liNav"><a class="linkNav unselect" href="#" th:href="@{/user/my/gp/join/list}">참가한 공구</a></li>
 			</ul>
 		</nav>
 	</div>
-	<div class="row">
+	<div class="element">
 		<div class="one" th:each="gp : ${gpList}">
-			<div class="row image_view">
+			<div class="element image_view">
 				<img class="image" src="#" th:src="@{${gp.image}}"/>
 			</div>
-			<div class="row title">
-				<h3><a class="linkTitle" th:text="${gp.title}" href="#" th:href="@{/user/my/gp/info(gpId=${gp.gpId})}">제목</a></h3>
+			<div class="element title">
+				<h5><a class="linkTitle" th:text="${gp.title}" href="#" th:href="@{/user/my/gp/info(gpId=${gp.gpId})}">제목</a></h5>
 			</div>
-			<div class="row" style="width:60px;"></div>
-			<div class="row">
-				<div class="row" style="height:40px;"></div>
-				<div class="row" th:if="${#lists.isEmpty(gp.joinList)}">
+			<div class="element" style="width:60px;"></div>
+			<div class="element">
+				<div class="element" style="height:40px;"></div>
+				<div class="element" th:if="${#lists.isEmpty(gp.joinList)}">
 					<form action="#" method="GET" th:action="@{/gp/delete}">
 						<input type="hidden" id="gpId" name="gpId" th:value="${gp.gpId}" />
-						<input class="btn" type="submit" value="삭제" />
+						<input class="btnDelete" type="submit" value="삭제" />
+						<!-- <input class="btn btn-danger" type="submit" value="삭제" /> -->
 					</form>
 				</div>
 			</div>

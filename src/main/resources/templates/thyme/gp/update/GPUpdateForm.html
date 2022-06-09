@@ -2,100 +2,63 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <style type="text/css">
-    body {
-        background-color: #f2eee5;
-    }
-    
-    .form_color {
-        background-color: #f2eee5;
-        border: 1px solid #afafc7;
-        border-radius: 3px;
-    }
+.transitionalButton2 { /*가장 바깥 <p>에 이 클래스 적용*/
+	font-weight: bold;
+	font-size: 14px;
+	text-align: center;
+}
 
-    #out {
-        width: 1000px;
-        margin-left: auto;
-        margin-right: auto;
-    }
+.transitionalButton2:hover {
+	color:white;
+}
 
-    input {
-        height: 40px;
-    }
+.btn33 {
+	-webkit-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+	-moz-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+	-ms-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+	-o-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+	transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+	
+	color: rgba(175, 175, 199, 1.0);
+	box-shadow: rgba(175, 175, 199, 0.4) 0 0px 0px 2px inset;
+	
+	width:100%;
+	height:65px;
+	font-size: 18px;
+    font-weight: bold;
+    border-radius: 5px;
+	
+	border:none;
+}
 
-    .form_view {
-        width: 950px;
-        margin-left: auto;
-        margin-right: auto;
-        border: 1px solid #afafc7;
-        padding: 5px;
-    }
+.btn33:hover {
+	color: rgba(255, 255, 255, 0.85);
+	box-shadow: rgba(95, 124, 175, 0.85) 0 0px 0px 40px inset;
+}
 
-    .row {
-        margin: 10px;
-    }
+.tButton3 { /*transitionalButton 안의 <a> 태그 속성. <a> 하나가 버튼 역할을 함*/
+	-webkit-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+	-moz-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+	-ms-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+	-o-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+	transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+	display: block;
+	margin-right:10px;
+	max-width: 180px;
+	text-decoration: none;
+	border-radius: 4px;
+	padding: 20px 30px;
+}
 
-    .input {
-        text-align: center;
-    }
-    
-    .error {
-    	text-align: right;
-    	font-size: 13px;
-    	color: #5f7caf;
-    }
+.tButton3 { /*마우스 오버 애니메이션을 재현하는 tButton 클래스들. <a>에 적용합니다.*/
+	color: rgba(175, 175, 199, 1.0);
+	box-shadow: rgba(175, 175, 199, 0.4) 0 0px 0px 2px inset;
+}
 
-    .date {
-        width: 230px;
-        text-align: center;
-    }
-
-    .image_view {
-        width: 250px;
-        height: 250px;
-    }
-
-    .sub_btn {
-        width: 100%;
-        height: 50px;
-        font-size: 18px;
-        font-weight: bold;
-        background-color: #afafc7;
-        border: 0px;
-        border-radius: 5px;
-        color: white;
-    }
-
-    .sub_btn:hover {
-        background-color: #5f7caf;
-    }
-
-    .line:focus {
-        outline: 1.5px solid #5f7caf;
-    }
-    
-    .star {
-    	color:red;
-    }
-    
-    .date_view {
-    	width : 250px;
-    }
-    
-    .display {
-    	display: flex;
-    }
-    
-    input::-webkit-outer-spin-button,
-    input::-webkit-inner-spin-button {
-    	-webkit-appearance: none;
-    	margin: 0;
-    }
-    
-    input[type=number] {
-    	-moz-appearance: textfield;
-    }
-    
-    input:focus { outline: none; }
+.tButton3:hover {
+	color: rgba(255, 255, 255, 0.85);
+	box-shadow: rgba(95, 124, 175, 0.85) 0 0px 0px 40px inset;
+}
 </style>
 <meta charset="UTF-8">
 <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
@@ -117,120 +80,130 @@
 	    }
 	}
 </script>
+<link rel="stylesheet" th:href="@{/style/gpForm.css}" type="text/css" />
 <title>공구 수정</title>
 </head>
 <body>
+<div th:insert="~{thyme/header}"></div>
 <div id="out">
-    <h3>공구 수정</h3>
+    <h4>공구 수정</h4>
+    <div style="height:20px;"></div>
     <div class="form_view">
         <form action="#" th:action="@{/gp/update}" th:object="${gpReq}" method="POST" enctype="multipart/form-data">
         	<input type="hidden" id="gpId" name="gpId" th:value="*{gpId}" />
-            <div class="row">
+            <div class="element">
                 폼 제목 <b class="star">*</b>
             </div>
-            <div class="row input">
+            <div class="element input">
                 <input name="title" th:field="*{title}" type="text" class="form_color line" style="width:99%;" placeholder="폼 제목을 입력하세요."/><br>
             </div>
-            <div class="row error">
+            <div class="element error">
             	<span th:each="err : ${#fields.errors('title')}" th:text="${err}">에러 메세지</span>
             </div>
             
-            <div class="row">
+            <div class="element">
                 모집 기한 <b class="star">*</b>
             </div>
-            <div class="row display">
+            <div class="element display">
             	<div class="date_view">
             		<div>
                 		<input name="startDate" th:field="*{startDate}" type="date" class="date form_color line" />
                 	</div>
-                	<div class="row error">
+                	<div class="element error">
                 		<span th:each="err : ${#fields.errors('startDate')}" th:text="${err}">에러 메세지</span>
                 	</div>
                 </div>
-                <div class="row" style="width:20px; text-align:center;">
+                <div class="element" style="width:20px; text-align:center;">
                 	<b style="color:#afafc7;">~</b>
                 </div>
                 <div class="date_view">
             		<div>
                 		<input name="endDate" th:field="*{endDate}" type="date" class="date form_color line" />
                 	</div>
-                	<div class="row error">
+                	<div class="element error">
                 		<span th:each="err : ${#fields.errors('endDate')}" th:text="${err}">에러 메세지</span>
                 	</div>
                 </div>
             </div>
             
-            <div class="row">
+            <div class="element">
                 썸네일 이미지 <b class="star">*</b>
             </div>
-            <div class="row">
-                <div class="row image_view">
-                    <img id="View" th:src="@{${imgPath}}" width="100%" />
+            <div class="element">
+                <div class="element image_view">
+                    <label for="image">
+                    	<img id="View" th:src="@{${imgPath}}" width="100%" />
+                    </label>
                     <input type="hidden" id="imgPath" name="imgPath" th:value="${imgPath}" />
                 </div>
-                 
                 <div class="row">
-                    <input name="image" type="file" th:value="*{image}" th:field="*{image}" accept="image/*"/>
+                    <input name="image" type="file" th:value="*{image}" th:field="*{image}" accept="image/*" style="display:none;"/>
                     <input type="hidden" name="isModify" id="isModify" value="false" />
-                    <div class="row error">
+                    <div class="element error">
 		            	<span th:each="err : ${#fields.errors('title')}" th:text="${err}">에러 메세지</span>
 		            </div>
                 </div>
                 
             </div>
 
-            <div class="row">
+            <div class="element">
                 가격 <b class="star">*</b>
             </div>
-            <div class="row">
+            <div class="element">
             	<div style="width:240px;">
                 	<input name="price" th:field="*{price}" type="number" class="form_color line" value="none" style="width:200px;" placeholder="ex) 10000"/> 원 <br>
                 </div>
-                <div class="row error" style="width:220px;">
+                <div class="element error" style="width:220px;">
                 	<span th:each="err : ${#fields.errors('price')}" th:text="${err}">에러 메세지</span>
                 </div>
             </div>
 
-            <div class="row">
+            <div class="element">
                 상세 설명 <b class="star">*</b>
             </div>
-            <div class="row input">
+            <div class="element input">
                 <textarea name="discription" th:field="*{description}" class="form_color line" style="width:99%; height: 250px;" placeholder="상세 설명을 입력하세요."></textarea>
-                <div class="row error">
+                <div class="element error">
                 	<span th:each="err : ${#fields.errors('description')}" th:text="${err}">에러 메세지</span>
                 </div>
             </div>
 
-            <div class="row">
+            <div class="element">
               해시태그
             </div>
-            <div class="row">
+            <div class="element">
                 <input name="category" th:field="*{category}" class="form_color line" type="text" style="width:99%;" placeholder="ex) #공구 #솜뮤직 #앨범"/>
             </div>
 
-            <div class="row">
+            <div class="element">
                 은행 정보 <b class="star">*</b>
             </div>
-            <div class="row display">
+            <div class="element display">
             	<div style="width:220px;">
             			<input name="bank" th:field="*{bank}" type="text" class="form_color line" style="width:200px;" placeholder="은행명"/>
-            		<div class="row error">
+            		<div class="element error">
             			<span th:each="err : ${#fields.errors('bank')}" th:text="${err}">에러 메세지</span>
             		</div>
             	</div>
             	<div style="width:50px;"></div>
             	<div style="width:470px;">
                 	<input name="account" th:field="*{account}" type="text" class="form_color line" style="width:450px;" placeholder="계좌번호"/>
-                	<div class="row error">
+                	<div class="element error">
             			<span th:each="err : ${#fields.errors('account')}" th:text="${err}">에러 메세지</span>
             		</div>
                 </div>
             </div>
 
-            <div class="row" style="height: 20px;"></div>
+            <div class="element" style="height: 20px;"></div>
 
-            <div class="row input">
+            <div class="element input">
                 <input type="submit" class="sub_btn" value="공구 폼 수정하기" />
+                
+                <input type="submit" class="btn33" value="공구 폼 수정하기" />
+				
+				<p class="transitionalButton2"><a class="tButton3">수정</a></p>
+                
+				<input type="submit" class="hButton" value="공구 폼 수정하기" />
             </div>
         </form>
     </div>

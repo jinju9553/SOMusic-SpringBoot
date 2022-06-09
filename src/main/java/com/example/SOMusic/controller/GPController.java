@@ -171,6 +171,8 @@ public class GPController implements ApplicationContextAware {
 	@RequestMapping(value="/delete", method = RequestMethod.GET)
 	public String delete(@RequestParam("gpId") int gpId) {
 		
+		System.out.println("삭제 : " + gpId);
+		
 		// 삭제
 		gpSvc.deleteGP(gpId);
 			

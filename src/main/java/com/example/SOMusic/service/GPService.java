@@ -39,4 +39,12 @@ public class GPService {
 		return gpRepository.findBySellerId(sellerId);
 	}
 	
+	public List<GroupPurchase> get4GPList() {
+		return gpRepository.findFirst4ByOrderByGpId();
+	}
+	
+	public List<GroupPurchase> getAllGPList() {
+		return gpRepository.findAll();
+	}
+	
 }

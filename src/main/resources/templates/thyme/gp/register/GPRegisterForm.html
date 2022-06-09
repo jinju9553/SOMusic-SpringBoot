@@ -2,101 +2,6 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<style type="text/css">
-    body {
-        background-color: #f2eee5;
-    }
-
-    .form_color {
-        background-color: #f2eee5;
-        border: 1px solid #afafc7;
-        border-radius: 3px;
-    }
-
-    #out {
-        width: 1000px;
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    input {
-        height: 40px;
-    }
-
-    .form_view {
-        width: 950px;
-        margin-left: auto;
-        margin-right: auto;
-        border: 1px solid #afafc7;
-        padding: 5px;
-    }
-
-    .row {
-        margin: 10px;
-    }
-
-    .input {
-        text-align: center;
-    }
-    
-    .error {
-    	text-align: right;
-    	font-size: 13px;
-    	color: #5f7caf;
-    }
-
-    .date {
-        width: 230px;
-        text-align: center;
-    }
-
-    .image_view {
-        width: 300px;
-    }
-
-    .sub_btn {
-        width: 100%;
-        height: 50px;
-        font-size: 18px;
-        font-weight: bold;
-        background-color: #afafc7;
-        border: 0px;
-        border-radius: 5px;
-        color: white;
-    }
-
-    .sub_btn:hover {
-        background-color: #5f7caf;
-    }
-
-    .line:focus {
-        outline: 1.5px solid #5f7caf;
-    }
-    
-    .star {
-    	color:red;
-    }
-    
-    .date_view {
-    	width : 250px;
-    }
-    
-    .display {
-    	display: flex;
-    }
-    
-    input::-webkit-outer-spin-button,
-    input::-webkit-inner-spin-button {
-    	-webkit-appearance: none;
-    	margin: 0;
-    }
-    
-    input[type=number] {
-    	-moz-appearance: textfield;
-    }
-
-    input:focus { outline: none; }
-</style>
 <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
 <script>
 	$(function() {
@@ -115,114 +20,117 @@
 	    }
 	}
 </script>
+<link rel="stylesheet" th:href="@{/style/gpForm.css}" type="text/css" />
 <title>공구 등록</title>
 </head>
 <body>
+<div th:insert="~{thyme/header}"></div>
 <div id="out">
-    <h3>공구 등록</h3>
+    <h4>공구 등록</h4>
+    <div style="height:20px;"></div>
     <div class="form_view">
         <form action="#" th:action="@{/gp/register}" th:object="${gpReq}" method="POST" enctype="multipart/form-data">
-            <div class="row">
+            <div class="element">
                 폼 제목 <b class="star">*</b>
             </div>
-            <div class="row input">
-                <input name="title" th:field="*{title}" type="text" class="form_color line" style="width:99%;" placeholder="폼 제목을 입력하세요."/><br>
+            <div class="element input">
+                <input name="title" th:field="*{title}" type="text" class="form_color line" style="width:100%;" placeholder="폼 제목을 입력하세요."/><br>
             </div>
-            <div class="row error">
+            <div class="element error">
             	<span th:each="err : ${#fields.errors('title')}" th:text="${err}">에러 메세지</span>
             </div>
             
-            <div class="row">
+            <div class="element">
                 모집 기한 <b class="star">*</b>
             </div>
-            <div class="row display">
+            <div class="element display">
             	<div class="date_view">
             		<div>
                 		<input name="startDate" th:field="*{startDate}" type="date" class="date form_color line" />
                 	</div>
-                	<div class="row error">
+                	<div class="element error">
                 		<span th:each="err : ${#fields.errors('startDate')}" th:text="${err}">에러 메세지</span>
                 	</div>
                 </div>
-                <div class="row" style="width:20px; text-align:center;">
+                <div class="element" style="width:20px; text-align:center;">
                 	<b style="color:#afafc7;">~</b>
                 </div>
                 <div class="date_view">
             		<div>
                 		<input name="endDate" th:field="*{endDate}" type="date" class="date form_color line" />
                 	</div>
-                	<div class="row error">
+                	<div class="element error">
                 		<span th:each="err : ${#fields.errors('endDate')}" th:text="${err}">에러 메세지</span>
                 	</div>
                 </div>
             </div>
             
-            <div class="row">
+            <div class="element">
                 썸네일 이미지 <b class="star">*</b>
             </div>
-            <div class="row">
-                <div class="row image_view">
-                    <img id="View" src="/images/gp/gpUpload.png" width="100%" />
-                </div>
-               <div class="row" style="width:200px;">
-                	<input id="image" name="image" type="file" accept="image/*"/>
-                    <div class="row error">
+            <div class="element">
+                <div class="element image_view">
+                	<input id="image" name="image" type="file" accept="image/*" style="display:none;"/>
+                	<label for="image">
+                    	<img id="View" src="/images/uploadImg.png" width="100%" />
+                    </label>
+                    <div class="element error">
 		            	<span th:each="err : ${#fields.errors('title')}" th:text="${err}">에러 메세지</span>
 		            </div>
                 </div>
             </div>
 
-            <div class="row">
+            <div class="element">
                 가격 <b class="star">*</b>
             </div>
-            <div class="row">
+            <div class="element">
             	<div style="width:240px;">
-                	<input name="price" th:field="*{price}" type="number" class="form_color line" value="none" style="width:200px;" placeholder="ex) 10000"/> 원 <br>
+                	<input name="price" th:field="*{price}" type="number" class="txRight form_color line" style="width:200px; padding-right:10px;" value="none" placeholder="ex) 10000"/> 원 <br>
                 </div>
-                <div class="row error" style="width:220px;">
+                <div class="element error" style="width:220px;">
                 	<span th:each="err : ${#fields.errors('price')}" th:text="${err}">에러 메세지</span>
                 </div>
             </div>
 
-            <div class="row">
+            <div class="element">
                 상세 설명 <b class="star">*</b>
             </div>
-            <div class="row input">
-                <textarea name="description" th:field="*{description}" class="form_color line" style="width:99%; height: 250px;" placeholder="상세 설명을 입력하세요."></textarea>
-                <div class="row error">
+            <div class="element input">
+                <textarea name="description" th:field="*{description}" class="form_color line" style="width:100%; height: 250px;" placeholder="상세 설명을 입력하세요."></textarea>
+                <div class="element error">
                 	<span th:each="err : ${#fields.errors('description')}" th:text="${err}">에러 메세지</span>
                 </div>
             </div>
 
-            <div class="row">
+            <div class="element">
               해시태그
             </div>
-            <div class="row">
-                <input name="category" class="form_color line" type="text" style="width:99%;" placeholder="ex) #공구 #솜뮤직 #앨범"/>
+            <div class="element">
+                <input name="category" class="form_color line" type="text" style="width:100%;" placeholder="ex) #공구 #솜뮤직 #앨범"/>
             </div>
 
-            <div class="row">
+            <div class="element">
                 은행 정보 <b class="star">*</b>
             </div>
-            <div class="row display">
+            <div class="element display">
             	<div style="width:220px;">
             			<input name="bank" th:field="*{bank}" type="text" class="form_color line" style="width:200px;" placeholder="은행명"/>
-            		<div class="row error">
+            		<div class="element error">
             			<span th:each="err : ${#fields.errors('bank')}" th:text="${err}">에러 메세지</span>
             		</div>
             	</div>
             	<div style="width:50px;"></div>
             	<div style="width:470px;">
                 	<input name="account" th:field="*{account}" type="text" class="form_color line" style="width:450px;" placeholder="계좌번호"/>
-                	<div class="row error">
+                	<div class="element error">
             			<span th:each="err : ${#fields.errors('account')}" th:text="${err}">에러 메세지</span>
             		</div>
                 </div>
             </div>
 
-            <div class="row" style="height: 20px;"></div>
+            <div class="element" style="height: 20px;"></div>
 
-            <div class="row input">
+            <div class="element input">
                 <input type="submit" class="sub_btn" value="공구 폼 등록하기" />
             </div>
         </form>
