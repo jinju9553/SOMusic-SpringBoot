@@ -27,7 +27,8 @@ public class ProductRegisterController {
 	
 	@RequestMapping(value="/register", method = RequestMethod.GET) 
 		public String showProductRegForm() {
-			return "product/register/productRegisterForm";
+		
+			return "thyme/product/register/productRegisterForm";
 		}
 	}
 	
