@@ -113,7 +113,7 @@
 	<div class="row">
 		<div class="one" th:each="gp : ${gpList}">
 			<div class="row image_view">
-				<img class="image" src="x.png"/>
+				<img class="image" src="#" th:src="@{${gp.image}}"/>
 			</div>
 			<div class="row title">
 				<h3><a class="linkTitle" th:text="${gp.title}" href="#" th:href="@{/user/my/gp/info(gpId=${gp.gpId})}">제목</a></h3>

@@ -37,7 +37,6 @@
     .image {
     	width: 200px;
     	height: 200px;
-    	border:1px black solid;
     	margin-left: 30px;
     	margin-top: 20px;
     }
@@ -128,8 +127,7 @@
 		</div>
 		<div class="info_view">
 			<div class="image">
-				<img src="../../../image/image_upload.png"
-					style="border:1px black solid; width:100%;"/>
+				<img th:src="@{${gp.image}}" style="width:100%;"/>
 			</div>
 			<div class="info">
 				<div class="row"><p th:text="${gp.title}">제목</p></div>
