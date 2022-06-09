@@ -1,0 +1,63 @@
+@charset "UTF-8";
+
+	body {
+        background-color: #f2eee5;
+    }
+
+	#out {
+		width: 1000px;
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	.element {
+		margin: 10px;
+	}
+
+	.line {
+		background-color: #5f7caf;
+	}
+
+	.listView {
+		overflow: hidden;
+	}
+
+	.one {
+		border: 1px solid #bababf;
+		width: 230px;
+		height: 250px;
+		float: left;
+		margin: 6px;
+		text-align: center;
+		border-radius: 3px;
+	}
+
+	.img {
+		border: 1px solid red;
+		width: 220px;
+		height: 200px;
+	}
+
+	.title {
+		width: 220px;
+		margin: auto;
+		padding-top: 10px;
+	}
+
+	.link {
+		text-decoration: none;
+		color: black;
+	}
+
+	.link:hover {
+		color: #afafc7;
+	}
+
+	.more {
+		text-decoration: none;
+		color: #bababf;
+	}
+
+	.more:hover {
+		color: #EDA9B1;
+	}

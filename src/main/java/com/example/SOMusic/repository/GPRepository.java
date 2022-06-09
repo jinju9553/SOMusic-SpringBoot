@@ -16,4 +16,8 @@ public interface GPRepository extends JpaRepository<GroupPurchase, Integer> {
 	
 	@Transactional
 	public void deleteByGpId(int id);
+	
+	public List<GroupPurchase> findFirst4ByOrderByGpId();
+	
+	public List<GroupPurchase> findAll();
 }

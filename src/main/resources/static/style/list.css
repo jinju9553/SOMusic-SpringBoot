@@ -1,0 +1,57 @@
+@charset "UTF-8";
+
+	#out {
+		width: 1000px;
+		margin-left: auto;
+		margin-right: auto;
+	}
+	
+	.element {
+		margin: 10px;
+	}
+	
+	.one {
+		border: 1px solid #afafc7;
+		height: 110px;
+		display: flex;
+		margin: 5px;
+		border-radius: 3px;
+	}
+	
+	.image_view {
+		height: 90px;
+		width: 90px;
+	}
+	
+	.image {
+		height: 100%;
+		width: 100%;
+	}
+	
+	.title {
+		padding-top: 30px;
+		padding-left: 10px;
+		width: 670px;
+	}
+
+	.btnDelete {
+		background: none;
+    	font-size: 13px;
+    	color: #ccabaf;
+    	border: none;
+    }
+    
+    .btnDelete:hover {
+    	font-weight: bold;
+    	border-bottom: 2px solid #ccabaf;
+    }
+    
+	.linkTitle {
+		text-decoration: none;
+		color: black;
+	}
+
+	.linkTitle:hover {
+		color: #afafc7;
+		text-decoration: none;
+	}

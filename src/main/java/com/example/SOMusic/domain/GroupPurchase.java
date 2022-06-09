@@ -38,33 +38,26 @@ public class GroupPurchase implements Serializable {
 	@Column(name="SELLER_ID")
 	private String sellerId;
 	
-	@NotBlank(message="필수 입력 항목입니다.")
 	private String title;
 	
 	private String image;
 	
 	@Column(name="START_DATE")
-	@NotNull(message="필수 입력 항목입니다.")
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private LocalDate startDate;
 	
 	@Column(name="END_DATE")
-	@NotNull(message="필수 입력 항목입니다.")
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private LocalDate endDate;
 	
 	private String category;
 
-	@NotBlank(message="필수 입력 항목입니다.")
 	private String account;
 	
-	@NotBlank(message="필수 입력 항목입니다.")
 	private String bank;
 	
-	@Min(value = 1, message="필수 입력 항목입니다.")
 	private int price;
 	
-	@NotBlank(message="필수 입력 항목입니다.")
 	private String description;
 	
 	@OneToMany
