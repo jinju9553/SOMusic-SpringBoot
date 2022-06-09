@@ -89,16 +89,16 @@
 		switch (method) { //0: 직거래만 & 1: 택배만 & 2: 둘 다 가능 & 3: 기타(알아서 기재)
 		  case 0:
 			$(".methodAnchor").text('직거래');
-			break;
+		    break;
 		  case 1:
-		    $(".methodAnchor").text('택배');
+			$(".methodAnchor").text('택배');
 		    break;
 		  case 2:
-			$(".methodAnchor").text('직거래 또는 택배');
-		    break;
-		  case 3:
-			$(".methodAnchor").text('기타 거래 방식');
-		    break;
+			$(".methodAnchor").text('둘 다 가능');
+			break;
+		  case 3: 
+			$(".methodAnchor").text('기타');
+			break;
 		  default:
 			$(".methodAnchor").text('정보 없음');
 		}
@@ -147,7 +147,7 @@
   		<td style="padding-bottom: 10;"> 상품 이름: ${product.productName} </td>
   	</tr>
   	<tr>
-  		<td style="padding-bottom: 10;"> 상품 가격: <fmt:formatNumber
+  		<td style="padding-bottom: 10;"> 상품 금액: <fmt:formatNumber
                 value="${purchaseReq.totalAmount}" pattern="###,##0" /> 원</td>
   		<td> <input type="button" value="판매자 계좌 확인" onClick="confirmAccount()"> </td>
   	</tr>
@@ -201,12 +201,21 @@
   	</tr>
   	
   	<tr>
+    	<td>폼 작성일자: ${purchaseReq.regDate}</td>
+    </tr> 
+  	
+  	<tr>
     	<td>거래 방식: <a class="methodAnchor"></a></td>
     </tr> 
     
     <tr>
   		<td style="padding-bottom: 5%;">
-  		배송비: <fmt:formatNumber value="${product.shippingCost}" pattern="###,##0" /> 원</td>
+	  		배송비: 
+	  		<c:if test="${!empty product.shippingCost}">
+	  			<fmt:formatNumber value="${product.shippingCost}" pattern="###,##0" /> 원 (상품 가격에 포함)
+	  		</c:if>
+	  		<c:if test="${empty product.shippingCost}"> 없음 </c:if>
+  		</td>
   	</tr>
   	
   	<tr class="shippingMenu">

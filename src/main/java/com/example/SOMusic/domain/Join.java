@@ -1,7 +1,7 @@
 package com.example.SOMusic.domain;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import com.example.SOMusic.controller.JoinRequest;
 
@@ -21,7 +23,7 @@ import lombok.ToString;
 
 @Entity
 @Table(name="join") 
-@Getter @Setter 
+@Getter @Setter @ToString
 @SequenceGenerator(name="SEQ_JOIN", sequenceName="SEQUENCE_JOIN", allocationSize=1)
 @SuppressWarnings("serial")
 public class Join implements Serializable { 
@@ -37,7 +39,10 @@ public class Join implements Serializable {
 	@Column(name="consumer_name") 
 	private String consumerName;
 	
-	@Column(name="total_amount")
+	@Column(name="consumer_bank") 
+	private String consumerBank;
+	
+	@Column(name="total_amount", nullable=false)
 	private int totalAmount;
 	
 	private String address;
@@ -47,12 +52,12 @@ public class Join implements Serializable {
 	@Column(name="shipping_cost")
 	private int shippingCost;
 	
-	@Column(name="shipping_request")
-	private String shippingRequest;
-	
-	@Column(name="shipping_method")
+	@Column(name="shipping_method", nullable=false)
 	private int shippingMethod;
 	
+	@Column(name="shipping_request")
+	private String shippingRequest;
+
 	private int quantity;
 	private int status;
 	
@@ -68,8 +73,9 @@ public class Join implements Serializable {
 	@Column(name="refund_holder")
 	private String refundHolder; 
 	
-	@Column(name="reg_date")
-	private LocalDate regDate;
+	@Column(name="reg_date", nullable=false)
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date regDate;
 	
 	@ManyToOne //Many가 Join, One이 GroupPurchase
 	@JoinColumn(name="grouppurchase_id") //DB 상에서 FK의 이름
@@ -84,11 +90,12 @@ public class Join implements Serializable {
 		totalAmount = j.getTotalAmount();
 		
 		consumerName = j.getConsumerName();
+		consumerBank = j.getConsumerBank();
 		address = j.getAddress();
 		zipcode = j.getZipcode();
 		phone = j.getPhone();
-		shippingRequest = j.getShippingRequest();
 		shippingMethod = j.getShippingMethod();
+		shippingRequest = j.getShippingRequest();
 		
 		accountHolder = j.getAccountHolder();
  		refundAccount = j.getRefundAccount();
