@@ -84,9 +84,9 @@
 		}
 		
 		//radio buttoun 옆의 label 변경
-		$("#shippingMethod1").next().text('준등기 (+1,800원)');
-		$("#shippingMethod2").next().text('택배 (+3,000원)');
-		$("#shippingMethod3").next().text('택배(제주산간) (+6,000원)');
+		$("#shippingMethod1").next().text('준등기 (+${shippingCost[0]}원)');
+		$("#shippingMethod2").next().text('택배 (+${shippingCost[1]}원)');
+		$("#shippingMethod3").next().text('택배(제주산간) (+${shippingCost[2]}원)');
 	});
 	
 	/*
@@ -112,7 +112,7 @@
   	</tr>
   	
   	<tr>
-  		<td colspan="3" align="right"> 공동구매 등록 날짜: <fmt:formatDate value="${joinReq.groupPurchase.startDate}" pattern="yyyy-MM-dd hh:mm:ss" /> </td>
+  		<td colspan="3" align="right"> 공동구매 등록 날짜: ${joinReq.groupPurchase.startDate} </td>
   	</tr>
   
   	<tr>
@@ -129,7 +129,7 @@
   		<td style="padding-bottom: 10;"> 진행 상태: <a class="statusAnchor"></a></td>
   	</tr>
   	<tr>
-  		<td> 폼 작성 날짜: <fmt:formatDate value="${}" pattern="yyyy-MM-dd hh:mm:ss" /></td>
+  		<td> 폼 작성 날짜: ${joinReq.regDate}</td>
   	</tr>
   	
   	<!-- 세부 항목 1 -->
@@ -138,7 +138,7 @@
       <td style="padding-top: 5%;"> <font class="color_purple" size="4"><b>등록자 정보</b></font> </td>
     </tr>   
     <tr>
-      <td>- 마감 일자: <fmt:formatDate value="${joinReq.groupPurchase.endDate}" pattern="yyyy-MM-dd hh:mm:ss" /></td>
+      <td>- 마감 일자: ${joinReq.groupPurchase.endDate}</td>
       <td>- 등록자: (등록자 이름)</td>
     </tr>   
     <tr>
@@ -199,11 +199,7 @@
   	<tr>
   		<td> <div class="color_purple" style="height: auto; width: 170%; border-top:1px solid; margin-bottom: 5%;"></div> </td>
   	</tr>
-  	
-  	<tr>
-		<td>상품 정보</td>
-        <td>(데이터)</td>
-  	</tr> 
+
   	<tr>
 		<td>상품 금액</td>
         <td><fmt:formatNumber
@@ -228,10 +224,6 @@
 		<td><fmt:formatNumber
                 value="${joinReq.totalAmount}" pattern="###,##0" /> 원</td>
   	</tr>
-  	<tr>
-		<td>결제일</td>
-        <td>(데이터)</td>
-  	</tr>  
     
     <tr> <!-- status 3부터는 수정 불가 -->
   		<td style="padding-top: 5%;" colspan="2"> <font class="color_purple" size="4"><b>배송 정보</b></font> </td>

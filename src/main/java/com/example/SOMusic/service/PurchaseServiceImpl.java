@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.SOMusic.dao.PurchaseDao;
+import com.example.SOMusic.domain.Product;
 import com.example.SOMusic.domain.Purchase;
 import com.example.SOMusic.repository.PurchaseRepository;
 
@@ -48,4 +49,8 @@ public class PurchaseServiceImpl implements PurchaseService {
 		return purchaseRepository.findPurchaseByPurchaseId(purchaseId);
 	}
 
+	@Override
+	public int calculateTotal(Product product) {
+		return (product.getPrice() + product.getShippingCost());
+	}
 }

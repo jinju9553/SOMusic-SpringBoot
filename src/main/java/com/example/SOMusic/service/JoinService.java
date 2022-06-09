@@ -1,6 +1,8 @@
 package com.example.SOMusic.service;
 
 import java.util.List;
+
+import com.example.SOMusic.domain.GroupPurchase;
 import com.example.SOMusic.domain.Join;
 
 public interface JoinService {
@@ -17,4 +19,8 @@ public interface JoinService {
 	Join findJoinByJoinId(int joinId);
 	
 	List<Join> findAllByUserId(String userId);
+
+	int calculateTotal(GroupPurchase groupPurchase, Join join);
+
+	int initShippingCost(Join join);
 }

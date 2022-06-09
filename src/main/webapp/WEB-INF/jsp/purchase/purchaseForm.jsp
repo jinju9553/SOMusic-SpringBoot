@@ -4,7 +4,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
-<c:set var="targetUrl"><c:url value="/purchase?productId=${purchaseReq.product.productId}" /></c:set>
+<c:set var="targetUrl"><c:url value="/purchase/${purchaseReq.product.productId}" /></c:set>
 
 <title>중고 상품 구매</title>
 <div align="center">
@@ -13,18 +13,18 @@
   
   <script>
   	function setAddress(event) {
-  		if(event.target.value == '1')
+  		if(event.target.value == '0')
   			console.log("주문자와 동일한 주소");
-  		else
+  		else if(event.target.value == '1')
   			console.log("새 주소 입력을 위해 폼 초기화");
   	}
   	
   	function setShippingMethod(event) {
-  		if(event.target.value == '1') {
+  		if(event.target.value == '0') {
   			console.log("직거래");
   			$(".shipping").hide();
   		}
-  		else {
+  		else if(event.target.value == '1') {
   			console.log("택배");
   			$(".shipping").show();
   		}
@@ -62,17 +62,17 @@
     <tr>
       <td>거래 방식</td>
       <td>
-      	<input type='radio' name='shippingMethod' value='1' onclick='setShippingMethod(event)'/> 직거래
-      	<input type='radio' name='shippingMethod' value='2' onclick='setShippingMethod(event)'/> 택배
+      	<input type='radio' name='shippingMethod' value='0' onclick='setShippingMethod(event)'/> 직거래
+      	<input type='radio' name='shippingMethod' value='1' onclick='setShippingMethod(event)'/> 택배
 		<%-- <form:radiobuttons items="${shippingOption}" path="shippingOption"/> --%>
-      </td> <!-- 대응하는 필드가 없는데 path 없어도 되는지? ==> 있어야 됨 -->
+      </td> 
     </tr>
     
     <tr class="shipping">
       <td>배송지 선택</td>
       <td>
-      	<input type='radio' name='shippingOption' value='1' onclick='setAddress(event)'/> 주문자와 동일
-      	<input type='radio' name='shippingOption' value='2' onclick='setAddress(event)'/> 신규 배송지
+      	<input type='radio' name='shippingOption' value='0' onclick='setAddress(event)'/> 주문자와 동일
+      	<input type='radio' name='shippingOption' value='1' onclick='setAddress(event)'/> 신규 배송지
 		<%-- <form:radiobuttons items="${shippingOption}" path="shippingOption"/> --%>
       </td>
     </tr>
@@ -121,11 +121,9 @@
 	<input type="button" value="${option}" onClick="setPaymentOption(event)">
   </c:forEach>
   
-  <p class="transitionalButton">
-	<a href="#" class="tButton">Hover Me!</a>
+  <p>
+	<button class="hButton"> 등록하기 </button>
   </p>
-  
-  <button class="hButton"> hover </button>
   
 </form:form>
 </div>

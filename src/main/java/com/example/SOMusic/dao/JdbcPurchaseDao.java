@@ -16,7 +16,7 @@ public class JdbcPurchaseDao implements PurchaseDao {
 		this.jdbcTemplate = jdbcTemplate;
 	}
 	
-	//SYSDATE는 null로 비워두면 DB에서 자동으로 찍힘
+	//SYSDATE, 시퀀스 생성 값은 null로 비워두면 DB에서 자동으로 찍힘
 	private static final String INSERT_SQL = 
 			"INSERT INTO purchase (purchase_id, consumer_id, consumer_name, total_amount, address, zipcode, phone, shipping_method, shipping_request, product_id) "
 			+ "VALUES (sequence_purchase.nextval, :consumer_id, :consumer_name, :total_amount, :address, :zipcode, :phone, :shipping_method, :shipping_request, :product_id)";
@@ -24,7 +24,6 @@ public class JdbcPurchaseDao implements PurchaseDao {
 	public void createPurchase(Purchase purchase) {
 		jdbcTemplate.update(INSERT_SQL,
 				new Object[] {
-						//purchase.getPurchaseId(), //sequence도 그냥 삽입? 
 						purchase.getConsumerId(),
 						purchase.getConsumerName(),
 						purchase.getTotalAmount(),

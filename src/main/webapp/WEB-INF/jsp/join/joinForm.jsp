@@ -4,7 +4,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
-<c:set var="targetUrl"><c:url value="/join/{id}" /></c:set>
+<c:set var="targetUrl"><c:url value="/join/${joinReq.groupPurchase.gpId}" /></c:set>
 
 <title>공구 참여</title>
 <div align="center">
@@ -12,13 +12,70 @@
   <form:errors cssClass="error" /> <br><br>
   
   <script>
-  	function setAddress(event) {
-  		if(event.target.value == '1')
-  			console.log("주문자와 동일한 주소");
-  		else
-  			console.log("새 주소 입력을 위해 폼 초기화");
-  	}
-
+	  $(document).ready(function() {
+		  $("#shippingCost").hide();
+		  $("#totalShippingAmount").hide();
+		  
+		  var p = Number($("#price").text());
+		  
+		  $(".quantityUp").click(function(){ //이 부분이 quantity에 반영되어야 함 ==> currentQuantity?
+			  var q = $(".quantity").val();
+			  if(q >= 100) 
+				  alert("최대 주문 수량은 100개입니다.");
+			  else {
+				  q = Number(q) + 1;
+				  $(".quantity").val(q);
+				  $(".quantity").text(q);
+				  $(".totalAmount").text(p * q);
+			  }
+		  });
+		  
+		  $(".quantityDown").click(function(){
+			  var q = $(".quantity").val();
+			  if(q <= 1) 
+				  alert("최소 주문 수량은 1개입니다.");
+			  else {
+				  q = Number(q) - 1;
+				  $(".quantity").val(Number(q) - 1);
+				  $(".quantity").text(Number(q) - 1);
+				  $(".totalAmount").text(p * q);
+			  }
+		  });
+		  	  
+		//radio buttoun 옆의 label 변경
+		$("#shippingMethod1").next().text('준등기 (+${shippingCost[0]}원)');
+		$("#shippingMethod2").next().text('택배 (+${shippingCost[1]}원)');
+		$("#shippingMethod3").next().text('택배(제주산간) (+${shippingCost[2]}원)');
+	  });
+  
+	  function setAddress(event) {
+	  	if(event.target.value == '0') {
+	  		console.log("주문자와 동일한 주소");
+	  	}
+	  	else if(event.target.value == '1') {
+	  		console.log("새 주소 입력을 위해 폼 초기화");
+	  		$(".shipping").children().val(" ");
+	  	}
+	  }
+	  
+	  function radioClick (event) {
+		$("#shippingCost").show();
+		var s = Number(event.target.value);
+		switch(s) {
+			case 1:
+				$("#shippingCost").children().text(${shippingCost[0]}); //s값 인식 X
+				break;
+			case 2:
+				$("#shippingCost").children().text(${shippingCost[1]});
+				break;
+			case 3:
+				$("#shippingCost").children().text(${shippingCost[2]});
+				break;
+		}
+		var currentCost = Number($("#shippingCost").children().text());
+		var currentAmount = Number($("#totalOne").text());
+		$("#totalShippingAmount").show(); $("#totalShippingAmount").children().text(currentCost + currentAmount);
+	}
   </script>
   
   <table class="n13">
@@ -31,31 +88,66 @@
   	</tr>
   	
   	<tr> <!-- rowspan : 이 칸 옆에 row(<tr>)가 몇 개까지 들어갈 수 있는지 -->
-  		<td rowspan="4" align = "center"> <img id="noImage" src="<c:url value='../images/purchase/noImage.png'/>"> </td>
+  		<td rowspan="5" align = "center"> <img id="noImage" src="<c:url value='../images/purchase/noImage.png'/>"> </td>
   	</tr>
   	
   	<tr> <!-- padding은 나중에 별도의 CSS 파일로 & 파일 경로 및 값은 groupPurchase.name 등으로 접근 -->
-  		<td style="padding-bottom: 50;"> 공동구매 제목: ${joinReq.groupPurchase.title}  </td>
+  		<td style="padding-bottom: 50; padding-top: 50;"> 공동구매 제목: ${joinReq.groupPurchase.title}  </td>
+  	</tr>
+  	<tr> 
+  		<td style="padding-bottom: 50;"> 개당 가격: <a id="price">${joinReq.groupPurchase.price}</a> 원</td>
   	</tr>
   	<tr>
-  	  	<td style="padding-bottom: 50;"> 주문 수량 
-  			<span class="quantity">
-				<input style="width: 20%;" id="quantity" name="quantity_opt[]" value="1" type="text"> <!-- name 필요한지? -->
-				<a href="#none"> <!-- 클릭 되면서도 url 변동이 없음 -->
-					<img style="position: absolute;" src="//img.echosting.cafe24.com/skin/base_ko_KR/product/btn_count_up.gif" alt="수량증가" class="QuantityUp">
+  	  	<td style="padding-bottom: 50;"> 주문 수량: 
+  			<span>
+				<form:input path="quantity" style="width: 20%;" class="quantity" type="text"></form:input> 
+				<a href="#"> 
+					<img style="position: absolute;" src="//img.echosting.cafe24.com/skin/base_ko_KR/product/btn_count_up.gif" alt="수량증가" class="quantityUp">
 				</a>
-				<a href="#none"> <!-- 전체 화면에서는 어긋남 -->
-					<img style="top: 29.8%; position: absolute;" src="//img.echosting.cafe24.com/skin/base_ko_KR/product/btn_count_down.gif" alt="수량감소" class="QuantityDown">
+				<a href="#">
+					<img style="top: 53%; position: absolute;" src="//img.echosting.cafe24.com/skin/base_ko_KR/product/btn_count_down.gif" alt="수량감소" class="quantityDown">
 				</a>
 			</span>
-  		</td> <!-- 변동에 따라서 ajax로 totalPrice를 계산할 수 있는지? -->
+  		</td>
   	</tr>
   	
   	<tr>
-  		<td style="padding-bottom: 50;"> 총 상품금액 : </td> <!-- ${totalPrice} -->
+  		<td style="padding-bottom: 50;"> 총 상품금액 : <a class="totalAmount">${joinReq.groupPurchase.price}</a> 원 
+  		(<a class="quantity">${joinReq.quantity}</a>개)</td>
   	</tr>
   	
   	<!-- 세부 항목 1 -->
+  	<tr>
+      <td style="padding-top: 5%"> <font class="color_purple" size="4"><b>주문 정보</b></font> </td>
+    </tr>
+    <tr>
+  		<td> <div class="color_purple" style="height: auto; width: 170%; border-top:1px solid; margin-bottom: 5%;"></div> </td>
+  	</tr>
+  	
+  	<tr>
+		<td>배송 방법</td>
+  	</tr>
+  	<tr>
+  		<td colspan="2" align="center" style="padding-bottom: 5%;">
+			<form:radiobuttons class="radio" path="shippingMethod" items="${shippingOption}" onClick="radioClick(event)" />
+  	</tr>
+  	
+  	<tr>
+		<td>총 상품 금액</td>
+		<td><a id="totalOne" class="totalAmount">${joinReq.groupPurchase.price}</a> 원</td>
+  	</tr>
+  	
+  	<tr>
+		<td>배송비</td>
+		<td id="shippingCost"><a></a> 원</td>
+  	</tr>
+  	
+  	<tr>
+		<td>배송비 포함 총액</td>
+		<td id="totalShippingAmount"><a></a> 원</td>
+  	</tr>
+  	
+  	<!-- 세부 항목 2 -->
   	<tr>
       <td style="padding-top: 5%"> <font class="color_purple" size="4"><b>입금 정보</b></font> </td>
     </tr>
@@ -65,19 +157,19 @@
     
   	<tr>
 		<td>공구 은행 정보</td>
-		<td>은행명 + 계좌번호</td> <!-- (${groupPurchase.bank} & ${groupPurchase.account})-->
+		<td>${joinReq.groupPurchase.bank} ${joinReq.groupPurchase.account} </td>
   	</tr>
   	
   	<tr>
 		<td>입금자명</td>
-        <td><form:input path="AccountHolder"/>
-        <form:errors path="AccountHolder"/></td>
+        <td><form:input path="accountHolder"/>
+        <form:errors path="accountHolder"/></td>
   	</tr>
   	
   	<tr>
   		<td>입금은행</td>
-        <td><form:input path="consumerName"/> 
-        <form:errors path="consumerName"/></td>
+        <td><form:input path="consumerBank"/> 
+        <form:errors path="consumerBank"/></td>
   	</tr>
   	
   	<tr>
@@ -98,7 +190,7 @@
         <form:errors path="refundHolder"/></td>
   	</tr>
   	
-  	<!-- 세부 항목 2 -->
+  	<!-- 세부 항목 3 -->
     <tr>
       <td style="padding-top: 5%"> <font class="color_purple" size="4"><b>구매자 정보</b></font> </td>
     </tr>
@@ -108,39 +200,40 @@
     <tr>
       <td>배송지 선택</td>
       <td>
-      	<input type='radio' name='shippingOption' value='1' onclick='setAddress(event)'/> 주문자와 동일
-      	<input type='radio' name='shippingOption' value='2' onclick='setAddress(event)'/> 신규 배송지
+      	<input type='radio' name='shippingOption' value='0' onclick='setAddress(event)'/> 주문자와 동일
+      	<input type='radio' name='shippingOption' value='1' onclick='setAddress(event)'/> 신규 배송지
 		<%-- <form:radiobuttons items="${shippingOption}" path="shippingOption"/> --%>
       </td>
     </tr>
     <tr>
       <td>이름</td>
-      <td><form:input path="consumerName"/> 
+      <td class="shipping"><form:input path="consumerName"/> 
         <form:errors path="consumerName"/></td>
     </tr>
     <tr>
       <td>휴대폰번호</td>
-      <td><form:input path="phone"/>
+      <td class="shipping"><form:input path="phone"/>
         <form:errors path="phone"/></td>
     </tr>
     <tr>
       <td>우편번호</td>
-      <td><form:input path="zipcode"/> 
+      <td class="shipping"><form:input path="zipcode"/> 
         <form:errors path="zipcode"/></td>
     </tr>
     <tr>
       <td>주소</td>
-      <td><form:input path="address"/> 
+      <td class="shipping"><form:input path="address"/> 
         <form:errors path="address"/></td>
     </tr>
     <tr>
       <td>배송시 요청사항</td>
-      <td><form:input path="shippingRequest"/> 
+      <td class="shipping"><form:input path="shippingRequest"/> 
         <form:errors path="shippingRequest"/></td>
     </tr>
   </table>
+  
   <p>
-	<!-- <input type="image" src="../images/button_submit.gif"> -->
+	<button class="hButton"> 등록하기 </button>
   </p>
 </form:form>
 </div>

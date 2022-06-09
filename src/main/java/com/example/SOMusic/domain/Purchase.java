@@ -1,7 +1,7 @@
 package com.example.SOMusic.domain;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,15 +12,18 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import com.example.SOMusic.controller.PurchaseRequest;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name="purchase") 
-@Getter @Setter 
+@Getter @Setter @ToString
 @SequenceGenerator(name="SEQ_PURCHASE", sequenceName="SEQUENCE_PURCHASE", allocationSize=1)
 @SuppressWarnings("serial")
 public class Purchase implements Serializable { 
@@ -36,23 +39,21 @@ public class Purchase implements Serializable {
 	@Column(name="consumer_name")
 	private String consumerName;
 	
-	@Column(name="total_amount")
+	@Column(name="total_amount", nullable=false)
 	private int totalAmount;
 	
 	private String address;
 	private String zipcode;
 	private String phone;
-
-	//transient: DB에 저장되지 않음
-	//transient private int status; //0: 승인 전 & 1: 승인됨, 입금 대기 & 2: 입금 완료 & 3:배송 시작 & 4: 거래 완료
 	
-	@Column(name="shipping_method") //여기 말고 Product에 있어야할 것 같음
+	@Column(name="shipping_method", nullable=false) //여기 말고 Product에 있어야할 것 같음
 	private int shippingMethod; //0: 직거래만 & 1: 택배만 & 2: 둘 다 가능 & 3: 기타(알아서 기재)
 	@Column(name="shipping_request")
 	private String shippingRequest;
 	
-	@Column(name="reg_date")
-	private LocalDate regDate;
+	@Column(name="reg_date", nullable=false)
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date regDate;
 	
 	@ManyToOne //Many가 Purchase, One이 Product
 	@JoinColumn(name="product_id") //DB 상에서 FK의 이름

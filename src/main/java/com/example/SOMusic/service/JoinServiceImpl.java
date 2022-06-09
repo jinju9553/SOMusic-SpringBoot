@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.SOMusic.dao.JoinDao;
+import com.example.SOMusic.domain.GroupPurchase;
 import com.example.SOMusic.domain.Join;
 import com.example.SOMusic.repository.JoinRepository;
 
@@ -44,5 +45,24 @@ public class JoinServiceImpl implements JoinService{
 	@Override
 	public Join findJoinByJoinId(int joinId) {
 		return joinRepository.findJoinByJoinId(joinId);
+	}
+
+	@Override
+	public int calculateTotal(GroupPurchase groupPurchase, Join join) {
+		return (groupPurchase.getPrice() * join.getQuantity() + join.getShippingCost());
+	}
+
+	@Override
+	public int initShippingCost(Join join) {
+		int m = join.getShippingMethod();
+		switch(m) {
+			case 1:
+				return 1800;
+			case 2: 
+				return 3000;
+			case 3:
+				return 6000;
+		}
+		return 0;
 	}
 }

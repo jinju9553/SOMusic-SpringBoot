@@ -1,14 +1,15 @@
 package com.example.SOMusic.controller;
 
-import java.time.LocalDate;
+import java.util.Date;
 
 import com.example.SOMusic.domain.Product;
 import com.example.SOMusic.domain.Purchase;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
-@Getter @Setter
+@Getter @Setter @ToString
 public class PurchaseRequest {
 
 	private int purchaseId;
@@ -25,7 +26,7 @@ public class PurchaseRequest {
 	private String shippingRequest; //배송 시 요청사항
 	private int paymentOption; //결제수단 (입금 or 현금거래)
 	
-	private LocalDate regDate;
+	private Date regDate;
 	private Product product; //참조하는 객체 ==> 이 안에 status도 있음
 	
 	/* Public Methods */
