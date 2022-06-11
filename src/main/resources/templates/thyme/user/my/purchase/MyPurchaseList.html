@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
 <style>
 	body {
@@ -89,6 +90,8 @@
 <title>거래 리스트</title>
 </head>
 <body>
+<div th:insert="~{thyme/header}">
+</div>
 <div id="out">
 	<div class="row">
 		<h3>거래 리스트</h3>
@@ -102,33 +105,24 @@
 		</nav>
 	</div>
 	<div class="row">
-		<div class="one">
+		<div class="one" th:each="purchase : ${pList}">
 			<div class="row image_view">
 				<img class="image" src="x.png"/>
 			</div>
 			<div class="row title">
-				<h3>제목</h3>
+				<h3><a class="linkTitle" th:text="${purchase.product.productName}" href="#" th:href="@{/purchase/info/{purchaseId}(purchaseId=${purchase.purchaseId})}">제목</a></h3>
 			</div>
-			<div class="row" style="width:60px;"></div>
-			<div class="row">
+			<div class="row" style="height:40px;"></div>
+			<div class="row" th:if="${purchase.product.status == 0}">
 				<div class="row" style="height:40px;"></div>
 				<div class="row">
 					<button class="btn" type="button">삭제</button>
 				</div>
 			</div>
-		</div>
-		<div class="one">
-			<div class="row image_view">
-				<img class="image" src="x.png"/>
-			</div>
-			<div class="row title">
-				<h3>제목</h3>
-			</div>
-			<div class="row" style="width:60px;"></div>
-			<div class="row">
+			<div class="row" th:unless="${purchase.product.status == 0}">
 				<div class="row" style="height:40px;"></div>
 				<div class="row">
-					<button class="btn" type="button">삭제</button>
+					<a style="overflow: visible; font-size: 15px">판매자가 이 폼을 확인했습니다.</a>
 				</div>
 			</div>
 		</div>
