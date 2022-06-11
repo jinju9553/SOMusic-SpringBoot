@@ -123,7 +123,7 @@
 <div id="out">
 	<div class="top_view">
 		<div class="element">
-			<h4 class="titleLink">제목</h4>
+			<h4><a class="titleLink color_purple" th:text="${gp.title}" th:href="@{/join/{id}(id=${gp.gpId})}">제목</a></h4>
 		</div>
 		<div class="info_view">
 			<div class="image">

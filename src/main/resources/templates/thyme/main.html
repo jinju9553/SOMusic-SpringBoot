@@ -37,11 +37,11 @@
 				<a id="link" class="link" href="myGpInfoView.html">폼 이름</a>
 			</div>
 		</div>
-
-		<div style="text-align: right;" class="element">
-			<a id="linkProList" class="more" href="GPRegisterForm.html">더보기&nbsp;</a>
-			<img style="width: 10px; height: 10px;" th:src="@{/images/main/more.png}">
-		</div>
+	</div>
+	
+	<div style="text-align: right;" class="element">
+		<a id="linkProList" class="more" href="GPRegisterForm.html">더보기&nbsp;</a>
+		<img style="width: 10px; height: 10px;" th:src="@{/images/main/more.png}">
 	</div>
 
 	<div class="element">
@@ -55,11 +55,10 @@
 				<a id="link" class="link" th:text="${gp.title}" th:href="@{/join/{id}(id=${gp.gpId})}">폼 이름</a>
 			</div>
 		</div>
-		
-		<div style="text-align: right;" class="element">
-			<a class="more" th:href="@{/main/gp}">더보기</a>&nbsp;
-			<img style="width: 10px; height: 10px;" th:src="@{/images/main/more.png}">
-		</div>
+	</div>
+	<div style="text-align: right;" class="element">
+		<a class="more" th:href="@{/main/gp}">더보기</a>&nbsp;
+		<img style="width: 10px; height: 10px;" th:src="@{/images/main/more.png}">
 	</div>
 </div>
 </body>

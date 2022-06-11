@@ -2,6 +2,31 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
+<style type="text/css">
+.btn33 {
+	-webkit-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+	-moz-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+	-ms-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+	-o-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+	transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+	
+	color: rgba(175, 175, 199, 1.0);
+	box-shadow: rgba(175, 175, 199, 0.4) 0 0px 0px 2px inset;
+	
+	width:100%;
+	height:65px;
+	font-size: 18px;
+    font-weight: bold;
+    border-radius: 5px;
+	
+	border:none;
+}
+
+.btn33:hover {
+	color: rgba(255, 255, 255, 0.85);
+	box-shadow: rgba(95, 124, 175, 0.85) 0 0px 0px 40px inset;
+}
+</style>
 <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
 <script>
 	$(function() {
@@ -131,7 +156,7 @@
             <div class="element" style="height: 20px;"></div>
 
             <div class="element input">
-                <input type="submit" class="sub_btn" value="공구 폼 등록하기" />
+                <input type="submit" class="btn33" value="공구 폼 수정하기" />
             </div>
         </form>
     </div>
