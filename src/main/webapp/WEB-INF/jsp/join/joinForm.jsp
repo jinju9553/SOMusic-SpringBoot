@@ -13,12 +13,14 @@
   
   <script>
 	  $(document).ready(function() {
-		  $("#shippingCost").hide();
-		  $("#totalShippingAmount").hide();
+		  var imgSrc = "${joinReq.groupPurchase.image}";
+		  if (imgSrc == null) {
+			  $("#image").attr("src", "<c:url value='../images/purchase/noImage.png'/>")
+		  }
 		  
 		  var p = Number($("#price").text());
 		  
-		  $(".quantityUp").click(function(){ //이 부분이 quantity에 반영되어야 함 ==> currentQuantity?
+		  $(".quantityUp").click(function(){ 
 			  var q = $(".quantity").val();
 			  if(q >= 100) 
 				  alert("최대 주문 수량은 100개입니다.");
@@ -27,6 +29,7 @@
 				  $(".quantity").val(q);
 				  $(".quantity").text(q);
 				  $(".totalAmount").text(p * q);
+				  calculateSum(); //만약 배송비가 설정되지 않았다면 상품 총액만 계산
 			  }
 		  });
 		  
@@ -39,6 +42,7 @@
 				  $(".quantity").val(Number(q) - 1);
 				  $(".quantity").text(Number(q) - 1);
 				  $(".totalAmount").text(p * q);
+				  calculateSum(); //만약 배송비가 설정되지 않았다면 상품 총액만 계산
 			  }
 		  });
 		  	  
@@ -60,6 +64,8 @@
 	  
 	  function radioClick (event) {
 		$("#shippingCost").show();
+		$("#shippingCost").children().removeClass("redFont");
+		$("#totalShippingAmount").children().removeClass("redFont");
 		var s = Number(event.target.value);
 		switch(s) {
 			case 1:
@@ -72,11 +78,23 @@
 				$("#shippingCost").children().text(${shippingCost[2]});
 				break;
 		}
+		calculateSum();
+	}
+	  
+	function calculateSum() {
 		var currentCost = Number($("#shippingCost").children().text());
 		var currentAmount = Number($("#totalOne").text());
-		$("#totalShippingAmount").show(); $("#totalShippingAmount").children().text(currentCost + currentAmount);
+		$("#totalShippingAmount").show(); 
+		$("#totalShippingAmount").children().text(currentCost + currentAmount + " 원");
 	}
   </script>
+  
+  <style>
+  		.img {
+			width: 330px;
+			height: 300px;
+		}
+  </style>
   
   <table class="n13">
   	<!-- 공구 정보 -->
@@ -88,10 +106,10 @@
   	</tr>
   	
   	<tr> <!-- rowspan : 이 칸 옆에 row(<tr>)가 몇 개까지 들어갈 수 있는지 -->
-  		<td rowspan="5" align = "center"> <img id="noImage" src="<c:url value='../images/purchase/noImage.png'/>"> </td>
+  		<td rowspan="5" align = "center"> <img id="image" class="img" src="<c:url value="${joinReq.groupPurchase.image}"/>"> </td>
   	</tr>
   	
-  	<tr> <!-- padding은 나중에 별도의 CSS 파일로 & 파일 경로 및 값은 groupPurchase.name 등으로 접근 -->
+  	<tr>
   		<td style="padding-bottom: 50; padding-top: 50;"> 공동구매 제목: ${joinReq.groupPurchase.title}  </td>
   	</tr>
   	<tr> 
@@ -139,12 +157,12 @@
   	
   	<tr>
 		<td>배송비</td>
-		<td id="shippingCost"><a></a> 원</td>
+		<td id="shippingCost"><a class="redFont">*배송 방법을 선택해주세요</a></td>
   	</tr>
   	
   	<tr>
 		<td>배송비 포함 총액</td>
-		<td id="totalShippingAmount"><a></a> 원</td>
+		<td id="totalShippingAmount"><a class="redFont">*배송 방법을 선택해주세요</a></td>
   	</tr>
   	
   	<!-- 세부 항목 2 -->
@@ -162,31 +180,31 @@
   	
   	<tr>
 		<td>입금자명</td>
-        <td><form:input path="accountHolder"/>
+        <td><form:input path="accountHolder" placeholder="입금자명"/>
         <form:errors path="accountHolder"/></td>
   	</tr>
   	
   	<tr>
   		<td>입금은행</td>
-        <td><form:input path="consumerBank"/> 
+        <td><form:input path="consumerBank" placeholder="입금은행"/> 
         <form:errors path="consumerBank"/></td>
   	</tr>
   	
   	<tr>
   		<td>환불계좌 은행</td>
-        <td><form:input path="refundBank"/> 
+        <td><form:input path="refundBank" placeholder="환불계좌 은행"/> 
         <form:errors path="refundBank"/></td>
   	</tr>
   	
   	<tr>
   		<td>환불계좌 번호</td>
-        <td><form:input path="refundAccount"/> 
+        <td><form:input path="refundAccount" placeholder="환불계좌 번호"/> 
         <form:errors path="refundAccount"/></td>
   	</tr>
   	
   	<tr>
-  		<td>예금주명</td>
-        <td><form:input path="refundHolder"/> 
+  		<td>환불계좌 예금주명</td>
+        <td><form:input path="refundHolder" placeholder="환불계좌 예금주명"/> 
         <form:errors path="refundHolder"/></td>
   	</tr>
   	
@@ -207,32 +225,32 @@
     </tr>
     <tr>
       <td>이름</td>
-      <td class="shipping"><form:input path="consumerName"/> 
+      <td class="shipping"><form:input path="consumerName" placeholder="주문자 이름"/> 
         <form:errors path="consumerName"/></td>
     </tr>
     <tr>
       <td>휴대폰번호</td>
-      <td class="shipping"><form:input path="phone"/>
+      <td class="shipping"><form:input path="phone" placeholder="휴대폰번호"/>
         <form:errors path="phone"/></td>
     </tr>
     <tr>
       <td>우편번호</td>
-      <td class="shipping"><form:input path="zipcode"/> 
+      <td class="shipping"><form:input path="zipcode" placeholder="우편번호"/> 
         <form:errors path="zipcode"/></td>
     </tr>
     <tr>
       <td>주소</td>
-      <td class="shipping"><form:input path="address"/> 
+      <td class="shipping"><form:input path="address" placeholder="주소"/> 
         <form:errors path="address"/></td>
     </tr>
     <tr>
       <td>배송시 요청사항</td>
-      <td class="shipping"><form:input path="shippingRequest"/> 
+      <td class="shipping"><form:input path="shippingRequest" placeholder="배송시 요청사항(선택)"/> 
         <form:errors path="shippingRequest"/></td>
     </tr>
   </table>
   
-  <p>
+  <p style="padding-top: 5%">
 	<button class="hButton"> 등록하기 </button>
   </p>
 </form:form>

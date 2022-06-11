@@ -17,8 +17,8 @@
 <body bgcolor="white">
 	<table width="100%">
 		<tr>
-			<td class="txLeft"> <!-- 배너 위치 --> <!-- 주의: 경로 맞는지 확인 -->
-				<a href="<c:url value=''/>"><img id="logo" src="<c:url value="../../images/배너(임시).png"/>"></a>
+			<td class="txLeft">
+				<a href="<c:url value='/main'/>"><img id="logo" src="<c:url value="../../images/배너(임시).png"/>"></a>
 			</td>
 			<td></td>
 			
