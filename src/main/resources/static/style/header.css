@@ -1,5 +1,4 @@
-@charset "UTF-8";
-@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700&display=swap');
 
 * {
 	font-family: 'Nanum Gothic', sans-serif;
@@ -21,8 +20,12 @@ body {
 	text-align:right;
 }
 
-/*자주 쓰는 색상*/
+/*폰트 강조*/
+.redFont {
+	color: red !important;
+}
 
+/*자주 쓰는 색상*/
 .color_beige {
 	color: #f2eee5;
 }

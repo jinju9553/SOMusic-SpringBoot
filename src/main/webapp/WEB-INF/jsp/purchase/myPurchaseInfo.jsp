@@ -135,9 +135,9 @@
   		<td> <div class="color_purple" style="height: auto; width: 170%; border-top:1px solid; margin-bottom: 5%;"></div> </td>
   	</tr>
   	
-  	<tr>
-  		<td colspan="3" align="right"> 등록 날짜: </td>
-  	</tr>
+<!--   	<tr> -->
+<!--   		<td colspan="3" align="right"> 등록 날짜: </td> -->
+<!--   	</tr> -->
   	
   	<tr> <!-- padding은 나중에 별도의 CSS 파일로 & 파일 경로 및 값은 product.image 등으로 접근 -->
   		<td rowspan="6"> <img id="noImage" src="<c:url value='../../images/purchase/noImage.png'/>"> </td>
@@ -220,32 +220,90 @@
   	
   	<tr class="shippingMenu">
 		<td>수령인</td>
-        <td><form:input path="consumerName"/> 
-        <form:errors path="consumerName"/></td>
+        <td>
+        <c:choose>
+        	<c:when test="${product.status < 3}">
+        		<form:input path="consumerName"/> 
+        		<form:errors path="consumerName"/>
+        	</c:when>
+        	<c:otherwise>
+        		<a> ${purchaseReq.consumerName} </a>
+        	</c:otherwise>
+        </c:choose>
+        
+        </td>
   	</tr> 
+  	
   	<tr class="shippingMenu">
 		<td>연락처</td>
-        <td><form:input path="phone"/>
-        <form:errors path="phone"/></td>
+        <td>
+        <c:choose>
+        	<c:when test="${product.status < 3}">
+        		<form:input path="phone"/>
+        		<form:errors path="phone"/>
+        	</c:when>
+        	<c:otherwise>
+        		<a> ${purchaseReq.phone} </a>
+        	</c:otherwise>
+        </c:choose>
+        </td>
   	</tr> 
+  	
   	<tr class="shippingMenu">
       <td>우편번호</td>
-      <td><form:input path="zipcode"/> 
-        <form:errors path="zipcode"/></td>
+      <td>
+      <c:choose>
+        <c:when test="${product.status < 3}">
+        	<form:input path="zipcode"/> 
+        	<form:errors path="zipcode"/>
+        </c:when>
+        <c:otherwise>
+        	<a> ${purchaseReq.zipcode} </a>
+        </c:otherwise>
+      </c:choose>
+      </td>
     </tr>
+    
   	<tr class="shippingMenu">
       <td>주소</td>
-      <td><form:input path="address"/> 
-        <form:errors path="address"/></td>
-    </tr>
-    <tr class="shippingMenu">
-      <td>배송시 요청사항</td>
-      <td><form:input path="shippingRequest"/> 
-        <form:errors path="shippingRequest"/></td>
+      <td>
+      <c:choose>
+        <c:when test="${product.status < 3}">
+        	<form:input path="address"/> 
+        	<form:errors path="address"/>
+        </c:when>
+        <c:otherwise>
+        	<a> ${purchaseReq.address} </a>
+        </c:otherwise>
+      </c:choose>
+      </td>
     </tr>
     
     <tr class="shippingMenu">
-  		<td colspan="3" align="right"> <button class="btn">수정 내역 저장</button> </td>
+      <td>배송시 요청사항</td>
+      <td>
+      <c:choose>
+        <c:when test="${product.status < 3}">
+        	<form:input path="shippingRequest"/> 
+        	<form:errors path="shippingRequest"/>
+        </c:when>
+        <c:otherwise>
+        	<a> ${purchaseReq.shippingRequest} </a>
+        </c:otherwise>
+      </c:choose>
+      </td>
+    </tr>
+    
+    <tr class="shippingMenu">
+    	<c:if test="${product.status < 3}">
+    		<td colspan="3" align="right"> <button class="btn">수정 내역 저장</button> </td>
+    	</c:if>
+  	</tr>
+  	
+  	<tr>
+    	<td style="padding-top: 5%;" colspan="3" align="right">
+    	<span class="redFont"><b>*배송이 시작된 이후에는 수령인 및 배송지를 수정할 수 없습니다.</b>
+    	</span></td>
   	</tr>
   	
   	<tr>
@@ -260,24 +318,26 @@
       <td>다른 사용자가 문의 댓글을 작성하는 곳.</td>
     </tr> 
     
-    <tr> <!-- 거래 종료 이후 활성화되는 메뉴 -->
-      <td style="padding-top: 5%;">이 거래가 만족스러우셨다면, 판매자에게 별점을 부여해주세요.</td>
-      <td style="padding-top: 5%; padding-left: 3%;" align="right">
-		<div class="starRev">
-		  <span class="starR1 on"></span>
-		  <span class="starR2"></span>
-		  <span class="starR1"></span>
-		  <span class="starR2"></span>
-		  <span class="starR1"></span>
-		  <span class="starR2"></span>
-		  <span class="starR1"></span>
-		  <span class="starR2"></span>
-		  <span class="starR1"></span>
-		  <span class="starR2"></span>
-		</div>
-	  </td>
-	  <td style="padding-top: 5%; colspan="2" align="left"> <button>등록</button> </td>
-    </tr> 
+    <c:if test="${product.status eq 4}">
+	    <tr> <!-- 거래 종료 이후 활성화되는 메뉴 -->
+	      <td style="padding-top: 5%;">이 거래가 만족스러우셨다면, 판매자에게 별점을 부여해주세요.</td>
+	      <td style="padding-top: 5%; padding-left: 3%;" align="right">
+			<div class="starRev">
+			  <span class="starR1 on"></span>
+			  <span class="starR2"></span>
+			  <span class="starR1"></span>
+			  <span class="starR2"></span>
+			  <span class="starR1"></span>
+			  <span class="starR2"></span>
+			  <span class="starR1"></span>
+			  <span class="starR2"></span>
+			  <span class="starR1"></span>
+			  <span class="starR2"></span>
+			</div>
+		  </td>
+		  <td style="padding-top: 5%; colspan="2" align="left"> <button>등록</button> </td>
+	    </tr> 
+    </c:if>
     
   </table>
 </form:form>
