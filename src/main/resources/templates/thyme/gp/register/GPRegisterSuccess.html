@@ -23,32 +23,48 @@
         padding-top: 100px;
     }
 
-    .row {
+    .element {
         margin: 5px;
     }
+    
+    .display {
+    	display: flex;
+    }
+    
+    .formLink {
+    	margin-left: 150px;
+    	margin-right: auto;
+    }
+    
+    .main {
+    	margin-right: 150px;
+    }
+    
+    .linkMain {
+		text-decoration: none;
+		color: black;
+	}
+
+	.linkMain:hover {
+		color: #afafc7;
+		text-decoration: none;
+	}
 
 </style>
 <meta charset="UTF-8">
 <title>공구 등록 완료</title>
 </head>
 <body>
+<div th:insert="~{thyme/header}"></div>
 <div id="out">
     <div style="height: 100px;"></div>
     <div class="content">
-        <div class="row">
-            <h3>공구 폼 등록을 하였습니다.</h3>
-        </div>
-        <div style="height: 30px;"></div>
-        <div class="row">
-            <h3>${grupPurchase.title}</h3>
+        <div class="element">
+            <h4>공구 폼이 등록되었습니다.</h4>
         </div>
         <div style="height: 150px;"></div>
-        <div class="row">
-            공구 폼 확인하기
-        </div>
-        <div style="height: 30px;"></div>
-        <div class="row">
-            메인 화면
+        <div class="element">
+        	<a class="linkMain" th:href="@{/main}">메인으로 돌아가기</a>
         </div>
     </div>
 </div>

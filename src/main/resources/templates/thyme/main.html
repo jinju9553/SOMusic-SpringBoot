@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<meta charset="UTF-8">
+<head>
+<link rel="stylesheet" th:href="@{/style/mainList.css}" type="text/css" />
+<title>메인 화면</title>
+</head>
+<body>
+<div th:insert="~{thyme/header}"></div>
+<div id="out">
+	<div class="element">
+		<h4>상품 목록</h4>
+	</div>
+	<hr class="line">
+	<div class="element listView">
+		<div class="one">
+			<img class="img" src="x.png">
+			<div class="title">
+				<a id="link" class="link" href="myGpInfoView.html">폼 이름</a>
+			</div>
+		</div>
+		<div class="one">
+			<img class="img" src="x.png">
+			<div class="title">
+				<a id="link" class="link" href="myGpInfoView.html">폼 이름</a>
+			</div>
+		</div>
+		<div class="one">
+			<img class="img" src="x.png">
+			<div class="title">
+				<a id="link" class="link" href="myGpInfoView.html">폼 이름</a>
+			</div>
+		</div>
+		<div class="one">
+			<img class="img" src="x.png">
+			<div class="title">
+				<a id="link" class="link" href="myGpInfoView.html">폼 이름</a>
+			</div>
+		</div>
+	</div>
+	
+	<div style="text-align: right;" class="element">
+		<a id="linkProList" class="more" href="GPRegisterForm.html">더보기&nbsp;</a>
+		<img style="width: 10px; height: 10px;" th:src="@{/images/main/more.png}">
+	</div>
+
+	<div class="element">
+		<h4>공구 목록</h4>
+	</div>
+	<hr class="line">
+	<div class="element listView">
+		<div class="one" th:each="gp : ${gpList}">
+			<img class="img" th:src="@{${gp.image}}">
+			<div class="title">
+				<a id="link" class="link" th:text="${gp.title}" th:href="@{/join/{id}(id=${gp.gpId})}">폼 이름</a>
+			</div>
+		</div>
+	</div>
+	<div style="text-align: right;" class="element">
+		<a class="more" th:href="@{/main/gp}">더보기</a>&nbsp;
+		<img style="width: 10px; height: 10px;" th:src="@{/images/main/more.png}">
+	</div>
+</div>
+</body>
+</html>

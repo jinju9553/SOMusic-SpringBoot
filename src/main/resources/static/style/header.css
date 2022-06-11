@@ -8,7 +8,7 @@ body {
 	background-color: #f2eee5;
 }
 
-/*¿ŞÂÊ, Áß¾Ó, ¿À¸¥ÂÊ Á¤·Ä ¼Ó¼º*/
+/*ì™¼ìª½, ì¤‘ì•™, ì˜¤ë¥¸ìª½ ì •ë ¬ ì†ì„±*/
 
 .txLeft {
 	text-align:left;
@@ -20,43 +20,42 @@ body {
 	text-align:right;
 }
 
-/*ÅØ½ºÆ® °­Á¶ ÇÁ¸®¼Â*/
+/*í°íŠ¸ ê°•ì¡°*/
 .redFont {
 	color: red !important;
 }
 
-/*ÀÚÁÖ ¾²´Â »ö»ó*/
-
+/*ìì£¼ ì“°ëŠ” ìƒ‰ìƒ*/
 .color_beige {
 	color: #f2eee5;
 }
 
-.color_purple { /*Áøº¸¶ó*/
+.color_purple { /*ì§„ë³´ë¼*/
 	color: #5f7caf; 
 }
 
-.color_lavender { /*¿¬º¸¶ó*/
+.color_lavender { /*ì—°ë³´ë¼*/
 	color: #afafc7;
 }
 
-.color_pink { /*ÁøºĞÈ«*/
+.color_pink { /*ì§„ë¶„í™*/
 	color: #ccabaf;
 }
 
-.color_grey { /*È¸»ö*/
+.color_grey { /*íšŒìƒ‰*/
 	color: #bababf;
 }
 
-/*¹öÆ° ºÎÆ® ½ºÆ®·¦1*/
-/*<p> - <a> ¼ø¼­·Î »ı¼ºÇÏ°í Å¬·¡½º Àû¿ë*/
+/*ë²„íŠ¼ ë¶€íŠ¸ ìŠ¤íŠ¸ë©1*/
+/*<p> - <a> ìˆœì„œë¡œ ìƒì„±í•˜ê³  í´ë˜ìŠ¤ ì ìš©*/
 
-.transitionalButton { /*°¡Àå ¹Ù±ù <p>¿¡ ÀÌ Å¬·¡½º Àû¿ë*/
+.transitionalButton { /*ê°€ì¥ ë°”ê¹¥ <p>ì— ì´ í´ë˜ìŠ¤ ì ìš©*/
 	font-weight: bold;
 	font-size: 14px;
 	text-align: center;
 }
 
-p > a { /*transitionalButton ¾ÈÀÇ <a> ÅÂ±× ¼Ó¼º. <a> ÇÏ³ª°¡ ¹öÆ° ¿ªÇÒÀ» ÇÔ*/
+p > a { /*transitionalButton ì•ˆì˜ <a> íƒœê·¸ ì†ì„±. <a> í•˜ë‚˜ê°€ ë²„íŠ¼ ì—­í• ì„ í•¨*/
 	-webkit-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
 	-moz-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
 	-ms-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
@@ -70,9 +69,9 @@ p > a { /*transitionalButton ¾ÈÀÇ <a> ÅÂ±× ¼Ó¼º. <a> ÇÏ³ª°¡ ¹öÆ° ¿ªÇÒÀ» ÇÔ*/
 	padding: 20px 30px;
 }
 
-a.tButton { /*¸¶¿ì½º ¿À¹ö ¾Ö´Ï¸ŞÀÌ¼ÇÀ» ÀçÇöÇÏ´Â tButton Å¬·¡½ºµé. <a>¿¡ Àû¿ëÇÕ´Ï´Ù.*/
-	color: rgba(30, 22, 54, 0.6);
-	box-shadow: rgba(30, 22, 54, 0.4) 0 0px 0px 2px inset;
+a.tButton { /*ë§ˆìš°ìŠ¤ ì˜¤ë²„ ì• ë‹ˆë©”ì´ì…˜ì„ ì¬í˜„í•˜ëŠ” tButton í´ë˜ìŠ¤ë“¤. <a>ì— ì ìš©í•©ë‹ˆë‹¤.*/
+	color: rgba(175, 175, 199, 1.0);
+	box-shadow: rgba(175, 175, 199, 0.4) 0 0px 0px 2px inset;
 }
 
 a.tButton:hover {
@@ -90,8 +89,8 @@ a.tButton2:hover {
 	box-shadow: rgba(30, 22, 54, 0.7) 0 80px 0px 2px inset;
 }
 
-/*¹öÆ° ºÎÆ® ½ºÆ®·¦2*/
-/*<Button> ÅÂ±×¿¡ .hButton Å¬·¡½º¸¸ Àû¿ëÇÏ¸é ¿Ï·á*/
+/*ë²„íŠ¼ ë¶€íŠ¸ ìŠ¤íŠ¸ë©2*/
+/*<Button> íƒœê·¸ì— .hButton í´ë˜ìŠ¤ë§Œ ì ìš©í•˜ë©´ ì™„ë£Œ*/
 
 .hButton{
   background:#1AAB8A;

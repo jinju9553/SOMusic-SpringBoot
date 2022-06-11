@@ -19,20 +19,16 @@ public class GPService {
 	@Autowired
 	private GPRepository gpRepository;
 	
-	public void insertGP(GPRequest gp) {
+	public void insertGP(GroupPurchase gp) {
 		dao.insertGP(gp);
 	}
 	
-	public void updateGP(GPRequest gp) {
+	public void updateGP(GroupPurchase gp) {
 		dao.updateGP(gp);
 	}
 	
 	public void deleteGP(int gpId) {
 		gpRepository.deleteByGpId(gpId);
-	}
-	
-	public GPRequest getGPReq(int gpId) {
-		return dao.findGP(gpId);
 	}
 	
 	public GroupPurchase getGP(int gpId) {
@@ -41,6 +37,14 @@ public class GPService {
 	
 	public List<GroupPurchase> getMyGPList(String sellerId) {
 		return gpRepository.findBySellerId(sellerId);
+	}
+	
+	public List<GroupPurchase> get4GPList() {
+		return gpRepository.findFirst4ByOrderByGpId();
+	}
+	
+	public List<GroupPurchase> getAllGPList() {
+		return gpRepository.findAll();
 	}
 	
 }

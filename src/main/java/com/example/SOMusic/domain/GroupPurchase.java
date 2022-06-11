@@ -19,6 +19,8 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.example.SOMusic.controller.GPRequest;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -36,34 +38,31 @@ public class GroupPurchase implements Serializable {
 	@Column(name="SELLER_ID")
 	private String sellerId;
 	
-	@NotBlank(message="필수 입력 항목입니다.")
 	private String title;
 	
 	private String image;
 	
 	@Column(name="START_DATE")
-	@NotNull(message="필수 입력 항목입니다.")
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private LocalDate startDate;
 	
 	@Column(name="END_DATE")
-	@NotNull(message="필수 입력 항목입니다.")
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private LocalDate endDate;
 	
 	private String category;
 
-	@NotBlank(message="필수 입력 항목입니다.")
 	private String account;
 	
-	@NotBlank(message="필수 입력 항목입니다.")
 	private String bank;
 	
-	@Min(value = 1, message="필수 입력 항목입니다.")
 	private int price;
 	
-	@NotBlank(message="필수 입력 항목입니다.")
 	private String description;
+	
+	@OneToMany
+	@JoinColumn(name="GROUPPURCHASE_ID")
+	private List<Join> joinList;
 	
 	public GroupPurchase() {}
 
@@ -82,9 +81,19 @@ public class GroupPurchase implements Serializable {
 		this.description = description;
 	}
 	
-	@OneToMany
-	@JoinColumn(name="GROUPPURCHASE_ID")
-	private List<Join> joinList;
+	public void initGP(GPRequest gpReq, String filename) {
+		gpId = gpReq.getGpId();
+		sellerId = gpReq.getSellerId();
+		title = gpReq.getTitle();
+		image = filename;
+		startDate = gpReq.getStartDate();
+		endDate = gpReq.getEndDate();
+		category = gpReq.getCategory();
+		account = gpReq.getAccount();
+		bank = gpReq.getBank();
+		price = gpReq.getPrice();
+		description = gpReq.getDescription();
+	}
 
 	@Override
 	public String toString() {

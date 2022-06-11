@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html xmlns:th="http://www.thymeleaf.org">
+<meta charset="UTF-8">
 <head>
 	<title>SOMusic</title>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-	<link rel="stylesheet" href="../../static/style/header.css" type="text/css" /> <!-- ÁÖÀÇ: °æ·Î ¸Â´ÂÁö È®ÀÎ -->
+	<link rel="stylesheet" href="/style/header.css" type="text/css" /> <!-- ì£¼ì˜: ê²½ë¡œ ë§ëŠ”ì§€ í™•ì¸ -->
 </head>
 
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
@@ -14,7 +14,7 @@
 
 <script>
 	$(document).ready(function() {
-		var userSession; //ÀÓ½Ã°ª. ³ªÁß¿¡ ¿©±â¿¡ ¼¼¼ÇÀÇ account °ªÀ» ´ëÀÔ
+		var userSession; //ì„ì‹œê°’. ë‚˜ì¤‘ì— ì—¬ê¸°ì— ì„¸ì…˜ì˜ account ê°’ì„ ëŒ€ì…
 		if(userSession) {
 			$("#loginDiv").hide();
 			$("#logoutDiv").show();
@@ -27,46 +27,46 @@
 </script>
 
 <body bgcolor="white">
-<div>
-	<table width="100%">
+<div id="head">
+	<table style="width:100%;">
 		<tr>
-			<td class="txLeft"> <!-- ¹è³Ê À§Ä¡ --> <!-- ÁÖÀÇ: °æ·Î ¸Â´ÂÁö È®ÀÎ -->
-				<a href="#"><img id="logo" src="../../static/images/¹è³Ê(ÀÓ½Ã).png"></a>
+			<td class="txLeft"> <!-- ë°°ë„ˆ ìœ„ì¹˜ --> <!-- ì£¼ì˜: ê²½ë¡œ ë§ëŠ”ì§€ í™•ì¸ -->
+				<a th:href="@{/main}"><img id="logo" src="/images/ë°°ë„ˆ(ì„ì‹œ).png"></a>
 			</td>
 			
-			<td class="txCenter"> <!-- °Ë»öÃ¢ À§Ä¡ -->
+			<td class="txCenter"> <!-- ê²€ìƒ‰ì°½ ìœ„ì¹˜ -->
 				<form name="Searchform" method="POST" action="/home/search">
 					<table align="left">
 						<tr>
 							<td>
 								<span class="input"> 
-									<input size="40" name="keyword" type="text" placeholder="¿øÇÏ´Â Å°¿öµå·Î °Ë»öÇØº¸¼¼¿ä." />
+									<input size="40" name="keyword" type="text" placeholder="ì›í•˜ëŠ” í‚¤ì›Œë“œë¡œ ê²€ìƒ‰í•´ë³´ì„¸ìš”." />
 								</span>
 							</td>
 							<td>
-								<input class="btn" type="button" onClick="search()" value="°Ë»ö">
+								<input class="btn" type="button" onClick="search()" value="ê²€ìƒ‰">
 							</td>
 						</tr>
 					</table>
 				</form>
 			</td>
 			
-			<td class="txRight"> <!-- È¸¿ø°¡ÀÔ, ·Î±×ÀÎ µî ¸Ş´º À§Ä¡ -->
+			<td class="txRight"> <!-- íšŒì›ê°€ì…, ë¡œê·¸ì¸ ë“± ë©”ë‰´ ìœ„ì¹˜ -->
 				<div id="loginDiv">
 					<a href="#"> 
-						<input class="btn" type="button" onClick="" value="È¸¿ø°¡ÀÔ"></a>
+						<input class="btn" type="button" onClick="" value="íšŒì›ê°€ì…"></a>
 					<a href="#"> 
-						<input class="btn" type="button" onClick="" value="·Î±×ÀÎ"></a>
+						<input class="btn" type="button" onClick="" value="ë¡œê·¸ì¸"></a>
 				</div>
 				<div id="logoutDiv">
 					<a href="#"> 
-						<input class="btn" type="button" onClick="" value="·Î±×¾Æ¿ô"></a>
+						<input class="btn" type="button" onClick="" value="ë¡œê·¸ì•„ì›ƒ"></a>
 					<a href="#"> 
-						<input class="btn" type="button" onClick="" value="¸¶ÀÌÆäÀÌÁö"></a>
+						<input class="btn" type="button" onClick="" value="ë§ˆì´í˜ì´ì§€"></a>
 				</div>
 			</td>
 		</tr>
 	</table>
-	</div>
+</div>
 </body>
 </html>

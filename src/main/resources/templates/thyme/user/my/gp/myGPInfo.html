@@ -17,14 +17,13 @@
     	border-radius:3px;
     }
     
-    .row {
+    .element {
         margin: 20px;
     }
     
-    h4 {
+    .titleLink {
     	margin-left: 30px;
-    	font-size: 15px;
-    	color: #5f7caf;
+    	font-size: 20px;
     }
     
     .info_view {
@@ -37,7 +36,6 @@
     .image {
     	width: 200px;
     	height: 200px;
-    	border:1px black solid;
     	margin-left: 30px;
     	margin-top: 20px;
     }
@@ -52,7 +50,7 @@
     	height: 20px;
     }
     
-    .btn {
+    .btnUp {
     	font-size: 15px;
     	font-weight: bold;
     	color: #ccabaf;
@@ -60,7 +58,7 @@
     	background: none;
     }
     
-    .btn:hover {
+    .btnUp:hover {
     	border-bottom: 2px solid #ccabaf;
     }
     
@@ -74,18 +72,18 @@
         margin-right: auto;
     }
     
-    table {
+    #list {
 		border-collapse: collapse;
 		text-align: center;
     }
     
-    td {
+    .tb {
     	height: 40px;
     	border-left:1px #afafc7 solid;
     	border-bottom:1px #afafc7 solid;
     }
     
-    td:first-child {
+    .tb:first-child {
     	border-left:none;
     }
     
@@ -121,33 +119,33 @@
 <title>공구 정보</title>
 </head>
 <body>
+<div th:insert="~{thyme/header}"></div>
 <div id="out">
 	<div class="top_view">
-		<div class="row">
-			<h4>제목</h4>
+		<div class="element">
+			<h4><a class="titleLink color_purple" th:text="${gp.title}" th:href="@{/join/{id}(id=${gp.gpId})}">제목</a></h4>
 		</div>
 		<div class="info_view">
 			<div class="image">
-				<img src="../../../image/image_upload.png"
-					style="border:1px black solid; width:100%;"/>
+				<img th:src="@{${gp.image}}" style="width:100%;"/>
 			</div>
 			<div class="info">
-				<div class="row"><p th:text="${gp.title}">제목</p></div>
-				<div class="row"><p th:text="${gp.startDate} + '  ~  ' + ${gp.endDate}">시작 ~ 마지막</p></div>
-				<div class="row"><p th:text="${gp.price} + ' 원'">가격</p></div>
-				<div class="row"><p th:text="${gp.description}">상세 설명</p></div>
-				<div class="row"><p th:text="${gp.category}">해시태그</p></div>
-				<div class="row"><p th:text="${gp.bank} + '  ' + ${gp.account}">은행 정보</p></div>
+				<div class="element"><p th:text="${gp.title}">제목</p></div>
+				<div class="element"><p th:text="${gp.startDate} + '  ~  ' + ${gp.endDate}">시작 ~ 마지막</p></div>
+				<div class="element"><p th:text="${gp.price} + ' 원'">가격</p></div>
+				<div class="element"><p th:text="${gp.description}">상세 설명</p></div>
+				<div class="element"><p th:text="${gp.category}">해시태그</p></div>
+				<div class="element"><p th:text="${gp.bank} + '  ' + ${gp.account}">은행 정보</p></div>
 			</div>
 		</div>
-		<div class="row btn_view">
+		<div class="element btn_view">
 			<form action="#" method="GET" th:action="@{/gp/update}">
 				<input type="hidden" id="gpId" name="gpId" th:value="${gp.gpId}" />
-				<input class="btn" type="submit" value="수정하기" />
+				<input class="btnUp" type="submit" value="수정하기" />
 			</form>
 		</div>
 	</div>
-	<div class="row excel_view">
+	<div class="element excel_view">
 		<!-- 
 		<button class="ex" id="excel" onclick="exportReportToExcel(this)">엑셀로 다운 받기</button>
 		-->
@@ -163,6 +161,7 @@
 				<td class="tb">기타 정보</td>
 				<td class="tb">상태</td>
 			</tr>
+			<tr>
 				<td class="tb">폼 제출 시간</td>
 				<td class="tb">박솜솜</td>
 				<td class="tb">10000</td>
@@ -170,7 +169,6 @@
 				<td class="tb">환불 계좌</td>
 				<td class="tb">기타 정보</td>
 				<td class="tb">상태</td>
-			<tr>
 			</tr>
 			<tr>
 				<td class="tb">폼 제출 시간</td>
