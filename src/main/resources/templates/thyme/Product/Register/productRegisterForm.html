@@ -73,6 +73,7 @@
 <title>상품 등록 폼</title>
 </head>
 <body>
+<div th:insert="~{thyme/header}"></div>
 <div id="out">
 	<div class="form_view">
 	<form action="#" th:action="@{/product/register}" th:object="${productReq}" method="POST">
