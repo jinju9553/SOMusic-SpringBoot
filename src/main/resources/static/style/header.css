@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700&display=swap');
 
 * {
 	font-family: 'Nanum Gothic', sans-serif;
@@ -18,6 +18,11 @@ body {
 }
 .txRight {
 	text-align:right;
+}
+
+/*텍스트 강조 프리셋*/
+.redFont {
+	color: red !important;
 }
 
 /*자주 쓰는 색상*/
