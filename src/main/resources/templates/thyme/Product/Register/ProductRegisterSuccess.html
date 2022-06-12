@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<style type="text/css">
+    body {
+        background-color: #f2eee5;
+    }
+
+    #out {
+        width: 1000px;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+    }
+
+    .content {
+        width: 700px;
+        height: 450px;
+        margin-left: auto;
+        margin-right: auto;
+        border: 1px solid #afafc7;
+        padding: 5px;
+        padding-top: 100px;
+    }
+
+    .element {
+        margin: 5px;
+    }
+    
+    .display {
+    	display: flex;
+    }
+    
+    .formLink {
+    	margin-left: 150px;
+    	margin-right: auto;
+    }
+    
+    .main {
+    	margin-right: 150px;
+    }
+    
+    .linkMain {
+		text-decoration: none;
+		color: black;
+	}
+
+	.linkMain:hover {
+		color: #afafc7;
+		text-decoration: none;
+	}
+
+</style>
+<meta charset="UTF-8">
+<title>상품 등록 완료</title>
+</head>
+<body>
+<div th:insert="~{thyme/header}"></div>
+<div id="out">
+    <div style="height: 100px;"></div>
+    <div class="content">
+        <div class="element">
+            <h4>상품이 등록되었습니다.</h4>
+        </div>
+        <div style="height: 150px;"></div>
+        <div class="element">
+        	<a class="linkMain" th:href="@{/main}">메인으로 돌아가기</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

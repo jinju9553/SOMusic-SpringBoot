@@ -6,4 +6,6 @@ import com.example.SOMusic.domain.Product;
 public interface ProductRepository extends JpaRepository<Product, String> {
 
 	Product findProductByProductId(int productId);
+	
+	void deleteByProductId(int productId);
 }

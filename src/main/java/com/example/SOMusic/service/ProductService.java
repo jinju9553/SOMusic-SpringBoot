@@ -1,17 +1,20 @@
 package com.example.SOMusic.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.example.SOMusic.dao.ProductDao;
 import com.example.SOMusic.domain.Product;
 import com.example.SOMusic.domain.Purchase;
 
 @Service
 public interface ProductService {
 	
-	void addProduct(int ProductId, String userId);
+	void addProduct(Product product);
 	
-	void deleteProduct(int ProductId, String userId);
+	void deleteProduct(int productId);
 	
-	void updateProduct(int ProductId, String userId);
+	void updateProduct(Product product);
 
 	/* Spring Data JPA */
 	Product findProductByProductId(int productId);
