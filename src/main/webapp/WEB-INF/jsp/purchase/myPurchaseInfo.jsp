@@ -4,6 +4,8 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
+<c:set var="targetUrl"><c:url value="/purchase/info/${purchaseReq.purchaseId}" /></c:set>
+
 <html>
 <meta charset="UTF-8">
 <title>내가 구매한 상품</title>
@@ -176,7 +178,7 @@
     </tr>  
     <tr>
       <td>- 발매 연도: (날짜)</td>
-      <td>- 판매자 프로필 바로가기></td>
+      <td>- 판매자 정보 바로가기></td>
     </tr>
     
     <!-- 세부 항목 2 -->

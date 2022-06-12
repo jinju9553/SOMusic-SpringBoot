@@ -23,4 +23,6 @@ public interface JoinService {
 	int calculateTotal(GroupPurchase groupPurchase, Join join);
 
 	int initShippingCost(Join join);
+
+	int updateTotal(Join join, int newShippingCost);
 }

@@ -5,8 +5,7 @@ import lombok.Setter;
 
 @Getter @Setter 
 public class Login {
-	private String userId;
-	private String password;
+	private Account account;
 	private boolean autoLogin;
 	private String sessionId;
 	private int sessionLimit;
