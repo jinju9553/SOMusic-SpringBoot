@@ -44,7 +44,7 @@ public class PurchaseController {
 	
 	@ModelAttribute("paymentOption")
 	public String[] referenceData() {
-		return new String[] { "신용/체크카드", "무통장 입금", "실시간 계좌이체", "네이버 페이", "toss" };
+		return new String[] { "현금 거래", "계좌 이체", "카카오 페이", "toss", "그 외" };
 	}
 
 	@GetMapping("/info") //테스트용 uri
@@ -95,7 +95,7 @@ public class PurchaseController {
 
 		model.addAttribute("purchaseReq", p); //View에 객체 전달하고 간략한 정보 출력
 		
-		return PURCHASE_FORM; //결과 화면 새로 만들기(PURCHASE_RESULT)
+		return "redirect:/" + "purchase/{productId}"; //결과 화면 새로 만들기(PURCHASE_RESULT)
 	}
 	
 	@GetMapping("/info/{purchaseId}")

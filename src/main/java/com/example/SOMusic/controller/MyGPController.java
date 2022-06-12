@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.SOMusic.domain.GroupPurchase;
+import com.example.SOMusic.domain.Join;
 import com.example.SOMusic.service.GPService;
+import com.example.SOMusic.service.JoinService;
 
 @Controller
 @RequestMapping("/user/my/gp")
@@ -26,6 +28,12 @@ public class MyGPController {
 	private GPService gpSvc;
 	public void setGPService(GPService gpSvc) {
 		this.gpSvc= gpSvc;
+	}
+	
+	@Autowired
+	private JoinService joinService;
+	public void setJoinService(JoinService joinService) {
+		this.joinService = joinService;
 	}
 	
 //	// 공구 찾아서 전달
@@ -57,8 +65,12 @@ public class MyGPController {
 	}
 	
 	@RequestMapping(value="/join/list", method = RequestMethod.GET)
-	public String joinList(Model model) throws Exception {
-		//진주: 여기 제가 할게요~
+	public String joinList(@RequestParam("userId") String userId, Model model) throws Exception {
+		
+		List<Join> joinList = joinService.findAllByUserId(userId);
+		model.addAttribute("joinList", joinList);
+		
+		System.out.println("내가 참여한 공구 리스트 : " + joinList.toString());
 
 		return MY_JOIN_LIST;
 	}

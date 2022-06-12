@@ -14,8 +14,10 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
-import com.example.SOMusic.controller.JoinRequest;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -23,7 +25,7 @@ import lombok.ToString;
 
 @Entity
 @Table(name="join") 
-@Getter @Setter @ToString
+@Getter @Setter
 @SequenceGenerator(name="SEQ_JOIN", sequenceName="SEQUENCE_JOIN", allocationSize=1)
 @SuppressWarnings("serial")
 public class Join implements Serializable { 
@@ -36,40 +38,56 @@ public class Join implements Serializable {
 	@Column(name="consumer_id") 
 	private String consumerId;
 	
+	@NotEmpty(message = "*이름을 입력해주세요")
 	@Column(name="consumer_name") 
 	private String consumerName;
 	
+	@NotEmpty(message = "*은행명을 입력해주세요")
 	@Column(name="consumer_bank") 
 	private String consumerBank;
 	
+	@NotNull
 	@Column(name="total_amount", nullable=false)
 	private int totalAmount;
 	
+	@NotEmpty(message = "*주소를 입력해주세요")
 	private String address;
+	
+	@Digits(integer=5, fraction = 0, message="*우편번호 5자리를 입력해주세요.")
+	@NotNull(message = "*우편번호를 입력해주세요")
 	private int zipcode;
+	
+	@NotEmpty(message = "*전화번호를 입력해주세요")
 	private String phone;
 	
+	@NotNull
 	@Column(name="shipping_cost")
 	private int shippingCost;
 	
+	@NotNull(message = "*배송방법을 선택해주세요")
 	@Column(name="shipping_method", nullable=false)
-	private int shippingMethod;
+	private int shippingMethod; //1: 준등기, 2: 택배, 3: 택배(제주산간)
 	
 	@Column(name="shipping_request")
 	private String shippingRequest;
 
+	@NotNull @Positive
 	private int quantity;
-	private int status;
+	private int status; //0: join 이전 & 1: 승인됨, 입금 대기 & 2: 입금 완료, 배송 대기중 & 3:배송 시작 & 4: 거래 완료
 	
+	@NotEmpty(message = "*입금자명을 입력해주세요")
 	@Column(name="account_holder")
 	private String accountHolder; 
 	
-	@Column(name="refund_account")
-	private String refundAccount; 
-	
+	@NotEmpty(message = "*환불계좌 은행명을 입력해주세요")
 	@Column(name="refund_bank")
 	private String refundBank; 
 	
+	@NotEmpty(message = "*환불계좌 번호를 입력해주세요")
+	@Column(name="refund_account")
+	private String refundAccount; 
+	
+	@NotEmpty(message = "*환불 예금주명을 입력해주세요")
 	@Column(name="refund_holder")
 	private String refundHolder; 
 	
@@ -80,29 +98,4 @@ public class Join implements Serializable {
 	@ManyToOne //Many가 Join, One이 GroupPurchase
 	@JoinColumn(name="grouppurchase_id") //DB 상에서 FK의 이름
 	private GroupPurchase groupPurchase; //주최자 정보 포함
-	
-	/* Public Methods */
-	public void initJoin(JoinRequest j) {
-		joinId = j.getJoinId();
-		shippingCost = j.getShippingCost();
-		quantity = j.getQuantity();
-		status = j.getStatus();
-		totalAmount = j.getTotalAmount();
-		
-		consumerName = j.getConsumerName();
-		consumerBank = j.getConsumerBank();
-		address = j.getAddress();
-		zipcode = j.getZipcode();
-		phone = j.getPhone();
-		shippingMethod = j.getShippingMethod();
-		shippingRequest = j.getShippingRequest();
-		
-		accountHolder = j.getAccountHolder();
- 		refundAccount = j.getRefundAccount();
- 		refundBank = j.getRefundBank();
- 		refundHolder = j.getRefundHolder();
- 		
- 		regDate = j.getRegDate();
- 		groupPurchase = j.getGroupPurchase();
-	}
 }

@@ -9,8 +9,6 @@ public interface PurchaseService {
 
 	void registerPurchase(Purchase purchase);
 	
-	List<Purchase> findPurchaseList(String userId);
-	
 	void modifyPurchase(Purchase purchase);
 	
 	void deletePurchase(int purchaseId);
@@ -18,7 +16,10 @@ public interface PurchaseService {
 	int calculateTotal(Product product);
 	
 	/* Spring Data JPA */
+	
 	Purchase findPurchaseByPurchaseId(int purchaseId);
 	
 	Purchase findPurchaseByUserId(String userId);
+	
+	List<Purchase> findPurchaseList(String userId);
 }

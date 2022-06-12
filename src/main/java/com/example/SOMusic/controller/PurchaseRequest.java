@@ -22,6 +22,7 @@ public class PurchaseRequest {
 	private String zipcode; //우편번호
 	private String phone; //전화번호
 
+	private String location;
 	private int shippingMethod; //0: 직거래만 & 1: 택배만 & 2: 둘 다 가능 & 3: 기타(알아서 기재)
 	private String shippingRequest; //배송 시 요청사항
 	private int paymentOption; //결제수단 (입금 or 현금거래)
@@ -40,6 +41,7 @@ public class PurchaseRequest {
 		zipcode = p.getZipcode(); 
 		phone = p.getPhone();
 
+		location = p.getLocation();
 		shippingMethod = p.getShippingMethod();
 		shippingRequest = p.getShippingRequest();
 		//paymentOption도 Command에 직접 저장?

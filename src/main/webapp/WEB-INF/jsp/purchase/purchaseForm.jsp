@@ -22,10 +22,12 @@
   	function setShippingMethod(event) {
   		if(event.target.value == '0') {
   			console.log("직거래");
+  			$("#location").show();
   			$(".shipping").hide();
   		}
   		else if(event.target.value == '1') {
   			console.log("택배");
+  			$("#location").hide();
   			$(".shipping").show();
   		}
   	}
@@ -42,13 +44,17 @@
   		<td> <font class="color_purple" size="8"><b>상품 구매</b></font> </td>
   	</tr>
   	<tr>
-  		<td> <div class="color_purple" style="height: auto; width: 170%; border-top:1px solid; margin-bottom: 5%;"></div> </td>
+  		<td> <div class="color_purple" style="height: auto; width: 200%; border-top:1px solid; margin-bottom: 5%;"></div> </td>
   	</tr>
   	
   	<tr> <!-- padding은 나중에 별도의 CSS 파일로 & 파일 경로 및 값은 product.name 등으로 접근 -->
-  		<td> <img id="noImage" src="<c:url value='../images/purchase/noImage.png'/>"> </td>
+  		<td rowspan="2"> <img id="noImage" src="<c:url value='../images/purchase/noImage.png'/>"> </td>
   		<td style="padding-bottom: 5%;"> 상품 이름: ${purchaseReq.product.productName} </td> 
-  		<td style="padding-bottom: 5%;"> 상품 가격: ${purchaseReq.product.price}</td> 
+  		<td style="padding-bottom: 5%;"> 상품 가격: ${purchaseReq.product.price} 원</td>
+  	</tr>
+  	
+  	<tr>
+  		<td style="padding-bottom: 5%;"> 택배 거래시 배송비: ${purchaseReq.product.shippingCost} 원</td> 
   	</tr>
   	
   	<!-- 세부 항목 1 -->
@@ -56,7 +62,7 @@
       <td style="padding-top: 5%"> <font class="color_purple" size="4"><b>구매자 정보</b></font> </td>
     </tr>
     <tr>
-  		<td> <div class="color_purple" style="height: auto; width: 170%; border-top:1px solid; margin-bottom: 5%;"></div> </td>
+  		<td> <div class="color_purple" style="height: auto; width: 200%; border-top:1px solid; margin-bottom: 5%;"></div> </td>
   	</tr>
     
     <tr>
@@ -77,10 +83,16 @@
       </td>
     </tr>
   	
-    <tr>
+    <tr class="shipping">
       <td>이름</td>
       <td><form:input path="consumerName"/> 
         <form:errors path="consumerName"/></td>
+    </tr>
+    
+    <tr id="location">
+      <td>직거래 장소</td>
+      <td><form:input path="location"/> 
+        <form:errors path="location"/></td>
     </tr>
     
     <tr>
@@ -114,14 +126,14 @@
       </td>
     </tr>
     <tr>
-  		<td> <div class="color_purple" style="height: auto; width: 170%; border-top:1px solid; margin-bottom: 5%;"></div> </td>
+  		<td> <div class="color_purple" style="height: auto; width: 200%; border-top:1px solid; margin-bottom: 5%;"></div> </td>
   	</tr>
   </table>
   <c:forEach var="option" items="${paymentOption}"> <!-- 개인 간의 거래인데 과연 필요할지? -->
 	<input type="button" value="${option}" onClick="setPaymentOption(event)">
   </c:forEach>
   
-  <p>
+  <p style="padding-top: 5%">
 	<button class="hButton"> 등록하기 </button>
   </p>
   

@@ -1,5 +1,4 @@
-@charset "UTF-8";
-@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700&display=swap');
 
 * {
 	font-family: 'Nanum Gothic', sans-serif;
@@ -9,7 +8,7 @@ body {
 	background-color: #f2eee5;
 }
 
-/*왼쪽, 중앙, 오른쪽 정렬 속성*/
+/*�쇊履�, 以묒븰, �삤瑜몄そ �젙�젹 �냽�꽦*/
 
 .txLeft {
 	text-align:left;
@@ -21,38 +20,42 @@ body {
 	text-align:right;
 }
 
-/*자주 쓰는 색상*/
+/*�룿�듃 媛뺤“*/
+.redFont {
+	color: red !important;
+}
 
+/*�옄二� �벐�뒗 �깋�긽*/
 .color_beige {
 	color: #f2eee5;
 }
 
-.color_purple { /*진보라*/
+.color_purple { /*吏꾨낫�씪*/
 	color: #5f7caf; 
 }
 
-.color_lavender { /*연보라*/
+.color_lavender { /*�뿰蹂대씪*/
 	color: #afafc7;
 }
 
-.color_pink { /*진분홍*/
+.color_pink { /*吏꾨텇�솉*/
 	color: #ccabaf;
 }
 
-.color_grey { /*회색*/
+.color_grey { /*�쉶�깋*/
 	color: #bababf;
 }
 
-/*버튼 부트 스트랩1*/
-/*<p> - <a> 순서로 생성하고 클래스 적용*/
+/*踰꾪듉 遺��듃 �뒪�듃�옪1*/
+/*<p> - <a> �닚�꽌濡� �깮�꽦�븯怨� �겢�옒�뒪 �쟻�슜*/
 
-.transitionalButton { /*가장 바깥 <p>에 이 클래스 적용*/
+.transitionalButton { /*媛��옣 諛붽묑 <p>�뿉 �씠 �겢�옒�뒪 �쟻�슜*/
 	font-weight: bold;
 	font-size: 14px;
 	text-align: center;
 }
 
-p > a { /*transitionalButton 안의 <a> 태그 속성. <a> 하나가 버튼 역할을 함*/
+p > a { /*transitionalButton �븞�쓽 <a> �깭洹� �냽�꽦. <a> �븯�굹媛� 踰꾪듉 �뿭�븷�쓣 �븿*/
 	-webkit-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
 	-moz-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
 	-ms-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
@@ -66,7 +69,7 @@ p > a { /*transitionalButton 안의 <a> 태그 속성. <a> 하나가 버튼 역�
 	padding: 20px 30px;
 }
 
-a.tButton { /*마우스 오버 애니메이션을 재현하는 tButton 클래스들. <a>에 적용합니다.*/
+a.tButton { /*留덉슦�뒪 �삤踰� �븷�땲硫붿씠�뀡�쓣 �옱�쁽�븯�뒗 tButton �겢�옒�뒪�뱾. <a>�뿉 �쟻�슜�빀�땲�떎.*/
 	color: rgba(175, 175, 199, 1.0);
 	box-shadow: rgba(175, 175, 199, 0.4) 0 0px 0px 2px inset;
 }
@@ -86,11 +89,11 @@ a.tButton2:hover {
 	box-shadow: rgba(30, 22, 54, 0.7) 0 80px 0px 2px inset;
 }
 
-/*버튼 부트 스트랩2*/
-/*<Button> 태그에 .hButton 클래스만 적용하면 완료*/
+/*踰꾪듉 遺��듃 �뒪�듃�옪2*/
+/*<Button> �깭洹몄뿉 .hButton �겢�옒�뒪留� �쟻�슜�븯硫� �셿猷�*/
 
 .hButton{
-  background:#1AAB8A;
+  background:#ccabaf;
   color:#fff;
   border:none;
   position:relative;
@@ -103,8 +106,8 @@ a.tButton2:hover {
 }
 
 .hButton:hover{
-  background:#fff;
-  color:#1AAB8A;
+  background:#f2eee5;
+  color:#5f7caf;
 }
 
 .hButton:before,.hButton:after{
@@ -114,7 +117,7 @@ a.tButton2:hover {
   right:0;
   height:2px;
   width:0;
-  background: #1AAB8A;
+  background: #5f7caf;
   transition:400ms ease all;
 }
 

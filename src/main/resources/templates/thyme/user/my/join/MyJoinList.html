@@ -44,7 +44,7 @@
 <div th:insert="~{thyme/header}"></div>
 <div id="out">
 	<div class="element">
-		<h3>공구 리스트</h3>
+		<h4>공구 리스트</h>
 	</div>
 	<div class="element">
 		<nav>
@@ -55,34 +55,20 @@
 		</nav>
 	</div>
 	<div class="element">
-		<div class="one">
+		<div class="one" th:each="join : ${joinList}">
 			<div class="element image_view">
-				<img class="image" src="x.png"/>
+				<img class="image" src="@{${join.groupPurchase.image}}"/>
 			</div>
 			<div class="element title">
-				<h5>제목</h5>
+				<h5><a class="linkTitle" th:text="${join.groupPurchase.title}" href="#" th:href="@{/user/my/gp/info(gpId=${join.groupPurchase.gpId})}">제목</a></h5>
 			</div>
-			<div class="element" style="width:60px;"></div>
-			<div class="element">
-				<div class="element" style="height:40px;"></div>
-				<div class="element">
-					<button class="btnDelete" type="button">삭제</button>
-				</div>
-			</div>
+			<div class="element" style="width:40px;"></div>
 		</div>
-		<div class="one">
-			<div class="element image_view">
-				<img class="image" src="x.png"/>
-			</div>
-			<div class="element title">
-				<h5>제목</h5>
-			</div>
-			<div class="element" style="width:60px;"></div>
-			<div class="element">
-				<div class="element" style="height:40px;"></div>
-				<div class="element">
-					<button class="btnDelete" type="button">삭제</button>
-				</div>
+		<div class="element" th:if="${#lists.isEmpty(joinList)}">
+			<div class="element" style="height:40px;"></div>
+			<div class="element" style="text-align: center;">
+				<a>아직 참여한 공동구매 내역이 없습니다.<br></a>
+				<button class="hButton" style="margin-top: 5%;" onclick="location.href ='/main/gp'">공동구매 둘러보기</button>
 			</div>
 		</div>
 	</div>

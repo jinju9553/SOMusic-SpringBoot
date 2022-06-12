@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 
 import lombok.Getter;
@@ -33,4 +34,9 @@ public class Product implements Serializable {
 	transient private String sellerId; //추후에 transient를 지우고 Account와 조인
 	@Column(name="artist_name")
 	private String artistName;
+//	private String location;
+//	private int shippingMethod;
+	
+//	@JoinColumn(name="artist_id")
+//	private Artist artist;
 }

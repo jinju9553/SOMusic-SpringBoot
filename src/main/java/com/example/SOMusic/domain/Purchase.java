@@ -23,7 +23,7 @@ import lombok.ToString;
 
 @Entity
 @Table(name="purchase") 
-@Getter @Setter @ToString
+@Getter @Setter
 @SequenceGenerator(name="SEQ_PURCHASE", sequenceName="SEQUENCE_PURCHASE", allocationSize=1)
 @SuppressWarnings("serial")
 public class Purchase implements Serializable { 
@@ -46,6 +46,7 @@ public class Purchase implements Serializable {
 	private String zipcode;
 	private String phone;
 	
+	private String location;
 	@Column(name="shipping_method", nullable=false) //여기 말고 Product에 있어야할 것 같음
 	private int shippingMethod; //0: 직거래만 & 1: 택배만 & 2: 둘 다 가능 & 3: 기타(알아서 기재)
 	@Column(name="shipping_request")
@@ -63,6 +64,7 @@ public class Purchase implements Serializable {
 		purchaseId = p.getPurchaseId();
 		consumerId = p.getConsumerId();
 		
+		location = p.getLocation();
 		consumerName = p.getConsumerName();
 		totalAmount = p.getTotalAmount();
 		address = p.getAddress();
