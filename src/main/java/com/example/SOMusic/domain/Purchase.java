@@ -23,7 +23,7 @@ import lombok.ToString;
 
 @Entity
 @Table(name="purchase") 
-@Getter @Setter @ToString
+@Getter @Setter
 @SequenceGenerator(name="SEQ_PURCHASE", sequenceName="SEQUENCE_PURCHASE", allocationSize=1)
 @SuppressWarnings("serial")
 public class Purchase implements Serializable { 

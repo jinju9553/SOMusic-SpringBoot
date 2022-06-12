@@ -36,8 +36,8 @@
 		}
 		
 		#noInterest {
-			left: 45.5%;
-    		top: 53.5%;
+			left: 43.5%;
+    		top: 62.5%;
 			position: absolute;
 		    border: 2px solid;
 		    border-color: #d2d2d2;
@@ -49,6 +49,11 @@
 		    background-color: white;
 		    border-radius: 10px;
 		}
+		
+		.img {
+			width: 330px;
+			height: 300px;
+		}
 	</style>
 </head>
 
@@ -56,6 +61,11 @@
 <div align="center">
 <script type="text/javascript">
 	$(document).ready(function() {
+		var imgSrc = "${joinReq.groupPurchase.image}";
+		  if (imgSrc == null) {
+			  $("#image").attr("src", "<c:url value='../images/purchase/noImage.png'/>")
+		  }
+		  
 		$('.starRev span').click(function(){
 			$(this).parent().children('span').removeClass('on');
 			$(this).addClass('on').prevAll('span').addClass('on');
@@ -116,7 +126,7 @@
   	</tr>
   
   	<tr>
-  		<td rowspan="5"> <img id="noImage" src="<c:url value='../../images/purchase/noImage.png'/>"> </td>
+  		<td rowspan="5"> <img id="image" class="img" src="<c:url value='${joinReq.groupPurchase.image}'/>"> </td>
   		<td> <button id="noInterest" type="button" onclick="interest();">❤</button> </td>
   	</tr>
   	<tr>
@@ -190,7 +200,7 @@
   	</tr>
   	
   	<tr>
-  		<td colspan="3" align="right"> <button class="btn">수정 내역 저장</button> </td>
+  		<td colspan="2" align="right"> <button class="btn">수정 내역 저장</button> </td>
   	</tr>
   	
   	<tr>
@@ -212,8 +222,10 @@
 		<td colspan="2" align="center" style="padding-bottom: 5%;">
 			<form:radiobuttons path="shippingMethod" items="${shippingOption}" /> 
 		</td>
-		<td colspan="3" style="padding-bottom: 5%;"> <button class="btn">수정 내역 저장</button> </td>
   	</tr> 
+  	<tr>
+  		<td colspan="2" align="right" style="padding-bottom: 5%;"> <button class="btn">수정 내역 저장</button> </td>
+  	</tr>
   	<tr>
   		<td>배송비</td>
 		<td><fmt:formatNumber
@@ -259,7 +271,7 @@
     </tr>
     
     <tr>
-  		<td colspan="3" align="right"> <button class="btn">수정 내역 저장</button> </td>
+  		<td colspan="2" align="right"> <button class="btn">수정 내역 저장</button> </td>
   	</tr>
     
     <tr> <!-- 거래 종료(status: 4) 이후 활성화되는 메뉴 -->

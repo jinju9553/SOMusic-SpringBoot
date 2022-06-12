@@ -3,12 +3,15 @@ package com.example.SOMusic.controller;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+import javax.validation.Validator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -48,9 +51,7 @@ private static final String JOIN_INFO = "join/myJoinInfo";
 		return new Object[] { 1800, 3000, 6000 };
 	}
 	
-	//1.Validator 작성 필요
-	//@Autowired
-	//private OrderValidator orderValidator;
+	//1.Validator
 
 	//2.showForm()
 	@GetMapping("/info") //테스트용 uri
@@ -62,7 +63,7 @@ private static final String JOIN_INFO = "join/myJoinInfo";
 	@ModelAttribute("joinReq") // request handler methods 보다 먼저 호출됨
 	public ModelAndView formBacking(HttpServletRequest request,
 			@PathVariable("gpId") int gpId, Model model) { 
-		JoinRequest joinReq = new JoinRequest();
+		Join joinReq = new Join();
 
 		GroupPurchase gp = gpService.getGP(gpId);
 
@@ -81,18 +82,16 @@ private static final String JOIN_INFO = "join/myJoinInfo";
 	
 	@PostMapping("/{gpId}")
 	public String register( 
-			@ModelAttribute("joinReq") JoinRequest joinReq, //Commmand 객체로 사용
+			HttpServletRequest request,
 			@PathVariable("gpId") int gpId,
-			BindingResult bindingResult, Model model) {
-		Join join = new Join();
+			@Valid @ModelAttribute("joinReq") Join join,
+			BindingResult result, Model model) {
 		
-		// validator 생성 및 호출 (입력 값 검증), validator 패키지에 포함됨
-		//new OrderValidator().validate(purchaseReq, bindingResult);
-		if (bindingResult.hasErrors()) {
-			return JOIN_FORM; 
+		if (result.hasErrors()) {
+			return JOIN_FORM;
+			//fowarding하면 리퀘스트가 날라가고, 리다이렉션 하면 form:errors가 안 뜸 ==> GetMapping 에 빈 객체를 전달?
 		}
-
-		join.initJoin(joinReq);
+		
 		join.setGroupPurchase(gpService.getGP(gpId));
 		join.setShippingCost(joinService.initShippingCost(join));
 		join.setTotalAmount(joinService.calculateTotal(join.getGroupPurchase(), join));
@@ -109,13 +108,7 @@ private static final String JOIN_INFO = "join/myJoinInfo";
 	@GetMapping("/info/{joinId}")
 	public String formBackingInfo(HttpServletRequest request,
 				@PathVariable("joinId") int joinId, Model model) {
-			JoinRequest joinReq = new JoinRequest();
-			Join j = joinService.findJoinByJoinId(joinId); //DB에서 특정 join을 읽어온다.
-
-			//2.Join에서 뽑아온 값을 joinReq에 세팅한다.
-			joinReq.initJoinReq(j);
-
-			//3.model에 세팅한다.
+			Join joinReq = joinService.findJoinByJoinId(joinId); //DB에서 특정 join을 읽어온다.
 			model.addAttribute("joinReq", joinReq);
 
 			return JOIN_INFO;
@@ -123,16 +116,15 @@ private static final String JOIN_INFO = "join/myJoinInfo";
 	
 	@PostMapping("/info/{joinId}")
 	public String update(
-			@ModelAttribute("joinReq") JoinRequest joinReq,
+			@Valid @ModelAttribute("joinReq") Join join,
 			BindingResult result) throws Exception {
-		Join join = new Join();
 
-		//1.form으로부터 받은 joinReq에 담겨있는 값을 Join에 세팅한다.
-		join.initJoin(joinReq);
+		if (result.hasErrors()) {
+			return JOIN_INFO;
+		}
 		
-		//2.DAO를 통해 값을 수정한다.
+		//DAO를 통해 값을 수정한다.
 		joinService.modifyJoin(join);
-		joinReq.initJoinReq(join);
 
 		return "redirect:/" + "join/info/{joinId}"; //본래의 경로로 redirection
 	}
