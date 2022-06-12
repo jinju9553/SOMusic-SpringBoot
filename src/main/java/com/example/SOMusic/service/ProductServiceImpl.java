@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.SOMusic.repository.ProductRepository;
+import com.example.SOMusic.dao.ProductDao;
 import com.example.SOMusic.domain.Product;
 
 @Service
@@ -14,21 +15,25 @@ public class ProductServiceImpl implements ProductService {
 	@Autowired
 	private ProductRepository productRepository;
 	
+	@Autowired
+	private ProductDao dao;
+	
+	
 	@Override
-	public void addProduct(int ProductId, String userId) {
-		// TODO Auto-generated method stub
+	public void addProduct(Product product) {
+		dao.createProduct(product);
 		
 	}
 
 	@Override
-	public void deleteProduct(int ProductId, String userId) {
-		// TODO Auto-generated method stub
+	public void deleteProduct(int productId) {
+		productRepository.deleteByProductId(productId);
 		
 	}
 
 	@Override
-	public void updateProduct(int ProductId, String userId) {
-		// TODO Auto-generated method stub
+	public void updateProduct(Product product) {
+		dao.updateProduct(product);
 		
 	}
 

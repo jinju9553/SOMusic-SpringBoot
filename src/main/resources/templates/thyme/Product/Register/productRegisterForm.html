@@ -2,6 +2,26 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <style type="text/css">
+
+.btn33 {
+	-webkit-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+	-moz-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+	-ms-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+	-o-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+	transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+	
+	color: rgba(175, 175, 199, 1.0);
+	box-shadow: rgba(175, 175, 199, 0.4) 0 0px 0px 2px inset;
+	
+	width:100%;
+	height:65px;
+	font-size: 18px;
+    font-weight: bold;
+    border-radius: 5px;
+	
+	border:none;
+}
+
 	body {
 		background-color: #f2eee5;
 	}
@@ -62,6 +82,10 @@
     .btn:hover {
     	border-bottom: 2px solid #ccabaf;
     }
+    .btn33:hover {
+	color: rgba(255, 255, 255, 0.85);
+	box-shadow: rgba(95, 124, 175, 0.85) 0 0px 0px 40px inset;
+}
     
     #line {
     	border:1px #afafc7 solid;
@@ -76,7 +100,7 @@
 <div th:insert="~{thyme/header}"></div>
 <div id="out">
 	<div class="form_view">
-	<form action="#" th:action="@{/product/register}" th:object="${productReq}" method="POST">
+	<form action="#" th:action="@{/product/register}" th:object="${PrReq}" method="POST">
 <!--		<div class="row">
 			<h4>가격</h4>
 		</div>   -->
@@ -86,33 +110,30 @@
 				<br/>
 				<input name="image" type="file" />	
 			</div>
-
-			
 			<div class="info">
 				<inline class="row">음반 제목
-				<input type="text" name ="title" size="20"></inline>
+				<input type="text" th:field="*{productName}" name ="productName" size="20"></inline>
+				<br/>
+				<inline class="row">아티스트 이름
+				<input type="text" th:field="*{artistName}" name ="artistName" size="20"></inline>
 				<br/>
 				<inline id="blue" class="row">가격 
-				<input type="text" name ="title" size="20"></inline>
+				<input type="text" name ="title" th:field="*{price}" size="20"></inline>
 				<br/>
-				<inline class="row">형식
-				<input type="text" name ="title" size="20"></inline>
-				<br/>
-				<inline class="row">재생 횟수
-				<input type="text" name ="title" size="20"> 번</inline>
+				<inline class="row">배송비
+				<input type="text" th:field="*{shippingCost}" name ="title" size="20"> 원</inline>
 				
-				<div class="row">status</div>
-				<input type="radio" name ="status" value="4">매우좋음
-				<input type="radio" name ="status" value="3">좋음
-				<input type="radio" name ="status" value="2">보통
-				<input type="radio" name ="status" value="1">별로임 
-				<div class="row">condition</div>
-				<input type="radio" name ="slvstatus" value="4">매우좋음
-				<input type="radio" name ="slvstatus" value="3">좋음
-				<input type="radio" name ="slvstatus" value="2">보통
-				<input type="radio" name ="slvstatus" value="1">별로임 
+				<div class="row">상태</div>
+				<input type="radio" th:field="*{condition}" name ="slvstatus" value="4">매우좋음
+				<input type="radio" th:field="*{condition}" name ="slvstatus" value="3">좋음
+				<input type="radio" th:field="*{condition}" name ="slvstatus" value="2">보통
+				<input type="radio" th:field="*{condition}" name ="slvstatus" value="1">별로임 
 				<div class="row">코멘트</div>
-				<input type="text" name ="comment" size="80">
+				<input type="text" name ="comment" th:field="*{description}" size="80">
+				</div>
+				</div>
+				<br/>
+				<input type="submit" class="btn33" value="상품 등록하기" />
 				</form>
 				</div>
 			</div>
