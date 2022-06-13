@@ -38,7 +38,9 @@ public class Product implements Serializable {
 	private int status;
 	private int account;
 	private String bank;
-	transient private String sellerId; //추후에 transient를 지우고 Account와 조인
+	
+	@Column(name="SELLER_ID") 
+	private String sellerId; //추후에 transient를 지우고 Account와 조인
 	@Column(name="artist_name")
 	private String artistName;
 //	private String location;
@@ -46,6 +48,14 @@ public class Product implements Serializable {
 	
 //	@JoinColumn(name="artist_id")
 //	private Artist artist;
+	
+	@Override
+	public String toString() {
+		return "등록상품정보 [[productId=" + productId + ", sellerId=" + sellerId + ", productName=" + productName + ", image=" + image
+				+ ", description=" + description + ", condition=" + condition + ", shippingCost=" + shippingCost + ", account="
+				+ account + ", bank=" + bank + ", price=" + price + 
+				  "]";
+	}
 	
 	public void initPr(ProductRequest prReq) {
 		productName = prReq.getProductName();
