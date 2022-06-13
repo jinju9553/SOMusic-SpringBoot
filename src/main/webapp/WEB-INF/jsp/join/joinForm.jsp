@@ -94,6 +94,26 @@
 			width: 330px;
 			height: 300px;
 		}
+		
+		#noInterest:hover {
+			color: #FF6464;
+			border-color: #ffeded;
+		}
+		
+		#noInterest {
+			left: 48.5%;
+	    	top: 61.5%;
+			position: absolute;
+			border: 2px solid;
+			border-color: #d2d2d2;
+			width: 70px;
+			height: 70px;
+			font-size: 18px;
+			font-weight: bold;
+			color: #a0a0a0;
+			background-color: white;
+			border-radius: 10px;
+		}
   </style>
   
   <table class="n13">
@@ -107,6 +127,7 @@
   	
   	<tr> <!-- rowspan : 이 칸 옆에 row(<tr>)가 몇 개까지 들어갈 수 있는지 -->
   		<td rowspan="5" align = "center"> <img id="image" class="img" src="<c:url value="${joinReq.groupPurchase.image}"/>"> </td>
+  		<td> <button id="noInterest" type="button" onclick="interest();">❤</button> </td>
   	</tr>
   	
   	<tr>

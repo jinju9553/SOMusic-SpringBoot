@@ -117,19 +117,15 @@ public class PurchaseController {
 	@PostMapping("/info/{purchaseId}")
 	public String update(
 			@ModelAttribute("purchaseReq") PurchaseRequest purchaseReq,
-			BindingResult result) throws ModelAndViewDefiningException {
+			BindingResult result) throws ModelAndViewDefiningException { //다시 받아오면 Product가 날라감 ==> 독자적인 DAO 사용이라 productId에 영향 X
 		Purchase p = new Purchase();
 
-		p.initPurchase(purchaseReq);
+		p.initPurchase(purchaseReq); 
 		
 		purchaseService.modifyPurchase(p);
 		purchaseReq.initPurchaseReq(p);
 
 		return "redirect:/" + "purchase/info/{purchaseId}"; //본래의 경로로 redirection
 	}
-	
-	//6.PurchaseList - 사용자가 구매한 중고상품 목록 (findAllByUserId)
-	//7.PurchaseSearch - 키워드를 포함하는 중고상품 들을 검색 (DAO에서 정의)
 	//8.PurchaseView(Confirm) - 사용자가 작성한 구매폼을 판매자가 승인함
-	
 }

@@ -4,6 +4,8 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
+<c:set var="targetUrl"><c:url value="/join/info/${joinInfoReq.joinId}" /></c:set>
+
 <html>
 <meta charset="UTF-8">
 <head> 
@@ -61,7 +63,7 @@
 <div align="center">
 <script type="text/javascript">
 	$(document).ready(function() {
-		var imgSrc = "${joinReq.groupPurchase.image}";
+		var imgSrc = "${joinInfoReq.groupPurchase.image}";
 		  if (imgSrc == null) {
 			  $("#image").attr("src", "<c:url value='../images/purchase/noImage.png'/>")
 		  }
@@ -72,8 +74,8 @@
 			return false;
 		});
 		
-		var status = ${joinReq.status};
-		switch (status) { //1: 승인됨, 입금 대기 & 2: 입금 확인, 배송 대기중 & 3:배송 시작 & 4: 거래 완료
+		var status = ${joinInfoReq.status};
+		switch (status) { //1: 입금 대기 & 2: 입금 확인, 배송 대기중 & 3:배송 시작 & 4: 거래 완료
 		  case 1:
 		    $(".statusAnchor").text('입금 대기');
 		    $(".payAnchor").text('입금 대기');
@@ -109,7 +111,7 @@
 	}*/
 </script>
 
-<form:form modelAttribute="joinReq" action="${targetUrl}" method="post">
+<form:form modelAttribute="joinInfoReq" action="${targetUrl}" method="post">
   <form:errors cssClass="error" /> <br><br>
   <table class="n13">
   	<!-- 상품 정보 -->
@@ -122,38 +124,38 @@
   	</tr>
   	
   	<tr>
-  		<td colspan="3" align="right"> 공동구매 등록 날짜: ${joinReq.groupPurchase.startDate} </td>
+  		<td colspan="3" align="right"> 공동구매 등록 날짜: ${joinInfoReq.groupPurchase.startDate} </td>
   	</tr>
   
   	<tr>
-  		<td rowspan="5"> <img id="image" class="img" src="<c:url value='${joinReq.groupPurchase.image}'/>"> </td>
+  		<td rowspan="5"> <img id="image" class="img" src="<c:url value='${joinInfoReq.groupPurchase.image}'/>"> </td>
   		<td> <button id="noInterest" type="button" onclick="interest();">❤</button> </td>
   	</tr>
   	<tr>
-  		<td style="padding-bottom: 10;"> 공동구매 이름: ${joinReq.groupPurchase.title} </td>
+  		<td style="padding-bottom: 10;"> 공동구매 이름: ${joinInfoReq.groupPurchase.title} </td>
   	</tr>
   	<tr>
-  		<td style="padding-bottom: 10;"> 공동구매 등록자: ${joinReq.groupPurchase.sellerId} </td>
+  		<td style="padding-bottom: 10;"> 공동구매 등록자: ${joinInfoReq.groupPurchase.sellerId} </td>
   	</tr>
   	<tr>
   		<td style="padding-bottom: 10;"> 진행 상태: <a class="statusAnchor"></a></td>
   	</tr>
   	<tr>
-  		<td> 폼 작성 날짜: ${joinReq.regDate}</td>
+  		<td> 폼 작성 날짜: ${joinInfoReq.regDate}</td>
   	</tr>
   	
   	<!-- 세부 항목 1 -->
     <tr>
-      <td style="padding-top: 5%;"> <font class="color_purple" size="4"><b>공동구매 폼 보기</b></font> </td>
+      <td style="padding-top: 5%;"> <font class="color_purple" size="4"><b>공동구매 정보</b></font> </td>
       <td style="padding-top: 5%;"> <font class="color_purple" size="4"><b>등록자 정보</b></font> </td>
     </tr>   
     <tr>
-      <td>- 마감 일자: ${joinReq.groupPurchase.endDate}</td>
-      <td>- 등록자: (등록자 이름)</td>
+      <td>- 마감 일자: ${joinInfoReq.groupPurchase.endDate}</td>
+      <td>- 등록자: ${joinInfoReq.groupPurchase.sellerId}</td>
     </tr>   
     <tr>
-      <td>- 공동구매 정보 바로가기></td>
-      <td>- 등록자 프로필 바로가기></td>
+      <td>- <a href="/join/${joinInfoReq.groupPurchase.gpId}">공동구매 폼 바로가기></a></td>
+      <td>- 등록자 정보 바로가기></td>
     </tr>
     
     <!-- 세부 항목 2 -->
@@ -173,7 +175,7 @@
   	<tr>
 		<td>입금액</td>
 		<td><fmt:formatNumber
-                value="${joinReq.totalAmount}" pattern="###,##0" /> 원</td>
+                value="${joinInfoReq.totalAmount}" pattern="###,##0" /> 원</td>
   	</tr> 
   	
   	<tr> <!-- status 2부터는 입금자명 수정 불가, 환불은 상시 가능 -->
@@ -213,7 +215,7 @@
   	<tr>
 		<td>상품 금액</td>
         <td><fmt:formatNumber
-                value="${joinReq.groupPurchase.price}" pattern="###,##0" /> 원 × ${joinReq.quantity} 개</td>
+                value="${joinInfoReq.groupPurchase.price}" pattern="###,##0" /> 원 × ${joinInfoReq.quantity} 개</td>
   	</tr> 
   	<tr>
 		<td>배송 방법</td>
@@ -229,12 +231,12 @@
   	<tr>
   		<td>배송비</td>
 		<td><fmt:formatNumber
-                value="${joinReq.shippingCost}" pattern="###,##0" /> 원</td>
+                value="${joinInfoReq.shippingCost}" pattern="###,##0" /> 원</td>
   	</tr>  	
   	<tr>
 		<td>총 주문 금액</td>
 		<td><fmt:formatNumber
-                value="${joinReq.totalAmount}" pattern="###,##0" /> 원</td>
+                value="${joinInfoReq.totalAmount}" pattern="###,##0" /> 원</td>
   	</tr>
     
     <tr> <!-- status 3부터는 수정 불가 -->

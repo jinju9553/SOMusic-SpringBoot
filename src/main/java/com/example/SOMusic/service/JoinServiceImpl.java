@@ -65,4 +65,10 @@ public class JoinServiceImpl implements JoinService{
 		}
 		return 0;
 	}
+
+	@Override
+	public int updateTotal(Join join, int newShippingCost) {
+		int originalPrice = join.getTotalAmount() - join.getShippingCost();
+		return (originalPrice + newShippingCost);
+	}
 }

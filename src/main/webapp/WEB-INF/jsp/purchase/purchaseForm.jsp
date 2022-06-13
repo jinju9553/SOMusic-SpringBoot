@@ -6,6 +6,30 @@
 
 <c:set var="targetUrl"><c:url value="/purchase/${purchaseReq.product.productId}" /></c:set>
 
+<head>
+	<style>
+			#noInterest:hover {
+			    color: #FF6464;
+			    border-color: #ffeded;
+			}
+		
+			#noInterest {
+				left: 44.5%;
+	    		top: 52.5%;
+				position: absolute;
+			    border: 2px solid;
+			    border-color: #d2d2d2;
+			    width: 70px;
+			    height: 70px;
+			    font-size: 18px;
+			    font-weight: bold;
+			    color: #a0a0a0;
+			    background-color: white;
+			    border-radius: 10px;
+			}
+	</style>
+</head>
+
 <title>중고 상품 구매</title>
 <div align="center">
 <form:form modelAttribute="purchaseReq" action="${targetUrl}" method="post">
@@ -48,7 +72,11 @@
   	</tr>
   	
   	<tr> <!-- padding은 나중에 별도의 CSS 파일로 & 파일 경로 및 값은 product.name 등으로 접근 -->
-  		<td rowspan="2"> <img id="noImage" src="<c:url value='../images/purchase/noImage.png'/>"> </td>
+  		<td rowspan="3"> <img id="noImage" src="<c:url value='../images/purchase/noImage.png'/>"> </td>
+  		<td> <button id="noInterest" type="button" onclick="interest();">❤</button> </td>
+  	</tr>
+  	
+  	<tr>
   		<td style="padding-bottom: 5%;"> 상품 이름: ${purchaseReq.product.productName} </td> 
   		<td style="padding-bottom: 5%;"> 상품 가격: ${purchaseReq.product.price} 원</td>
   	</tr>

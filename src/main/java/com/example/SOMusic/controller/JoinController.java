@@ -4,30 +4,26 @@ import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import javax.validation.Validator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.example.SOMusic.domain.GroupPurchase;
 import com.example.SOMusic.domain.Join;
 import com.example.SOMusic.service.GPService;
 import com.example.SOMusic.service.JoinService;
 
-@Controller //또는 @RestController
+@Controller
 @RequestMapping("/join")
 public class JoinController {
-private static final String JOIN_FORM = "join/joinForm";
-private static final String JOIN_INFO = "join/myJoinInfo";
+	private static final String JOIN_FORM = "join/joinForm";
 	
 	@Autowired
 	private JoinService joinService;
@@ -54,30 +50,31 @@ private static final String JOIN_INFO = "join/myJoinInfo";
 	//1.Validator
 
 	//2.showForm()
-	@GetMapping("/info") //테스트용 uri
-	public String showForm2() {
-		return JOIN_INFO;
+	@GetMapping("/{gpId}")
+	public String showForm() {
+		return JOIN_FORM;
 	}
 	
-	@GetMapping("/{gpId}")
 	@ModelAttribute("joinReq") // request handler methods 보다 먼저 호출됨
-	public ModelAndView formBacking(HttpServletRequest request,
-			@PathVariable("gpId") int gpId, Model model) { 
-		Join joinReq = new Join();
-
-		GroupPurchase gp = gpService.getGP(gpId);
-
-		// 만약 배송지 '주문자와 동일' 옵션을 선택했을 경우 ==> ajax 콜 사용
-		// 1.UserSession에서 UserId를 뽑아낸다.
-		// 2.Account를 통해 이 유저의 address 및 기본 정보를 읽어와서 세팅한다.
-		// purchaseReq.setAddress("address"); //정보를 세팅하여 Form에 초기값으로 나타낸다.
-
-		joinReq.setGroupPurchase(gp); // 정보를 세팅하여 Form에 초기값으로 나타낸다.
-		if(joinReq.getQuantity() == 0) //최초로 폼을 불러왔다면
-			joinReq.setQuantity(1); //개수는 1개부터 시작
-		model.addAttribute("joinReq", joinReq);
-
-		return new ModelAndView(JOIN_FORM);
+	public Join formBacking(HttpServletRequest request,
+			@PathVariable("gpId") int gpId) { 
+		if (request.getMethod().equalsIgnoreCase("GET")) {
+			Join join = new Join();
+	
+			GroupPurchase gp = gpService.getGP(gpId);
+	
+			// 만약 배송지 '주문자와 동일' 옵션을 선택했을 경우 ==> ajax 콜 사용
+			// 1.UserSession에서 UserId를 뽑아낸다.
+			// 2.Account를 통해 이 유저의 address 및 기본 정보를 읽어와서 세팅한다.
+			// purchaseReq.setAddress("address"); //정보를 세팅하여 Form에 초기값으로 나타낸다.
+	
+			join.setGroupPurchase(gp); // 정보를 세팅하여 Form에 초기값으로 나타낸다.
+			if(join.getQuantity() == 0) //최초로 폼을 불러왔다면
+				join.setQuantity(1); //개수는 1개부터 시작
+	
+			return join;
+		}
+		else return new Join(); //POST일 때 실행됨
 	}
 	
 	@PostMapping("/{gpId}")
@@ -89,7 +86,6 @@ private static final String JOIN_INFO = "join/myJoinInfo";
 		
 		if (result.hasErrors()) {
 			return JOIN_FORM;
-			//fowarding하면 리퀘스트가 날라가고, 리다이렉션 하면 form:errors가 안 뜸 ==> GetMapping 에 빈 객체를 전달?
 		}
 		
 		join.setGroupPurchase(gpService.getGP(gpId));
@@ -104,31 +100,4 @@ private static final String JOIN_INFO = "join/myJoinInfo";
 		//model.addAttribute("join", p); //View에 객체 전달하고 간략한 정보 출력
 		return "redirect:/" + "join/{gpId}";
 	}
-
-	@GetMapping("/info/{joinId}")
-	public String formBackingInfo(HttpServletRequest request,
-				@PathVariable("joinId") int joinId, Model model) {
-			Join joinReq = joinService.findJoinByJoinId(joinId); //DB에서 특정 join을 읽어온다.
-			model.addAttribute("joinReq", joinReq);
-
-			return JOIN_INFO;
-	}
-	
-	@PostMapping("/info/{joinId}")
-	public String update(
-			@Valid @ModelAttribute("joinReq") Join join,
-			BindingResult result) throws Exception {
-
-		if (result.hasErrors()) {
-			return JOIN_INFO;
-		}
-		
-		//DAO를 통해 값을 수정한다.
-		joinService.modifyJoin(join);
-
-		return "redirect:/" + "join/info/{joinId}"; //본래의 경로로 redirection
-	}
-	
-	//6.JoinList - 사용자가 참여한 공동구매 목록
-	//7.JoinSearch - 키워드를 포함하는 공동구매 들을 검색
 }

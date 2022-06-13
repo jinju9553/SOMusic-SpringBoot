@@ -161,23 +161,19 @@
 				<td class="tb">기타 정보</td>
 				<td class="tb">상태</td>
 			</tr>
-			<tr>
-				<td class="tb">폼 제출 시간</td>
-				<td class="tb">박솜솜</td>
-				<td class="tb">10000</td>
-				<td class="tb">배송지</td>
-				<td class="tb">환불 계좌</td>
-				<td class="tb">기타 정보</td>
-				<td class="tb">상태</td>
+			<tr th:each="join : ${gp.joinList}" th:unless="${#lists.isEmpty(gp.joinList)}">
+				<td class="tb" th:text="${join.regDate}">폼 제출 시간</td>
+				<td class="tb" th:text="${join.consumerName}">박솜솜</td>
+				<td class="tb" th:text="${join.totalAmount}">10000</td>
+				<td class="tb" th:text="${join.address}">배송지</td>
+				<td class="tb" th:text="${join.refundAccount}">환불 계좌</td>
+				<td class="tb" th:text="${join.shippingRequest}">기타 정보</td>
+				<td class="tb" th:text="${join.status}">상태</td>
 			</tr>
-			<tr>
-				<td class="tb">폼 제출 시간</td>
-				<td class="tb">이름</td>
-				<td class="tb">총 금액</td>
-				<td class="tb">배송지</td>
-				<td class="tb">환불 계좌</td>
-				<td class="tb">기타 정보</td>
-				<td class="tb">상태</td>
+			<tr th:if="${#lists.isEmpty(gp.joinList)}">
+				<td class="element" colspan="8">
+					<a>아직 참여자가 없습니다.<br></a>
+				</td>
 			</tr>
 		</table>
 	</div>
