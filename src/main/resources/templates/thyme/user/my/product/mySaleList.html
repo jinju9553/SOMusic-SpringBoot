@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<style>
+	.linkNav {
+		text-decoration: none;
+	}
+	
+	.ulNav {
+		padding-left: 15px;
+	}
+
+	.liNav {
+		display: inline;
+		font: bold 12px;
+		border-left: 2px solid #afafc7;
+		padding-left: 10px;
+		padding-right: 6px;
+	}
+
+	.liNav:first-child {
+		border-left: none;
+	}	
+
+	.selectNav {
+		color: #5f7caf;
+	}
+
+	.unselect {
+		color: #bababf;
+	}
+
+	.unselect:hover {
+		color: #5f7caf;
+		border-bottom: 1px solid #5f7caf;
+		text-decoration: none;
+	}
+</style>
+<link rel="stylesheet" th:href="@{/style/list.css}" type="text/css" />
+<meta charset="UTF-8">
+<title>중고 거래 리스트</title>
+</head>
+<body>
+<div th:insert="~{thyme/header}"></div>
+<div id="out">
+	<div class="element">
+		<h4>중고 거래중인 상품 리스트</h4>
+	</div>
+	<div class="element">
+		<nav>
+			<ul class="ulNav">
+				<li class="liNav"><a class="linkNav" style="color: #5f7caf;">내가 등록한 중고거래</a></li>
+				<!-- <li class="liNav"><a class="linkNav unselect" href="#" th:href="@{/user/my/product/purchase/list?userId=panda}">내가 참여한 중고거래</a></li> -->
+			</ul>
+		</nav>
+	</div>
+	<div class="element">
+		<div class="one" th:each="pr : ${prList}">
+<!-- 			<div class="element image_view">
+				<img class="image" src="#" th:src="@{${gp.image}}"/>
+			</div> -->
+			<div class="element title">
+				<h5><a class="linkTitle" th:text="${pr.productName}"
+				href="#" th:href="@{/product/info(productId=${pr.productId})}" >제목</a></h5>
+			</div>
+			<div class="element" style="width:60px;"></div>
+			<div class="element">
+				<div class="element" style="height:40px;"></div>
+				<!-- <div class="element" th:if="${#lists.isEmpty(pr.joinList)}"> -->
+<!-- 					 <form action="#" method="GET" th:action="@{/gp/delete}">
+						<input type="hidden" id="gpId" name="gpId" th:value="${gp.gpId}" />
+						<input class="btnDelete" type="submit" value="삭제" />
+					</form>  -->
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>

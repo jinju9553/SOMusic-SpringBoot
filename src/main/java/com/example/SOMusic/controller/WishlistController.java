@@ -30,7 +30,7 @@ public class WishlistController {
 	@RequestMapping(value="/view", method = RequestMethod.GET)
 	public String ProductWishList(Model model) throws Exception {
 		
-		return "user/my/wish/wishList"; 
+		return "thyme/user/my/wish/wishList"; 
 	}
 
 
