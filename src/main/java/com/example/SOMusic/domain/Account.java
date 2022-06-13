@@ -15,7 +15,7 @@ import lombok.*;
 @SuppressWarnings("serial")
 public class Account implements Serializable {
 
-	@Id
+	@Id @Column(name="user_id")
 	private String userId;
 	
 	@Column(name="user_name")

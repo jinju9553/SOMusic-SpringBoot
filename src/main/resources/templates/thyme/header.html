@@ -12,20 +12,6 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
-<script>
-	$(document).ready(function() {
-		var userSession; //임시값. 나중에 여기에 세션의 account 값을 대입
-		if(userSession) {
-			$("#loginDiv").hide();
-			$("#logoutDiv").show();
-		}
-		else {
-			$("#loginDiv").show();
-			$("#logoutDiv").hide();
-		}
-	});
-</script>
-
 <body bgcolor="white">
 <div id="head">
 	<table style="width:100%;">
@@ -52,16 +38,17 @@
 			</td>
 			
 			<td class="txRight"> <!-- 회원가입, 로그인 등 메뉴 위치 -->
-				<div id="loginDiv">
+				<div id="loginDiv" th:unless="${userSession?.account}">
 					<a th:href="@{/user/register}"> 
 						<input class="btn" type="button" onClick="" value="회원가입"></a>
-					<a th:href="@{/user/login}"> 
+					<a th:href="@{/user/loginForm}"> 
 						<input class="btn" type="button" onClick="" value="로그인"></a>
 				</div>
-				<div id="logoutDiv">
-					<a href="#"> 
+				<div id="logoutDiv" th:if="${userSession?.account}">
+					<a><span th:text="${userSession?.account.userName}"></span>님, 환영합니다!</a>
+					<a th:href="@{/user/logout}"> 
 						<input class="btn" type="button" onClick="" value="로그아웃"></a>
-					<a href="#"> 
+					<a> 
 						<input class="btn" type="button" onClick="" value="마이페이지"></a>
 				</div>
 			</td>

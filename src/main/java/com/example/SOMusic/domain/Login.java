@@ -1,10 +1,13 @@
 package com.example.SOMusic.domain;
 
+import java.io.Serializable;
+
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter 
-public class Login {
+@SuppressWarnings("serial")
+public class Login implements Serializable {
 	private Account account;
 	private boolean autoLogin;
 	private String sessionId;

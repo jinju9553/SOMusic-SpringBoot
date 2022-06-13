@@ -26,13 +26,14 @@ public class AccountDao {
 			throws DataAccessException {
 		TypedQuery<Account> query = em.createQuery(
                                 "select a from Account a "
-                                + "where a.user_id=:id and a.password=:pw",
-                                Account.class);
+                                + "where a.userId=:id and a.password=:pw",
+                                Account.class); //주의: DB 컬럼명 말고 JPA에 설정한 이름을 사용
         query.setParameter("id", userId);
         query.setParameter("pw", password);
         Account account = null;
         try {
         	account = query.getSingleResult();
+        	System.out.println(account);
         } catch(NoResultException ex) {
         	return null;
         }
