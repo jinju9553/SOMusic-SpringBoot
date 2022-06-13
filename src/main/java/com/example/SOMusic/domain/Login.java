@@ -9,4 +9,8 @@ public class Login {
 	private boolean autoLogin;
 	private String sessionId;
 	private int sessionLimit;
+	
+	public Login(Account account) {
+		this.account = account;
+	}
 }
