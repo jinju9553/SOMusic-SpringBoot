@@ -7,11 +7,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.example.SOMusic.domain.GroupPurchase;
 import com.example.SOMusic.service.GPService;
 
 @Controller
+@SessionAttributes("userSession")
 public class MainController {
 	
 	private static final String MAIN = "/main";		// '/'가 들어오면 '/main' 실행

@@ -12,7 +12,7 @@
 			<h1>login</h1>
 			<form th:action="@{/user/login}" method="post">
 				<div class="form-group">
-					<input type="text" name="username" class="form-control" placeholder="아이디">
+					<input type="text" name="userId" class="form-control" placeholder="아이디">
 				</div>
 				<br>
 				<div class="form-group">
@@ -20,16 +20,16 @@
 				</div>
 				<br>
 				<div class="form-group">
-					<input class="btn" type="button" onClick="" value="아이디 찾기">
-					<input class="btn" type="button" onClick="" value="비밀번호 찾기">
+					<input class="btn" type="button" value="아이디 찾기">
+					<input class="btn" type="button" value="비밀번호 찾기">
 				</div>
 				<br>
 				<div class="form-group">
-					<input class="btn" type="button" onClick="" value="로그인">
+					<input class="btn" type="submit" value="로그인">
 				</div>
 				<br>
 				<div class="form-group">
-					<input class="btn" type="button" onClick="" value="회원가입">
+					<input class="btn" type="button" value="회원가입">
 				</div>
 			</form>
 		</div>

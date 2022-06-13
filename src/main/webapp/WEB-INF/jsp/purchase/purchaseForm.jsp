@@ -37,10 +37,14 @@
   
   <script>
   	function setAddress(event) {
-  		if(event.target.value == '0')
+  		if(event.target.value == '0') {
   			console.log("주문자와 동일한 주소");
-  		else if(event.target.value == '1')
+  			//다시 호출
+  		}
+  		else if(event.target.value == '1') {
   			console.log("새 주소 입력을 위해 폼 초기화");
+  			$(".shipping").children().next().children().val(" ");
+  		}
   	}
   	
   	function setShippingMethod(event) {
@@ -113,7 +117,7 @@
   	
     <tr class="shipping">
       <td>이름</td>
-      <td><form:input path="consumerName"/> 
+      <td><form:input path="consumerName" value="${account.userName}"/> 
         <form:errors path="consumerName"/></td>
     </tr>
     
@@ -125,19 +129,19 @@
     
     <tr>
       <td>휴대폰번호</td>
-      <td><form:input path="phone"/>
+      <td><form:input path="phone" value="${account.phone}"/>
         <form:errors path="phone"/></td>
     </tr>
     
     <tr class="shipping">
       <td>우편번호</td>
-      <td><form:input path="zipcode"/> 
+      <td><form:input path="zipcode" value="${account.zipcode}"/> 
         <form:errors path="zipcode"/></td>
     </tr>
     
     <tr class="shipping">
       <td>주소</td>
-      <td><form:input path="address"/> 
+      <td><form:input path="address" value="${account.address}"/> 
         <form:errors path="address"/></td>
     </tr>
     

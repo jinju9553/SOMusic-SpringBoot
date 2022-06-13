@@ -13,9 +13,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.ModelAndViewDefiningException;
+import org.springframework.web.util.WebUtils;
 
+import com.example.SOMusic.domain.Account;
+import com.example.SOMusic.domain.Login;
 import com.example.SOMusic.domain.Product;
 import com.example.SOMusic.domain.Purchase;
+import com.example.SOMusic.service.AccountService;
 import com.example.SOMusic.service.ProductService;
 import com.example.SOMusic.service.PurchaseService;
 
@@ -36,6 +40,12 @@ public class PurchaseController {
 	private ProductService productService;
 	public void setProductService(ProductService productService) {
 		this.productService = productService;
+	}
+	
+	@Autowired
+	private AccountService accountService;
+	public void setAccountService(AccountService accountService) {
+		this.accountService = accountService;
 	}
 	
 	//1.Validator 작성 필요
@@ -60,23 +70,25 @@ public class PurchaseController {
 
 		Product p = productService.findProductByProductId(productId);
 
-		// 만약 배송지 '주문자와 동일' 옵션을 선택했을 경우 ==> ajax 콜 사용
 		// 1.UserSession에서 UserId를 뽑아낸다.
-		// UserSession userSession = (UserSession)
-		// request.getSession().getAttribute("userSession");
+		Login userSession = 
+				(Login) WebUtils.getSessionAttribute(request, "userSession");
 
 		// 2.Account를 통해 이 유저의 address 및 기본 정보를 읽어와서 세팅한다.
-		// Account account =
-		// petStore.getAccount(userSession.getAccount().getUsername());
+		Account account = accountService.getAccount(userSession.getAccount().getUserId());
+		
+		// +)만약 배송지 '주문자와 동일' 옵션을 선택했을 경우 ==> 따로 ajax 콜 사용
 
 		purchaseReq.setProduct(p); // 정보를 세팅하여 Form에 초기값으로 나타낸다.
 		model.addAttribute("purchaseReq", purchaseReq);
+		model.addAttribute("account", account);
 
 		return new ModelAndView(PURCHASE_FORM);
 	}
 	
 	@PostMapping("/{productId}")
 	public String register( 
+			HttpServletRequest request,
 			@ModelAttribute("purchaseReq") PurchaseRequest purchaseReq,
 			@PathVariable("productId") int productId,
 			BindingResult bindingResult, Model model) throws ModelAndViewDefiningException {
@@ -88,10 +100,16 @@ public class PurchaseController {
 			return PURCHASE_FORM;
 		}
 
+		Login userSession = 
+				(Login) WebUtils.getSessionAttribute(request, "userSession");
+
+		Account account = accountService.getAccount(userSession.getAccount().getUserId());
+		
 		p.initPurchase(purchaseReq);
 		p.setProduct(productService.findProductByProductId(productId));
 		p.setTotalAmount(purchaseService.calculateTotal(p.getProduct()));
-		purchaseService.registerPurchase(p); //주의: consumerId 없이 삽입됨 ==> 세션 필요
+		p.setConsumerId(account.getUserId());
+		purchaseService.registerPurchase(p); 
 
 		model.addAttribute("purchaseReq", p); //View에 객체 전달하고 간략한 정보 출력
 		

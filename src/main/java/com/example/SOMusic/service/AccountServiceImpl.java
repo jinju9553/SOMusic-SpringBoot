@@ -14,14 +14,12 @@ public class AccountServiceImpl implements AccountService {
 	
 	@Override
 	public Account getAccount(String userId) {
-		accountDao.getAccount(userId); //회원가입 이력 확인
-		return null;
+		return accountDao.getAccount(userId); //회원가입 이력 확인
 	}
 
 	@Override
 	public Account getAccount(String userId, String password) {
-		accountDao.getAccount(userId, password); //로그인
-		return null;
+		return accountDao.getAccount(userId, password); //로그인
 	}
 
 	@Override

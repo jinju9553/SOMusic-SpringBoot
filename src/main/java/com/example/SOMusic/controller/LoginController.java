@@ -1,5 +1,53 @@
 package com.example.SOMusic.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.example.SOMusic.domain.Account;
+import com.example.SOMusic.domain.Login;
+import com.example.SOMusic.service.AccountService;
+
+@Controller
+@SessionAttributes("userSession")
 public class LoginController {
-	//220613: 여기부터 재개
+
+	@Autowired
+	private AccountService accountService;
+	public void setAccountService(AccountService accountService) {
+		this.accountService = accountService;
+	}
+	
+	@RequestMapping("/user/login")
+	public ModelAndView login(HttpServletRequest request,
+			@RequestParam("userId") String userId,
+			@RequestParam("password") String password,
+			@RequestParam(value="forwardAction", required=false) String forwardAction,
+			Model model) throws Exception {
+		Account account = accountService.getAccount(userId, password); //DB의 아이디 & 비밀번호와 대조
+		if (account == null) {
+			return new ModelAndView("Error", "message", 
+					"Invalid username or password.  Signon failed.");
+		}
+		else {
+			Login userSession = new Login(account);
+			//PagedListHolder<Product> myList = new PagedListHolder<Product>(
+			//		this.petStore.getProductListByCategory(
+			//				account.getProfile().getFavouriteCategoryId()));
+			//myList.setPageSize(4);
+			//userSession.setMyList(myList);
+			model.addAttribute("userSession", userSession);
+			System.out.println("LoginController: " + userSession.getAccount().getUserName());
+			if (forwardAction != null) 
+				return new ModelAndView("redirect:" + forwardAction); //사용자가 원래 보던 페이지로 리다이렉트
+			else 
+				return new ModelAndView("redirect:" + "/main"); //그냥 redirect하면 request가 소멸하므로 MainController에도 userSession 연동
+		}
+	}
 }

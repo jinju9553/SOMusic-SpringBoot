@@ -41,18 +41,17 @@
 			
 			<td class="txRight"> <!-- 회원가입, 로그인 등 메뉴 위치 -->
 				<c:if test="${empty userSession.account}">
-					<a href="<c:url value=""/>"> 
+					<a href="<c:url value="/user/register"/>"> 
 						<input class="btn" type="button" onClick="" value="회원가입"></a>
 						
-					<a href="<c:url value=""/>"> 
+					<a href="<c:url value="/user/loginForm"/>"> 
 						<input class="btn" type="button" onClick="" value="로그인"></a>
 				</c:if> 
 				
 				<c:if test="${!empty userSession.account}">
-					<a href="<c:url value=""/>"> 
+					<a><span>${userSession.account.userName}</span>님, 환영합니다!</a>
+					<a href="<c:url value="/user/logout"/>"> 
 						<input class="btn" type="button" onClick="" value="로그아웃"></a>
-						
-					
 					<a href="<c:url value=""/>"> 
 						<input class="btn" type="button" onClick="" value="마이페이지"></a>
 				</c:if>
