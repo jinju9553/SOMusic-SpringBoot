@@ -47,5 +47,18 @@ public class ProductServiceImpl implements ProductService {
 		return productRepository.findProductBySellerId(sellerId);
 	}
 
+	public List<Product> get4ProductList() {
+		return productRepository.findFirst4ByOrderByProductId();
+	}
+	
+	@Override
+	public List<Product> getAllProductList() {
+		return productRepository.findAll();
+	}
+	
+	@Override
+	public List<Product> getSearchProductList(String keyword) {
+		return productRepository.findByProductNameContainingIgnoreCaseOrDescriptionContainingIgnoreCaseOrArtistNameContainingIgnoreCase(keyword, keyword, keyword);
+	}
 
 }

@@ -87,7 +87,7 @@ public class ProductController {
 	@RequestMapping(value="/register/success", method = RequestMethod.GET)
 	public String success(Model model) throws Exception {
 		System.out.println("등록 완료");
-		
+
 		return Product_REGISTER_SEUCCESS_View;
 	}	 
 	

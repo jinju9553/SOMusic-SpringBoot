@@ -13,34 +13,16 @@
 	</div>
 	<hr class="line">
 	<div class="element listView">
-		<div class="one">
-			<img class="img" src="x.png">
+		<div class="one" th:each="product : ${productList}">
+			<img class="img" th:src="@{${product.image}}">
 			<div class="title">
-				<a id="link" class="link" href="myGpInfoView.html">폼 이름</a>
-			</div>
-		</div>
-		<div class="one">
-			<img class="img" src="x.png">
-			<div class="title">
-				<a id="link" class="link" href="myGpInfoView.html">폼 이름</a>
-			</div>
-		</div>
-		<div class="one">
-			<img class="img" src="x.png">
-			<div class="title">
-				<a id="link" class="link" href="myGpInfoView.html">폼 이름</a>
-			</div>
-		</div>
-		<div class="one">
-			<img class="img" src="x.png">
-			<div class="title">
-				<a id="link" class="link" href="myGpInfoView.html">폼 이름</a>
+				<a id="link" class="link" th:text="${product.productName}" th:href="@{/purchase/{id}(id=${product.productId})}">상품명</a>
 			</div>
 		</div>
 	</div>
 	
 	<div style="text-align: right;" class="element">
-		<a id="linkProList" class="more" href="GPRegisterForm.html">더보기&nbsp;</a>
+		<a id="linkProList" class="more" th:href="@{/main/product}">더보기</a>&nbsp;
 		<img style="width: 10px; height: 10px;" th:src="@{/images/main/more.png}">
 	</div>
 
@@ -56,6 +38,7 @@
 			</div>
 		</div>
 	</div>
+	
 	<div style="text-align: right;" class="element">
 		<a class="more" th:href="@{/main/gp}">더보기</a>&nbsp;
 		<img style="width: 10px; height: 10px;" th:src="@{/images/main/more.png}">

@@ -133,7 +133,7 @@
 				<div class="element"><p th:text="${gp.title}">제목</p></div>
 				<div class="element"><p th:text="${gp.startDate} + '  ~  ' + ${gp.endDate}">시작 ~ 마지막</p></div>
 				<div class="element"><p th:text="${gp.price} + ' 원'">가격</p></div>
-				<div class="element"><p th:text="${gp.description}">상세 설명</p></div>
+				<div class="element"><p th:utext="${gp.description}">상세 설명</p></div>
 				<div class="element"><p th:text="${gp.category}">해시태그</p></div>
 				<div class="element"><p th:text="${gp.bank} + '  ' + ${gp.account}">은행 정보</p></div>
 			</div>

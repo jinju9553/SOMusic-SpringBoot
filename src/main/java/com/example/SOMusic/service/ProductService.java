@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import com.example.SOMusic.dao.ProductDao;
 import com.example.SOMusic.domain.Product;
-import com.example.SOMusic.domain.Purchase;
 
 @Service
 public interface ProductService {
@@ -24,4 +23,10 @@ public interface ProductService {
 	Product findProductByProductId(int productId);
 
 	
+	List<Product> get4ProductList();	// 메인에 보여줄 4개 상품
+	
+	List<Product> getAllProductList();
+	
+	public List<Product> getSearchProductList(String keyword);		// 검색
+		
 }

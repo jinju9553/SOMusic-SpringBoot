@@ -99,8 +99,7 @@ public class GroupPurchase implements Serializable {
 	public String toString() {
 		return "GroupPurchase [gpId=" + gpId + ", sellerId=" + sellerId + ", title=" + title + ", image=" + image
 				+ ", startDate=" + startDate + ", endDate=" + endDate + ", category=" + category + ", account="
-				+ account + ", bank=" + bank + ", price=" + price + ", description=" + description + ", joinList="
-				+ joinList.toString() + "]";
+				+ account + ", bank=" + bank + ", price=" + price + ", description=" + description + "]";
 	}
 
 }
