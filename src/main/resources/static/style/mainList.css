@@ -33,9 +33,9 @@
 	}
 
 	.img {
-		border: 1px solid red;
 		width: 220px;
 		height: 200px;
+		margin-top: 5px;
 	}
 
 	.title {
@@ -60,5 +60,6 @@
 	}
 
 	.more:hover {
+		text-decoration: none;
 		color: #EDA9B1;
 	}

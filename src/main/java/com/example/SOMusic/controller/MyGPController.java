@@ -48,6 +48,7 @@ public class MyGPController {
 
 		// 공구 검색
 		GroupPurchase gp = gpSvc.getGP(gpId);
+		gp.setDescription(gp.getDescription().replace("\n", "<br>"));
 		model.addAttribute("gp", gp);
 		
 		return MY_GP_INFO;

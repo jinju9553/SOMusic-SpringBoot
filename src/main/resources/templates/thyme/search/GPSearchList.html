@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" th:href="@{/style/mainList.css}" type="text/css" />
+<style>
+	.searchNav {
+		width: 1200px;
+		margin-left: auto;
+		margin-right: auto;
+	}
+	
+	.searchUl {
+		font-size: 23px;
+		padding-left: 15px;
+	}
+
+	.linkNav {
+		text-decoration: none;
+	}
+	
+
+	.liNav {
+		display: inline;
+		font: bold;
+		border-left: 2px solid #afafc7;
+		padding-left: 10px;
+		padding-right: 6px;
+	}
+
+	.liNav:first-child {
+		border-left: none;
+	}	
+
+	.selectNav {
+		color: #5f7caf;
+	}
+
+	.unselect {
+		color: #bababf;
+	}
+
+	.unselect:hover {
+		color: #5f7caf;
+		border-bottom: 1px solid #5f7caf;
+		text-decoration: none;
+	}
+</style>
+<title>검색 결과</title>
+</head>
+<body>
+<div th:insert="~{thyme/header}"></div>
+
+<div class="element searchNav">
+	<nav>
+		<ul class="searchUl">
+			<li class="liNav"><a class="linkNav unselect" href="#" th:href="@{/main/product/search(keyword=${keyword})}">중고 상품</a></li>
+			<li class="liNav"><a class="linkNav selectNav" style="color: #5f7caf;">공동 구매</a></li>
+		</ul>
+	</nav>
+	
+	<hr class="line">
+</div>
+
+<div id="out">
+	<div class="search" th:unless="${#lists.isEmpty(gpList)}">
+		<div class="element">
+			<h5><b class="color_lavender" th:text="'&quot;' + ${keyword} + '&quot;'"></b>&nbsp;공구 검색 결과</h5>
+		</div>
+	
+		<div class="element listView">
+			<div class="one" th:each="gp : ${gpList}">
+				<img class="img" th:src="@{${gp.image}}">
+				<div class="title">
+					<a id="link" class="link" th:text="${gp.title}" th:href="@{/join/{id}(id=${gp.gpId})}">폼 이름</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="noSearch" th:if="${#lists.isEmpty(gpList)}">
+		<div class="element" style="text-align: center; padding-top: 50px;">
+			<h5><b class="color_lavender" th:text="'&quot;' + ${keyword} + '&quot;'"></b>&nbsp;에 대한 공구 검색 결과가 존재하지 않습니다.</h5>
+		</div>
+	</div>
+</div>
+</body>
+</html>

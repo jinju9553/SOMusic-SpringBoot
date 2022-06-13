@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" th:href="@{/style/mainList.css}" type="text/css" />
+<title>공구 목록</title>
+</head>
+<body>
+<div th:insert="~{thyme/header}"></div>
+<div id="out">
+	<div class="element">
+		<h4>상품 목록</h4>
+	</div>
+	<hr class="line">
+	<div class="element listView">
+		<div class="one" th:each="product : ${productList}">
+			<img class="img" th:src="@{${product.image}}">
+			<div class="title">
+				<a id="link" class="link" th:text="${product.productName}" th:href="@{/purchase/{id}(id=${product.productId})}">폼 이름</a>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>

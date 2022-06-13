@@ -15,6 +15,7 @@ import com.example.SOMusic.controller.ProductRequest;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name="product") //클래스 명과 테이블 명이 다르다면 지정
