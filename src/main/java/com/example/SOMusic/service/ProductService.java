@@ -19,7 +19,6 @@ public interface ProductService {
 	
 	List<Product> getMyPrList(String sellerId);
 
-	/* Spring Data JPA */
 	Product findProductByProductId(int productId);
 
 	
