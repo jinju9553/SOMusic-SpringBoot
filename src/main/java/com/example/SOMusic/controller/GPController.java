@@ -16,7 +16,9 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -72,12 +74,14 @@ public class GPController implements ApplicationContextAware {
 	}
 	
 	// 공구 등록
-	@RequestMapping(value="/register", method = RequestMethod.GET)
+//	@RequestMapping(value="/register", method = RequestMethod.GET)
+	@GetMapping("/register")
 	public String showRegisterForm() {
 		return GP_REGISTER_FORM;
 	}
 	
-	@RequestMapping(value="/register", method = RequestMethod.POST)
+//	@RequestMapping(value="/register", method = RequestMethod.POST)
+	@PostMapping("/regiser")
 	public String register( @Valid @ModelAttribute("gpReq") GPRequest gpReq, Errors errors,
 							Model model) throws Exception {
 		
@@ -136,8 +140,8 @@ public class GPController implements ApplicationContextAware {
 	public String update(@Valid @ModelAttribute("gpReq") GPRequest gpReq, Errors errors,
 						@RequestParam("imgPath") String path, @RequestParam("isModify") String isModify,
 						Model model) throws Exception {
-		System.out.println("GP 수정 : " + gpReq);
-		System.out.println("GP 이미지 경로 : " + path + "\t변경 : " + isModify);
+//		System.out.println("GP 수정 : " + gpReq);
+//		System.out.println("GP 이미지 경로 : " + path + "\t변경 : " + isModify);
 		
 		// 오류
 		if(errors.hasErrors()) {
@@ -162,6 +166,8 @@ public class GPController implements ApplicationContextAware {
 		// 공구 수정
 		gp.setSellerId("jinju");		// 임의 설정
 		gpSvc.updateGP(gp);
+		
+		System.out.println("GP 수정 : " + gp);
 		
 		return "redirect:" + GP_UPDATE_SEUCCESS + "?gpId=" + gpReq.getGpId();
 	}

@@ -39,12 +39,16 @@ public class GPService {
 		return gpRepository.findBySellerId(sellerId);
 	}
 	
-	public List<GroupPurchase> get4GPList() {
+	public List<GroupPurchase> get4GPList() {		// 메인에 보여줄 4개의 공구
 		return gpRepository.findFirst4ByOrderByGpId();
 	}
 	
-	public List<GroupPurchase> getAllGPList() {
+	public List<GroupPurchase> getAllGPList() {		// 모든 공구
 		return gpRepository.findAll();
+	}
+	
+	public List<GroupPurchase> getSearchGPList(String keyword) {		// 검색
+		return gpRepository.findByTitleContainingIgnoreCaseOrDescriptionContainingIgnoreCaseOrCategoryContainingIgnoreCase(keyword, keyword, keyword);
 	}
 	
 }
