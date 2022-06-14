@@ -140,8 +140,8 @@ public class GPController implements ApplicationContextAware {
 	public String update(@Valid @ModelAttribute("gpReq") GPRequest gpReq, Errors errors,
 						@RequestParam("imgPath") String path, @RequestParam("isModify") String isModify,
 						Model model) throws Exception {
-		System.out.println("GP 수정 : " + gpReq);
-		System.out.println("GP 이미지 경로 : " + path + "\t변경 : " + isModify);
+//		System.out.println("GP 수정 : " + gpReq);
+//		System.out.println("GP 이미지 경로 : " + path + "\t변경 : " + isModify);
 		
 		// 오류
 		if(errors.hasErrors()) {
@@ -166,6 +166,8 @@ public class GPController implements ApplicationContextAware {
 		// 공구 수정
 		gp.setSellerId("jinju");		// 임의 설정
 		gpSvc.updateGP(gp);
+		
+		System.out.println("GP 수정 : " + gp);
 		
 		return "redirect:" + GP_UPDATE_SEUCCESS + "?gpId=" + gpReq.getGpId();
 	}

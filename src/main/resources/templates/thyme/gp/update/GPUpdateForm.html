@@ -56,7 +56,7 @@
     <div style="height:20px;"></div>
     <div class="form_view">
         <form action="#" th:action="@{/gp/update}" th:object="${gpReq}" method="POST" enctype="multipart/form-data">
-        	<input type="hidden" id="gpId" name="gpId" th:value="*{gpId}" />
+        	<input type="hidden" id="gpId" name="gpId" th:field="*{gpId}" />
             <div class="element">
                 폼 제목 <b class="star">*</b>
             </div>

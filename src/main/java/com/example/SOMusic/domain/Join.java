@@ -3,6 +3,7 @@ package com.example.SOMusic.domain;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -95,7 +96,7 @@ public class Join implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date regDate;
 	
-	@ManyToOne //Many가 Join, One이 GroupPurchase
+	@ManyToOne(cascade = CascadeType.ALL) //Many가 Join, One이 GroupPurchase
 	@JoinColumn(name="grouppurchase_id") //DB 상에서 FK의 이름
 	private GroupPurchase groupPurchase; //주최자 정보 포함
 }

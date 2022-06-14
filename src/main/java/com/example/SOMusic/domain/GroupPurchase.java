@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -60,8 +61,7 @@ public class GroupPurchase implements Serializable {
 	
 	private String description;
 	
-	@OneToMany
-	@JoinColumn(name="GROUPPURCHASE_ID")
+	@OneToMany(mappedBy="groupPurchase", cascade = CascadeType.ALL)
 	private List<Join> joinList;
 	
 	public GroupPurchase() {}
