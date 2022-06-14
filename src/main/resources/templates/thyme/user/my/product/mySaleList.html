@@ -57,7 +57,7 @@
 	<div class="element">
 		<div class="one" th:each="pr : ${prList}">
 <!-- 			<div class="element image_view">
-				<img class="image" src="#" th:src="@{${gp.image}}"/>
+				<img class="image" src="#" th:src="@{${pr.image}}"/>
 			</div> -->
 			<div class="element title">
 				<h5><a class="linkTitle" th:text="${pr.productName}"
@@ -67,10 +67,10 @@
 			<div class="element">
 				<div class="element" style="height:40px;"></div>
 				<!-- <div class="element" th:if="${#lists.isEmpty(pr.joinList)}"> -->
-<!-- 					 <form action="#" method="GET" th:action="@{/gp/delete}">
-						<input type="hidden" id="gpId" name="gpId" th:value="${gp.gpId}" />
+					 <form action="#" method="GET" th:action="@{/product/delete}">
+						<input type="hidden" id="productId" name="productId" th:value="${pr.productId}" />
 						<input class="btnDelete" type="submit" value="삭제" />
-					</form>  -->
+					</form>  
 				</div>
 			</div>
 		</div>

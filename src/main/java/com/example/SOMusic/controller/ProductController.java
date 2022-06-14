@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.context.WebApplicationContext;
 
 import com.example.SOMusic.domain.Product;
 import com.example.SOMusic.service.ProductService;
@@ -27,6 +29,15 @@ public class ProductController {
 	private static final String Product_REGISTER_FORM = "thyme/product/register/productRegisterForm";
 	private static final String Product_REGISTER_SEUCCESS = "/product/register/success";	// redirect
 	private static final String Product_REGISTER_SEUCCESS_View = "thyme/product/register/ProductRegisterSuccess";
+
+	// 이미지 업로드를 위해
+	@Value("/upload/")
+	private String uploadDirLocal;
+		
+	private WebApplicationContext context;	
+	private String uploadDir;
+	
+	
 	
 	@Autowired
 	private ProductService prSvc;
@@ -73,9 +84,11 @@ public class ProductController {
 		  //이미지 업로드 추후 추가
 		  
 		  Product pr = new Product(); 
+		  pr.initPr(prReq);
 		  //sellerId 추가 
 		  pr.setSellerId("panda");
-		  pr.initPr(prReq);
+		  pr.setBank(Product_REGISTER_FORM);
+		  
 
 		  //DB에 추가
 		  prSvc.addProduct(pr);
@@ -99,7 +112,7 @@ public class ProductController {
 		//delete
 		prSvc.deleteProduct(productId);
 		
-		return "redirect:" + "/user/my/product/sale/list?sellerId=panda";
+		return "redirect:" + "/user/my/product/sale/List?sellerId=panda";
 	}
 	
 	
