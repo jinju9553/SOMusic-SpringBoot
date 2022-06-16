@@ -96,8 +96,6 @@ public class JoinController {
 		
 		joinService.registerJoin(join);
 
-		//JPetStore - OrderController : mav.addObject("order", orderForm.getOrder());
-		//model.addAttribute("join", p); //View에 객체 전달하고 간략한 정보 출력
 		return "redirect:/" + "join/{gpId}";
 	}
 }
