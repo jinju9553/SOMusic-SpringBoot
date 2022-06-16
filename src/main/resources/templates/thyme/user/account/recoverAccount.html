@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<link rel="stylesheet" th:href="@{/style/loginForm.css}" type="text/css" />
+<meta charset="UTF-8">
+<title>로그인</title>
+</head>
+<body>
+<div th:insert="~{thyme/header}"></div>
+	<div class="container" style="width: 40%;">
+		<div>
+			<h1>아이디 찾기</h1>
+				<div th:if="${id}">
+					<p>회원님의 아이디는 다음과 같습니다.</p>
+					<h4 th:text="${id}"></h4>
+					<a th:href="@{/user/loginForm}"> 
+						<input class="btn" type="button" value="로그인"></a>
+				</div>
+				<div th:unless="${id}">
+					<p>입력하신 정보로 조회된 결과가 없습니다.</p>
+					<a th:href="@{/user/findIdForm}"> 
+						<input class="btn" type="button" value="이전 페이지로"></a>
+				</div>
+				<br>
+		</div>
+	</div>
+
+</body>
+</html>

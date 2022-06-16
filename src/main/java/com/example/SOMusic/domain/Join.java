@@ -54,9 +54,8 @@ public class Join implements Serializable {
 	@NotEmpty(message = "*주소를 입력해주세요")
 	private String address;
 	
-	@Digits(integer=5, fraction = 0, message="*우편번호 5자리를 입력해주세요.")
-	@NotNull(message = "*우편번호를 입력해주세요")
-	private int zipcode;
+	@NotEmpty(message = "*우편번호를 입력해주세요")
+	private String zipcode;
 	
 	@NotEmpty(message = "*전화번호를 입력해주세요")
 	private String phone;
@@ -96,6 +95,7 @@ public class Join implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date regDate;
 	
+	//mappedBY
 	@ManyToOne(cascade = CascadeType.ALL) //Many가 Join, One이 GroupPurchase
 	@JoinColumn(name="grouppurchase_id") //DB 상에서 FK의 이름
 	private GroupPurchase groupPurchase; //주최자 정보 포함

@@ -17,7 +17,7 @@ import com.example.SOMusic.domain.Login;
 import com.example.SOMusic.service.AccountService;
 
 @Controller
-@RequestMapping({"/user/register", "/user/update"})
+@RequestMapping("/user/register")
 public class RegisterController {
 	
 	private static final String REGISTER_FORM = "thyme/user/account/registerForm";
@@ -51,18 +51,6 @@ public class RegisterController {
 			HttpServletRequest request, HttpSession session,
 			@ModelAttribute("accountForm") AccountForm accountForm,
 			BindingResult result) throws Exception {
-
-		/*
-		accountForm.getAccount().getProfile().setUserid(
-			accountForm.getAccount().getUserId());
-
-		if (request.getParameter("account.profile.listOption") == null) {
-			accountForm.getAccount().getProfile().setListOption(false);
-		}
-		if (request.getParameter("account.profile.bannerOption") == null) {
-			accountForm.getAccount().getProfile().setBannerOption(false);
-		}
-		*/
 		
 		//validator.validate(accountForm, result);
 		
@@ -71,7 +59,7 @@ public class RegisterController {
 			if (accountForm.isNewAccount()) {
 				accountService.insertAccount(accountForm.getAccount());
 			}
-			else {
+			else { //사용하지 않음
 				accountService.updateAccount(accountForm.getAccount());
 			}
 		}
@@ -83,10 +71,7 @@ public class RegisterController {
 		
 		Login userSession = new Login(
 				accountService.getAccount(accountForm.getAccount().getUserId()));
-		//PagedListHolder<Product> myList = new PagedListHolder<Product>(
-		//		accountService.getProductListByCategory(accountForm.getAccount().getProfile().getFavouriteCategoryId()));
-		//myList.setPageSize(4);
-		//userSession.setMyList(myList);
+
 		session.setAttribute("userSession", userSession);
 		return "redirect:/" + "main"; //홈 화면으로 리다이렉션
 	}

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<link rel="stylesheet" th:href="@{/style/loginForm.css}" type="text/css" />
+<meta charset="UTF-8">
+<title>로그인</title>
+</head>
+<body>
+<div th:insert="~{thyme/header}"></div>
+	<div class="container" style="width: 40%;">
+		<div>
+			<h1>아이디 찾기</h1>
+			<form th:action="@{/user/my/find/id}" method="post">
+				<p>회원가입시 등록한 전화번호와 이메일로 아이디를 찾습니다.</p>
+				<div class="form-group">
+					<input type="text" name="phone" class="form-control" placeholder="전화번호">
+				</div>
+				<br>
+				<div class="form-group">
+					<input type="text" name="email" class="form-control" placeholder="이메일">
+				</div>
+				<br>
+				<div class="form-group">
+					<input class="btn" type="submit" value="아이디 찾기">
+				</div>
+				<br>
+			</form>
+		</div>
+	</div>
+
+</body>
+</html>

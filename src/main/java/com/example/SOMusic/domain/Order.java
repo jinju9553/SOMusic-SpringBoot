@@ -5,6 +5,6 @@ public abstract class Order {
 	public String consumerName;
 	public int totalAmount;
 	public String address;
-	public int zipcode;
+	public String zipcode;
 	public String phone;
 }

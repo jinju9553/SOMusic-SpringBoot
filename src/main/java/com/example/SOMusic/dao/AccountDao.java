@@ -51,8 +51,9 @@ public class AccountDao {
     }
 	
 	@Transactional
-	public void removeAccount(Account account) {
-        em.remove(account);
+	public void removeAccount(Account account) { //"Removing a detached instance" 예외 때문에 find() 필요
+		Account a = em.find(Account.class, account.getUserId());
+        em.remove(a);
     }
 	
 }

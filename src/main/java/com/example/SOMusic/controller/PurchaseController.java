@@ -74,8 +74,11 @@ public class PurchaseController {
 		Login userSession = 
 				(Login) WebUtils.getSessionAttribute(request, "userSession");
 
-		// 2.Account를 통해 이 유저의 address 및 기본 정보를 읽어와서 세팅한다.
-		Account account = accountService.getAccount(userSession.getAccount().getUserId());
+		// 2.Account를 통해 이 유저의 address 및 기본 정보를 읽어와서 세팅한다. ==> try catch? 
+		Account account = new Account();
+		if(userSession != null) {
+			account = accountService.getAccount(userSession.getAccount().getUserId());
+		}
 		
 		// +)만약 배송지 '주문자와 동일' 옵션을 선택했을 경우 ==> 따로 ajax 콜 사용
 

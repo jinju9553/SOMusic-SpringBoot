@@ -33,6 +33,8 @@ public class MyProductController {
 		return PRODUCT_INFO;
 	}
 	
+	//진주: 1.혹시 여기... List를 list로 수정해주실 수 있나요 
+	//2.그리고 혹시 최상단의 @RequestMapping("/user/my/product")에서 /product를 빼고 /product는 아래의 GetMapping들에 별도로 넣어주실 수 있을까요?
 	@GetMapping(value="/sale/List")
 	public String saleList(@RequestParam("sellerId") String sellerId, Model model)
 	throws Exception {
