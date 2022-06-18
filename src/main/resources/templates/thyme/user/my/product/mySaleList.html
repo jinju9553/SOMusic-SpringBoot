@@ -56,9 +56,9 @@
 	</div>
 	<div class="element">
 		<div class="one" th:each="pr : ${prList}">
-<!-- 			<div class="element image_view">
+ 			<div class="element image_view">
 				<img class="image" src="#" th:src="@{${pr.image}}"/>
-			</div> -->
+			</div> 
 			<div class="element title">
 				<h5><a class="linkTitle" th:text="${pr.productName}"
 				href="#" th:href="@{/product/info(productId=${pr.productId})}" >제목</a></h5>

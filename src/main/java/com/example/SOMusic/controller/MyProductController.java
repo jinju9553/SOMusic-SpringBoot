@@ -10,14 +10,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.SOMusic.service.ProductService;
+import com.example.SOMusic.service.PurchaseService;
 import com.example.SOMusic.domain.Product;
+import com.example.SOMusic.domain.Purchase;
 
 @Controller
-@RequestMapping("/user/my/product")
+@RequestMapping("/user/my")
 public class MyProductController {
 	
 	private static final String MY_PRODUCT_LIST = "thyme/user/my/product/mySaleList";
 	private static final String PRODUCT_INFO = "thyme/Product/View/productView";
+	private static final String MY_PURCHASE_LIST = "thyme/user/my/purchase/MyPurchaseList";
+
+	
+	@Autowired //주의: interface는 class가 아니므로 Bean을 생성할 수 없음
+	private PurchaseService purchaseService;
+	public void setPurchaseService(PurchaseService purchaseService) {
+		this.purchaseService = purchaseService;
+	}	
 	
 	@Autowired
 	private ProductService prSvc;
@@ -33,9 +43,25 @@ public class MyProductController {
 		return PRODUCT_INFO;
 	}
 	
-	//진주: 1.혹시 여기... List를 list로 수정해주실 수 있나요 
-	//2.그리고 혹시 최상단의 @RequestMapping("/user/my/product")에서 /product를 빼고 /product는 아래의 GetMapping들에 별도로 넣어주실 수 있을까요?
-	@GetMapping(value="/sale/List")
+
+	@GetMapping(value="/purchase/List")
+	public String purchaseList(@RequestParam("userId") String userId, Model model)
+	throws Exception {
+		System.out.println("구매한 상품 리스트 출력중");
+		System.out.println("sellerId : " + userId);
+		
+		List<Purchase> purList = purchaseService.findPurchaseList(userId);
+		model.addAttribute("purList", purList);
+		
+		System.out.println(purList.toString());
+		
+		return MY_PURCHASE_LIST; 
+		
+	}	
+	
+
+
+	@GetMapping(value="/sale/list/product")
 	public String saleList(@RequestParam("sellerId") String sellerId, Model model)
 	throws Exception {
 		System.out.println("등록한 상품 리스트 출력중");
