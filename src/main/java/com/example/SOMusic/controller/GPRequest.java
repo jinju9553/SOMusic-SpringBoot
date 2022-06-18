@@ -9,13 +9,6 @@ import java.io.Serializable;
 import java.nio.file.Files;
 import java.time.LocalDate;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -42,9 +35,6 @@ public class GPRequest implements Serializable {
 
 	@NotBlank(message="필수 입력 항목입니다.")
 	private String title;
-	
-//	@Column(name="IMAGE")
-//	private String image;
 	
 	@NotNull(message="필수 입력 항목입니다.")
 	private MultipartFile image;
@@ -115,14 +105,11 @@ public class GPRequest implements Serializable {
 		    
 		    MultipartFile multipartFile = new CommonsMultipartFile(fileItem);
 		    return multipartFile;
-		    // Or faster..
-		    // IOUtils.copy(new FileInputStream(file), fileItem.getOutputStream());
 		} catch (IOException ex) {
-		    // do something.
+			ex.printStackTrace();
 		}
 
         return null;
-//        MultipartFile multipartFile = new MockMultipartFile("test.xlsx", new FileInputStream(new File("/home/admin/test.xlsx")));
 	}
 	
 }

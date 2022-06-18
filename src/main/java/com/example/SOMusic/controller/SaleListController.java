@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.example.SOMusic.domain.Product;
 import com.example.SOMusic.service.PurchaseService;
@@ -19,6 +20,7 @@ import com.example.SOMusic.service.ProductService                               
 
 
 @Controller
+@SessionAttributes("userSession")
 @RequestMapping("/user/my")
 public class SaleListController {
 	

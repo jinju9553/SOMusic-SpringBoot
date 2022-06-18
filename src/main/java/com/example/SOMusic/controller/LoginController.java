@@ -39,6 +39,7 @@ public class LoginController {
 			Login userSession = new Login(account);
 
 			model.addAttribute("userSession", userSession);
+			
 			System.out.println("LoginController: " + userSession.getAccount().getUserName());
 			if (forwardAction != null) 
 				return new ModelAndView("redirect:" + forwardAction); //사용자가 원래 보던 페이지로 리다이렉트

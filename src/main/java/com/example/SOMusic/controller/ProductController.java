@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -30,6 +31,7 @@ import com.example.SOMusic.domain.Product;
 import com.example.SOMusic.service.ProductService;
 
 @Controller
+@SessionAttributes("userSession")
 @RequestMapping(value="/product")
 public class ProductController {
 	

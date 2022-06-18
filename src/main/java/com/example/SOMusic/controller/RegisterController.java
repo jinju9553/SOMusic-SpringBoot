@@ -11,12 +11,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.util.WebUtils;
 
 import com.example.SOMusic.domain.Login;
 import com.example.SOMusic.service.AccountService;
 
 @Controller
+@SessionAttributes("userSession")
 @RequestMapping("/user/register")
 public class RegisterController {
 	

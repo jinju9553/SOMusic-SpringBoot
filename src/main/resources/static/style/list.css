@@ -14,13 +14,14 @@
 		border: 1px solid #afafc7;
 		height: 110px;
 		display: flex;
-		margin: 5px;
-		border-radius: 3px;
+		margin: 3px;
+		border-radius: 5px;
 	}
 	
 	.image_view {
-		height: 90px;
-		width: 90px;
+		height: 98px;
+		width: 98px;
+		margin: 5px;
 	}
 	
 	.image {
@@ -31,19 +32,23 @@
 	.title {
 		padding-top: 30px;
 		padding-left: 10px;
-		width: 670px;
+		width: 70%;
+	}
+	
+	.btnView {
+		width: 10%;
+		text-align: right;
 	}
 
 	.btnDelete {
 		background: none;
-    	font-size: 13px;
+    	font-size: 20px;
     	color: #ccabaf;
     	border: none;
     }
     
     .btnDelete:hover {
     	font-weight: bold;
-    	border-bottom: 2px solid #ccabaf;
     }
     
 	.linkTitle {
@@ -55,3 +60,38 @@
 		color: #afafc7;
 		text-decoration: none;
 	}
+	
+	.linkNav {
+		text-decoration: none;
+	}
+	
+	.ulNav {
+		padding-left: 8px;
+	}
+
+	.liNav {
+		display: inline;
+		font: bold 12px;
+		border-left: 2px solid #afafc7;
+		padding-left: 10px;
+		padding-right: 6px;
+	}
+
+	.liNav:first-child {
+		border-left: none;
+	}	
+
+	.selectNav {
+		color: #5f7caf;
+	}
+
+	.unselect {
+		color: #bababf;
+	}
+
+	.unselect:hover {
+		color: #5f7caf;
+		border-bottom: 1px solid #5f7caf;
+		text-decoration: none;
+	}
+	
