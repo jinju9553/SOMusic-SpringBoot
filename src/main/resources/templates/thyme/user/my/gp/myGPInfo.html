@@ -223,7 +223,7 @@
 		</table>
 	</div>
 	<div style="height:10px;"></div>
-	<div style="text-align:right;">
+	<div th:unless="${#lists.isEmpty(gp.joinList)}" style="text-align:right;">
 		<form id="updateAllStatus" th:action="@{/user/my/gp/join/status/all/update}" method="POST">
 			<input type="hidden" id="gpId" name="gpId" th:value="${gp.gpId}" />
 			<select name="status" class="status">
