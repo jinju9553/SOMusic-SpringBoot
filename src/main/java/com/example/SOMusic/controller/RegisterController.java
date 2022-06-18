@@ -32,11 +32,12 @@ public class RegisterController {
 	public AccountForm formBacking(HttpServletRequest request) throws Exception {
 		Login userSession = 
 			(Login) WebUtils.getSessionAttribute(request, "userSession");
-		if (userSession != null) {	// 세션이 있다면 회원 수정으로 넘어감
+		String uri = request.getRequestURI();
+		if (userSession != null && !(uri.contains("/checkId"))) { // 세션이 있다면 회원 수정
 			return new AccountForm(
 					accountService.getAccount(userSession.getAccount().getUserId()));
 		}
-		else {	// 세션이 없다면 새로 회원가입
+		else { // 세션이 없다면 새로 회원가입
 			return new AccountForm();
 		}
 	}
@@ -74,5 +75,11 @@ public class RegisterController {
 
 		session.setAttribute("userSession", userSession);
 		return "redirect:/" + "main"; //홈 화면으로 리다이렉션
+	}
+	
+	@GetMapping("/checkId")
+	public boolean check() {
+		//아이디 중복 확인
+		return false;
 	}
 }

@@ -10,10 +10,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
@@ -27,7 +25,7 @@ import com.example.SOMusic.service.AccountService;
 import com.example.SOMusic.service.PurchaseService;
 
 @Controller
-@SessionAttributes("userSession")
+@SessionAttributes({"userSession", "tempSession"})
 @RequestMapping("/user/my")
 public class MyPageController {
 	
@@ -91,13 +89,19 @@ public class MyPageController {
 	@PostMapping("/update/password")
 	public String updatePassword( 
 			HttpServletRequest request,
-			@ModelAttribute("newAccountForm") AccountForm newAccountForm,
-			BindingResult bindingResult) throws ModelAndViewDefiningException {
+			@RequestParam("password") String password) throws ModelAndViewDefiningException {
 	
-		//미구현
-		//accountService.updatePassword(newAccountForm.getAccount());
-
-		return "redirect:/" + "user/my"; //새 화면 만들기
+		Login userSession = 
+				(Login) WebUtils.getSessionAttribute(request, "userSession");
+		
+		if (userSession == null) { //로그인된 상태가 아니라면 temp를 꺼낸다.
+			userSession = (Login) WebUtils.getSessionAttribute(request, "tempSession");
+			request.removeAttribute("tempSession");
+		}
+		
+		accountService.updatePassword(userSession.getAccount(), password);
+	
+		return "redirect:/" + "user/loginForm"; //변경 후에 로그인 폼으로
 	}
 	
 	@GetMapping("/drop")
@@ -121,23 +125,43 @@ public class MyPageController {
 		if(account != null)
 			model.addAttribute("id", account.getUserId());
 
-		return new ModelAndView(RECOVER_ID_PAGE); 
+		return new ModelAndView(RECOVER_ID_PAGE);
 	}
 	
-	@PostMapping("/find/password")
+	@RequestMapping("/find/password")
 	public ModelAndView findPassword( 
 			HttpServletRequest request,
-			@RequestParam("userId") String userId,
-			@RequestParam("phone") String phone, Model model) throws ModelAndViewDefiningException {
-
-		Account account = accountService.findPassword(userId, phone);
+			@RequestParam(value="userId", required=false) String userId,
+			@RequestParam(value="phone", required=false) String phone, Model model) throws ModelAndViewDefiningException {
+		if (request.getMethod().equalsIgnoreCase("POST")) {
+			//1.비밀번호 찾기 메뉴에서 넘어온 경우
+			Account account = accountService.findPassword(userId, phone);
+			
+			if(account != null) { //계정이 검색되었다면 세션 생성
+				Login tempSession = new Login(account);
+				model.addAttribute("tempSession", tempSession); //로그인된 상태와 구분하기 위해 명칭 변경
+				model.addAttribute("searchResult", true);
+			}
+			else
+				model.addAttribute("searchResult", false);
 		
-		if(account != null) //문제: 마이페이지에서 넘어올 때도 newAccountForm을 인식해야 함
-			model.addAttribute("newAccountForm", new AccountForm(account));
-
-		return new ModelAndView(RESET_PW_PAGE);
+			return new ModelAndView(RESET_PW_PAGE);
+		}
+		else { //GET mapping이라면 
+			//2.마이페이지에서 넘어온 경우 ==> 세션 존재
+			Login userSession = 
+					(Login) WebUtils.getSessionAttribute(request, "userSession");
+			
+			if (userSession == null) //세션 만료시
+				return new ModelAndView("redirect:/" + "user/logout");
+				
+			model.addAttribute("searchResult", true);
+			
+			return new ModelAndView(RESET_PW_PAGE);
+		}
 	}
 	
+	//다른 컨트롤러로 옮기기
 	@GetMapping("/purchase/list")
 	public String registerList(HttpServletRequest request, Model model) throws Exception {
 		

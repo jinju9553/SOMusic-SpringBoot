@@ -50,4 +50,9 @@ public class AccountServiceImpl implements AccountService {
 	public void deleteAccount(Account account) {
 		accountDao.removeAccount(account); //회원 탈퇴
 	}
+
+	@Override
+	public void updatePassword(Account account, String password) {
+		accountDao.updatePassword(account, password); //비밀번호 수정
+	}
 }
