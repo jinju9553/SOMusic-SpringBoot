@@ -50,15 +50,15 @@
 		<nav>
 			<ul class="ulNav">
 				<li class="liNav"><a class="linkNav" style="color: #5f7caf;">내가 등록한 중고거래</a></li>
-				<!-- <li class="liNav"><a class="linkNav unselect" href="#" th:href="@{/user/my/product/purchase/list?userId=panda}">내가 참여한 중고거래</a></li> -->
+				<li class="liNav"><a class="linkNav unselect" href="#" th:href="@{/user/my/product/purchase/List?userId=panda}">내가 참여한 중고거래</a></li>
 			</ul>
 		</nav>
 	</div>
 	<div class="element">
 		<div class="one" th:each="pr : ${prList}">
-<!-- 			<div class="element image_view">
+ 			<div class="element image_view">
 				<img class="image" src="#" th:src="@{${pr.image}}"/>
-			</div> -->
+			</div> 
 			<div class="element title">
 				<h5><a class="linkTitle" th:text="${pr.productName}"
 				href="#" th:href="@{/product/info(productId=${pr.productId})}" >제목</a></h5>
