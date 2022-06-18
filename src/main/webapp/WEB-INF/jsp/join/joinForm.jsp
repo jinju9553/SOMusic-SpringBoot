@@ -87,6 +87,22 @@
 		$("#totalShippingAmount").show(); 
 		$("#totalShippingAmount").children().text(currentCost + currentAmount + " 원");
 	}
+	
+	var userId = '<%=session.getAttribute("userId")%>';
+	
+	function wish() {
+//		if (userId == 'null') {
+//			location.href="<c:url value='/user/loginform' />";	// 로그인 안되어있으면 로그인 페이지로
+//		} else {
+//			location.href="<c:url value='/project/interest?projectId=${project.projectId}' />";  // 로그인 상태면 wish 등록
+//		}
+
+		location.href="<c:url value='/user/my/wish/gp?gpId=${joinReq.groupPurchase.gpId}' />";
+	}
+	
+	function delWish() {
+		location.href="<c:url value='/user/my/wish/gp/delete?gpId=${joinReq.groupPurchase.gpId}&view=join' />";
+	}
   </script>
   
   <style>
@@ -95,24 +111,36 @@
 			height: 300px;
 		}
 		
-		#noInterest:hover {
-			color: #FF6464;
-			border-color: #ffeded;
-		}
-		
-		#noInterest {
+		.wishBtn {
 			left: 48.5%;
 	    	top: 61.5%;
 			position: absolute;
 			border: 2px solid;
-			border-color: #d2d2d2;
 			width: 70px;
 			height: 70px;
 			font-size: 18px;
 			font-weight: bold;
-			color: #a0a0a0;
 			background-color: white;
 			border-radius: 10px;
+		}
+		
+		#noWish:hover {
+			color: #FF6464;
+			border-color: #ffeded;
+		}
+		
+		#noWish {
+			border-color: #d2d2d2;
+			color: #a0a0a0;
+		}
+		
+		#wish {
+			border-color:#ffeded;
+			color:#FF6464;
+		}
+		#wish:hover {
+			color:#a0a0a0;
+			border-color:#d2d2d2;
 		}
   </style>
   
@@ -127,7 +155,14 @@
   	
   	<tr> <!-- rowspan : 이 칸 옆에 row(<tr>)가 몇 개까지 들어갈 수 있는지 -->
   		<td rowspan="5" align = "center"> <img id="image" class="img" src="<c:url value="${joinReq.groupPurchase.image}"/>"> </td>
-  		<td> <button id="noInterest" type="button" onclick="interest();">❤</button> </td>
+  		<td>
+  			<c:if test="${wishGp ne null}"> <!-- wish 등록 상태 > wish delete 이동 -->
+  				<button id="wish" class="wishBtn" type="button" onclick="delWish();">❤</button>
+  			</c:if>
+  			<c:if test="${wishGp eq null}"> <!-- wish 등록 안된 상태 > wish 등록 이동 -->
+  				<button id="noWish" class="wishBtn" type="button" onclick="wish();">❤</button>
+  			</c:if>
+  		</td>
   	</tr>
   	
   	<tr>
