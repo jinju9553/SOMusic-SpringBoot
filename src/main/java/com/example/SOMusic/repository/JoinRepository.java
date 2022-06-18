@@ -15,15 +15,9 @@ public interface JoinRepository extends JpaRepository<Join, Integer> {
 	Join findJoinByJoinId(int joinId);
 
 	List<Join> findAllByConsumerId(String consumerId);
+	
+	List<Join> findAllByGroupPurchaseGpId(int gpId);
 
 	void deleteByJoinId(String joinId);
-	
-//	@Transactional
-//	@Query(value = "update join set status = :status where grouppurchase_id = :gpId", nativeQuery = true)
-//	void updateAllStatus(@Param("gpId") int gpId, @Param("status") int status);
-	
-//	@Transactional
-//	@Query("update Join set status = :status where groupPurchase.gpId = :gpId")
-//	void updateAllStatus(@Param("gpId") int gpId, @Param("status") int status);
 	
 }
