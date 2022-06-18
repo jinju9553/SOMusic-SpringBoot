@@ -41,7 +41,7 @@ public class GPController implements ApplicationContextAware {
 	private static final String GP_UPDATE_FORM = "thyme/gp/update/GPUpdateForm";
 	private static final String GP_UPDATE_SEUCCESS = "/user/my/gp/info";	// redirect : uri
 	
-	private static final String GP_DELETE = "/user/my/gp/register/list"; // 공구 삭제 후 공구 리스트로 다시 이동
+	private static final String GP_DELETE = "/user/my/gp/register/list"; // 공구 삭제 후 공구 리스트로 다시 이동 uri
 	
 	private static final String LOGIN_FROM = "/user/loginForm";		// 로그인 폼으로 uri 이동
 	
@@ -57,7 +57,6 @@ public class GPController implements ApplicationContextAware {
 		throws BeansException {			
 		this.context = (WebApplicationContext) appContext;
 		this.uploadDir = context.getServletContext().getRealPath(this.uploadDirLocal);
-		System.out.println("this.uploadDir : " + this.uploadDir);
 	}
 	
 	@Autowired
@@ -70,22 +69,6 @@ public class GPController implements ApplicationContextAware {
 	private AccountService accountService;
 	public void setAccountService(AccountService accountService) {
 		this.accountService = accountService;
-	}
-	
-	// user 정보를 포함하는 formBacking
-	@ModelAttribute("accountForm")
-	public AccountForm formBackingSession(HttpServletRequest request) {
-		if (request.getMethod().equalsIgnoreCase("GET")) {
-
-			// 1.UserSession에서 UserId를 가져온다.
-			Login userSession = (Login) WebUtils.getSessionAttribute(request, "userSession");
-
-			// 2.세션에서 얻은 Id로 사용자 정보를 가져온다.
-			AccountForm accountForm = new AccountForm(accountService.getAccount(userSession.getAccount().getUserId()));
-
-			return accountForm;
-		} else
-			return new AccountForm(); // POST일 때 실행됨
 	}
 	
 	@ModelAttribute("gpReq")
@@ -106,7 +89,7 @@ public class GPController implements ApplicationContextAware {
 	public String showRegisterForm(HttpServletRequest request) {
 		
 		Login userSession = (Login) WebUtils.getSessionAttribute(request, "userSession");
-		if(userSession.getAccount() == null)		// 로그인 X -> 로그인 폼
+		if(userSession == null)		// 로그인 X -> 로그인 폼
 			return "redirect:" + LOGIN_FROM;
 		
 		return GP_REGISTER_FORM;
@@ -191,22 +174,18 @@ public class GPController implements ApplicationContextAware {
 		// 공구 수정
 		gpSvc.updateGP(gp);
 		
-		System.out.println("GP 수정 : " + gp);
-		
 		return "redirect:" + GP_UPDATE_SEUCCESS + "?gpId=" + gpReq.getGpId();
 	}
 	
 	// 등록한 공구 정보 삭제
 	
 	@RequestMapping(value="/delete", method = RequestMethod.GET)
-	public String delete(HttpServletRequest request, @RequestParam("gpId") int gpId) {
-		
-		Login userSession = (Login) WebUtils.getSessionAttribute(request, "userSession");
+	public String delete(@RequestParam("gpId") int gpId) {
 		
 		// 삭제
 		gpSvc.deleteGP(gpId);
 			
-		return "redirect:" + GP_DELETE + "?sellerId=" + userSession.getAccount().getUserId();
+		return "redirect:" + GP_DELETE;
 	}
 	
 }
