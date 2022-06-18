@@ -19,10 +19,16 @@ public interface JoinService {
 	Join findJoinByJoinId(int joinId);
 	
 	List<Join> findAllByUserId(String userId);
+	
+	List<Join> findAllByGroupPurchaseGpId(int gpId);
 
 	int calculateTotal(GroupPurchase groupPurchase, Join join);
 
 	int initShippingCost(Join join);
 
 	int updateTotal(Join join, int newShippingCost);
+	
+	void updateAllStatus(int gpId, int status);
+	
+	public void updateStatus(int joinId, int status);
 }

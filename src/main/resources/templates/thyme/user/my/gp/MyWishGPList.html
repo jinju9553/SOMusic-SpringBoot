@@ -1,94 +1,34 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<style>
-	body {
-        background-color: #f2eee5;
-    }
-
-	#out {
-		width: 1000px;
-		margin-left: auto;
-		margin-right: auto;
-	}
-
-	.row {
-		margin: 10px;
-	}
-	
-	.one {
-		border: 1px solid #afafc7;
-		height: 110px;
-		display: flex;
-		margin: 5px;
-		border-radius: 3px;
-	}
-	
-	.image_view {
-		height: 90px;
-		width: 90px;
-	}
-	
-	.image {
-		height: 100%;
-		width: 100%;
-	}
-	
-	.title {
-		padding-top: 10px;
-		padding-left: 10px;
-		width: 670px;
-	}
-
-	.btn {
-		background: none;
-    	font-size: 13px;
-    	color: #ccabaf;
-    	border: none;
-    }
-    
-    .btn:hover {
-    	font-weight: bold;
-    	border-bottom: 2px solid #ccabaf;
-    }
-</style>
+<link rel="stylesheet" th:href="@{/style/list.css}" type="text/css" />
 <meta charset="UTF-8">
 <title>위시리스트</title>
 </head>
 <body>
+<div th:insert="~{thyme/header}"></div>
 <div id="out">
 	<div class="row">
 		<h3>관심 공구 리스트</h3>
 	</div>
-	<div class="row" style="height:10px"></div>
-	<div class="row">
-		<div class="one">
-			<div class="row image_view">
-				<img class="image" src="x.png"/>
+	<div class="element" style="height:10px"></div>
+	<div class="element">
+		<div class="one" th:each="wish : ${wishGpList}"> 
+			<div class="element image_view">
+				<img class="image" src="#" th:src="@{${wish.gp.image}}"/>
 			</div>
-			<div class="row title">
-				<h3>제목</h3>
+			<div class="element title">
+				<h5><a class="linkTitle" th:text="${wish.gp.title}" href="#" th:href="@{/user/my/gp/info(gpId=${wish.gp.gpId})}">제목</a></h5>
 			</div>
-			<div class="row" style="width:60px;"></div>
-			<div class="row">
-				<div class="row" style="height:40px;"></div>
-				<div class="row">
-					<button class="btn" type="button">삭제</button>
-				</div>
-			</div>
-		</div>
-		<div class="one">
-			<div class="row image_view">
-				<img class="image" src="x.png"/>
-			</div>
-			<div class="row title">
-				<h3>제목</h3>
-			</div>
-			<div class="row" style="width:60px;"></div>
-			<div class="row">
-				<div class="row" style="height:40px;"></div>
-				<div class="row">
-					<button class="btn" type="button">삭제</button>
+			<div class="element" style="width:60px;"></div>
+			<div class="element">
+				<div class="element" style="height:40px;"></div>
+				<div class="element">
+					<form action="#" method="GET" th:action="@{/user/my/wish/gp/delete}">
+						<input type="hidden" id="gpId" name="gpId" th:value="${wish.gp.gpId}" />
+						<input type="hidden" id="view" name="view" value="list" />
+						<input class="btnDelete" type="submit" value="삭제" />
+					</form>
 				</div>
 			</div>
 		</div>

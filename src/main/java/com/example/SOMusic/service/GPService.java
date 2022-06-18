@@ -7,8 +7,12 @@ import org.springframework.stereotype.Service;
 
 import com.example.SOMusic.controller.GPRequest;
 import com.example.SOMusic.dao.GPDao;
+import com.example.SOMusic.dao.WishGPDAO;
 import com.example.SOMusic.domain.GroupPurchase;
+import com.example.SOMusic.domain.PKWishGP;
+import com.example.SOMusic.domain.WishGroupPurchase;
 import com.example.SOMusic.repository.GPRepository;
+import com.example.SOMusic.repository.WishGPRepository;
 
 @Service
 public class GPService {
@@ -18,6 +22,12 @@ public class GPService {
 	
 	@Autowired
 	private GPRepository gpRepository;
+	
+	@Autowired
+	private WishGPRepository wishGgpRepository;
+	
+	@Autowired
+	private WishGPDAO wishDao;
 	
 	public void insertGP(GroupPurchase gp) {
 		dao.insertGP(gp);
@@ -49,6 +59,23 @@ public class GPService {
 	
 	public List<GroupPurchase> getSearchGPList(String keyword) {		// 검색
 		return gpRepository.findByTitleContainingIgnoreCaseOrDescriptionContainingIgnoreCaseOrCategoryContainingIgnoreCase(keyword, keyword, keyword);
+	}
+	
+	public void insertWishGP(String userId, int gpId) {		// 위시 추가
+		WishGroupPurchase wish = new WishGroupPurchase(userId, gpId);
+		wishDao.insertWishGP(wish);
+	}
+	
+	public WishGroupPurchase getWishGP(String userId, int gpId) {	// 위시 검색
+		return wishGgpRepository.findByUserIdAndGpId(userId, gpId);
+	}
+	
+	public void deleteWishGP(String userId, int gpId) {		// 위시 삭제
+		wishGgpRepository.deleteByUserIdAndGpId(userId, gpId);
+	}
+	
+	public List<WishGroupPurchase> getWishGPList(String userId) {		// 위시리스트 불러오기
+		return wishGgpRepository.findByUserId(userId);
 	}
 	
 }

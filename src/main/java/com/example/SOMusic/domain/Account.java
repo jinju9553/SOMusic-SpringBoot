@@ -15,7 +15,7 @@ import lombok.*;
 @SuppressWarnings("serial")
 public class Account implements Serializable {
 
-	@Id @Column(name="user_id")
+	@Id @Column(name="user_id", updatable=false)
 	private String userId;
 	
 	@Column(name="user_name")
@@ -23,7 +23,7 @@ public class Account implements Serializable {
 	
 	private String password;
 	private String address;
-	private int zipcode;
+	private String zipcode;
 	private String phone;
 	private String email;
 	private double rate;

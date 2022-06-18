@@ -50,7 +50,7 @@
 		<nav>
 			<ul class="ulNav">
 				<li class="liNav"><a class="linkNav" style="color: #5f7caf;">내가 등록한 중고거래</a></li>
-				<li class="liNav"><a class="linkNav unselect" href="#" th:href="@{/user/my/product/purchase/List?userId=panda}">내가 참여한 중고거래</a></li>
+				<!-- <li class="liNav"><a class="linkNav unselect" href="#" th:href="@{/user/my/purchase/list(userId=${userSession.account.userId})}">내가 참여한 중고거래</a></li> -->
 			</ul>
 		</nav>
 	</div>

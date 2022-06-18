@@ -30,6 +30,11 @@ public class JoinServiceImpl implements JoinService{
 	public List<Join> findAllByUserId(String consumerId) {
 		return joinRepository.findAllByConsumerId(consumerId);
 	}
+	
+	@Override
+	public List<Join> findAllByGroupPurchaseGpId(int gpId) {
+		return joinRepository.findAllByGroupPurchaseGpId(gpId);
+	}
 
 	@Override
 	public void modifyJoin(Join join) {
@@ -70,5 +75,20 @@ public class JoinServiceImpl implements JoinService{
 	public int updateTotal(Join join, int newShippingCost) {
 		int originalPrice = join.getTotalAmount() - join.getShippingCost();
 		return (originalPrice + newShippingCost);
+	}
+	
+	@Override
+	@Transactional
+	public void updateAllStatus(int gpId, int status) {
+		List<Join> joinList = this.findAllByGroupPurchaseGpId(gpId);
+		for (Join join : joinList)
+			join.setStatus(status);
+	}
+	
+	@Override
+	@Transactional
+	public void updateStatus(int joinId, int status) {
+		Join join = this.findJoinByJoinId(joinId);		// joinId로 join 불러옴
+		join.setStatus(status);		// status 넣기
 	}
 }

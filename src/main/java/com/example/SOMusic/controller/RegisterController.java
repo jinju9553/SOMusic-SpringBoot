@@ -17,7 +17,7 @@ import com.example.SOMusic.domain.Login;
 import com.example.SOMusic.service.AccountService;
 
 @Controller
-@RequestMapping({"/user/register", "/user/update"})
+@RequestMapping("/user/register")
 public class RegisterController {
 	
 	private static final String REGISTER_FORM = "thyme/user/account/registerForm";
@@ -32,11 +32,12 @@ public class RegisterController {
 	public AccountForm formBacking(HttpServletRequest request) throws Exception {
 		Login userSession = 
 			(Login) WebUtils.getSessionAttribute(request, "userSession");
-		if (userSession != null) {	// 세션이 있다면 회원 수정으로 넘어감
+		String uri = request.getRequestURI();
+		if (userSession != null && !(uri.contains("/checkId"))) { // 세션이 있다면 회원 수정
 			return new AccountForm(
 					accountService.getAccount(userSession.getAccount().getUserId()));
 		}
-		else {	// 세션이 없다면 새로 회원가입
+		else { // 세션이 없다면 새로 회원가입
 			return new AccountForm();
 		}
 	}
@@ -51,18 +52,6 @@ public class RegisterController {
 			HttpServletRequest request, HttpSession session,
 			@ModelAttribute("accountForm") AccountForm accountForm,
 			BindingResult result) throws Exception {
-
-		/*
-		accountForm.getAccount().getProfile().setUserid(
-			accountForm.getAccount().getUserId());
-
-		if (request.getParameter("account.profile.listOption") == null) {
-			accountForm.getAccount().getProfile().setListOption(false);
-		}
-		if (request.getParameter("account.profile.bannerOption") == null) {
-			accountForm.getAccount().getProfile().setBannerOption(false);
-		}
-		*/
 		
 		//validator.validate(accountForm, result);
 		
@@ -71,7 +60,7 @@ public class RegisterController {
 			if (accountForm.isNewAccount()) {
 				accountService.insertAccount(accountForm.getAccount());
 			}
-			else {
+			else { //사용하지 않음
 				accountService.updateAccount(accountForm.getAccount());
 			}
 		}
@@ -83,11 +72,14 @@ public class RegisterController {
 		
 		Login userSession = new Login(
 				accountService.getAccount(accountForm.getAccount().getUserId()));
-		//PagedListHolder<Product> myList = new PagedListHolder<Product>(
-		//		accountService.getProductListByCategory(accountForm.getAccount().getProfile().getFavouriteCategoryId()));
-		//myList.setPageSize(4);
-		//userSession.setMyList(myList);
+
 		session.setAttribute("userSession", userSession);
 		return "redirect:/" + "main"; //홈 화면으로 리다이렉션
+	}
+	
+	@GetMapping("/checkId")
+	public boolean check() {
+		//아이디 중복 확인
+		return false;
 	}
 }

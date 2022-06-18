@@ -15,7 +15,7 @@ import com.example.SOMusic.domain.Product;
 import com.example.SOMusic.domain.Purchase;
 
 @Controller
-@RequestMapping("/user/my/product")
+@RequestMapping("/user/my")
 public class MyProductController {
 	
 	private static final String MY_PRODUCT_LIST = "thyme/user/my/product/mySaleList";
@@ -43,6 +43,7 @@ public class MyProductController {
 		return PRODUCT_INFO;
 	}
 	
+
 	@GetMapping(value="/purchase/List")
 	public String purchaseList(@RequestParam("userId") String userId, Model model)
 	throws Exception {
@@ -58,7 +59,9 @@ public class MyProductController {
 		
 	}	
 	
-	@GetMapping(value="/sale/List")
+
+
+	@GetMapping(value="/sale/list/product")
 	public String saleList(@RequestParam("sellerId") String sellerId, Model model)
 	throws Exception {
 		System.out.println("등록한 상품 리스트 출력중");

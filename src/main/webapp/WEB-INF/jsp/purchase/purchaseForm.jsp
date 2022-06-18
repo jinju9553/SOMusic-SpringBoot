@@ -106,6 +106,7 @@
       </td> 
     </tr>
     
+    <c:if test="${!empty userSession.account}">
     <tr class="shipping">
       <td>배송지 선택</td>
       <td>
@@ -114,6 +115,7 @@
 		<%-- <form:radiobuttons items="${shippingOption}" path="shippingOption"/> --%>
       </td>
     </tr>
+    </c:if>
   	
     <tr class="shipping">
       <td>이름</td>
