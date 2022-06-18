@@ -25,4 +25,8 @@ public interface JoinService {
 	int initShippingCost(Join join);
 
 	int updateTotal(Join join, int newShippingCost);
+	
+	void updateAllStatus(int gpId, int status);
+	
+	public void updateStatus(int joinId, int status);
 }
