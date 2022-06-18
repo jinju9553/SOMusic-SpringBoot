@@ -17,4 +17,6 @@ public interface AccountService {
 	void updateAccount(Account account);
 	
 	void deleteAccount(Account account);
+
+	void updatePassword(Account account, String password);
 }

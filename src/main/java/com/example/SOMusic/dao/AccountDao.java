@@ -3,6 +3,7 @@ package com.example.SOMusic.dao;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
@@ -55,5 +56,12 @@ public class AccountDao {
 		Account a = em.find(Account.class, account.getUserId());
         em.remove(a);
     }
-	
+
+	@Transactional
+	public void updatePassword(Account account, String password) throws DataAccessException {
+		Query query = em.createNativeQuery("UPDATE Account a SET a.password = :pw WHERE a.user_id = :id");
+		query.setParameter("id", account.getUserId()); //주의: TypedQuery가 아니라면 DB상의 컬럼명을 사용
+		query.setParameter("pw", password);
+		query.executeUpdate(); //JPQL 실행
+	}
 }
