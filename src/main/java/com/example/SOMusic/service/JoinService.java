@@ -19,6 +19,8 @@ public interface JoinService {
 	Join findJoinByJoinId(int joinId);
 	
 	List<Join> findAllByUserId(String userId);
+	
+	List<Join> findAllByGroupPurchaseGpId(int gpId);
 
 	int calculateTotal(GroupPurchase groupPurchase, Join join);
 

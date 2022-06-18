@@ -115,6 +115,26 @@
     	border-bottom: 1px solid #5f7caf;
     }
     
+    .status {
+    	border: 0;
+  		border-bottom: 2px solid #bababf; 
+  		background-color: #f2eee5;
+  		letter-spacing: 1px;
+  		text-align: center;
+    }
+    
+    .status:focus {
+    	outline: 0;
+		border-bottom-color: #ccabaf;
+		color: #ccabaf;
+    }
+    
+    .status:active {
+    	outline: 0;
+		border-bottom-color: #ccabaf;
+		color: #ccabaf;
+    }
+    
     .statusBtn {
     	font-size: 15px;
     	border: 1px #bababf solid;
@@ -186,7 +206,7 @@
 					 <form id="updateStatus" th:action="@{/user/my/gp/join/status/update}" method="POST">
 						<input type="hidden" id="joinId" name="joinId" th:value="${join.joinId}" />
 						<input type="hidden" id="gpId" name="gpId" th:value="${gp.gpId}" />
-						<select name="status">
+						<select name="status" class="status">
 							<option th:each="status : ${joinStatus}" th:value="${status.key}" th:text="${status.value}"
 									th:selected="${status.key} == ${join.status} ? 'selected'">상태</option>
 						</select>
@@ -206,12 +226,12 @@
 	<div style="text-align:right;">
 		<form id="updateAllStatus" th:action="@{/user/my/gp/join/status/all/update}" method="POST">
 			<input type="hidden" id="gpId" name="gpId" th:value="${gp.gpId}" />
-			<select name="status">
+			<select name="status" class="status">
 				<option value="none">==상태 변경==</option>
 				<option th:each="status : ${joinStatus}" th:value="${status.key}" th:text="${status.value}">상태</option>
 			</select>
 			&nbsp;&nbsp;
-			<input type="submit" class="btn33" value="상태 일괄 변경" />
+			<input type="submit" class="statusBtn" value="상태 일괄 변경" />
 		</form>		
 	</div>
 </div>

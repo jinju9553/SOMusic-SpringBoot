@@ -83,30 +83,25 @@ public class MyGPController {
 		return MY_JOIN_LIST;
 	}
 	
-	@RequestMapping(value="/join/status/update", method = RequestMethod.POST)
+	@RequestMapping(value="/join/status/update", method = RequestMethod.POST)		// 한개의 join에 대한 상태 변경
 	public String updateJoinStatus(@RequestParam("joinId") int joinId, @RequestParam("gpId") int gpId, @RequestParam("status") int status) throws Exception {
 		
 		System.out.println("join 상태 수정 : join > " + joinId + ", gp > " + gpId + ", 상태 > " + status);
 		
-		
 		joinService.updateStatus(joinId, status);
-		
-		
 		
 		return "redirect:" + "/user/my/gp/info?gpId=" + gpId;
 	}
 	
-	@RequestMapping(value="/join/status/all/update", method = RequestMethod.POST)
+	@RequestMapping(value="/join/status/all/update", method = RequestMethod.POST)		// 모든 join의 상태 일괄 변경
 	public String updateAllJoinStatus(@RequestParam("gpId") int gpId, @RequestParam("status") String status) throws Exception {
 		
 		System.out.println("join 상태 수정 : " + gpId + ", " + status);
 		
-		if(status.equals("none")) {		// ==상태변경== 클릭시 다시 info로
-//			System.out.println("XXX");
+		if(status.equals("none"))		// ==상태변경== 클릭시 다시 info로
 			return "redirect:" + "/user/my/gp/info?gpId=" + gpId;
-		}
 		
-//		joinService.updateAllStatus(gpId, Integer.parseInt(status));
+		joinService.updateAllStatus(gpId, Integer.parseInt(status));
 		
 		return "redirect:" + "/user/my/gp/info?gpId=" + gpId;
 	}
