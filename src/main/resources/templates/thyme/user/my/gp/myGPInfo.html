@@ -114,6 +114,20 @@
     .ex:hover {
     	border-bottom: 1px solid #5f7caf;
     }
+    
+    .statusBtn {
+    	font-size: 15px;
+    	border: 1px #bababf solid;
+    	color: #949494;
+    	background-color: #f0f0f0;
+    	border-radius: 2px;
+    }
+    
+    .statusBtn:hover {
+    	color: #afafc7;
+    	background-color: #e0e0e0;
+    }
+    
 </style>
 <meta charset="UTF-8">
 <title>공구 정보</title>
@@ -139,7 +153,7 @@
 			</div>
 		</div>
 		<div class="element btn_view">
-			<form action="#" method="GET" th:action="@{/gp/update}">
+			<form id="gpUpdate" action="#" method="GET" th:action="@{/gp/update}">
 				<input type="hidden" id="gpId" name="gpId" th:value="${gp.gpId}" />
 				<input class="btnUp" type="submit" value="수정하기" />
 			</form>
@@ -168,7 +182,18 @@
 				<td class="tb" th:text="${join.address}">배송지</td>
 				<td class="tb" th:text="${join.refundAccount}">환불 계좌</td>
 				<td class="tb" th:text="${join.shippingRequest}">기타 정보</td>
-				<td class="tb" th:text="${join.status}">상태</td>
+				<td class="tb">
+					 <form id="updateStatus" th:action="@{/user/my/gp/join/status/update}" method="POST">
+						<input type="hidden" id="joinId" name="joinId" th:value="${join.joinId}" />
+						<input type="hidden" id="gpId" name="gpId" th:value="${gp.gpId}" />
+						<select name="status">
+							<option th:each="status : ${joinStatus}" th:value="${status.key}" th:text="${status.value}"
+									th:selected="${status.key} == ${join.status} ? 'selected'">상태</option>
+						</select>
+						&nbsp;&nbsp;
+						<input type="submit" class="statusBtn" value="변경" />
+					</form>	
+				</td>
 			</tr>
 			<tr th:if="${#lists.isEmpty(gp.joinList)}">
 				<td class="element" colspan="8">
@@ -176,6 +201,18 @@
 				</td>
 			</tr>
 		</table>
+	</div>
+	<div style="height:10px;"></div>
+	<div style="text-align:right;">
+		<form id="updateAllStatus" th:action="@{/user/my/gp/join/status/all/update}" method="POST">
+			<input type="hidden" id="gpId" name="gpId" th:value="${gp.gpId}" />
+			<select name="status">
+				<option value="none">==상태 변경==</option>
+				<option th:each="status : ${joinStatus}" th:value="${status.key}" th:text="${status.value}">상태</option>
+			</select>
+			&nbsp;&nbsp;
+			<input type="submit" class="btn33" value="상태 일괄 변경" />
+		</form>		
 	</div>
 </div>
 </body>

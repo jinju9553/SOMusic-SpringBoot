@@ -1,6 +1,9 @@
 package com.example.SOMusic.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -36,12 +39,16 @@ public class MyGPController {
 		this.joinService = joinService;
 	}
 	
-//	// 공구 찾아서 전달
-//	@ModelAttribute("gpReq")
-//	public GPRequest show() throws Exception {
-//		return new GPRequest();
-//	}
-
+	@ModelAttribute("joinStatus")
+	public Map<Integer, String> joinStatus() { // 0: join 이전 & 1: 승인됨, 입금 대기 & 2: 입금 완료, 배송 대기중 & 3:배송 시작 & 4: 거래 완료
+		Map<Integer, String> status = new HashMap<Integer, String>();
+		status.put(1, "입금 대기");
+		status.put(2, "입금 완료");
+		status.put(3, "배송 시작");
+		status.put(4, "거래 완료");
+		return status;
+	}
+	
 	@RequestMapping(value="/info", method = RequestMethod.GET)
 	public String info(@RequestParam("gpId") int gpId, Model model) throws Exception {
 		System.out.println("GP 정보 : " + gpId);
@@ -74,5 +81,33 @@ public class MyGPController {
 		System.out.println("내가 참여한 공구 리스트 : " + joinList.toString());
 
 		return MY_JOIN_LIST;
+	}
+	
+	@RequestMapping(value="/join/status/update", method = RequestMethod.POST)
+	public String updateJoinStatus(@RequestParam("joinId") int joinId, @RequestParam("gpId") int gpId, @RequestParam("status") int status) throws Exception {
+		
+		System.out.println("join 상태 수정 : join > " + joinId + ", gp > " + gpId + ", 상태 > " + status);
+		
+		
+		joinService.updateStatus(joinId, status);
+		
+		
+		
+		return "redirect:" + "/user/my/gp/info?gpId=" + gpId;
+	}
+	
+	@RequestMapping(value="/join/status/all/update", method = RequestMethod.POST)
+	public String updateAllJoinStatus(@RequestParam("gpId") int gpId, @RequestParam("status") String status) throws Exception {
+		
+		System.out.println("join 상태 수정 : " + gpId + ", " + status);
+		
+		if(status.equals("none")) {		// ==상태변경== 클릭시 다시 info로
+//			System.out.println("XXX");
+			return "redirect:" + "/user/my/gp/info?gpId=" + gpId;
+		}
+		
+//		joinService.updateAllStatus(gpId, Integer.parseInt(status));
+		
+		return "redirect:" + "/user/my/gp/info?gpId=" + gpId;
 	}
 }

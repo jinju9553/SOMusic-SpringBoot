@@ -71,4 +71,17 @@ public class JoinServiceImpl implements JoinService{
 		int originalPrice = join.getTotalAmount() - join.getShippingCost();
 		return (originalPrice + newShippingCost);
 	}
+	
+	@Override
+	public void updateAllStatus(int gpId, int status) {
+//		joinRepository.updateAllStatus(gpId, status);
+	}
+	
+	@Override
+	public void updateStatus(int joinId, int status) {
+		Join join = this.findJoinByJoinId(joinId);		// joinId로 join 불러옴
+		join.setStatus(status);		// status 넣기
+		
+		joinDao.updateJoin(join);
+	}
 }
