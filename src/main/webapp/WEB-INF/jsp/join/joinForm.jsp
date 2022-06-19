@@ -118,13 +118,13 @@ function twitter() {
   
   <style>
   		.img {
-			width: 330px;
-			height: 300px;
+			width: 340px;
+			height: 330px;
 		}
 		
 		.wishBtn {
-			left: 48.5%;
-	    	top: 61.5%;
+			top: 32%;
+			left: 43%;
 			position: absolute;
 			border: 2px solid;
 			width: 70px;
@@ -153,9 +153,10 @@ function twitter() {
 			color:#a0a0a0;
 			border-color:#d2d2d2;
 		}
+		
   </style>
   
-  <table class="n13">
+  <table class="n13" style="position: relative;  width:730px;">
   	<!-- 공구 정보 -->
   	<tr>
   		<td> <font class="color_purple" size="8"><b>공동구매 참여하기</b></font> </td>
@@ -165,15 +166,19 @@ function twitter() {
   	</tr>
   	
   	<tr> <!-- rowspan : 이 칸 옆에 row(<tr>)가 몇 개까지 들어갈 수 있는지 -->
-  		<td rowspan="5" align = "center"> <img id="image" class="img" src="<c:url value="${joinReq.groupPurchase.image}"/>"> </td>
+  		<td rowspan="5" align = "center" style="position: relative;">
+  			<img id="image" class="img" src="<c:url value="${joinReq.groupPurchase.image}"/>">
+  		</td>
+  		
   		<td>
-  			<c:if test="${wishGp ne null}"> <!-- wish 등록 상태 > wish delete 이동 -->
+  			<c:if test="${wishGp ne null}">
   				<button id="wish" class="wishBtn" type="button" onclick="delWish();">❤</button>
   			</c:if>
-  			<c:if test="${wishGp eq null}"> <!-- wish 등록 안된 상태 > wish 등록 이동 -->
+  			<c:if test="${wishGp eq null}">
   				<button id="noWish" class="wishBtn" type="button" onclick="wish();">❤</button>
   			</c:if>
   		</td>
+  		
   		<td>
   			<a onClick="twitter()"><img style="width:30px;" src="<c:url value='../../images/icon-twitter.png'/>"></a>
   		</td>
@@ -200,8 +205,11 @@ function twitter() {
   	</tr>
   	
   	<tr>
-  		<td style="padding-bottom: 50;"> 총 상품금액 : <a class="totalAmount">${joinReq.groupPurchase.price}</a> 원 
-  		(<a class="quantity">${joinReq.quantity}</a>개)</td>
+  		<td style="padding-bottom: 50;"> 총 상품금액 :
+  			<a class="totalAmount">${joinReq.groupPurchase.price}</a> 원 
+  			(<a class="quantity">${joinReq.quantity}</a>개)
+  		</td>  
+
   	</tr>
   	
   	<!-- 세부 항목 1 -->
