@@ -274,29 +274,29 @@
     <tr>
       <td>배송지 선택</td>
       <td>
-      	<input type='radio' name='shippingOption' value='0' onclick='setAddress(event)'/> 주문자와 동일
+      	<input type='radio' name='shippingOption' value='0' onclick='setAddress(event)' checked="checked"/> 주문자와 동일
       	<input type='radio' name='shippingOption' value='1' onclick='setAddress(event)'/> 신규 배송지
 		<%-- <form:radiobuttons items="${shippingOption}" path="shippingOption"/> --%>
       </td>
     </tr>
     <tr>
       <td>이름</td>
-      <td class="shipping"><form:input path="consumerName" placeholder="주문자 이름"/> 
+      <td class="shipping"><form:input path="consumerName" placeholder="주문자 이름" value="${account.userName}"/> 
         <form:errors path="consumerName"/></td>
     </tr>
     <tr>
       <td>휴대폰번호</td>
-      <td class="shipping"><form:input path="phone" placeholder="휴대폰번호"/>
+      <td class="shipping"><form:input path="phone" placeholder="휴대폰번호" value="${account.phone}"/>
         <form:errors path="phone"/></td>
     </tr>
     <tr>
       <td>우편번호</td>
-      <td class="shipping"><form:input path="zipcode" placeholder="우편번호"/> 
+      <td class="shipping"><form:input path="zipcode" placeholder="우편번호" value="${account.zipcode}"/> 
         <form:errors path="zipcode"/></td>
     </tr>
     <tr>
       <td>주소</td>
-      <td class="shipping"><form:input path="address" placeholder="주소"/> 
+      <td class="shipping"><form:input path="address" placeholder="주소" value="${account.address}"/> 
         <form:errors path="address"/></td>
     </tr>
     <tr>

@@ -15,8 +15,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import com.example.SOMusic.controller.PurchaseRequest;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -59,20 +57,4 @@ public class Purchase implements Serializable {
 	@JoinColumn(name="product_id") //DB 상에서 FK의 이름
 	private Product product;
 
-	public void initPurchase(PurchaseRequest p) {
-		purchaseId = p.getPurchaseId();
-		consumerId = p.getConsumerId();
-		
-		location = p.getLocation();
-		consumerName = p.getConsumerName();
-		totalAmount = p.getTotalAmount();
-		address = p.getAddress();
-		zipcode = p.getZipcode(); 
-		phone = p.getPhone();
-		
-		shippingMethod = p.getShippingMethod();
-		shippingRequest = p.getShippingRequest();
-		regDate = p.getRegDate();
-		product = p.getProduct();
-	}
 }
