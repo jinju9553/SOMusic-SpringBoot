@@ -116,14 +116,13 @@
 <div id="out">
 	<div class="top_view">
 		  	<tr> <td>
-  		 <button id="noInterest" >
-  		<!-- 여기서 넘겨주고 싶은데 -->
-  		❤</button> </td>
+  		 <a th:href="@{/product/wish/add(productId=${productReq.productId})}"><button id="noInterest"		 
+  		  >
+  		❤</button></a> </td>
   	</tr>
 		<div class="info_view">
 			<div class="image">
-				<img src="../../../image/image_upload.png"
-					style="border:1px black solid; width:100%;"/>
+				<img th:scr="@{${productReq.image}}" style="width:100%"/>
 			</div>
 			<div class="info">
 				<div class="row"><h1><p th:text="${productReq.productName}">음반 제목</p> </h1></div>

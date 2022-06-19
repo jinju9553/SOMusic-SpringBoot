@@ -13,6 +13,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -31,19 +32,21 @@ import com.example.SOMusic.service.ProductService;
 
 @Controller
 @RequestMapping(value="/product")
-public class ProductController {
+public class ProductController implements ApplicationContextAware{
 	
 	private static final String Product_REGISTER_FORM = "thyme/product/register/productRegisterForm";
 	private static final String Product_REGISTER_SEUCCESS = "/product/register/success";	// redirect
 	private static final String Product_REGISTER_SEUCCESS_View = "thyme/product/register/ProductRegisterSuccess";
 
-	// 이미지 업로드를 위해
+	// 이미지 업로드
 	@Value("/upload/")
 	private String uploadDirLocal;
 		
 	private WebApplicationContext context;	
 	private String uploadDir;
 	
+	
+	@Override
 	public void setApplicationContext(ApplicationContext appContext)
 		throws BeansException {			
 		this.context = (WebApplicationContext) appContext;
@@ -53,7 +56,7 @@ public class ProductController {
 	
 	@Autowired
 	private ProductService prSvc;
-	public void setProductService(ProductService prSvc) {
+	public void setProductService(ProductService prSvc) { 
 		this.prSvc = prSvc;
 	}
 	
@@ -136,7 +139,7 @@ public class ProductController {
 		//delete
 		prSvc.deleteProduct(productId);
 		
-		return "redirect:" + "/user/my/product/sale/List?sellerId=panda";
+		return "redirect:" + "/user/my/sale/list/product?sellerId=panda";
 	}
 	
 	

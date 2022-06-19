@@ -22,12 +22,13 @@ import com.example.SOMusic.domain.WishGroupPurchase;
 
 
 @Controller
-@RequestMapping("/user")
+@RequestMapping("/product")
 public class WishlistController {
 	
-	//redirect 추후 수정
-	private static final String WISH_SUCCESS = "/product/register/success";  
-	//@Autowired
+	
+	//private static final String WISH_SUCCESS = "/product/register/success";  
+	private static final String WISH_RE = "/product/info/";
+	@Autowired
 	private WishProductService wishproductService;
 	public void setWishproductService(WishProductService wishproductService) {
 		this.wishproductService = wishproductService;
@@ -38,21 +39,39 @@ public class WishlistController {
 		
 		return "thyme/user/my/wish/wishList"; 
 	}
+	
+	
 
-	@PostMapping(value="/wish/add/{productId}")
-	public String addWish(HttpServletRequest request,
+	@GetMapping(value="/wish/add")
+	public String addWish(
+			@RequestParam("productId") int productId,
 			 Model model) throws Exception {
-			int productId = Integer.parseInt(request.getParameter("productId"));
+			//int productId = Integer.parseInt(request.getParameter("productId"));
 			
-			WishProduct wish = new WishProduct();
-			wish.setProductId(productId);
-			wish.setUserId("panda");
-			
-			wishproductService.addWishproduct(wish);
-			
-			return "redirect:" + WISH_SUCCESS; //redirect
+				WishProduct wish = new WishProduct();
+				wish.setProductId(productId);
+				wish.setUserId("panda");
+				
+				wishproductService.addWishproduct(wish);
+				System.out.println("찜 추가 완료");
+				
+				return "redirect" + "/product/info?productId=" + productId; //redirect		
+	
 			}
 			
-
+	@GetMapping(value="/wish/delete")
+	public String deleteWish(
+		@RequestParam("productId") int productId) {
+		String userId = "panda";
+/*		
+			WishProduct wish = new WishProduct();
+			wish.setProductId(productId);
+			wish.setUserId("panda");*/
+			
+			wishproductService.deleteWishproduct(userId, productId);
+		
+			return "redirect" + "/product/info?productId=" + productId; //redirect
+	}
+	
 	
 }

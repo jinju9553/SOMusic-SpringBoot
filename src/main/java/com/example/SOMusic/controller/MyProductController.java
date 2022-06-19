@@ -44,21 +44,21 @@ public class MyProductController {
 	}
 	
 
-	@GetMapping(value="/purchase/List")
-	public String purchaseList(@RequestParam("userId") String userId, Model model)
-	throws Exception {
-		System.out.println("구매한 상품 리스트 출력중");
-		System.out.println("sellerId : " + userId);
-		
-		List<Purchase> purList = purchaseService.findPurchaseList(userId);
-		model.addAttribute("purList", purList);
-		
-		System.out.println(purList.toString());
-		
-		return MY_PURCHASE_LIST; 
-		
-	}	
-	
+	/*
+	 * @GetMapping(value="/purchase/list") public String
+	 * purchaseList(@RequestParam("userId") String userId, Model model) throws
+	 * Exception { System.out.println("구매한 상품 리스트 출력중");
+	 * System.out.println("sellerId : " + userId);
+	 * 
+	 * List<Purchase> purList = purchaseService.findPurchaseList(userId);
+	 * model.addAttribute("purList", purList);
+	 * 
+	 * System.out.println(purList.toString());
+	 * 
+	 * return MY_PURCHASE_LIST;
+	 * 
+	 * }
+	 */
 
 
 	@GetMapping(value="/sale/list/product")

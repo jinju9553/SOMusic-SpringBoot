@@ -108,7 +108,7 @@
 <div th:insert="~{thyme/header}"></div>
 <div id="out">
 	<div class="form_view">
-	<form action="#" th:action="@{/product/register}" th:object="${PrReq}" method="POST">
+	<form action="#" th:action="@{/product/register}" th:object="${PrReq}" method="POST" enctype="multipart/form-data">
 <!--		<div class="row">
 			<h4>가격</h4>
 		</div>   -->

@@ -48,6 +48,7 @@ public class ProductViewController {
 				System.out.println("테스트입니다");
 				
 				productReq.setProductName(product.getProductName());
+				productReq.setProductId(product.getProductId());
 				productReq.setPrice(product.getPrice());
 				//productReq.setImage(product.getImage());
 				productReq.setDescription(product.getDescription());
