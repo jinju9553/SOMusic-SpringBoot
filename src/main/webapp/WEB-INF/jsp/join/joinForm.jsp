@@ -192,7 +192,7 @@ function twitter() {
   	</tr>
   	<tr>
   	  	<td style="padding-bottom: 50;"> 주문 수량: 
-  			<span>
+  			<span style="position: relative;">
 				<form:input path="quantity" style="width: 20%;" class="quantity" type="text"></form:input> 
 				<a href="#"> 
 					<img style="position: absolute;" src="//img.echosting.cafe24.com/skin/base_ko_KR/product/btn_count_up.gif" alt="수량증가" class="quantityUp">
