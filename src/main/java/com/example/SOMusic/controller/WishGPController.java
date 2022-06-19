@@ -22,7 +22,7 @@ import com.example.SOMusic.service.GPService;
 @RequestMapping("/user/my/wish")
 public class WishGPController {
 	
-	private static final String WISH_GP_LIST = "thyme/user/my/gp/MyWishGPList";
+	private static final String WISH_GP_LIST = "thyme/user/my/wish/myWishGPList";
 	private static final String WISH_GP_LIST_URI = "/user/my/wish/gp/list"; // 위시 리스트에서 삭제 -> 위시 리스트로
 	private static final String JOIN = "/join/";		// join 페이지로 uri 이동
 	

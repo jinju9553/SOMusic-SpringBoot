@@ -14,6 +14,17 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
+<script>	
+	function search() {
+		if (Searchform.keyword.value == "") {
+			alert("검색어를 입력해주세요.");
+			Searchform.keyword.focus();
+			return false;
+		} 
+		Searchform.submit();
+	}
+</script>
+
 <body bgcolor="white">
 	<table width="100%">
 		<tr>
@@ -23,7 +34,7 @@
 			<td></td>
 			
 			<td class="txCenter"> <!-- 검색창 위치 -->
-				<form name="Searchform" method="POST" action="<c:url value='/home/search'/>">
+				<form name="Searchform" method="GET" action="<c:url value='/main/product/search'/>">
 					<table align="left">
 						<tr>
 							<td>
@@ -37,6 +48,14 @@
 						</tr>
 					</table>
 				</form>
+			</td>
+			
+			<td>
+				<a href="<c:url value='/product/register' />">상품 등록</a>
+			</td>
+			
+			<td>
+				<a href="<c:url value='/gp/register' />">상품 등록</a>
 			</td>
 			
 			<td class="txRight"> <!-- 회원가입, 로그인 등 메뉴 위치 -->

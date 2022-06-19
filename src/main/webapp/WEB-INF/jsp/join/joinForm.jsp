@@ -4,6 +4,18 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
+<!-- 공유 -->
+<script>
+function twitter() {
+	var url = '<%=request.getRequestURL().toString().replace(request.getRequestURI(),"")%>';
+	url += "/join/" + '${joinReq.groupPurchase.gpId}';
+	
+	var sendText = '${joinReq.groupPurchase.title}' + '\n\n';
+
+	window.open("https://twitter.com/intent/tweet?text=" + encodeURIComponent(sendText) + "&url=" +encodeURIComponent(url));
+}
+</script>
+
 <c:set var="targetUrl"><c:url value="/join/${joinReq.groupPurchase.gpId}" /></c:set>
 
 <title>공구 참여</title>
@@ -101,6 +113,7 @@
 	function delWish() {
 		location.href="<c:url value='/user/my/wish/gp/delete?gpId=${joinReq.groupPurchase.gpId}&view=join' />";
 	}
+	
   </script>
   
   <style>
@@ -160,6 +173,9 @@
   			<c:if test="${wishGp eq null}"> <!-- wish 등록 안된 상태 > wish 등록 이동 -->
   				<button id="noWish" class="wishBtn" type="button" onclick="wish();">❤</button>
   			</c:if>
+  		</td>
+  		<td>
+  			<a onClick="twitter()"><img style="width:30px;" src="<c:url value='../../images/icon-twitter.png'/>"></a>
   		</td>
   	</tr>
   	

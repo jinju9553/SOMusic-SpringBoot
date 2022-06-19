@@ -33,6 +33,6 @@ public class SaleListController {
 	@RequestMapping(value="/SaleList", method = RequestMethod.GET)
 	public String showSaleList(Model model) throws Exception {
 		
-		return "product/Sale/saleList"; 
+		return "thyme/product/Sale/saleList"; 
 	}
 }
