@@ -78,8 +78,7 @@ public class MyGPController {
 
 	@RequestMapping(value = "/info", method = RequestMethod.GET)
 	public String info(@RequestParam("gpId") int gpId, Model model) throws Exception {
-		System.out.println("GP 정보 : " + gpId);
-
+		
 		// 공구 검색
 		GroupPurchase gp = gpSvc.getGP(gpId);
 		gp.setDescription(gp.getDescription().replace("\n", "<br>")); // 줄바꿈 --> <br> 태그로

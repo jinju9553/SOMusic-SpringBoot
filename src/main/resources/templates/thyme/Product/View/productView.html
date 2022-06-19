@@ -1,6 +1,24 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+
+<!-- 공유 -->
+<script th:inline="javascript">
+function twitter() {
+	/*<![CDATA[*/
+    let name = /*[[ ${productReq.productName} ]]*/;
+	let comment = /*[[ ${productReq.description} ]]*/;
+    /*]]*/
+    
+	var url = window.location.href;
+	
+	var sendText = name + '\n\n' + comment + "\n\n";
+	
+	window.open("https://twitter.com/intent/tweet?text=" + encodeURIComponent(sendText) + "&url=" +encodeURIComponent(url));
+}
+</script>
+
+
 <style type="text/css">
 	body {
 		background-color: #f2eee5;
@@ -111,49 +129,50 @@
 <title>상세 정보</title>
 </head>
 <body>
-
 <div th:insert="~{thyme/header}"></div>
 <div id="out">
 	<div class="top_view">
-		  	<tr> <td>
-  		 <button id="noInterest" >
-  		<!-- 여기서 넘겨주고 싶은데 -->
-  		❤</button> </td>
-  	</tr>
+		<tr> <td>
+	  		 <a th:href="@{/user/wish/add(productId=${productReq.productId})}"><button id="noInterest">
+	  		❤</button></a> </td>
+	  		
+	  		<div style="float: right; margin-top: 10px; margin-right: 10px;">
+				<a th:onClick="twitter()"><img style="width:30px;" th:src="@{/images/icon-twitter.png}"></a>
+	  		</div>
+  		</tr>
 		<div class="info_view">
 			<div class="image">
-				<img src="../../../image/image_upload.png"
-					style="border:1px black solid; width:100%;"/>
+				<img th:scr="@{${productReq.image}}" style="width:100%"/>
 			</div>
 			<div class="info">
 				<div class="row"><h1><p th:text="${productReq.productName}">음반 제목</p> </h1></div>
 				<div id="blue" class="row"><h2><p th:text="${productReq.price}">가격</p></h2> </div>
-				<div class="row">아티스트명 :&nbsp
-				<div th:text="${productReq.artistName}"></div>
+				<div class="row">아티스트명 :&nbsp;
+					<div th:text="${productReq.artistName}"></div>
 				</div>
-				<div id ="comment" class="row">판매자 :&nbsp
-				 <div id="dis" th:text="${productReq.sellerId}"></div> 
+				<div id ="comment" class="row">판매자 :&nbsp;
+					<div id="dis" th:text="${productReq.sellerId}"></div> 
 				</div>
 				<div class="row">
-				<div class="condition">전반적인 상태 :&nbsp</div>
-				<div id="sw" th:switch="${productReq.condition}">
-				<span th:case="1">나쁨</span>
-				<span th:case="2">보통</span>
-				<span th:case="3">좋음</span>
-				<span th:case="4">매우 좋음</span>
+					<div class="condition">전반적인 상태 :&nbsp;</div>
+					<div id="sw" th:switch="${productReq.condition}">
+					<span th:case="1">나쁨</span>
+					<span th:case="2">보통</span>
+					<span th:case="3">좋음</span>
+					<span th:case="4">매우 좋음</span>
 				</div><br></div>
 				<div class="row">
-				<div class=comment>코멘트 :&nbsp </div>
-				<div id="dis" th:text="${productReq.description}"></div></div>
+					<div class=comment>코멘트 :&nbsp </div>
+					<div id="dis" th:text="${productReq.description}"></div>
+				</div>
 				<div class="row">
-				<br>
-				<br>
-				<button class="btn" type="button">구매하기</button>
+					<br>
+					<br>
+					<button class="btn" type="button">구매하기</button>
+				</div>
 			</div>
 		</div>
-		</div>
-		
 	</div>
-	</div>
+</div>
 </body>
 </html>

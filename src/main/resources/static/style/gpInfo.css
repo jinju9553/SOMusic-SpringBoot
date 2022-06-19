@@ -101,12 +101,13 @@
     .ex {
     	font-size: 12px;
     	font-weight: bold;
-    	color: #5f7caf;
+    	color: #949494;
     	border: none;
+    	background-color: #f2eee5;
     }
     
     .ex:hover {
-    	border-bottom: 1px solid #5f7caf;
+    	color: #5f7caf;
     }
     
     .status {

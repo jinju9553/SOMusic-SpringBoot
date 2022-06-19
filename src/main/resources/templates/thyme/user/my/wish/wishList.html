@@ -1,82 +1,83 @@
 <!DOCTYPE html>
-<meta charset="UTF-8">
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<style>
-	body {
-        background-color: #f2eee5;
-    }
- 	#out {
-		width: 1000px;
-		margin-left: auto;
-		margin-right: auto;
-	}
-    
-    .row {
-		margin: 10px;
-	}
-	
-	.one {
-		border: 1px solid #afafc7;
-		height: 110px;
-		display: flex;
-		margin: 5px;
-		border-radius: 3px;
-	}
-	.btn {
-		background: none;
-    	font-size: 13px;
-    	color: #ccabaf;
-    	border: none;
-    }
-    .title {
-		padding-top: 10px;
-		padding-left: 10px;
-		width: 670px;
-	}
-    .btn:hover {
-    	font-weight: bold;
-    	border-bottom: 2px solid #ccabaf;
-    }
-</style>
-<title>상품 위시 리스트</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" th:href="@{/style/list.css}" type="text/css" />
+<title>위시 리스트</title>
 </head>
 <body>
+<div th:insert="~{thyme/header}"></div>
 <div id="out">
-	<div class="row">
-		<h3>상품 위시 리스트</h3>
+	<div class="lnb" style="float: left;">
+		<div>
+			<div style="padding-bottom: 10px;">
+				<h2 style="line-height: 34px; color: #222222;">내 정보</h2>
+			</div>
+			<ul class="list-group">
+				<li class="list-group-item"><a th:href="@{/user/my}">내 정보 관리</a></li>
+				<li class="list-group-item"><a th:href="@{/user/my/sale/list/product}">중고거래 관리</a></li>
+				<li class="list-group-item"><a th:href="@{/user/my/gp/register/list}">공동구매 관리</a></li>
+				<li class="list-group-item active"><a>위시리스트 모아보기</a></li>
+			</ul>
+		</div>
 	</div>
-	<div class="row" style="height:10px"></div>
-	<div class="row">
-		<div class="one">
-			<div class="row image_view">
-				<img class="image" src="x.png"/>
-			</div>
-			<div class="row title">
-				<h3>상품 이름</h3>
-				<h4>가격 </h4>
-			</div>
-			<div class="row" style="width:60px;"></div>
-			<div class="row">
-				<div class="row" style="height:40px;"></div>
-				<div class="row">
-					<button class="btn" type="button">삭제</button>
+	
+	<div style="display:inline-block; width: 70%; margin-left: 5%;">
+		<div class="element">
+			<h4>상품 위시 리스트</h4>
+		</div>
+		<div class="element">
+			<nav>
+				<ul class="ulNav">
+					<li class="liNav"><a class="linkNav" style="color: #5f7caf;">상품 위시 리스트</a></li>
+					<li class="liNav"><a class="linkNav unselect" th:href="@{/user/my/wish/gp/list}">공구 위시 리스트</a></li>
+				</ul>
+			</nav>
+		</div>
+		<div class="element">
+			<div class="one"> <!--  반복문 th:each="wish : ${wishGpList}" -->
+				<div class="image_view">
+					<img class="image" src="x.png"/>
+				</div>
+				<div class="element title">
+					<h5><a class="linkTitle" href="#">제목</a></h5>
+				</div>
+				<div class="btnView">
+					<div>
+						<form action="#" method="GET" th:action="@{/main}"> <!--  임시 -->
+							<input type="hidden" id="productId" name="productId" /> <!-- th:value="${}" -->
+							<input type="hidden" id="view" name="view" value="list" />	<!--  뷰에서 삭제하는지, 리스트에서 삭제하는지 구분 -->
+							<input class="btnDelete" type="submit" value="&#215;" />
+						</form>
+					</div>
 				</div>
 			</div>
-		</div>
-		<div class="one">
-			<div class="row image_view">
-				<img class="image" src="x.png"/>
+			
+			<div class="one"> <!--  반복문 th:each="wish : ${wishGpList}" -->
+				<div class="image_view">
+					<img class="image" src="x.png"/>
+				</div>
+				<div class="element title">
+					<h5><a class="linkTitle" href="#">제목</a></h5>
+				</div>
+				<div class="btnView">
+					<div>
+						<form action="#" method="GET" th:action="@{/main}"> <!--  임시 -->
+							<input type="hidden" id="productId" name="productId" /> <!-- th:value="${}" -->
+							<input type="hidden" id="view" name="view" value="list" />	<!--  뷰에서 삭제하는지, 리스트에서 삭제하는지 구분 -->
+							<input class="btnDelete" type="submit" value="&#215;" />
+						</form>
+					</div>
+				</div>
 			</div>
-			<div class="row title">
-				<h3>상품 이름</h3>
-				<h4>가격 </h4>
-			</div>
-			<div class="row" style="width:60px;"></div>
-			<div class="row">
-				<div class="row" style="height:40px;"></div>
-				<div class="row">
-					<button class="btn" type="button">삭제</button>
+			
+			  
+			<div class="element"> <!-- 리스트 비어있을때 th:if="${#lists.isEmpty(wishGpList)}" -->
+				<div class="element" style="height: 40px;"></div>
+				<div class="element" style="text-align: center;">
+					<a>아직 위시에 등록한 중고상품 내역이 없습니다.<br></a>
+					<button class="hButton" style="margin-top: 5%;"
+						onclick="location.href ='/main/product'">중고상품 둘러보기</button>
 				</div>
 			</div>
 		</div>

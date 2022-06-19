@@ -2,6 +2,8 @@ package com.example.SOMusic.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,9 +11,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.util.WebUtils;
 
 import com.example.SOMusic.service.ProductService;
 import com.example.SOMusic.service.PurchaseService;
+import com.example.SOMusic.domain.Login;
 import com.example.SOMusic.domain.Product;
 import com.example.SOMusic.domain.Purchase;
 
@@ -46,8 +50,11 @@ public class MyProductController {
 	}
 	
 	@GetMapping(value="/purchase/List")
-	public String purchaseList(@RequestParam("userId") String userId, Model model)
+	public String purchaseList(HttpServletRequest request, Model model)
 	throws Exception {
+		Login userSession = (Login) WebUtils.getSessionAttribute(request, "userSession");
+		String userId = userSession.getAccount().getUserId();
+		
 		System.out.println("구매한 상품 리스트 출력중");
 		System.out.println("sellerId : " + userId);
 		
@@ -59,12 +66,14 @@ public class MyProductController {
 		return MY_PURCHASE_LIST; 
 		
 	}	
-	
 
 
 	@GetMapping(value="/sale/list/product")
-	public String saleList(@RequestParam("sellerId") String sellerId, Model model)
+	public String saleList(HttpServletRequest request, Model model)
 	throws Exception {
+		Login userSession = (Login) WebUtils.getSessionAttribute(request, "userSession");
+		String sellerId = userSession.getAccount().getUserId();
+		
 		System.out.println("등록한 상품 리스트 출력중");
 		System.out.println("sellerId : " + sellerId);
 		
