@@ -326,8 +326,7 @@
 		  </td>
 		  <td style="padding-top: 5%; colspan="2" align="left"> <button>등록</button> </td>
 	    </tr> 
-    </c:if>
-    
+    </c:if> 
   </table>
 </form:form>
 </div>

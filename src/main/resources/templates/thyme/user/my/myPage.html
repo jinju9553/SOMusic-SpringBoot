@@ -61,7 +61,7 @@
 					<li class="list-group-item active"><a>내 정보 관리</a></li>
 					<li class="list-group-item"><a th:href="@{/user/my/sale/list/product}">중고거래 관리</a></li>
 					<li class="list-group-item"><a th:href="@{/user/my/gp/register/list}">공동구매 관리</a></li>
-					<li class="list-group-item"><a th:href="@{/user/my/wish/view}">위시 리스트</a></li>
+					<li class="list-group-item"><a th:href="@{/user/my/wish/view}">위시 리스트 모아보기</a></li>
 				</ul>
 			</div>
 		</div>
@@ -84,6 +84,7 @@
 		            <label th:for="userName">닉네임</label>
 		            <br>
 		            <input type="text" th:field="*{account.userName}" class="form-control" placeholder="이름을 입력해주세요">
+		            <p style="color:red;" th:each="err : ${#fields.errors('account.userName')}" th:text="${err}"></p>
 		        </div>
 		        <br>
 		        
@@ -91,12 +92,14 @@
 		            <label th:for="address">주소</label>
 		            <br>
 		            <input type="text" th:field="*{account.address}" class="form-control" placeholder="주소를 입력해주세요">
+		            <p style="color:red;" th:each="err : ${#fields.errors('account.address')}" th:text="${err}"></p>
 		        </div>
 		        
 		        <div class="form-group">
 		            <label th:for="zipcode">우편번호</label>
 		            <br>
 		            <input type="text" th:field="*{account.zipcode}" class="form-control" placeholder="우편번호를 입력해주세요">
+		            <p style="color:red;" th:each="err : ${#fields.errors('account.zipcode')}" th:text="${err}"></p>
 		        </div>
 		        
 		        <br>
@@ -104,6 +107,7 @@
 		            <label th:for="phone">휴대폰 번호</label>
 		            <br>
 		            <input type="text" th:field="*{account.phone}" class="form-control" placeholder="번호를 입력하세요">
+		            <p style="color:red;" th:each="err : ${#fields.errors('account.phone')}" th:text="${err}"></p>
 		        </div>
 		        <br>
 		        
@@ -111,6 +115,7 @@
 		            <label th:for="phone">이메일</label>
 		            <br>
 		            <input type="text" th:field="*{account.email}" class="form-control" placeholder="이메일 주소를 입력하세요">
+		            <p style="color:red;" th:each="err : ${#fields.errors('account.email')}" th:text="${err}"></p>
 		        </div>
 		        <br>
 		        <input class="btn" type="submit" onClick="" value="회원정보 수정">

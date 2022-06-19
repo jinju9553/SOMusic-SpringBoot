@@ -40,9 +40,10 @@ public class LoginController {
 
 			model.addAttribute("userSession", userSession);
 			
-			System.out.println("LoginController: " + userSession.getAccount().getUserName());
-			if (forwardAction != null) 
+			if (forwardAction != null) {
+				System.out.println("LoginController: " + forwardAction);
 				return new ModelAndView("redirect:" + forwardAction); //사용자가 원래 보던 페이지로 리다이렉트
+			}
 			else 
 				return new ModelAndView("redirect:" + "/main"); //그냥 redirect하면 request가 소멸하므로 MainController에도 userSession 연동
 		}

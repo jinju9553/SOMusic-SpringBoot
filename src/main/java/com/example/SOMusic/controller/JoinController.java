@@ -92,9 +92,11 @@ public class JoinController {
 					(Login) WebUtils.getSessionAttribute(request, "userSession");
 			
 			// 2.Account를 통해 이 유저의 address 및 기본 정보를 읽어와서 세팅한다.
-			Account account = accountService.getAccount(userSession.getAccount().getUserId());
-			
-			model.addAttribute("account", account); //정보를 세팅하여 Form에 초기값으로 나타낸다.
+			Account account = new Account();
+			if(userSession != null) {
+				account = accountService.getAccount(userSession.getAccount().getUserId());
+				model.addAttribute("account", account); //정보를 세팅하여 Form에 초기값으로 나타낸다.
+			}
 	
 			join.setGroupPurchase(gp); // 정보를 세팅하여 Form에 초기값으로 나타낸다.
 			if(join.getQuantity() == 0) {//최초로 폼을 불러왔다면

@@ -52,9 +52,7 @@ public class MyJoinController {
 				@PathVariable("joinId") int joinId) {
 		if (request.getMethod().equalsIgnoreCase("GET")) { 
 			Join join = joinService.findJoinByJoinId(joinId); //DB에서 특정 join을 읽어온다.
-			
-			System.out.println("INFO - GET: " + join.getGroupPurchase().getTitle());
-			
+
 			return join;
 		}
 		else return new Join();
