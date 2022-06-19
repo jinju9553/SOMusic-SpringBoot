@@ -41,22 +41,33 @@ public class JoinServiceImpl implements JoinService{
 	public void modifyJoin(Join join) {
 		Join j = this.findJoinByJoinId(join.getJoinId());
 		
+		modifyByStatus(j, join);
+	}
+	
+	public void modifyByStatus(Join newJoin, Join joinReq) {
+		int currentStatus = newJoin.getStatus();
+		int newShippingCost = initShippingCost(joinReq);
+		
 		//아래의 join 필드들을 객체 단위로 묶으면 더 좋을듯
-		j.setAccountHolder(join.getAccountHolder());
-		j.setRefundBank(join.getRefundBank());
-		j.setRefundAccount(join.getRefundAccount());
-		j.setRefundHolder(join.getRefundHolder());
-		
-		int newShippingCost = initShippingCost(join);
-		j.setTotalAmount(updateTotal(j, newShippingCost));
-		j.setShippingCost(newShippingCost);
-		j.setShippingMethod(join.getShippingMethod());
-		
-		j.setConsumerName(join.getConsumerName());
-		j.setPhone(join.getPhone());
-		j.setZipcode(join.getZipcode());
-		j.setAddress(join.getAddress());
-		j.setShippingRequest(join.getShippingRequest());
+		if(currentStatus < 3) {
+			newJoin.setTotalAmount(updateTotal(newJoin, newShippingCost));
+			newJoin.setShippingCost(newShippingCost);
+			newJoin.setShippingMethod(joinReq.getShippingMethod());
+			
+			newJoin.setConsumerName(joinReq.getConsumerName());
+			newJoin.setPhone(joinReq.getPhone());
+			newJoin.setZipcode(joinReq.getZipcode());
+			newJoin.setAddress(joinReq.getAddress());
+			newJoin.setShippingRequest(joinReq.getShippingRequest());
+			
+			if(currentStatus < 2) {
+				newJoin.setAccountHolder(joinReq.getAccountHolder());
+			}
+		}
+		//상시 변경 가능
+		newJoin.setRefundBank(joinReq.getRefundBank());
+		newJoin.setRefundAccount(joinReq.getRefundAccount());
+		newJoin.setRefundHolder(joinReq.getRefundHolder());
 	}
 
 	@Transactional
