@@ -24,7 +24,7 @@ public class GPService {
 	private GPRepository gpRepository;
 	
 	@Autowired
-	private WishGPRepository wishGgpRepository;
+	private WishGPRepository wishGpRepository;
 	
 	@Autowired
 	private WishGPDAO wishDao;
@@ -67,15 +67,15 @@ public class GPService {
 	}
 	
 	public WishGroupPurchase getWishGP(String userId, int gpId) {	// 위시 검색
-		return wishGgpRepository.findByUserIdAndGpId(userId, gpId);
+		return wishGpRepository.findByUserIdAndGpId(userId, gpId);
 	}
 	
 	public void deleteWishGP(String userId, int gpId) {		// 위시 삭제
-		wishGgpRepository.deleteByUserIdAndGpId(userId, gpId);
+		wishGpRepository.deleteByUserIdAndGpId(userId, gpId);
 	}
 	
 	public List<WishGroupPurchase> getWishGPList(String userId) {		// 위시리스트 불러오기
-		return wishGgpRepository.findByUserId(userId);
+		return wishGpRepository.findByUserId(userId);
 	}
 	
 }
