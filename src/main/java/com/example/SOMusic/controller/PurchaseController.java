@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.ModelAndViewDefiningException;
 import org.springframework.web.util.WebUtils;
 
 import com.example.SOMusic.domain.Account;
@@ -113,6 +111,4 @@ public class PurchaseController {
 
 		return "redirect:/" + "purchase/{productId}"; //결과 화면 새로 만들기(PURCHASE_RESULT)
 	}
-	
-	//8.PurchaseView(Confirm) - 사용자가 작성한 구매폼을 판매자가 승인함
 }

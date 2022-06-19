@@ -28,8 +28,13 @@ public class MyJoinController {
 	}
 	
 	@ModelAttribute("shippingOption")
-	public Object[] referenceData() { //String이나 Object만 전송 가능
-		return new Object[] { 1, 2, 3 }; //"준등기 (+1,800원)", "택배 (+3,000원)", "택배(제주산간) (+6,000원)"
+	public Object[] referenceData() { //주의: String이나 Object만 전송 가능
+		return new Object[] { 1, 2, 3 }; 
+	}
+	
+	@ModelAttribute("shippingText")
+	public Object[] referenceString() { 
+		return new Object[] { "준등기 (+1,800원)", "택배 (+3,000원)", "택배(제주산간) (+6,000원)" };
 	}
 	
 	@ModelAttribute("shippingCost")

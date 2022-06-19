@@ -88,7 +88,7 @@
 		}
 		
 		var method = ${purchaseInfoReq.shippingMethod};
-		switch (method) { //0: 직거래만 & 1: 택배만 & 2: 둘 다 가능 & 3: 기타(알아서 기재)
+		switch (method) { //0: 직거래만 & 1: 택배만 & 2: 둘 다 가능 & 3: 기타
 		  case 0:
 			$(".methodAnchor").text('직거래');
 		    break;
@@ -112,17 +112,8 @@
 	});
 	
 	function confirmAccount() {
-		alert("계좌번호는 ${product.bank} ${product.account} 입니다.");
+		alert("판매자의 계좌번호는 ${product.bank} ${product.account} 입니다.");
 	}
-	
-	/*
-	function interest() {
-		if (ecoerId == 'null') {
-			location.href="/Ecoding/user/loginform";
-		} else {
-			location.href="/Ecoding/project/interest?projectId=69";
-		}
-	}*/
 </script>
 
 <form:form modelAttribute="purchaseInfoReq" action="${targetUrl}" method="post">
@@ -136,11 +127,7 @@
   	<tr> <!-- div 또는 <hr> -->
   		<td> <div class="color_purple" style="height: auto; width: 170%; border-top:1px solid; margin-bottom: 5%;"></div> </td>
   	</tr>
-  	
-<!--   	<tr> -->
-<!--   		<td colspan="3" align="right"> 등록 날짜: </td> -->
-<!--   	</tr> -->
-  	
+
   	<tr> <!-- padding은 나중에 별도의 CSS 파일로 & 파일 경로 및 값은 product.image 등으로 접근 -->
   		<td rowspan="6"> <img id="noImage" src="<c:url value='../../images/purchase/noImage.png'/>"> </td>
   		<td> <button id="noInterest" type="button" onclick="interest();">❤</button> </td>
@@ -304,7 +291,7 @@
   	
   	<tr>
     	<td style="padding-top: 5%;" colspan="3" align="right">
-    	<span class="redFont"><b>*배송이 시작된 이후에는 수령인 및 배송지를 수정할 수 없습니다.</b>
+    	<span style="color: red;"><b>*배송이 시작된 이후에는 수령인 및 배송지를 수정할 수 없습니다.</b>
     	</span></td>
   	</tr>
   	

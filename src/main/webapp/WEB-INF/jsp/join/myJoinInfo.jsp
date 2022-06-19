@@ -63,17 +63,20 @@
 <div align="center">
 <script type="text/javascript">
 	$(document).ready(function() {
+		//1.초기 이미지 세팅
 		var imgSrc = "${joinInfoReq.groupPurchase.image}";
 		  if (imgSrc == null) {
 			  $("#image").attr("src", "<c:url value='../images/purchase/noImage.png'/>")
 		  }
 		  
+		//2.별점 기능
 		$('.starRev span').click(function(){
 			$(this).parent().children('span').removeClass('on');
 			$(this).addClass('on').prevAll('span').addClass('on');
 			return false;
 		});
 		
+		//3.status 값에 따른 표기
 		var status = ${joinInfoReq.status};
 		switch (status) { //1: 입금 대기 & 2: 입금 확인, 배송 대기중 & 3:배송 시작 & 4: 거래 완료
 		  case 1:
@@ -86,29 +89,34 @@
 		    break;
 		  case 3:
 			$(".statusAnchor").text('배송 시작');
+			$(".payAnchor").text('입금 완료');
 		    break;
 		  case 4:
 			$(".statusAnchor").text('거래 완료');
+			$(".payAnchor").text('입금 완료');
 			break;
 		  default:
 			$(".statusAnchor").text('참여 정보 없음');
-		  	$(".payAnchor").text('입금 대기');
+		  	$(".payAnchor").text('참여 정보 없음');
 		}
 		
-		//radio buttoun 옆의 label 변경
-		$("#shippingMethod1").next().text('준등기 (+${shippingCost[0]}원)');
-		$("#shippingMethod2").next().text('택배 (+${shippingCost[1]}원)');
-		$("#shippingMethod3").next().text('택배(제주산간) (+${shippingCost[2]}원)');
-	});
-	
-	/*
-	function interest() {
-		if (ecoerId == 'null') {
-			location.href="/Ecoding/user/loginform";
-		} else {
-			location.href="/Ecoding/project/interest?projectId=69";
+		//4.shippingMethod 값에 따른 텍스트 (*EL index에 변수 넣을 수 없음, foreach 불가)
+		var shippingMethod =  ${joinInfoReq.shippingMethod};
+		switch (shippingMethod) {
+			case 1:
+				$("#shippingText").text('${shippingText[0]}');
+				break;
+			case 2:
+				$("#shippingText").text('${shippingText[1]}');
+				break;
+			case 3:
+				$("#shippingText").text('${shippingText[2]}');
+				break;
 		}
-	}*/
+		$("#shippingMethod1").next().text('${shippingText[0]}');
+		$("#shippingMethod2").next().text('${shippingText[1]}');
+		$("#shippingMethod3").next().text('${shippingText[2]}');
+	});
 </script>
 
 <form:form modelAttribute="joinInfoReq" action="${targetUrl}" method="post">
@@ -168,8 +176,17 @@
   	
   	<tr>
 		<td>입금자명</td>
-        <td><form:input path="accountHolder"/>
-        <form:errors path="accountHolder"/></td>
+        <td>
+        <c:choose>
+        	<c:when test="${joinInfoReq.status < 2}">
+        		<form:input path="accountHolder"/>
+        		<form:errors path="accountHolder"/>
+        	</c:when>
+        	<c:otherwise>
+        		<a> ${joinInfoReq.accountHolder} </a>
+        	</c:otherwise>
+        </c:choose>
+        </td>
   	</tr>  
   	
   	<tr>
@@ -219,14 +236,20 @@
   	</tr> 
   	<tr>
 		<td>배송 방법</td>
+		<c:if test="${joinInfoReq.status >= 3}">
+			<td id="shippingText">텍스트</td>
+		</c:if>
   	</tr> 
-  	<tr> <!-- status 3부터는 수정 불가 -->
-		<td colspan="2" align="center" style="padding-bottom: 5%;">
-			<form:radiobuttons path="shippingMethod" items="${shippingOption}" /> 
-		</td>
+  	<tr> 
+    	<c:if test="${joinInfoReq.status < 3}">
+        	<td colspan="2" align="center" style="padding-bottom: 5%;">
+				<form:radiobuttons path="shippingMethod" items="${shippingOption}" /></td>
+		</c:if>
   	</tr> 
   	<tr>
-  		<td colspan="2" align="right" style="padding-bottom: 5%;"> <button class="btn">수정 내역 저장</button> </td>
+  		<c:if test="${joinInfoReq.status < 3}">
+  			<td colspan="2" align="right" style="padding-bottom: 5%;"> <button class="btn">수정 내역 저장</button> </td>
+  		</c:if>
   	</tr>
   	<tr>
   		<td>배송비</td>
@@ -246,54 +269,113 @@
   		<td> <div class="color_purple" style="height: auto; width: 170%; border-top:1px solid; margin-bottom: 5%;"></div> </td>
   	</tr>
   	
-  	<tr>
+  	<tr class="shippingMenu">
 		<td>수령인</td>
-        <td><form:input path="consumerName"/> 
-        <form:errors path="consumerName"/></td>
+        <td>
+        <c:choose>
+        	<c:when test="${joinInfoReq.status < 3}">
+        		<form:input path="consumerName"/> 
+        		<form:errors path="consumerName"/>
+        	</c:when>
+        	<c:otherwise>
+        		<a> ${joinInfoReq.consumerName} </a>
+        	</c:otherwise>
+        </c:choose>
+        </td>
   	</tr> 
-  	<tr>
+  	
+  	<tr class="shippingMenu">
 		<td>연락처</td>
-        <td><form:input path="phone"/>
-        <form:errors path="phone"/></td>
+        <td>
+        <c:choose>
+        	<c:when test="${joinInfoReq.status < 3}">
+        		<form:input path="phone"/>
+        		<form:errors path="phone"/>
+        	</c:when>
+        	<c:otherwise>
+        		<a> ${joinInfoReq.phone} </a>
+        	</c:otherwise>
+        </c:choose>
+        </td>
   	</tr> 
-  	<tr>
+  	
+  	<tr class="shippingMenu">
       <td>우편번호</td>
-      <td><form:input path="zipcode"/> 
-        <form:errors path="zipcode"/></td>
+      <td>
+      <c:choose>
+        	<c:when test="${joinInfoReq.status < 3}">
+        		<form:input path="zipcode"/> 
+        		<form:errors path="zipcode"/>
+        	</c:when>
+        	<c:otherwise>
+        		<a> ${joinInfoReq.zipcode} </a>
+        	</c:otherwise>
+      </c:choose>
+      </td>
     </tr>
-  	<tr>
+    
+  	<tr class="shippingMenu">
       <td>주소</td>
-      <td><form:input path="address"/> 
-        <form:errors path="address"/></td>
+      <td>
+      <c:choose>
+        	<c:when test="${joinInfoReq.status < 3}">
+        		<form:input path="address"/> 
+        		<form:errors path="address"/>
+        	</c:when>
+        	<c:otherwise>
+        		<a> ${joinInfoReq.address} </a>
+        	</c:otherwise>
+      </c:choose>
+      </td>
     </tr>
-    <tr>
+    
+    <tr class="shippingMenu">
       <td>배송시 요청사항</td>
-      <td><form:input path="shippingRequest"/> 
-        <form:errors path="shippingRequest"/></td>
+      <td>
+      <c:choose>
+        	<c:when test="${joinInfoReq.status < 3}">
+        		<form:input path="shippingRequest"/> 
+      			<form:errors path="shippingRequest"/>
+        	</c:when>
+        	<c:otherwise>
+        		<a> ${joinInfoReq.shippingRequest} </a>
+        	</c:otherwise>
+      </c:choose>    
+      </td>
     </tr>
     
     <tr>
-  		<td colspan="2" align="right"> <button class="btn">수정 내역 저장</button> </td>
+    	<c:if test="${joinInfoReq.status < 3}">
+  			<td colspan="2" align="right"> <button class="btn">수정 내역 저장</button> </td>
+  		</c:if>
+  	</tr>
+  	
+  	<tr>
+    	<td style="padding-top: 5%;" colspan="3" align="right">
+    	<span style="color: red;"><b>*배송이 시작된 이후에는 수령인 및 배송지를 수정할 수 없습니다.</b>
+    	</span></td>
   	</tr>
     
-    <tr> <!-- 거래 종료(status: 4) 이후 활성화되는 메뉴 -->
-      <td style="padding-top: 5%;">이 거래가 만족스러우셨다면, 판매자에게 별점을 부여해주세요.</td>
-      <td style="padding-top: 5%; padding-left: 3%;" align="right">
-		<div class="starRev">
-		  <span class="starR1 on"></span>
-		  <span class="starR2"></span>
-		  <span class="starR1"></span>
-		  <span class="starR2"></span>
-		  <span class="starR1"></span>
-		  <span class="starR2"></span>
-		  <span class="starR1"></span>
-		  <span class="starR2"></span>
-		  <span class="starR1"></span>
-		  <span class="starR2"></span>
-		</div>
-	  </td>
-  	  <td style="padding-top: 5%; colspan="2" align="left"> <button class="btn">등록</button> </td>
-    </tr> 
+    <c:if test="${joinInfoReq.status >= 4}">
+	    <tr> <!-- 거래 종료(status: 4) 이후 활성화되는 메뉴 -->
+	      <td style="padding-top: 5%;">이 거래가 만족스러우셨다면, 판매자에게 별점을 부여해주세요.</td>
+	      <td style="padding-top: 5%; padding-left: 3%;" align="right">
+			<div class="starRev">
+			  <span class="starR1 on"></span>
+			  <span class="starR2"></span>
+			  <span class="starR1"></span>
+			  <span class="starR2"></span>
+			  <span class="starR1"></span>
+			  <span class="starR2"></span>
+			  <span class="starR1"></span>
+			  <span class="starR2"></span>
+			  <span class="starR1"></span>
+			  <span class="starR2"></span>
+			</div>
+		  </td>
+	  	  <td style="padding-top: 5%; colspan="2" align="left"> <button class="btn">등록</button> </td>
+	    </tr> 
+    </c:if>
     
   </table>
 </form:form>
