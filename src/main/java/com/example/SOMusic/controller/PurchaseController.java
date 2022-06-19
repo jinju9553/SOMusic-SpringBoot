@@ -30,7 +30,6 @@ import com.example.SOMusic.service.PurchaseService;
 public class PurchaseController {
 	
 	private static final String PURCHASE_FORM = "purchase/purchaseForm";
-	private static final String PURCHASE_INFO = "purchase/myPurchaseInfo";
 	
 	@Autowired //주의: interface는 class가 아니므로 Bean을 생성할 수 없음
 	private PurchaseService purchaseService;
@@ -59,96 +58,61 @@ public class PurchaseController {
 		return new String[] { "현금 거래", "계좌 이체", "카카오 페이", "toss", "그 외" };
 	}
 
-	@GetMapping("/info") //테스트용 uri
-	public String showForm2() {
-		return PURCHASE_INFO;
-	}
-	
 	@GetMapping("/{productId}")
-	@ModelAttribute("purchaseReq") // request handler methods 보다 먼저 호출됨
-	public ModelAndView formBacking(HttpServletRequest request ,
-			@PathVariable("productId") int productId, Model model) {
-		PurchaseRequest purchaseReq = new PurchaseRequest();
-
-		Product p = productService.findProductByProductId(productId);
-
-		// 1.UserSession에서 UserId를 뽑아낸다.
-		Login userSession = 
-				(Login) WebUtils.getSessionAttribute(request, "userSession");
-
-		// 2.Account를 통해 이 유저의 address 및 기본 정보를 읽어와서 세팅한다. ==> try catch? 
-		Account account = new Account();
-		if(userSession != null) {
-			account = accountService.getAccount(userSession.getAccount().getUserId());
-		}
+	public String showForm() {
+		return PURCHASE_FORM;
+	}
 		
-		// +)만약 배송지 '주문자와 동일' 옵션을 선택했을 경우 ==> 따로 ajax 콜 사용
+	@ModelAttribute("purchaseReq") // request handler methods 보다 먼저 호출됨
+	public Purchase formBacking(HttpServletRequest request ,
+			@PathVariable("productId") int productId, Model model) {
+		if (request.getMethod().equalsIgnoreCase("GET")) {
+			Purchase purchaseReq = new Purchase();
+			Product p = productService.findProductByProductId(productId);
+	
+			// 1.UserSession에서 UserId를 뽑아낸다.
+			Login userSession = 
+					(Login) WebUtils.getSessionAttribute(request, "userSession");
+	
+			// 2.Account를 통해 이 유저의 address 및 기본 정보를 읽어와서 세팅한다.
+			Account account = new Account();
+			if(userSession != null) {
+				account = accountService.getAccount(userSession.getAccount().getUserId());
+			}
 
-		purchaseReq.setProduct(p); // 정보를 세팅하여 Form에 초기값으로 나타낸다.
-		model.addAttribute("purchaseReq", purchaseReq);
-		model.addAttribute("account", account);
-
-		return new ModelAndView(PURCHASE_FORM);
+			model.addAttribute("account", account);
+			purchaseReq.setProduct(p); // 정보를 세팅하여 Form에 초기값으로 나타낸다.
+			
+			return purchaseReq;
+		} 
+		else
+			return new Purchase();
 	}
 	
 	@PostMapping("/{productId}")
 	public String register( 
 			HttpServletRequest request,
-			@ModelAttribute("purchaseReq") PurchaseRequest purchaseReq,
+			@ModelAttribute("purchaseReq") Purchase purchaseReq,
 			@PathVariable("productId") int productId,
-			BindingResult bindingResult, Model model) throws ModelAndViewDefiningException {
-		System.out.println("command 객체: " + purchaseReq); //왜 product가 null이 되었는지??
+			BindingResult bindingResult, Model model) throws Exception {
+		System.out.println("command 객체: " + purchaseReq);
 		
-		Purchase p = new Purchase();
+		Login userSession = 
+				(Login) WebUtils.getSessionAttribute(request, "userSession");
 		
 		if (bindingResult.hasErrors()) {
 			return PURCHASE_FORM;
 		}
 
-		Login userSession = 
-				(Login) WebUtils.getSessionAttribute(request, "userSession");
-
 		Account account = accountService.getAccount(userSession.getAccount().getUserId());
 		
-		p.initPurchase(purchaseReq);
-		p.setProduct(productService.findProductByProductId(productId));
-		p.setTotalAmount(purchaseService.calculateTotal(p.getProduct()));
-		p.setConsumerId(account.getUserId());
-		purchaseService.registerPurchase(p); 
+		purchaseReq.setProduct(productService.findProductByProductId(productId));
+		purchaseReq.setTotalAmount(purchaseService.calculateTotal(purchaseReq.getProduct()));
+		purchaseReq.setConsumerId(account.getUserId());
+		purchaseService.registerPurchase(purchaseReq); 
 
-		model.addAttribute("purchaseReq", p); //View에 객체 전달하고 간략한 정보 출력
-		
 		return "redirect:/" + "purchase/{productId}"; //결과 화면 새로 만들기(PURCHASE_RESULT)
 	}
 	
-	@GetMapping("/info/{purchaseId}")
-	public String formBackingInfo(HttpServletRequest request,
-				@PathVariable("purchaseId") int purchaseId, Model model) {
-			PurchaseRequest purchaseReq = new PurchaseRequest();
-			Purchase p = purchaseService.findPurchaseByPurchaseId(purchaseId);
-
-			//2.Purchase에서 뽑아온 값을 purchaseReq에 세팅한다.
-			purchaseReq.initPurchaseReq(p);
-
-			//3.model에 세팅한다.
-			model.addAttribute("purchaseReq", purchaseReq);
-			model.addAttribute("product", purchaseReq.getProduct());
-
-			return PURCHASE_INFO;
-	}
-	
-	@PostMapping("/info/{purchaseId}")
-	public String update(
-			@ModelAttribute("purchaseReq") PurchaseRequest purchaseReq,
-			BindingResult result) throws ModelAndViewDefiningException { //다시 받아오면 Product가 날라감 ==> 독자적인 DAO 사용이라 productId에 영향 X
-		Purchase p = new Purchase();
-
-		p.initPurchase(purchaseReq); 
-		
-		purchaseService.modifyPurchase(p);
-		purchaseReq.initPurchaseReq(p);
-
-		return "redirect:/" + "purchase/info/{purchaseId}"; //본래의 경로로 redirection
-	}
 	//8.PurchaseView(Confirm) - 사용자가 작성한 구매폼을 판매자가 승인함
 }

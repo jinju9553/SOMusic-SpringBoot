@@ -4,7 +4,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
-<c:set var="targetUrl"><c:url value="/purchase/info/${purchaseReq.purchaseId}" /></c:set>
+<c:set var="targetUrl"><c:url value="/purchase/info/${purchaseInfoReq.purchaseId}" /></c:set>
 
 <html>
 <meta charset="UTF-8">
@@ -87,7 +87,7 @@
 			$(".statusAnchor").text('참여 정보 없음');
 		}
 		
-		var method = ${purchaseReq.shippingMethod};
+		var method = ${purchaseInfoReq.shippingMethod};
 		switch (method) { //0: 직거래만 & 1: 택배만 & 2: 둘 다 가능 & 3: 기타(알아서 기재)
 		  case 0:
 			$(".methodAnchor").text('직거래');
@@ -125,7 +125,7 @@
 	}*/
 </script>
 
-<form:form modelAttribute="purchaseReq" action="${targetUrl}" method="post">
+<form:form modelAttribute="purchaseInfoReq" action="${targetUrl}" method="post">
   <form:errors cssClass="error"/> <br><br>
   <table class="n13">
   	<!-- 상품 정보 -->
@@ -150,7 +150,7 @@
   	</tr>
   	<tr>
   		<td style="padding-bottom: 10;"> 상품 금액: <fmt:formatNumber
-                value="${purchaseReq.totalAmount}" pattern="###,##0" /> 원</td>
+                value="${purchaseInfoReq.totalAmount}" pattern="###,##0" /> 원</td>
   		<td> <input type="button" value="판매자 계좌 확인" onClick="confirmAccount()"> </td>
   	</tr>
   	<tr>
@@ -203,7 +203,7 @@
   	</tr>
   	
   	<tr>
-    	<td>폼 작성일자: ${purchaseReq.regDate}</td>
+    	<td>폼 작성일자: ${purchaseInfoReq.regDate}</td>
     </tr> 
   	
   	<tr>
@@ -229,7 +229,7 @@
         		<form:errors path="consumerName"/>
         	</c:when>
         	<c:otherwise>
-        		<a> ${purchaseReq.consumerName} </a>
+        		<a> ${purchaseInfoReq.consumerName} </a>
         	</c:otherwise>
         </c:choose>
         
@@ -245,7 +245,7 @@
         		<form:errors path="phone"/>
         	</c:when>
         	<c:otherwise>
-        		<a> ${purchaseReq.phone} </a>
+        		<a> ${purchaseInfoReq.phone} </a>
         	</c:otherwise>
         </c:choose>
         </td>
@@ -260,7 +260,7 @@
         	<form:errors path="zipcode"/>
         </c:when>
         <c:otherwise>
-        	<a> ${purchaseReq.zipcode} </a>
+        	<a> ${purchaseInfoReq.zipcode} </a>
         </c:otherwise>
       </c:choose>
       </td>
@@ -275,7 +275,7 @@
         	<form:errors path="address"/>
         </c:when>
         <c:otherwise>
-        	<a> ${purchaseReq.address} </a>
+        	<a> ${purchaseInfoReq.address} </a>
         </c:otherwise>
       </c:choose>
       </td>
@@ -290,7 +290,7 @@
         	<form:errors path="shippingRequest"/>
         </c:when>
         <c:otherwise>
-        	<a> ${purchaseReq.shippingRequest} </a>
+        	<a> ${purchaseInfoReq.shippingRequest} </a>
         </c:otherwise>
       </c:choose>
       </td>

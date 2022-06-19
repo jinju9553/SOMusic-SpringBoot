@@ -37,8 +37,26 @@ public class JoinServiceImpl implements JoinService{
 	}
 
 	@Override
+	@Transactional
 	public void modifyJoin(Join join) {
-		joinDao.updateJoin(join);
+		Join j = this.findJoinByJoinId(join.getJoinId());
+		
+		//아래의 join 필드들을 객체 단위로 묶으면 더 좋을듯
+		j.setAccountHolder(join.getAccountHolder());
+		j.setRefundBank(join.getRefundBank());
+		j.setRefundAccount(join.getRefundAccount());
+		j.setRefundHolder(join.getRefundHolder());
+		
+		int newShippingCost = initShippingCost(join);
+		j.setTotalAmount(updateTotal(j, newShippingCost));
+		j.setShippingCost(newShippingCost);
+		j.setShippingMethod(join.getShippingMethod());
+		
+		j.setConsumerName(join.getConsumerName());
+		j.setPhone(join.getPhone());
+		j.setZipcode(join.getZipcode());
+		j.setAddress(join.getAddress());
+		j.setShippingRequest(join.getShippingRequest());
 	}
 
 	@Transactional
