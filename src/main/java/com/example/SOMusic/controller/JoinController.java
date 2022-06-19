@@ -63,14 +63,18 @@ public class JoinController {
 
 	//2.showForm()
 	@GetMapping("/{gpId}")
-	public String showForm(@PathVariable("gpId") int gpId, Model model) {
-		// wish에 대한 정보
-		String userId = "somsom2"; 	// 임의 설정, 세션에서 가져와야
-		WishGroupPurchase wishGp = gpService.getWishGP(userId, gpId);
+	public String showForm(HttpServletRequest request,
+							@PathVariable("gpId") int gpId, Model model) {
+		
+		Login userSession = (Login) WebUtils.getSessionAttribute(request, "userSession");
+		WishGroupPurchase wishGp = null;
+		
+		if(userSession != null) {
+			// wish에 대한 정보
+			wishGp = gpService.getWishGP(userSession.getAccount().getUserId(), gpId);
+		}
 		
 		model.addAttribute("wishGp", wishGp);
-		
-		System.out.println("위시 가져옴 : " + wishGp);
 		
 		return JOIN_FORM;
 	}
@@ -114,10 +118,7 @@ public class JoinController {
 				(Login) WebUtils.getSessionAttribute(request, "userSession");
 		
 		if (result.hasErrors()) {
-			
-			String userId = "somsom2"; 	// 임의 설정, 세션에서 가져와야
-			WishGroupPurchase wishGp = gpService.getWishGP(userId, gpId);
-			
+			WishGroupPurchase wishGp = gpService.getWishGP(userSession.getAccount().getUserId(), gpId);		
 			model.addAttribute("wishGp", wishGp);
 			
 			return JOIN_FORM;

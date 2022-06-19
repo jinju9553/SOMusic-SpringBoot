@@ -1,27 +1,43 @@
 package com.example.SOMusic.domain;
 
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+import com.example.SOMusic.controller.ProductRequest;
+import com.example.SOMusic.controller.WishRequest;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Entity
+@Table(name="WISHPRODUCT")
+@Getter @Setter
 public class WishProduct {
-	private String user_id;
-	private String product_id;
 	
-	public WishProduct(String user_id, String product_id) {
-		this.user_id = user_id;
-		this.product_id = product_id;
-	}
+	@Id
+	@Column(name="USER_ID")
+	private String userId;
+	@Column(name="PRODUCT_ID")
+	private int productId;
 	
-	public String getUser_id() {
-		return user_id;
+	@Override
+	public String toString() {
+		return "관심 상품 목록 [[productId= " + productId +"]], ";
 	}
-	public void setUser_id(String user_id) {
-		this.user_id = user_id;
+
+	public void initWish(WishRequest wishReq) {
+		userId = wishReq.getUserId();
+		productId = wishReq.getProductId();
 	}
-	public String getProduct_id() {
-		return product_id;
-	}
-	public void setProduct_id(String product_id) {
-		this.product_id = product_id;
-	}
-	
-	// public void addWish()
+
 	
 }

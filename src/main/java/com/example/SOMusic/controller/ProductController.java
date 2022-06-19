@@ -1,13 +1,18 @@
 package com.example.SOMusic.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -17,12 +22,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.example.SOMusic.domain.GroupPurchase;
 import com.example.SOMusic.domain.Product;
 import com.example.SOMusic.service.ProductService;
 
 @Controller
+@SessionAttributes("userSession")
 @RequestMapping(value="/product")
 public class ProductController {
 	
@@ -37,7 +46,12 @@ public class ProductController {
 	private WebApplicationContext context;	
 	private String uploadDir;
 	
-	
+	public void setApplicationContext(ApplicationContext appContext)
+		throws BeansException {			
+		this.context = (WebApplicationContext) appContext;
+		this.uploadDir = context.getServletContext().getRealPath(this.uploadDirLocal);
+		System.out.println("this.uploadDir : " + this.uploadDir);
+	}
 	
 	@Autowired
 	private ProductService prSvc;
@@ -48,9 +62,8 @@ public class ProductController {
 	
   @ModelAttribute("PrReq")
   public ProductRequest formBacking(HttpServletRequest request) throws Exception { 
-		 String PrId = request.getParameter("PrId"); 
-		 ProductRequest prReq = new ProductRequest(); 
-		  
+	     String PrId = request.getParameter("PrId"); 
+		 ProductRequest prReq = new ProductRequest();  
 		  //PrId가 없으면 register 
 		  if (PrId == null) 
 			  return prReq; 
@@ -60,8 +73,7 @@ public class ProductController {
 			  return prReq; 
 			  }
 		  }
-	
-  
+
   //register
   @GetMapping(value="/register") 
   public String showProductRegForm() {
@@ -74,26 +86,27 @@ public class ProductController {
   public String register(@ModelAttribute("prReq") ProductRequest prReq, 
 			Errors errors, Model model) throws Exception {
 		
-	  System.out.println("ㅇㅇㅇㅇㅇ");
+	  System.out.println("상품 등록중입니다.");
 	  
 		  //errors 
 	  	if(errors.hasErrors()) { 
+	  		System.out.println("오류발생~");
 	  		return Product_REGISTER_FORM; 
 	  		}
-	  
-		  //이미지 업로드 추후 추가
-		  
-		  Product pr = new Product(); 
-		  pr.initPr(prReq);
-		  //sellerId 추가 
-		  pr.setSellerId("panda");
-		  pr.setBank(Product_REGISTER_FORM);
-		  
+	  	
 
+	 // 이미지 업로드
+	 String filename = uploadFile(prReq.getProductName(), prReq.getImage());		// webapp/upoad 밑에 이미지 저장		
+	 		
+		  Product pr = new Product(); 
+		  pr.initPr(prReq, this.uploadDirLocal + filename);
+		 
+		  //sellerId 추가   
+		  pr.setSellerId("panda");
+		  //pr.setBank(Product_REGISTER_FORM);
 		  //DB에 추가
 		  prSvc.addProduct(pr);
-		 
-		
+
 		return "redirect:" + Product_REGISTER_SEUCCESS; //redirect
 	}
 	
@@ -102,7 +115,20 @@ public class ProductController {
 		System.out.println("등록 완료");
 
 		return Product_REGISTER_SEUCCESS_View;
-	}	 
+	}	
+	
+	private String uploadFile(String studentNumber, MultipartFile report) {
+		String filename = UUID.randomUUID().toString() 
+						+ "_" + report.getOriginalFilename();
+		System.out.println(studentNumber + "가 업로드 한 파일: "	+ filename);
+		File file = new File(this.uploadDir + filename);
+		try {
+			report.transferTo(file);
+		} catch (IllegalStateException | IOException e) {
+			e.printStackTrace();
+		}
+		return filename;
+	}	
 	
 	//delete
 	@GetMapping(value="/delete")

@@ -88,16 +88,14 @@
 		$("#totalShippingAmount").children().text(currentCost + currentAmount + " 원");
 	}
 	
-	var userId = '<%=session.getAttribute("userId")%>';
+	var userSession ='<%=session.getAttribute("userSession")%>';
 	
 	function wish() {
-//		if (userId == 'null') {
-//			location.href="<c:url value='/user/loginform' />";	// 로그인 안되어있으면 로그인 페이지로
-//		} else {
-//			location.href="<c:url value='/project/interest?projectId=${project.projectId}' />";  // 로그인 상태면 wish 등록
-//		}
-
-		location.href="<c:url value='/user/my/wish/gp?gpId=${joinReq.groupPurchase.gpId}' />";
+		if (userSession == 'null') {
+			location.href="<c:url value='/user/loginForm' />";	// 로그인 안되어있으면 로그인 페이지로
+		} else {
+			location.href="<c:url value='/user/my/wish/gp?gpId=${joinReq.groupPurchase.gpId}' />";  // 로그인 상태면 wish 등록
+		}
 	}
 	
 	function delWish() {

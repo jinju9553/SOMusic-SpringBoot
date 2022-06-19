@@ -5,7 +5,26 @@
 	body {
 		background-color: #f2eee5;
 	}
-	    
+	#noInterest:hover {
+			    color: #FF6464;
+			    border-color: #ffeded;
+			}
+		
+	#noInterest {
+				position: absolute;
+				left: 90%;
+	    		top: 80%;
+				position: absolute;
+			    border: 2px solid;
+			    border-color: #d2d2d2;
+			    width: 70px;
+			    height: 70px;
+			    font-size: 18px;
+			    font-weight: bold;
+			    color: #a0a0a0;
+			    background-color: white;
+			    border-radius: 10px;
+			}	    
 	#out {
         width: 1000px;
         margin-left: auto;
@@ -13,7 +32,10 @@
     }
     
     .top_view {
-    	border: 1px solid #afafc7;
+    	position: absolute;
+ 		top: 40%; right: 50%;
+ 	    transform: translate(50%,-50%);
+  	  	border: 1px solid #afafc7;
     	border-radius:3px;
     }
     
@@ -22,7 +44,7 @@
     }
     
     #blue {
-    	margin-left: 20px;
+    	
     	font-size: 15px;
     	color: #5f7caf;
     }
@@ -93,9 +115,11 @@
 <div th:insert="~{thyme/header}"></div>
 <div id="out">
 	<div class="top_view">
-<!--		<div class="row">
-			<h4>가격</h4>
-		</div>   -->
+		  	<tr> <td>
+  		 <button id="noInterest" >
+  		<!-- 여기서 넘겨주고 싶은데 -->
+  		❤</button> </td>
+  	</tr>
 		<div class="info_view">
 			<div class="image">
 				<img src="../../../image/image_upload.png"
@@ -104,14 +128,12 @@
 			<div class="info">
 				<div class="row"><h1><p th:text="${productReq.productName}">음반 제목</p> </h1></div>
 				<div id="blue" class="row"><h2><p th:text="${productReq.price}">가격</p></h2> </div>
-				<div id ="comment" class="row">판매자 :&nbsp
-				<!-- <div id="dis" th:text="${productReq.artistName}"></div> -->
-				</div>
 				<div class="row">아티스트명 :&nbsp
-				<div id="dis" th:text="${productReq.artistName}"></div>
+				<div th:text="${productReq.artistName}"></div>
 				</div>
-				<div class="row">스타일</div>
-				<br/>
+				<div id ="comment" class="row">판매자 :&nbsp
+				 <div id="dis" th:text="${productReq.sellerId}"></div> 
+				</div>
 				<div class="row">
 				<div class="condition">전반적인 상태 :&nbsp</div>
 				<div id="sw" th:switch="${productReq.condition}">

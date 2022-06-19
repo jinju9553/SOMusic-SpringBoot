@@ -4,8 +4,9 @@ import java.io.Serializable;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
-@Getter @Setter 
+@Getter @Setter @ToString
 @SuppressWarnings("serial")
 public class Login implements Serializable {
 	private Account account;

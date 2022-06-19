@@ -58,7 +58,7 @@ public class Product implements Serializable {
 				  "]";
 	}
 	
-	public void initPr(ProductRequest prReq) {
+	public void initPr(ProductRequest prReq, String filename) {
 		productName = prReq.getProductName();
 		productId = prReq.getProductId();
 		price = prReq.getPrice();
