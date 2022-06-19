@@ -92,7 +92,10 @@ public class JoinController {
 					(Login) WebUtils.getSessionAttribute(request, "userSession");
 			
 			// 2.Account를 통해 이 유저의 address 및 기본 정보를 읽어와서 세팅한다.
-			Account account = accountService.getAccount(userSession.getAccount().getUserId());
+			Account account = null;
+			
+			if(userSession != null)
+				account = accountService.getAccount(userSession.getAccount().getUserId());
 			
 			model.addAttribute("account", account); //정보를 세팅하여 Form에 초기값으로 나타낸다.
 	
