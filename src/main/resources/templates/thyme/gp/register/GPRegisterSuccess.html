@@ -65,6 +65,8 @@
         <div style="height: 150px;"></div>
         <div class="element">
         	<a class="linkMain" th:href="@{/main}">메인으로 돌아가기</a>
+        	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        	<a class="linkMain" th:href="@{/user/my/gp/register/list?(sellerId=${userSession.account.userId})}">공구 리스트 확인하기</a>
         </div>
     </div>
 </div>

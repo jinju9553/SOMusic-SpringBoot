@@ -1,7 +1,6 @@
 package com.example.SOMusic.controller;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,11 +10,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.example.SOMusic.domain.Join;
 import com.example.SOMusic.service.JoinService;
 
 @Controller
+@SessionAttributes("userSession")
 @RequestMapping("/join")
 public class MyJoinController {
 	private static final String JOIN_INFO = "join/myJoinInfo";
@@ -57,15 +58,13 @@ public class MyJoinController {
 	@PostMapping("/info/{joinId}")
 	public String update(
 			@ModelAttribute("joinInfoReq") Join join,
-			BindingResult result) throws Exception { //다시 받아오면 GP가 날라감 ==> Update에도 영향을 줘서 gpId가 날라감
+			BindingResult result) throws Exception { 
+		//주의: form으로부터 받은 gp가 없기 때문에 gpId는 null
 
 		//if (result.hasErrors()) {
 		//	return JOIN_INFO;
 		//}
-
-		int newShippingCost = joinService.initShippingCost(join);
-		join.setTotalAmount(joinService.updateTotal(join, newShippingCost));
-		join.setShippingCost(newShippingCost);
+		
 		joinService.modifyJoin(join);
 
 		return "redirect:/" + "join/info/{joinId}"; //본래의 경로로 redirection

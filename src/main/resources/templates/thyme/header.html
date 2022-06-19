@@ -47,6 +47,14 @@
 				</form>
 			</td>
 			
+			<td>
+				<a th:href="@{/product/register}">상품 등록</a>
+			</td>
+			
+			<td>
+				<a th:href="@{/gp/register}">공구 등록</a>
+			</td>
+			
 			<td class="txRight"> <!-- 회원가입, 로그인 등 메뉴 위치 -->
 				<div id="loginDiv" th:unless="${userSession?.account}">
 					<a th:href="@{/user/register}"> 

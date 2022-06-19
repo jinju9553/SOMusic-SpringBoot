@@ -1,155 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<style type="text/css">
-	body {
-		background-color: #f2eee5;
-	}
-	    
-	#out {
-        width: 1000px;
-        margin-left: auto;
-        margin-right: auto;
-    }
-    
-    .top_view {
-    	border: 1px solid #afafc7;
-    	border-radius:3px;
-    }
-    
-    .element {
-        margin: 20px;
-    }
-    
-    .titleLink {
-    	margin-left: 30px;
-    	font-size: 20px;
-    }
-    
-    .info_view {
-    	width: 900px;
-    	margin-left: auto;
-        margin-right: auto;
-     	display: flex;
-    }
-    
-    .image {
-    	width: 200px;
-    	height: 200px;
-    	margin-left: 30px;
-    	margin-top: 20px;
-    }
-    
-    .info {
-    	font-size: 18px;
-    	margin-left: 30px;
-    }
-    
-    .btn_view {
-    	text-align: right;
-    	height: 20px;
-    }
-    
-    .btnUp {
-    	font-size: 15px;
-    	font-weight: bold;
-    	color: #ccabaf;
-    	border: none;
-    	background: none;
-    }
-    
-    .btnUp:hover {
-    	border-bottom: 2px solid #ccabaf;
-    }
-    
-    #line {
-    	border:1px #afafc7 solid;
-    }
-    
-    .table_view {
-    	width: 900px;
-    	margin-left: auto;
-        margin-right: auto;
-    }
-    
-    #list {
-		border-collapse: collapse;
-		text-align: center;
-    }
-    
-    .tb {
-    	height: 40px;
-    	border-left:1px #afafc7 solid;
-    	border-bottom:1px #afafc7 solid;
-    }
-    
-    .tb:first-child {
-    	border-left:none;
-    }
-    
-    .tb_mar {
-		margin-left: auto;
-        margin-right: auto;
-        width: 850px;
-    }
-    
-    .first_tr {
-    	border-top:2px #afafc7 solid;
-    	border-bottom:2px #afafc7 solid;
-    	font-weight: bold;
-    }
-    
-    .excel_view {
-    	text-align: right;
-    	height: 30px;
-    }
-    
-    .ex {
-    	font-size: 12px;
-    	font-weight: bold;
-    	color: #5f7caf;
-    	border: none;
-    }
-    
-    .ex:hover {
-    	border-bottom: 1px solid #5f7caf;
-    }
-    
-    .status {
-    	border: 0;
-  		border-bottom: 2px solid #bababf; 
-  		background-color: #f2eee5;
-  		letter-spacing: 1px;
-  		text-align: center;
-    }
-    
-    .status:focus {
-    	outline: 0;
-		border-bottom-color: #ccabaf;
-		color: #ccabaf;
-    }
-    
-    .status:active {
-    	outline: 0;
-		border-bottom-color: #ccabaf;
-		color: #ccabaf;
-    }
-    
-    .statusBtn {
-    	font-size: 15px;
-    	border: 1px #bababf solid;
-    	color: #949494;
-    	background-color: #f0f0f0;
-    	border-radius: 2px;
-    }
-    
-    .statusBtn:hover {
-    	color: #afafc7;
-    	background-color: #e0e0e0;
-    }
-    
-</style>
 <meta charset="UTF-8">
+<link rel="stylesheet" th:href="@{/style/gpInfo.css}" type="text/css" />
 <title>공구 정보</title>
 </head>
 <body>
@@ -223,7 +76,7 @@
 		</table>
 	</div>
 	<div style="height:10px;"></div>
-	<div style="text-align:right;">
+	<div th:unless="${#lists.isEmpty(gp.joinList)}" style="text-align:right;">
 		<form id="updateAllStatus" th:action="@{/user/my/gp/join/status/all/update}" method="POST">
 			<input type="hidden" id="gpId" name="gpId" th:value="${gp.gpId}" />
 			<select name="status" class="status">

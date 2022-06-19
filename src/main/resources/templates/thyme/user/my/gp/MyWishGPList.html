@@ -8,27 +8,57 @@
 <body>
 <div th:insert="~{thyme/header}"></div>
 <div id="out">
-	<div class="row">
-		<h3>관심 공구 리스트</h3>
+	<div class="lnb" style="float: left;">
+		<div>
+			<div style="padding-bottom: 10px;">
+				<h2 style="line-height: 34px; color: #222222;">내 정보</h2>
+			</div>
+			<ul class="list-group">
+				<li class="list-group-item"><a th:href="@{/user/my}">내 정보 관리</a></li>
+				<li class="list-group-item"><a th:href="@{/user/my/purchase/list}">중고거래 관리</a></li>
+				<li class="list-group-item"><a th:href="@{/user/my/gp/register/list}">공동구매 관리</a></li>
+				<li class="list-group-item active"><a >위시리스트 모아보기</a></li>
+			</ul>
+		</div>
 	</div>
-	<div class="element" style="height:10px"></div>
-	<div class="element">
-		<div class="one" th:each="wish : ${wishGpList}"> 
-			<div class="element image_view">
-				<img class="image" src="#" th:src="@{${wish.gp.image}}"/>
+	
+	<div style="display:inline-block; width: 70%; margin-left: 5%;">
+		<div class="element">
+			<h3>위시 공구 리스트</h3>
+		</div>
+		<div class="element">
+			<nav>
+				<ul class="ulNav">
+					<li class="liNav"><a class="linkNav unselect" href="#">상품 위시 리스트</a></li>
+					<li class="liNav"><a class="linkNav" style="color: #5f7caf;">공구 위시 리스트</a></li>
+				</ul>
+			</nav>
+		</div>
+		<div class="element">
+			<div class="one" th:each="wish : ${wishGpList}"> 
+				<div class="image_view">
+					<img class="image" src="#" th:src="@{${wish.gp.image}}"/>
+				</div>
+				<div class="element title">
+					<h5><a class="linkTitle" th:text="${wish.gp.title}" href="#" th:href="@{/join/{id}(id=${wish.gp.gpId})}">제목</a></h5>
+				</div>
+				<div class="btnView">
+					<div>
+						<form action="#" method="GET" th:action="@{/user/my/wish/gp/delete}">
+							<input type="hidden" id="gpId" name="gpId" th:value="${wish.gp.gpId}" />
+							<input type="hidden" id="view" name="view" value="list" />
+							<input class="btnDelete" type="submit" value="&#215;" />
+						</form>
+					</div>
+				</div>
 			</div>
-			<div class="element title">
-				<h5><a class="linkTitle" th:text="${wish.gp.title}" href="#" th:href="@{/user/my/gp/info(gpId=${wish.gp.gpId})}">제목</a></h5>
-			</div>
-			<div class="element" style="width:60px;"></div>
-			<div class="element">
-				<div class="element" style="height:40px;"></div>
-				<div class="element">
-					<form action="#" method="GET" th:action="@{/user/my/wish/gp/delete}">
-						<input type="hidden" id="gpId" name="gpId" th:value="${wish.gp.gpId}" />
-						<input type="hidden" id="view" name="view" value="list" />
-						<input class="btnDelete" type="submit" value="삭제" />
-					</form>
+			
+			<div class="element" th:if="${#lists.isEmpty(wishGpList)}">
+				<div class="element" style="height: 40px;"></div>
+				<div class="element" style="text-align: center;">
+					<a>아직 위시에 등록한 공동구매 내역이 없습니다.<br></a>
+					<button class="hButton" style="margin-top: 5%;"
+						onclick="location.href ='/main/gp'">공동구매 둘러보기</button>
 				</div>
 			</div>
 		</div>

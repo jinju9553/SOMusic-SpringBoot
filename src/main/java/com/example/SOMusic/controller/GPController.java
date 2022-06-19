@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.BeansException;
@@ -16,20 +15,23 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.util.WebUtils;
 
 import com.example.SOMusic.domain.GroupPurchase;
+import com.example.SOMusic.domain.Login;
+import com.example.SOMusic.service.AccountService;
 import com.example.SOMusic.service.GPService;
 
 @Controller
 @RequestMapping("/gp")
+@SessionAttributes("userSession")
 public class GPController implements ApplicationContextAware {
 	
 	private static final String GP_REGISTER_FORM = "thyme/gp/register/GPRegisterForm";
@@ -38,6 +40,10 @@ public class GPController implements ApplicationContextAware {
 	
 	private static final String GP_UPDATE_FORM = "thyme/gp/update/GPUpdateForm";
 	private static final String GP_UPDATE_SEUCCESS = "/user/my/gp/info";	// redirect : uri
+	
+	private static final String GP_DELETE = "/user/my/gp/register/list"; // 공구 삭제 후 공구 리스트로 다시 이동 uri
+	
+	private static final String LOGIN_FROM = "/user/loginForm";		// 로그인 폼으로 uri 이동
 	
 	// 이미지 업로드를 위해
 	@Value("/upload/")
@@ -51,13 +57,18 @@ public class GPController implements ApplicationContextAware {
 		throws BeansException {			
 		this.context = (WebApplicationContext) appContext;
 		this.uploadDir = context.getServletContext().getRealPath(this.uploadDirLocal);
-		System.out.println("this.uploadDir : " + this.uploadDir);
 	}
 	
 	@Autowired
 	private GPService gpSvc;
 	public void setGPService(GPService gpSvc) {
 		this.gpSvc= gpSvc;
+	}
+	
+	@Autowired
+	private AccountService accountService;
+	public void setAccountService(AccountService accountService) {
+		this.accountService = accountService;
 	}
 	
 	@ModelAttribute("gpReq")
@@ -70,22 +81,26 @@ public class GPController implements ApplicationContextAware {
 			gpReq.initGpReq(gpSvc.getGP(Integer.parseInt(gpId)));
 			return gpReq;		// 수정
 		}
-//		return new GPRequest();
 	}
 	
 	// 공구 등록
-//	@RequestMapping(value="/register", method = RequestMethod.GET)
-	@GetMapping("/register")
-	public String showRegisterForm() {
+	
+	@RequestMapping(value="/register", method = RequestMethod.GET)
+	public String showRegisterForm(HttpServletRequest request) {
+		
+		Login userSession = (Login) WebUtils.getSessionAttribute(request, "userSession");
+		if(userSession == null)		// 로그인 X -> 로그인 폼
+			return "redirect:" + LOGIN_FROM;
+		
 		return GP_REGISTER_FORM;
 	}
 	
-//	@RequestMapping(value="/register", method = RequestMethod.POST)
-	@PostMapping("/regiser")
-	public String register( @Valid @ModelAttribute("gpReq") GPRequest gpReq, Errors errors,
+	@RequestMapping(value="/register", method = RequestMethod.POST)
+	public String register(HttpServletRequest request,
+							@Valid @ModelAttribute("gpReq") GPRequest gpReq, Errors errors,
 							Model model) throws Exception {
 		
-		System.out.println("GP 등록 : " + gpReq);
+		Login userSession = (Login) WebUtils.getSessionAttribute(request, "userSession");
 
 		// 오류
 		if(errors.hasErrors()) {
@@ -96,9 +111,9 @@ public class GPController implements ApplicationContextAware {
 		String filename = uploadFile(gpReq.getTitle(), gpReq.getImage());		// webapp/upoad 밑에 이미지 저장
 				
 		GroupPurchase gp = new GroupPurchase();
-		gp.initGP(gpReq, this.uploadDirLocal + filename);		
+		gp.initGP(gpReq, this.uploadDirLocal + filename);
+		gp.setSellerId(userSession.getAccount().getUserId());	// 세션에서 Account.userId 삽입
 
-		gp.setSellerId("jinju");	// 임의로 설정, sellerId 삽입
 		gpSvc.insertGP(gp);
 		
 		return "redirect:" + GP_REGISTER_SEUCCESS;	// redirect로 넘기기
@@ -106,8 +121,6 @@ public class GPController implements ApplicationContextAware {
 	
 	@RequestMapping(value="/register/success", method = RequestMethod.GET)
 	public String success(Model model) throws Exception {
-		System.out.println("GP 등록 완료");
-		
 		return GP_REGISTER_SEUCCESS_View;
 	}
 	
@@ -124,7 +137,6 @@ public class GPController implements ApplicationContextAware {
 		return filename;
 	}
 
-	
 	// 등록한 공구 정보 수정
 	
 	@RequestMapping(value="/update", method = RequestMethod.GET)
@@ -140,9 +152,6 @@ public class GPController implements ApplicationContextAware {
 	public String update(@Valid @ModelAttribute("gpReq") GPRequest gpReq, Errors errors,
 						@RequestParam("imgPath") String path, @RequestParam("isModify") String isModify,
 						Model model) throws Exception {
-//		System.out.println("GP 수정 : " + gpReq);
-//		System.out.println("GP 이미지 경로 : " + path + "\t변경 : " + isModify);
-		
 		// 오류
 		if(errors.hasErrors()) {
 			String imgPath = gpSvc.getGP(gpReq.getGpId()).getImage();
@@ -152,7 +161,6 @@ public class GPController implements ApplicationContextAware {
 		}
 		
 		String filePath;
-		
 		if (isModify.equals("true")) {
 			String filename = uploadFile(gpReq.getTitle(), gpReq.getImage());
 			filePath = this.uploadDirLocal + filename;
@@ -164,10 +172,7 @@ public class GPController implements ApplicationContextAware {
 		gp.initGP(gpReq, filePath);
 		
 		// 공구 수정
-		gp.setSellerId("jinju");		// 임의 설정
 		gpSvc.updateGP(gp);
-		
-		System.out.println("GP 수정 : " + gp);
 		
 		return "redirect:" + GP_UPDATE_SEUCCESS + "?gpId=" + gpReq.getGpId();
 	}
@@ -177,12 +182,10 @@ public class GPController implements ApplicationContextAware {
 	@RequestMapping(value="/delete", method = RequestMethod.GET)
 	public String delete(@RequestParam("gpId") int gpId) {
 		
-		System.out.println("삭제 : " + gpId);
-		
 		// 삭제
 		gpSvc.deleteGP(gpId);
 			
-		return "redirect:" + "/user/my/gp/register/list?sellerId=jinju";
+		return "redirect:" + GP_DELETE;
 	}
 	
 }

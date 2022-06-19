@@ -6,6 +6,8 @@ import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -61,7 +63,7 @@ public class Join implements Serializable {
 	@Column(name="shipping_cost")
 	private int shippingCost;
 	
-	@NotNull(message = "*배송방법을 선택해주세요")
+	//@NotNull(message = "*배송방법을 선택해주세요")
 	@Column(name="shipping_method", nullable=false)
 	private int shippingMethod; //1: 준등기, 2: 택배, 3: 택배(제주산간)
 	
@@ -92,7 +94,7 @@ public class Join implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date regDate;
 	
-	//mappedBY
+	//12강 p51: ManyToOne에는 mappedBy 속성 불필요
 	@ManyToOne(cascade = CascadeType.ALL) //Many가 Join, One이 GroupPurchase
 	@JoinColumn(name="grouppurchase_id") //DB 상에서 FK의 이름
 	private GroupPurchase groupPurchase; //주최자 정보 포함

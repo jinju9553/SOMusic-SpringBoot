@@ -2,16 +2,13 @@ package com.example.SOMusic.controller;
 
 import java.util.List;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.example.SOMusic.domain.GroupPurchase;
 import com.example.SOMusic.domain.Product;
@@ -19,6 +16,7 @@ import com.example.SOMusic.service.GPService;
 import com.example.SOMusic.service.ProductService;
 
 @Controller
+@SessionAttributes("userSession")
 @RequestMapping("/main")
 public class SearchController {
 	
@@ -41,9 +39,6 @@ public class SearchController {
 	public String searchProduct(@RequestParam("keyword") String keyword, Model model) throws Exception {
 		
 		List<Product> productList = prSvc.getSearchProductList(keyword);
-		
-//		System.out.println("검색 : " + keyword + " >>> " + productList);
-		
 		model.addAttribute("productList", productList);
 		model.addAttribute("keyword", keyword);
 		
@@ -54,15 +49,10 @@ public class SearchController {
 	public String searchGP(@RequestParam("keyword") String keyword, Model model) throws Exception {
 		
 		List<GroupPurchase> gpList = gpSvc.getSearchGPList(keyword);
-		
-//		System.out.println("검색 : " + keyword + " >>> " + gpList);
-		
 		model.addAttribute("gpList", gpList);
 		model.addAttribute("keyword", keyword);
 		
 		return GP_SEARCH;
 	}
-	
-	
 	
 }

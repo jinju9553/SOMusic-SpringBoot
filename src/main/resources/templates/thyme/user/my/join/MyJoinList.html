@@ -1,41 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<style>
-	.linkNav {
-		text-decoration: none;
-	}
-	
-	.ulNav {
-		padding-left: 15px;
-	}
-
-	.liNav {
-		display: inline;
-		font: bold 12px;
-		border-left: 2px solid #afafc7;
-		padding-left: 10px;
-		padding-right: 6px;
-	}
-
-	.liNav:first-child {
-		border-left: none;
-	}	
-
-	.selectNav {
-		color: #5f7caf;
-	}
-
-	.unselect {
-		color: #bababf;
-	}
-
-	.unselect:hover {
-		color: #5f7caf;
-		border-bottom: 1px solid #5f7caf;
-		text-decoration: none;
-	}
-</style>
 <link rel="stylesheet" th:href="@{/style/list.css}" type="text/css" />
 <meta charset="UTF-8">
 <title>공구 리스트</title>
@@ -43,35 +8,57 @@
 <body>
 <div th:insert="~{thyme/header}"></div>
 <div id="out">
-	<div class="element">
-		<h4>공구 리스트</h>
-	</div>
-	<div class="element">
-		<nav>
-			<ul class="ulNav">
-				<li class="liNav"><a class="link unselect" href="#" th:href="@{/user/my/gp/register/list?sellerId=jinju}">등록한 공구</a></li>
-				<li class="liNav"><a class="linkNav" style="color: #5f7caf;">참가한 공구</a></li>
+	<div class="lnb" style="float: left;">
+		<div>
+			<div style="padding-bottom: 10px;">
+				<h2 style="line-height: 34px; color: #222222;">내 정보</h2>
+			</div>
+			<ul class="list-group">
+				<li class="list-group-item"><a th:href="@{/user/my}">내 정보 관리</a></li>
+				<li class="list-group-item"><a th:href="@{/user/my/purchase/list}">중고거래 관리</a></li>
+				<li class="list-group-item active"><a>공동구매 관리</a></li>
+				<li class="list-group-item"><a th:href="@{/user/my/wish/gp/list}">위시리스트 모아보기</a></li>
 			</ul>
-		</nav>
-	</div>
-	<div class="element">
-		<div class="one" th:each="join : ${joinList}">
-			<div class="element image_view">
-				<img class="image" src="@{${join.groupPurchase.image}}"/>
-			</div>
-			<div class="element title">
-				<h5><a class="linkTitle" th:text="${join.groupPurchase.title}" href="#" th:href="@{/user/my/gp/info(gpId=${join.groupPurchase.gpId})}">제목</a></h5>
-			</div>
-			<div class="element" style="width:40px;"></div>
-		</div>
-		<div class="element" th:if="${#lists.isEmpty(joinList)}">
-			<div class="element" style="height:40px;"></div>
-			<div class="element" style="text-align: center;">
-				<a>아직 참여한 공동구매 내역이 없습니다.<br></a>
-				<button class="hButton" style="margin-top: 5%;" onclick="location.href ='/main/gp'">공동구매 둘러보기</button>
-			</div>
 		</div>
 	</div>
-</div>
+
+	<div style="display:inline-block; width: 70%; margin-left: 5%;">
+		<div class="element">
+			<h4>공구 리스트</h4>
+		</div>
+		<div class="element">
+			<nav>
+				<ul class="ulNav">
+					<li class="liNav"><a class="link unselect" href="#"
+							th:href="@{/user/my/gp/register/list}">등록한 공구</a></li>
+					<li class="liNav"><a class="linkNav" style="color: #5f7caf;">참가한 공구</a></li>
+				</ul>
+			</nav>
+		</div>
+		<div class="element">
+			<div class="one" th:each="join : ${joinList}">
+				<div class="image_view">
+					<img class="image" th:src="@{${join.groupPurchase.image}}" />
+				</div>
+				<div class="element title">
+					<h5>
+						<a class="linkTitle" th:text="${join.groupPurchase.title}"
+							href="#"
+							th:href="@{/join/info/{joinId}(joinId=${join.joinId})}">제목</a>
+					</h5>
+				</div>
+			</div>
+
+			<div class="element" th:if="${#lists.isEmpty(joinList)}">
+				<div class="element" style="height: 40px;"></div>
+				<div class="element" style="text-align: center;">
+					<a>아직 참여한 공동구매 내역이 없습니다.<br></a>
+					<button class="hButton" style="margin-top: 5%;"
+						onclick="location.href ='/main/gp'">공동구매 둘러보기</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
 </body>
 </html>

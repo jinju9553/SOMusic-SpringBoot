@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.example.SOMusic.service.ProductService;
 import com.example.SOMusic.service.PurchaseService;
@@ -15,6 +16,7 @@ import com.example.SOMusic.domain.Product;
 import com.example.SOMusic.domain.Purchase;
 
 @Controller
+@SessionAttributes("userSession")
 @RequestMapping("/user/my")
 public class MyProductController {
 	
@@ -43,22 +45,20 @@ public class MyProductController {
 		return PRODUCT_INFO;
 	}
 	
-
-	/*
-	 * @GetMapping(value="/purchase/list") public String
-	 * purchaseList(@RequestParam("userId") String userId, Model model) throws
-	 * Exception { System.out.println("구매한 상품 리스트 출력중");
-	 * System.out.println("sellerId : " + userId);
-	 * 
-	 * List<Purchase> purList = purchaseService.findPurchaseList(userId);
-	 * model.addAttribute("purList", purList);
-	 * 
-	 * System.out.println(purList.toString());
-	 * 
-	 * return MY_PURCHASE_LIST;
-	 * 
-	 * }
-	 */
+	@GetMapping(value="/purchase/List")
+	public String purchaseList(@RequestParam("userId") String userId, Model model)
+	throws Exception {
+		System.out.println("구매한 상품 리스트 출력중");
+		System.out.println("sellerId : " + userId);
+		
+		List<Purchase> purList = purchaseService.findPurchaseList(userId);
+		model.addAttribute("purList", purList);
+		
+		System.out.println(purList.toString());
+		
+		return MY_PURCHASE_LIST; 
+		
+	}	
 
 
 	@GetMapping(value="/sale/list/product")

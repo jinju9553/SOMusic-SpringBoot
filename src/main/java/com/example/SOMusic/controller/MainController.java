@@ -35,7 +35,7 @@ public class MainController {
 		this.gpSvc= gpSvc;
 	}
 	
-//	@RequestMapping("/")
+//	@RequestMapping("/")		// '/' -> '/main' 이동
 //	public String goMain() {
 //		return "redirect:" + MAIN;
 //	}
@@ -45,9 +45,6 @@ public class MainController {
 		
 		List<Product> productList = prSvc.get4ProductList();
 		List<GroupPurchase> gpList = gpSvc.get4GPList();
-		
-//		System.out.println("메인 공구 리스트 : " + gpList);
-//		System.out.println("메인 상품 리스트 : " + productList);
 		
 		model.addAttribute("gpList", gpList);
 		model.addAttribute("productList", productList);
@@ -59,9 +56,6 @@ public class MainController {
 	public String showProductList(Model model) {
 		
 		List<Product> productList = prSvc.getAllProductList();
-		
-//		System.out.println("메인 상품 리스트 : " + productList);
-		
 		model.addAttribute("productList", productList);
 		
 		return MAIN_PRODUCT_VIEW;
@@ -71,9 +65,6 @@ public class MainController {
 	public String showGPList(Model model) {
 
 		List<GroupPurchase> gpList = gpSvc.getAllGPList();
-
-//		System.out.println("공구 리스트 : " + gpList);
-
 		model.addAttribute("gpList", gpList);
 
 		return MAIN_GP_VIEW;
