@@ -59,7 +59,6 @@ public class MyProductController {
 		return MY_PURCHASE_LIST; 
 		
 	}	
-	
 
 
 	@GetMapping(value="/sale/list/product")
