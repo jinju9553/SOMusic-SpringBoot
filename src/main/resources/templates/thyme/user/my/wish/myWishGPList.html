@@ -3,7 +3,7 @@
 <head>
 <link rel="stylesheet" th:href="@{/style/list.css}" type="text/css" />
 <meta charset="UTF-8">
-<title>위시리스트</title>
+<title>위시 리스트</title>
 </head>
 <body>
 <div th:insert="~{thyme/header}"></div>
@@ -15,7 +15,7 @@
 			</div>
 			<ul class="list-group">
 				<li class="list-group-item"><a th:href="@{/user/my}">내 정보 관리</a></li>
-				<li class="list-group-item"><a th:href="@{/user/my/purchase/list}">중고거래 관리</a></li>
+				<li class="list-group-item"><a th:href="@{/user/my/sale/list/product}">중고거래 관리</a></li>
 				<li class="list-group-item"><a th:href="@{/user/my/gp/register/list}">공동구매 관리</a></li>
 				<li class="list-group-item active"><a >위시리스트 모아보기</a></li>
 			</ul>
@@ -24,12 +24,12 @@
 	
 	<div style="display:inline-block; width: 70%; margin-left: 5%;">
 		<div class="element">
-			<h3>위시 공구 리스트</h3>
+			<h4>공구 위시 리스트</h4>
 		</div>
 		<div class="element">
 			<nav>
 				<ul class="ulNav">
-					<li class="liNav"><a class="linkNav unselect" href="#">상품 위시 리스트</a></li>
+					<li class="liNav"><a class="linkNav unselect" th:href="@{/user/my/wish/view}">상품 위시 리스트</a></li>
 					<li class="liNav"><a class="linkNav" style="color: #5f7caf;">공구 위시 리스트</a></li>
 				</ul>
 			</nav>
