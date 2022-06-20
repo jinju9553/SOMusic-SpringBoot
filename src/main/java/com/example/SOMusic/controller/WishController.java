@@ -27,7 +27,8 @@ public class WishController {
 	
 	//private static final String WISH_SUCCESS = "/product/register/success";  
 	private static final String WISH_RE = "/product/info/";
-
+	private static final String WISH_PRODUCT_LIST ="thyme/user/my/wish/wishList";
+	
 	private static final String WISH_GP_LIST = "thyme/user/my/wish/myWishGPList";
 	private static final String WISH_GP_LIST_URI = "/user/my/wish/gp/list"; // 위시 리스트에서 삭제 -> 위시 리스트로
 	private static final String JOIN = "/join/";		// join 페이지로 uri 이동
@@ -47,10 +48,15 @@ public class WishController {
 	// 상품 위시
 	
 	// 상품 위시 리스트
-	@RequestMapping(value="/product/list", method = RequestMethod.GET)
-	public String ProductWishList(Model model) throws Exception {
+	@GetMapping(value="/product/list")
+	public String WishList(HttpServletRequest request, Model model) throws Exception {
 		
-		return "thyme/user/my/wish/myWishProductList"; 
+		Login userSession = (Login) WebUtils.getSessionAttribute(request, "userSession");
+		
+		List<WishProduct> wishPrList = wishproductService.findWishProductList(userSession.getAccount().getUserId());
+		model.addAttribute("wishPrList", wishPrList);
+		
+		return WISH_PRODUCT_LIST; 
 	}
 	
 	// 상품 위시 추가
@@ -67,22 +73,23 @@ public class WishController {
 		wishproductService.addWishproduct(wish);
 		System.out.println("찜 추가 완료");
 				
-		return "redirect" + "/product/info?productId=" + productId; //redirect	
+		return WISH_PRODUCT_LIST; //	
 	}
 			
 	// 상품 위시 삭제
 	@GetMapping(value="/product/delete")
 	public String deleteWish(
+			HttpServletRequest request,
 			@RequestParam("productId") int productId) {
-		String userId = "panda";
+		Login userSession = (Login) WebUtils.getSessionAttribute(request, "userSession");
 /*		
 		WishProduct wish = new WishProduct();
 		wish.setProductId(productId);
 		wish.setUserId("panda");*/
 			
-		wishproductService.deleteWishproduct(userId, productId);
+		wishproductService.deleteWishproduct(userSession.getAccount().getUserId(), productId);
 		
-		return "redirect" + "/product/info?productId=" + productId; //redirect
+		return "redirect" + WISH_PRODUCT_LIST; //
 	}
 
 	// 공구 위시

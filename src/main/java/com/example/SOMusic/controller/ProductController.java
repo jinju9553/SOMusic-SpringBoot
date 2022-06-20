@@ -40,6 +40,11 @@ public class ProductController implements ApplicationContextAware{
 	private static final String Product_REGISTER_SEUCCESS = "/product/register/success";	// redirect
 	private static final String Product_REGISTER_SEUCCESS_View = "thyme/product/register/ProductRegisterSuccess";
 
+	private static final String Product_UPDATE_FORM = "thyme/Product/update/ProductUpdateForm";
+	private static final String PR_UPDATE_SEUCCESS = "/product/info";
+	
+	
+	
 	// 이미지 업로드
 	@Value("/upload/")
 	private String uploadDirLocal;
@@ -120,6 +125,37 @@ public class ProductController implements ApplicationContextAware{
 		return Product_REGISTER_SEUCCESS_View;
 	}	
 	
+	//update
+	@GetMapping(value="/update")
+	public String showUpdateForm(@RequestParam("productId") int productId, Model model) {
+		String imgPath = prSvc.getPr(productId).getImage();
+		model.addAttribute("imgPath", imgPath);
+		return Product_UPDATE_FORM;
+	}
+	
+	@PostMapping(value="/update")
+	public String update(@ModelAttribute("prReq") ProductRequest prReq, 
+						@RequestParam("imgPath") String path, @RequestParam("isModify") String isModify,
+						Model model) throws Exception {
+
+		
+		String filePath;
+		if (isModify.equals("true")) {
+			String filename = uploadFile(prReq.getProductName(), prReq.getImage());
+			filePath = this.uploadDirLocal + filename;
+		}
+		else
+			filePath = path;
+		
+		 Product pr = new Product(); 
+		pr.initPr(prReq, filePath);
+		
+		//update 
+		prSvc.updateProduct(pr);
+		
+		return "redirect:" + PR_UPDATE_SEUCCESS + "?productId=" + prReq.getProductId();
+	}
+
 	private String uploadFile(String studentNumber, MultipartFile report) {
 		String filename = UUID.randomUUID().toString() 
 						+ "_" + report.getOriginalFilename();

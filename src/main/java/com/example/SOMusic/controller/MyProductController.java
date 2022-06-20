@@ -48,6 +48,7 @@ public class MyProductController {
 		return PRODUCT_INFO;
 	}
 	
+	//구매 리스트
 	@GetMapping(value="/purchase/List")
 	public String purchaseList(HttpServletRequest request, Model model)
 	throws Exception {
@@ -67,6 +68,7 @@ public class MyProductController {
 	}	
 
 
+	//판매 리스트
 	@GetMapping(value="/sale/list")
 	public String saleList(HttpServletRequest request, Model model)
 	throws Exception {

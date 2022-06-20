@@ -35,7 +35,7 @@ public class WishProductImpl implements WishProductService {
 
 	@Override
 	public void deleteWishproduct(String userId, int productId) {
-		// TODO Auto-generated method stub
+		wpRepo.deleteByproductIdAndUserId(productId, userId);
 		
 	}
 

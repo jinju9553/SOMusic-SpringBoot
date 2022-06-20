@@ -25,6 +25,7 @@ public class ProductRequest implements Serializable {
 	private int productId;
 	private String productName;
 	private String sellerId;
+	
 	private int price;
 	private int shippingCost;
 	//private String image;
@@ -35,10 +36,11 @@ public class ProductRequest implements Serializable {
 	private int account;
 	private String bank;
 	private String artistName;
+	private String location;
 	
 	public ProductRequest () {}
 	public ProductRequest(int productId, String productName, MultipartFile image,
-			String sellerId,
+			String sellerId, String buyer,
 			int price, int shippingCost, String description, int condition,
 			int status, int account, String bank,
 			String artistName) {
@@ -46,6 +48,7 @@ public class ProductRequest implements Serializable {
 		this.productName = productName;
 		this.image = image;
 		this.sellerId = sellerId;
+		
 		this.price = price;
 		this.shippingCost = shippingCost;
 		this.description = description;
@@ -55,7 +58,7 @@ public class ProductRequest implements Serializable {
 		this.condition = condition;
 		this.artistName = artistName;
 	}
-	public ProductRequest(int productId, String productName,
+	public ProductRequest(int productId, String productName, String location,
 			MultipartFile image, int price, int shippingCost, String description,
 			int condition, String artistName) {
 		super();
@@ -63,6 +66,7 @@ public class ProductRequest implements Serializable {
 		this.productName = productName;
 		this.image = image;
 		this.price = price;
+		this.location = location;
 		this.shippingCost = shippingCost;
 		this.description = description;
 		this.condition = condition;

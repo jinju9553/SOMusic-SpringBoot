@@ -44,7 +44,7 @@
 				</div>
 				<div class="btnView">
 					<div>
-						<form action="#" method="GET" th:action="@{/user/wish/delete}"> 
+						<form action="#" method="GET" th:action="@{/user/wish/delete}"> <!--  임시 -->
 							<input type="hidden" id="productId" name="productId" th:value="${wish.pr.productId}" />
 							<input type="hidden" id="view" name="view" value="list" />	<!--  뷰에서 삭제하는지, 리스트에서 삭제하는지 구분 -->
 							<input class="btnDelete" type="submit" value="&#215;" />
