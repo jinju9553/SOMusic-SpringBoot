@@ -24,6 +24,7 @@ import com.example.SOMusic.domain.WishGroupPurchase;
 import com.example.SOMusic.service.AccountService;
 import com.example.SOMusic.service.GPService;
 import com.example.SOMusic.service.JoinService;
+import com.example.SOMusic.service.JoinValidator;
 
 @Controller
 @SessionAttributes("userSession")
@@ -49,19 +50,27 @@ public class JoinController {
 		this.accountService = accountService;
 	}
 
+	@Autowired
+	private JoinValidator validator;
+	public void setValidator(JoinValidator validator) {
+		this.validator = validator;
+	}
+	
 	@ModelAttribute("shippingOption")
 	public Object[] referenceData() { //String이나 Object만 전송 가능
-		return new Object[] { 1, 2, 3 }; //"준등기 (+1,800원)", "택배 (+3,000원)", "택배(제주산간) (+6,000원)"
+		return new Object[] { 1, 2, 3 };
+	}
+	
+	@ModelAttribute("shippingText")
+	public Object[] referenceString() { 
+		return new Object[] { "준등기 (+1,800원)", "택배 (+3,000원)", "택배(제주산간) (+6,000원)" };
 	}
 	
 	@ModelAttribute("shippingCost")
 	public Object[] referenceCost() { 
 		return new Object[] { 1800, 3000, 6000 };
 	}
-	
-	//1.Validator
 
-	//2.showForm()
 	@GetMapping("/{gpId}")
 	public String showForm(HttpServletRequest request,
 							@PathVariable("gpId") int gpId, Model model) {
@@ -79,27 +88,24 @@ public class JoinController {
 		return JOIN_FORM;
 	}
 	
-	@ModelAttribute("joinReq") // request handler methods 보다 먼저 호출됨
+	@ModelAttribute("joinReq")
 	public Join formBacking(HttpServletRequest request,
 			@PathVariable("gpId") int gpId, Model model) { 
 		if (request.getMethod().equalsIgnoreCase("GET")) {
 			Join join = new Join();
 	
 			GroupPurchase gp = gpService.getGP(gpId);
-	
-			// 1.UserSession에서 UserId를 뽑아낸다.
+
 			Login userSession = 
 					(Login) WebUtils.getSessionAttribute(request, "userSession");
-			
-			// 2.Account를 통해 이 유저의 address 및 기본 정보를 읽어와서 세팅한다.
-			Account account = null;
-			
-			if(userSession != null)
+
+			Account account = new Account();
+			if(userSession != null) {
 				account = accountService.getAccount(userSession.getAccount().getUserId());
-			
-			model.addAttribute("account", account); //정보를 세팅하여 Form에 초기값으로 나타낸다.
+				model.addAttribute("account", account); //정보를 세팅하여 Form에 초기값으로 나타낸다.
+			}
 	
-			join.setGroupPurchase(gp); // 정보를 세팅하여 Form에 초기값으로 나타낸다.
+			join.setGroupPurchase(gp); 
 			if(join.getQuantity() == 0) {//최초로 폼을 불러왔다면
 				join.setQuantity(1); //개수는 1개부터 시작
 				join.setShippingMethod(1); //디폴트 값
@@ -117,18 +123,21 @@ public class JoinController {
 			@ModelAttribute("joinReq") Join join,
 			BindingResult result, Model model) {
 		
+		join.setGroupPurchase(gpService.getGP(gpId));
 		Login userSession = 
 				(Login) WebUtils.getSessionAttribute(request, "userSession");
+		
+		validator.validate(join, result);
 		
 		if (result.hasErrors()) {
 			WishGroupPurchase wishGp = gpService.getWishGP(userSession.getAccount().getUserId(), gpId);		
 			model.addAttribute("wishGp", wishGp);
+			model.addAttribute("joinReq", join);
 			
 			return JOIN_FORM;
 		}
 		
 		join.setConsumerId(userSession.getAccount().getUserId());
-		join.setGroupPurchase(gpService.getGP(gpId));
 		join.setShippingCost(joinService.initShippingCost(join));
 		join.setTotalAmount(joinService.calculateTotal(join.getGroupPurchase(), join));
 		join.setStatus(1); //참여하자마자는 1

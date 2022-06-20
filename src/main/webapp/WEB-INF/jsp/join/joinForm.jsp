@@ -76,8 +76,8 @@ function twitter() {
 	  
 	  function radioClick (event) {
 		$("#shippingCost").show();
-		$("#shippingCost").children().removeClass("redFont");
-		$("#totalShippingAmount").children().removeClass("redFont");
+		$("#shippingCost").children().css("color", "black");
+		$("#totalShippingAmount").children().css("color", "black");
 		var s = Number(event.target.value);
 		switch(s) {
 			case 1:
@@ -169,7 +169,6 @@ function twitter() {
   		<td rowspan="5" align = "center" style="position: relative;">
   			<img id="image" class="img" src="<c:url value="${joinReq.groupPurchase.image}"/>">
   		</td>
-  		
   		<td>
   			<c:if test="${wishGp ne null}">
   				<button id="wish" class="wishBtn" type="button" onclick="delWish();">❤</button>
@@ -212,10 +211,12 @@ function twitter() {
 
   	</tr>
   	
+  	<c:if test="${userSession ne null}">
   	<!-- 세부 항목 1 -->
   	<tr>
       <td style="padding-top: 5%"> <font class="color_purple" size="4"><b>주문 정보</b></font> </td>
     </tr>
+    
     <tr>
   		<td> <div class="color_purple" style="height: auto; width: 170%; border-top:1px solid; margin-bottom: 5%;"></div> </td>
   	</tr>
@@ -235,12 +236,12 @@ function twitter() {
   	
   	<tr>
 		<td>배송비</td>
-		<td id="shippingCost"><a class="redFont">*배송 방법을 선택해주세요</a></td>
+		<td id="shippingCost"><a style="color: red;">*배송 방법을 선택해주세요</a></td>
   	</tr>
   	
   	<tr>
 		<td>배송비 포함 총액</td>
-		<td id="totalShippingAmount"><a class="redFont">*배송 방법을 선택해주세요</a></td>
+		<td id="totalShippingAmount"><a style="color: red;">*배송 방법을 선택해주세요</a></td>
   	</tr>
   	
   	<!-- 세부 항목 2 -->
@@ -290,9 +291,11 @@ function twitter() {
     <tr>
       <td style="padding-top: 5%"> <font class="color_purple" size="4"><b>구매자 정보</b></font> </td>
     </tr>
+    
     <tr>
   		<td> <div class="color_purple" style="height: auto; width: 170%; border-top:1px solid; margin-bottom: 5%;"></div> </td>
   	</tr>
+  	
     <tr>
       <td>배송지 선택</td>
       <td>
@@ -301,16 +304,19 @@ function twitter() {
 		<%-- <form:radiobuttons items="${shippingOption}" path="shippingOption"/> --%>
       </td>
     </tr>
+    
     <tr>
       <td>이름</td>
       <td class="shipping"><form:input path="consumerName" placeholder="주문자 이름" value="${account.userName}"/> 
         <form:errors path="consumerName"/></td>
     </tr>
+    
     <tr>
       <td>휴대폰번호</td>
       <td class="shipping"><form:input path="phone" placeholder="휴대폰번호" value="${account.phone}"/>
         <form:errors path="phone"/></td>
     </tr>
+    
     <tr>
       <td>우편번호</td>
       <td class="shipping"><form:input path="zipcode" placeholder="우편번호" value="${account.zipcode}"/> 
@@ -321,16 +327,27 @@ function twitter() {
       <td class="shipping"><form:input path="address" placeholder="주소" value="${account.address}"/> 
         <form:errors path="address"/></td>
     </tr>
+    
     <tr>
       <td>배송시 요청사항</td>
       <td class="shipping"><form:input path="shippingRequest" placeholder="배송시 요청사항(선택)"/> 
         <form:errors path="shippingRequest"/></td>
     </tr>
+    </c:if>
   </table>
   
-  <p style="padding-top: 5%">
-	<button class="hButton"> 등록하기 </button>
-  </p>
+  <c:if test="${userSession eq null}">
+    <p>로그인이 필요한 컨텐츠입니다. <br> 로그인 후 이용해주세요!</p>
+    <a href="<c:url value="/user/loginForm"/>"> 
+		<input class="btn" type="button" onClick="" value="로그인"></a>
+  </c:if>
+  
+  <c:if test="${userSession ne null}">
+	  <p style="padding-top: 5%">
+		<button class="hButton"> 등록하기 </button>
+	  </p>
+  </c:if>
+  
 </form:form>
 </div>
 

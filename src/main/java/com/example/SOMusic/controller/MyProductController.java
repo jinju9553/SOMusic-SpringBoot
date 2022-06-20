@@ -27,7 +27,6 @@ public class MyProductController {
 	private static final String MY_PRODUCT_LIST = "thyme/user/my/product/mySaleList";
 	private static final String PRODUCT_INFO = "thyme/Product/View/productView";
 	private static final String MY_PURCHASE_LIST = "thyme/user/my/purchase/MyPurchaseList";
-
 	
 	@Autowired //주의: interface는 class가 아니므로 Bean을 생성할 수 없음
 	private PurchaseService purchaseService;
@@ -86,5 +85,18 @@ public class MyProductController {
 		
 	}
 	
-	
+	//*MyPageController에서 옮겨졌습니다. 
+	//상단의 @GetMapping(value="/purchase/List")랑 겹치는 것 같은데 적당히 합치고 삭제하셔도 됩니다...
+	@GetMapping("/purchase/list")
+	public String registerList(HttpServletRequest request, Model model) throws Exception {
+
+		Login userSession = (Login) WebUtils.getSessionAttribute(request, "userSession");
+
+		List<Purchase> pList = purchaseService.findPurchaseList(userSession.getAccount().getUserId());
+		model.addAttribute("pList", pList);
+
+		System.out.println("구매한 상품 리스트 : " + pList.toString());
+
+		return MY_PURCHASE_LIST;
+	}
 }

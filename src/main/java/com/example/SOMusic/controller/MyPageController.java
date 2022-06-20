@@ -1,7 +1,5 @@
 package com.example.SOMusic.controller;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +18,8 @@ import org.springframework.web.util.WebUtils;
 
 import com.example.SOMusic.domain.Account;
 import com.example.SOMusic.domain.Login;
-import com.example.SOMusic.domain.Purchase;
+import com.example.SOMusic.service.AccountFormValidator;
 import com.example.SOMusic.service.AccountService;
-import com.example.SOMusic.service.PurchaseService;
 
 @Controller
 @SessionAttributes({"userSession", "tempSession"})
@@ -30,20 +27,19 @@ import com.example.SOMusic.service.PurchaseService;
 public class MyPageController {
 	
 	private static final String MY_PAGE = "thyme/user/my/myPage";
-	private static final String MY_PURCHASE_LIST = "thyme/user/my/purchase/MyPurchaseList";
 	private static final String RECOVER_ID_PAGE = "thyme/user/account/recoverAccount";
 	private static final String RESET_PW_PAGE = "thyme/user/account/resetPassword";
-	
-	@Autowired
-	private PurchaseService purchaseService;
-	public void setPurchaseService(PurchaseService purchaseService) {
-		this.purchaseService = purchaseService;
-	}
-	
+
 	@Autowired
 	private AccountService accountService;
 	public void setAccountService(AccountService accountService) {
 		this.accountService = accountService;
+	}
+	
+	@Autowired
+	private AccountFormValidator validator;
+	public void setValidator(AccountFormValidator validator) {
+		this.validator = validator;
 	}
 	
 	@GetMapping
@@ -72,9 +68,12 @@ public class MyPageController {
 	public String update( 
 			HttpServletRequest request,
 			@ModelAttribute("accountForm") AccountForm accountForm,
-			BindingResult bindingResult) throws ModelAndViewDefiningException {
+			BindingResult result) throws ModelAndViewDefiningException {
 		
-		if (bindingResult.hasErrors()) {
+		accountForm.setNewAccount(false);
+		validator.validate(accountForm, result);
+		
+		if (result.hasErrors()) {
 			return MY_PAGE;
 		}
 
@@ -159,20 +158,5 @@ public class MyPageController {
 			
 			return new ModelAndView(RESET_PW_PAGE);
 		}
-	}
-	
-	//다른 컨트롤러로 옮기기
-	@GetMapping("/purchase/list")
-	public String registerList(HttpServletRequest request, Model model) throws Exception {
-		
-		Login userSession = 
-				(Login) WebUtils.getSessionAttribute(request, "userSession");
-					
-		List<Purchase> pList = purchaseService.findPurchaseList(userSession.getAccount().getUserId());
-		model.addAttribute("pList", pList);
-		
-		System.out.println("구매한 상품 리스트 : " + pList.toString());
-		
-		return MY_PURCHASE_LIST;
 	}
 }

@@ -100,7 +100,10 @@
 </script>
 
 <form:form modelAttribute="joinInfoReq" action="${targetUrl}" method="post">
-  <form:errors cssClass="error" /> <br><br>
+  	<form:errors cssClass="error" /> <br><br>
+  	<form:input type="hidden" path="groupPurchase" />
+  	<form:input type="hidden" path="consumerBank"/>
+  	<form:input type="hidden" path="status"/>
   <table class="n13">
   	<!-- 상품 정보 -->
   	<tr>
@@ -128,7 +131,7 @@
   		<td style="padding-bottom: 10;"> 진행 상태: <a class="statusAnchor"></a></td>
   	</tr>
   	<tr>
-  		<td> 폼 작성 날짜: ${joinInfoReq.regDate}</td>
+  		<td> 폼 작성 날짜: ${joinInfoReq.regDate} </td>
   	</tr>
   	
   	<!-- 세부 항목 1 -->
@@ -142,7 +145,7 @@
     </tr>   
     <tr>
       <td>- <a href="/join/${joinInfoReq.groupPurchase.gpId}">공동구매 폼 바로가기></a></td>
-      <td>- 등록자 정보 바로가기></td>
+      <td>- 등록자 별점: ${userSession.account.rate}</td>
     </tr>
     
     <!-- 세부 항목 2 -->
@@ -163,6 +166,7 @@
         	</c:when>
         	<c:otherwise>
         		<a> ${joinInfoReq.accountHolder} </a>
+        		<form:input type="hidden" path="accountHolder"/>
         	</c:otherwise>
         </c:choose>
         </td>
@@ -171,7 +175,8 @@
   	<tr>
 		<td>입금액</td>
 		<td><fmt:formatNumber
-                value="${joinInfoReq.totalAmount}" pattern="###,##0" /> 원</td>
+                value="${joinInfoReq.totalAmount}" pattern="###,##0" /> 원
+                <form:input type="hidden" path="totalAmount"/></td>
   	</tr> 
   	
   	<tr> <!-- status 2부터는 입금자명 수정 불가, 환불은 상시 가능 -->
@@ -211,7 +216,9 @@
   	<tr>
 		<td>상품 금액</td>
         <td><fmt:formatNumber
-                value="${joinInfoReq.groupPurchase.price}" pattern="###,##0" /> 원 × ${joinInfoReq.quantity} 개</td>
+                value="${joinInfoReq.groupPurchase.price}" pattern="###,##0" /> 원 × ${joinInfoReq.quantity} 개
+                <form:input type="hidden" path="groupPurchase.price"/>
+                <form:input type="hidden" path="quantity"/></td>
   	</tr> 
   	<tr>
 		<td>배송 방법</td>
@@ -224,6 +231,7 @@
         	<td colspan="2" align="center" style="padding-bottom: 5%;">
 				<form:radiobuttons path="shippingMethod" items="${shippingOption}" /></td>
 		</c:if>
+		<form:input type="hidden" path="shippingMethod"/>
   	</tr> 
   	<tr>
   		<c:if test="${joinInfoReq.status < 3}">
@@ -233,12 +241,14 @@
   	<tr>
   		<td>배송비</td>
 		<td><fmt:formatNumber
-                value="${joinInfoReq.shippingCost}" pattern="###,##0" /> 원</td>
+                value="${joinInfoReq.shippingCost}" pattern="###,##0" /> 원
+                <form:input type="hidden" path="shippingCost"/></td>
   	</tr>  	
   	<tr>
 		<td>총 주문 금액</td>
 		<td><fmt:formatNumber
-                value="${joinInfoReq.totalAmount}" pattern="###,##0" /> 원</td>
+                value="${joinInfoReq.totalAmount}" pattern="###,##0" /> 원
+                <form:input type="hidden" path="totalAmount"/></td>
   	</tr>
     
     <tr> <!-- status 3부터는 수정 불가 -->
@@ -258,6 +268,7 @@
         	</c:when>
         	<c:otherwise>
         		<a> ${joinInfoReq.consumerName} </a>
+        		<form:input type="hidden" path="consumerName"/>
         	</c:otherwise>
         </c:choose>
         </td>
@@ -273,6 +284,7 @@
         	</c:when>
         	<c:otherwise>
         		<a> ${joinInfoReq.phone} </a>
+        		<form:input type="hidden" path="phone"/>
         	</c:otherwise>
         </c:choose>
         </td>
@@ -288,6 +300,7 @@
         	</c:when>
         	<c:otherwise>
         		<a> ${joinInfoReq.zipcode} </a>
+        		<form:input type="hidden" path="zipcode"/>
         	</c:otherwise>
       </c:choose>
       </td>
@@ -303,6 +316,7 @@
         	</c:when>
         	<c:otherwise>
         		<a> ${joinInfoReq.address} </a>
+        		<form:input type="hidden" path="address"/>
         	</c:otherwise>
       </c:choose>
       </td>
@@ -318,6 +332,7 @@
         	</c:when>
         	<c:otherwise>
         		<a> ${joinInfoReq.shippingRequest} </a>
+        		<form:input type="hidden" path="shippingRequest"/>
         	</c:otherwise>
       </c:choose>    
       </td>
@@ -335,7 +350,7 @@
     	</span></td>
   	</tr>
     
-    <c:if test="${joinInfoReq.status >= 4}">
+    <c:if test="${joinInfoReq.status eq 4}">
 	    <tr> <!-- 거래 종료(status: 4) 이후 활성화되는 메뉴 -->
 	      <td style="padding-top: 5%;">이 거래가 만족스러우셨다면, 판매자에게 별점을 부여해주세요.</td>
 	      <td style="padding-top: 5%; padding-left: 3%;" align="right">
@@ -355,7 +370,6 @@
 	  	  <td style="padding-top: 5%; colspan="2" align="left"> <button class="btn">등록</button> </td>
 	    </tr> 
     </c:if>
-    
   </table>
 </form:form>
 </div>
