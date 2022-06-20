@@ -77,6 +77,15 @@
 			</td>
 		</tr>
 	</table>
+	<div class="hNavi">
+		 <nav class="stroke">
+		    <ul class="hUl">
+		      <li class="hLi"><a href="@{/main}">홈</a></li>
+		      <li class="hLi"><a href="@{/main/product}">중고 거래</a></li>
+		      <li class="hLi"><a href="@{/main/gp}">공동 구매</a></li>
+		    </ul>
+		</nav>
+	</div>
 </body>
 </html>
 	<%-- <%@ include file="IncludeQuickHeader.jsp" %> --%>
