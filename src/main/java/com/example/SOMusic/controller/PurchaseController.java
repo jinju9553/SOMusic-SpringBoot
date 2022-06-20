@@ -21,6 +21,7 @@ import com.example.SOMusic.domain.Purchase;
 import com.example.SOMusic.service.AccountService;
 import com.example.SOMusic.service.ProductService;
 import com.example.SOMusic.service.PurchaseService;
+import com.example.SOMusic.service.PurchaseValidator;
 
 @Controller
 @SessionAttributes("userSession")
@@ -28,6 +29,7 @@ import com.example.SOMusic.service.PurchaseService;
 public class PurchaseController {
 	
 	private static final String PURCHASE_FORM = "purchase/purchaseForm";
+	private static final String PURCHASE_DONE = "thyme/purchase/purchaseDone";
 	
 	@Autowired //주의: interface는 class가 아니므로 Bean을 생성할 수 없음
 	private PurchaseService purchaseService;
@@ -47,15 +49,12 @@ public class PurchaseController {
 		this.accountService = accountService;
 	}
 	
-	//1.Validator 작성 필요
-	//@Autowired
-	//private OrderValidator orderValidator;
-	
-	@ModelAttribute("paymentOption")
-	public String[] referenceData() {
-		return new String[] { "현금 거래", "계좌 이체", "카카오 페이", "toss", "그 외" };
+	@Autowired
+	private PurchaseValidator validator;
+	public void setValidator(PurchaseValidator validator) {
+		this.validator = validator;
 	}
-
+	
 	@GetMapping("/{productId}")
 	public String showForm() {
 		return PURCHASE_FORM;
@@ -80,6 +79,7 @@ public class PurchaseController {
 
 			model.addAttribute("account", account);
 			purchaseReq.setProduct(p); // 정보를 세팅하여 Form에 초기값으로 나타낸다.
+			purchaseReq.setShippingMethod(0);
 			
 			return purchaseReq;
 		} 
@@ -90,15 +90,17 @@ public class PurchaseController {
 	@PostMapping("/{productId}")
 	public String register( 
 			HttpServletRequest request,
-			@ModelAttribute("purchaseReq") Purchase purchaseReq,
 			@PathVariable("productId") int productId,
-			BindingResult bindingResult, Model model) throws Exception {
+			@ModelAttribute("purchaseReq") Purchase purchaseReq,
+			BindingResult result, Model model) throws Exception {
 		System.out.println("command 객체: " + purchaseReq);
+		
+		validator.validate(purchaseReq, result);
 		
 		Login userSession = 
 				(Login) WebUtils.getSessionAttribute(request, "userSession");
 		
-		if (bindingResult.hasErrors()) {
+		if (result.hasErrors()) {
 			return PURCHASE_FORM;
 		}
 
@@ -109,6 +111,6 @@ public class PurchaseController {
 		purchaseReq.setConsumerId(account.getUserId());
 		purchaseService.registerPurchase(purchaseReq); 
 
-		return "redirect:/" + "purchase/{productId}"; //결과 화면 새로 만들기(PURCHASE_RESULT)
+		return PURCHASE_DONE;
 	}
 }

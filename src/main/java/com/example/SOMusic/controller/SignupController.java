@@ -26,6 +26,7 @@ import com.example.SOMusic.service.AccountService;
 public class SignupController {
 	
 	private static final String REGISTER_FORM = "thyme/user/account/registerForm";
+	private static final String REGISTER_DONE = "thyme/user/account/signupDone";
 	
 	@Autowired
 	private AccountService accountService;
@@ -82,7 +83,7 @@ public class SignupController {
 				accountService.getAccount(accountForm.getAccount().getUserId()));
 
 		session.setAttribute("userSession", userSession);
-		return "redirect:/" + "main"; //홈 화면으로 리다이렉션
+		return REGISTER_DONE; //홈 화면으로 리다이렉션
 	}
 	
 	@ResponseBody
