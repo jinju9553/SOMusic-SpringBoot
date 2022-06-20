@@ -22,6 +22,32 @@
 		Searchform.submit();
 	}
 </script>
+
+
+<style>
+
+
+.register {
+  background: linear-gradient(to bottom, var(#ff9800) 0%, var(#ff9800) 100%);
+	background-position: 0 100%;
+	background-repeat: repeat-x;
+	background-size: 3px 3px;
+  	color: #000;
+  	text-decoration: none;
+}
+
+.register:hover {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg id='squiggle-link' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:ev='http://www.w3.org/2001/xml-events' viewBox='0 0 20 4'%3E%3Cstyle type='text/css'%3E.squiggle{animation:shift .3s linear infinite;}@keyframes shift {from {transform:translateX(0);}to {transform:translateX(-20px);}}%3C/style%3E%3Cpath fill='none' stroke='%23ff9800' stroke-width='2' class='squiggle' d='M0,3.5 c 5,0,5,-3,10,-3 s 5,3,10,3 c 5,0,5,-3,10,-3 s 5,3,10,3'/%3E%3C/svg%3E");
+  background-position: 0 100%;
+  background-size: auto 6px;
+  background-repeat: repeat-x;
+  text-decoration: none;
+}
+
+</style>
+
+
+
 <body bgcolor="white">
 <div id="head" style="margin-bottom:5%;">
 	<table style="width:100%;">
@@ -46,15 +72,15 @@
 					</table>
 				</form>
 			</td>
-			
+
 			<td>
-				<a th:href="@{/product/register}"><input class="btn" type="button" value="상품 등록하기"/></a>
+				<a class="register" th:href="@{/product/register}"><input class="btn" type="button" value="상품 등록하기"/></a>
 			</td>
 			
 			<td>
 				<a th:href="@{/gp/register}"><input class="btn" type="button" value="공구 등록하기"/></a>
 			</td>
-			
+	
 			<td class="txRight"> <!-- 회원가입, 로그인 등 메뉴 위치 -->
 				<div id="loginDiv" th:unless="${userSession?.account}">
 					<a th:href="@{/user/register}"> 

@@ -34,5 +34,15 @@ public class JoinValidator implements Validator{
 				ValidationUtils.rejectIfEmptyOrWhitespace(errors, "consumerBank", "BANK_REQUIRED", "*필수 항목입니다.");
 			}
 		}
+		
+		if(join.getPhone() != null && join.getPhone().length() > 0) {
+			if(!join.matchesPhone())
+				errors.rejectValue("phone", "PHONE_NOT_CORRECT", "*잘못된 형식입니다. ex)01011113333, 0112224444");
+		}
+		
+		if(join.getZipcode() != null && join.getZipcode().length() > 0) {
+			if(!join.matchesZipcode())
+				errors.rejectValue("zipcode", "ZIPCODE_NOT_CORRECT", "*잘못된 형식입니다. ex)12345");
+		}
 	}
 }
