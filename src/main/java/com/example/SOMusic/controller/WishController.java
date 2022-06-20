@@ -26,7 +26,7 @@ import com.example.SOMusic.service.WishProductService;
 public class WishController {
 	
 	//private static final String WISH_SUCCESS = "/product/register/success";  
-	private static final String WISH_RE = "/product/info/";
+	private static final String WISH_RE = "/product/info";
 	private static final String WISH_PRODUCT_LIST ="thyme/user/my/wish/wishList";
 	
 	private static final String WISH_GP_LIST = "thyme/user/my/wish/myWishGPList";
@@ -60,20 +60,24 @@ public class WishController {
 	}
 	
 	// 상품 위시 추가
-	@GetMapping(value="/proudct/add")
+	@GetMapping(value="/product/add")
 	public String addWish(
+			HttpServletRequest request,
 			@RequestParam("productId") int productId,
 			 Model model) throws Exception {
 		//int productId = Integer.parseInt(request.getParameter("productId"));
+		
+		Login userSession = (Login) WebUtils.getSessionAttribute(request, "userSession");
 			
 		WishProduct wish = new WishProduct();
 		wish.setProductId(productId);
-		wish.setUserId("panda");
+//		wish.setUserId("panda");
+		wish.setUserId(userSession.getAccount().getUserId());
 				
 		wishproductService.addWishproduct(wish);
 		System.out.println("찜 추가 완료");
 				
-		return WISH_PRODUCT_LIST; //	
+		return "redirect:" + WISH_RE + "?productId=" + productId; //	
 	}
 			
 	// 상품 위시 삭제

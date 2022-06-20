@@ -102,7 +102,7 @@
 <form:form modelAttribute="purchaseInfoReq" action="${targetUrl}" method="post">
 	  <form:errors cssClass="error"/> <br><br>
 	  <input type="hidden" id="productId" name="productId" value="${purchaseInfoReq.product.productId}"/>
-  <table class="n13">
+  <table class="n13" width:730px;">
   	<!-- 상품 정보 -->
   	<tr>
   		<td> <font class="color_purple" size="8"><b>상품 상세 내역</b></font> </td>

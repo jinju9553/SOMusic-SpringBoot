@@ -51,7 +51,10 @@ public class ProductViewController {
 			@RequestParam("productId") int productId, Model model)
 			 {
 			Login userSession = (Login) WebUtils.getSessionAttribute(request, "userSession");
-			String userId = userSession.getAccount().getUserId();
+			
+			String userId = null;
+			if(userSession != null)
+				userId = userSession.getAccount().getUserId();
 		
 				
 				ProductRequest productReq = new ProductRequest();
