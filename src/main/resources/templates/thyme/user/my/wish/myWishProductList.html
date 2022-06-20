@@ -15,8 +15,8 @@
 			</div>
 			<ul class="list-group">
 				<li class="list-group-item"><a th:href="@{/user/my}">내 정보 관리</a></li>
-				<li class="list-group-item"><a th:href="@{/user/my/sale/list/product}">중고거래 관리</a></li>
-				<li class="list-group-item"><a th:href="@{/user/my/gp/register/list}">공동구매 관리</a></li>
+				<li class="list-group-item"><a th:href="@{/user/my/sale/list}">중고거래 관리</a></li>
+				<li class="list-group-item"><a th:href="@{/user/my/gp/list}">공동구매 관리</a></li>
 				<li class="list-group-item active"><a>위시리스트 모아보기</a></li>
 			</ul>
 		</div>
@@ -44,7 +44,7 @@
 				</div>
 				<div class="btnView">
 					<div>
-						<form action="#" method="GET" th:action="@{/main}"> <!--  임시 -->
+						<form action="#" method="GET" th:action="@{/user/my/wish/product/delete}"> <!--  임시 -->
 							<input type="hidden" id="productId" name="productId" /> <!-- th:value="${}" -->
 							<input type="hidden" id="view" name="view" value="list" />	<!--  뷰에서 삭제하는지, 리스트에서 삭제하는지 구분 -->
 							<input class="btnDelete" type="submit" value="&#215;" />

@@ -67,7 +67,7 @@ public class MyProductController {
 	}	
 
 
-	@GetMapping(value="/sale/list/product")
+	@GetMapping(value="/sale/list")
 	public String saleList(HttpServletRequest request, Model model)
 	throws Exception {
 		Login userSession = (Login) WebUtils.getSessionAttribute(request, "userSession");

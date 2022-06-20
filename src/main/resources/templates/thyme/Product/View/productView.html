@@ -6,8 +6,8 @@
 <script th:inline="javascript">
 function twitter() {
 	/*<![CDATA[*/
-    let name = /*[[ ${productReq.productName} ]]*/;
-	let comment = /*[[ ${productReq.description} ]]*/;
+    let name = /*[[ ${productReq.productName} ]]*/"";
+	let comment = /*[[ ${productReq.description} ]]*/"";
     /*]]*/
     
 	var url = window.location.href;
@@ -133,7 +133,7 @@ function twitter() {
 <div id="out">
 	<div class="top_view">
 		<tr> <td>
-	  		 <a th:href="@{/user/wish/add(productId=${productReq.productId})}"><button id="noInterest">
+	  		 <a th:href="@{/user/my/wish/product/add(productId=${productReq.productId})}"><button id="noInterest">
 	  		❤</button></a> </td>
 	  		
 	  		<div style="float: right; margin-top: 10px; margin-right: 10px;">

@@ -34,25 +34,6 @@
 		.starR1.on{background-position:0 0;}
 		.starR2.on{background-position:-15px 0;}
 		
-		#noInterest:hover {
-		    color: #FF6464;
-		    border-color: #ffeded;
-		}
-		
-		#noInterest {
-			left: 45.5%;
-    		top: 53.5%;
-			position: absolute;
-		    border: 2px solid;
-		    border-color: #d2d2d2;
-		    width: 70px;
-		    height: 70px;
-		    font-size: 18px;
-		    font-weight: bold;
-		    color: #a0a0a0;
-		    background-color: white;
-		    border-radius: 10px;
-		}
 	</style>
 </head>
 
