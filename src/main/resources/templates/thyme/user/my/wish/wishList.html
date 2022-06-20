@@ -35,44 +35,27 @@
 			</nav>
 		</div>
 		<div class="element">
-			<div class="one"> <!--  반복문 th:each="wish : ${wishGpList}" -->
+			<div class="one" th:each="wish : ${wishPrList}">
 				<div class="image_view">
 					<img class="image" src="x.png"/>
 				</div>
 				<div class="element title">
-					<h5><a class="linkTitle" href="#">제목</a></h5>
+					<h5><a class="linkTitle" th:text="${wish.pr.productName}" href="#">제목</a></h5>
 				</div>
 				<div class="btnView">
 					<div>
-						<form action="#" method="GET" th:action="@{/main}"> <!--  임시 -->
-							<input type="hidden" id="productId" name="productId" /> <!-- th:value="${}" -->
+						<form action="#" method="GET" th:action="@{/user/wish/delete}"> <!--  임시 -->
+							<input type="hidden" id="productId" name="productId" th:value="${wish.pr.productId}" />
 							<input type="hidden" id="view" name="view" value="list" />	<!--  뷰에서 삭제하는지, 리스트에서 삭제하는지 구분 -->
 							<input class="btnDelete" type="submit" value="&#215;" />
 						</form>
 					</div>
 				</div>
 			</div>
-			
-			<div class="one"> <!--  반복문 th:each="wish : ${wishGpList}" -->
-				<div class="image_view">
-					<img class="image" src="x.png"/>
-				</div>
-				<div class="element title">
-					<h5><a class="linkTitle" href="#">제목</a></h5>
-				</div>
-				<div class="btnView">
-					<div>
-						<form action="#" method="GET" th:action="@{/main}"> <!--  임시 -->
-							<input type="hidden" id="productId" name="productId" /> <!-- th:value="${}" -->
-							<input type="hidden" id="view" name="view" value="list" />	<!--  뷰에서 삭제하는지, 리스트에서 삭제하는지 구분 -->
-							<input class="btnDelete" type="submit" value="&#215;" />
-						</form>
-					</div>
-				</div>
-			</div>
+
 			
 			  
-			<div class="element"> <!-- 리스트 비어있을때 th:if="${#lists.isEmpty(wishGpList)}" -->
+			<div class="element" th:if="${#lists.isEmpty(wishPrList)}">
 				<div class="element" style="height: 40px;"></div>
 				<div class="element" style="text-align: center;">
 					<a>아직 위시에 등록한 중고상품 내역이 없습니다.<br></a>

@@ -102,28 +102,32 @@
   
 </style>
 <meta charset="UTF-8">
-<title>상품 등록 폼</title>
+<title>상품 수정 폼</title>
 </head>
 <body>
 <div th:insert="~{thyme/header}"></div>
 <div id="out">
 	<div class="form_view">
-	<form action="#" th:action="@{/product/register}" th:object="${PrReq}" method="POST" enctype="multipart/form-data">
+	<form action="#" th:action="@{/product/update}" th:object="${PrReq}" method="POST" enctype="multipart/form-data">
+		<input type="hidden" id="productId" name="productId" th:field="*{productId}" />
 <!--		<div class="row">
 			<h4>가격</h4>
 		</div>   -->
 		<div class="info_view">
-			<div class="image">
-			<input id="image" name="image" type="file" accept="image/*" style="display:none;"/>
+			<div class="image">			
                 	<label for="image">
-                    	<img id="View" src="/images/uploadImg.png" width="350px" />
+                  <img id="View" th:src="@{${imgPath}}" width="100%" />
                     </label>
-				<br/>
-	
-			</div>
+                    <input type="hidden" id="imgPath" name="imgPath" th:value="${imgPath}" />
+                </div>
+                <div class="row">
+                    <input name="image" type="file" th:value="*{image}" th:field="*{image}" accept="image/*" style="display:none;"/>
+                    <input type="hidden" name="isModify" id="isModify" value="false" />
+                </div>
 			<div class="info">
 				<inline class="row"><font size=4>음반 제목</font> &nbsp;&nbsp;
-				<input  type="text"  th:field="*{productName}" name ="productName" size="20"></inline>
+				<input  type="text" th:field="*{productName}" name ="productName" size="20"></inline>
+				
 				<br/>
 				<inline class="row"><font size=4>아티스트 이름</font> &nbsp;&nbsp;
 				<input type="text" th:field="*{artistName}" name ="artistName" size="20"></inline>
@@ -150,7 +154,7 @@
 				</div>
 				</div>
 				<br/>
-				<input type="submit" class="btn33" value="상품 등록하기" />
+				<input type="submit" class="btn33" value="상품 수정하기" />
 				</form>
 				</div>
 			</div>

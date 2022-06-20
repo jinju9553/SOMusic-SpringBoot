@@ -7,7 +7,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
+import javax.persistence.MapsId;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -21,11 +24,14 @@ import lombok.ToString;
 @Entity
 @Table(name="WISHPRODUCT")
 @Getter @Setter
-public class WishProduct {
+@IdClass(PKWishPr.class)
+public class WishProduct implements Serializable {
 	
 	@Id
 	@Column(name="USER_ID")
 	private String userId;
+	
+	
 	@Column(name="PRODUCT_ID")
 	private int productId;
 	
@@ -38,6 +44,11 @@ public class WishProduct {
 		userId = wishReq.getUserId();
 		productId = wishReq.getProductId();
 	}
+	
+	@MapsId()
+	@OneToOne
+	@JoinColumn(name="PRODUCT_ID", nullable=true)
+	private Product pr;
 
 	
 }

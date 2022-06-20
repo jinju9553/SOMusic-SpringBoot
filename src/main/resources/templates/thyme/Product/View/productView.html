@@ -75,13 +75,13 @@ function twitter() {
      	display: flex;
     }
     
-    .image {
+     .image {
     	width: 400px;
     	height: 400px;
-    	border:1px black solid;
+    	
     	margin-left: 30px;
     	margin-top: 20px;
-    }
+    } 
     
     .info {
     	font-size: 20px;
@@ -133,7 +133,7 @@ function twitter() {
 <div id="out">
 	<div class="top_view">
 		<tr> <td>
-	  		 <a th:href="@{/user/wish/add(productId=${productReq.productId})}"><button id="noInterest">
+	  		 <a th:href="@{/user/wish/add(productId=${viewPr.productId})}"><button id="noInterest">
 	  		❤</button></a> </td>
 	  		
 	  		<div style="float: right; margin-top: 10px; margin-right: 10px;">
@@ -142,20 +142,20 @@ function twitter() {
   		</tr>
 		<div class="info_view">
 			<div class="image">
-				<img th:scr="@{${productReq.image}}" style="width:100%"/>
+				<img th:scr="@{${image}}" style="width:100%"/>			
 			</div>
 			<div class="info">
-				<div class="row"><h1><p th:text="${productReq.productName}">음반 제목</p> </h1></div>
-				<div id="blue" class="row"><h2><p th:text="${productReq.price}">가격</p></h2> </div>
+				<div class="row"><h1><p th:text="${viewPr.productName}">음반 제목</p> </h1></div>
+				<div id="blue" class="row"><h2><p th:text="${viewPr.price}">가격</p></h2> </div>
 				<div class="row">아티스트명 :&nbsp;
-					<div th:text="${productReq.artistName}"></div>
+					<div th:text="${viewPr.artistName}"></div>
 				</div>
 				<div id ="comment" class="row">판매자 :&nbsp;
-					<div id="dis" th:text="${productReq.sellerId}"></div> 
+					<div id="dis" th:text="${viewPr.sellerId}"></div> 
 				</div>
 				<div class="row">
 					<div class="condition">전반적인 상태 :&nbsp;</div>
-					<div id="sw" th:switch="${productReq.condition}">
+					<div id="sw" th:switch="${viewPr.condition}">
 					<span th:case="1">나쁨</span>
 					<span th:case="2">보통</span>
 					<span th:case="3">좋음</span>
@@ -163,12 +163,19 @@ function twitter() {
 				</div><br></div>
 				<div class="row">
 					<div class=comment>코멘트 :&nbsp </div>
-					<div id="dis" th:text="${productReq.description}"></div>
+					<div id="dis" th:text="${viewPr.description}"></div>
 				</div>
 				<div class="row">
 					<br>
 					<br>
+					<a th:href="@{/purchase/{productId}(productId=${viewPr.productId})}">
 					<button class="btn" type="button">구매하기</button>
+					</a>
+					<!-- <div th:if="${userSession.getAccount().getUserId().equals('${productReq.sellerId}')}"> -->
+					<a th:href="@{/product/update(productId=${viewPr.productId})}">
+					<button class="btn" type="button">
+					수정하기</button></a>
+					</div>
 				</div>
 			</div>
 		</div>

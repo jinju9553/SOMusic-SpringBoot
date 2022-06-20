@@ -21,6 +21,7 @@ public interface ProductService {
 
 	Product findProductByProductId(int productId);
 
+	public Product getPr(int productId);
 	
 	List<Product> get4ProductList();	// 메인에 보여줄 4개 상품
 	

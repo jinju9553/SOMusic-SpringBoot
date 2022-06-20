@@ -65,6 +65,8 @@ public class Product implements Serializable {
 		image = filename;
 		description = prReq.getDescription();
 		condition = prReq.getCondition();
+		bank = prReq.getBank();
+		account = prReq.getAccount();
 		shippingCost = prReq.getShippingCost();
 		sellerId = prReq.getSellerId();
 		artistName = prReq.getArtistName();

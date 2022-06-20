@@ -1,5 +1,7 @@
 package com.example.SOMusic.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +17,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.util.WebUtils;
 
 import com.example.SOMusic.domain.WishProduct;
 import com.example.SOMusic.service.PurchaseService;
 import com.example.SOMusic.service.WishProductService                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     ;
+import com.example.SOMusic.domain.Login;
 import com.example.SOMusic.domain.WishGroupPurchase;
 
 
@@ -30,49 +34,67 @@ public class WishlistController {
 	
 	//private static final String WISH_SUCCESS = "/product/register/success";  
 	private static final String WISH_RE = "/product/info/";
+	private static final String WISH_PRODUCT_LIST ="thyme/user/my/wish/wishList";
+	
+	
 	@Autowired
 	private WishProductService wishproductService;
 	public void setWishproductService(WishProductService wishproductService) {
 		this.wishproductService = wishproductService;
 	}
 	
-	@RequestMapping(value="/my/wish/view", method = RequestMethod.GET)
-	public String ProductWishList(Model model) throws Exception {
-		
-		return "thyme/user/my/wish/wishList"; 
-	}
-	
+	/*
+	 * @RequestMapping(value="/my/wish/view", method = RequestMethod.GET) public
+	 * String ProductWishList(Model model) throws Exception {
+	 * 
+	 * return "thyme/user/my/wish/wishList"; }
+	 */
 	
 
 	@GetMapping(value="/wish/add")
-	public String addWish(
+	public String addWish(HttpServletRequest request,
 			@RequestParam("productId") int productId,
 			 Model model) throws Exception {
 			//int productId = Integer.parseInt(request.getParameter("productId"));
 			
+		Login userSession = (Login) WebUtils.getSessionAttribute(request, "userSession");
+		
 				WishProduct wish = new WishProduct();
 				wish.setProductId(productId);
-				wish.setUserId("panda");
+				wish.setUserId(userSession.getAccount().getUserId());
 				
 				wishproductService.addWishproduct(wish);
 				System.out.println("찜 추가 완료");
 				
-				return "redirect" + "/product/info?productId=" + productId; //redirect		
+				return WISH_PRODUCT_LIST; //여기서 바로 넘어가면 위시리스트 목록이 안 뜸 	
 	
 			}
-			
+	
+	@GetMapping(value="/my/wish/view")
+	public String WishList(HttpServletRequest request, Model model) throws Exception {
+		
+		Login userSession = (Login) WebUtils.getSessionAttribute(request, "userSession");
+		
+		List<WishProduct> wishPrList = wishproductService.findWishProductList(userSession.getAccount().getUserId());
+		model.addAttribute("wishPrList", wishPrList);
+		
+		return WISH_PRODUCT_LIST; 
+	}
+	
+	
+	
 	@GetMapping(value="/wish/delete")
-	public String deleteWish(
+	public String deleteWish(HttpServletRequest request,
 		@RequestParam("productId") int productId) {
-		String userId = "panda";
+		Login userSession = (Login) WebUtils.getSessionAttribute(request, "userSession");
 /*		
 			WishProduct wish = new WishProduct();
 			wish.setProductId(productId);
 			wish.setUserId("panda");*/
 			
-			wishproductService.deleteWishproduct(userId, productId);
+			wishproductService.deleteWishproduct(userSession.getAccount().getUserId(), productId);
 		
-			return "redirect" + "/product/info?productId=" + productId; //redirect
+			return WISH_PRODUCT_LIST; //여기서 바로 넘어가면 위시리스트 목록이 안 뜸 2
 	}
 	
 	

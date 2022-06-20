@@ -11,7 +11,7 @@ import com.example.SOMusic.domain.WishProduct;
 public interface WishProductRepository extends JpaRepository<WishProduct, String>{
 
 	 @Transactional 
-	 public void deleteByproductIdAndUserId(String userId, int productId);
+	 public void deleteByproductIdAndUserId(int productId, String userId);
 	 
 	
 	//wishlist불러오기 
