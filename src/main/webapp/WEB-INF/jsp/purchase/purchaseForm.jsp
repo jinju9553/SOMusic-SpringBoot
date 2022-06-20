@@ -77,7 +77,6 @@
   	
   	<tr> <!-- padding은 나중에 별도의 CSS 파일로 & 파일 경로 및 값은 product.name 등으로 접근 -->
   		<td rowspan="3"> <img id="noImage" src="<c:url value='../images/purchase/noImage.png'/>"> </td>
-  		<td> <button id="noInterest" type="button" onclick="interest();">❤</button> </td>
   	</tr>
   	
   	<tr>

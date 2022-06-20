@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,23 +16,85 @@ import org.springframework.web.util.WebUtils;
 
 import com.example.SOMusic.domain.Login;
 import com.example.SOMusic.domain.WishGroupPurchase;
+import com.example.SOMusic.domain.WishProduct;
 import com.example.SOMusic.service.GPService;
+import com.example.SOMusic.service.WishProductService;
 
 @Controller
 @SessionAttributes("userSession")
 @RequestMapping("/user/my/wish")
-public class WishGPController {
+public class WishController {
+	
+	//private static final String WISH_SUCCESS = "/product/register/success";  
+	private static final String WISH_RE = "/product/info/";
+	private static final String WISH_PRODUCT_LIST ="thyme/user/my/wish/wishList";
 	
 	private static final String WISH_GP_LIST = "thyme/user/my/wish/myWishGPList";
 	private static final String WISH_GP_LIST_URI = "/user/my/wish/gp/list"; // 위시 리스트에서 삭제 -> 위시 리스트로
 	private static final String JOIN = "/join/";		// join 페이지로 uri 이동
 	
 	@Autowired
+	private WishProductService wishproductService;
+	public void setWishproductService(WishProductService wishproductService) {
+		this.wishproductService = wishproductService;
+	}
+	
+	@Autowired
 	private GPService gpSvc;
 	public void setGPService(GPService gpSvc) {
 		this.gpSvc= gpSvc;
 	}
+	
+	// 상품 위시
+	
+	// 상품 위시 리스트
+	@GetMapping(value="/product/list")
+	public String WishList(HttpServletRequest request, Model model) throws Exception {
+		
+		Login userSession = (Login) WebUtils.getSessionAttribute(request, "userSession");
+		
+		List<WishProduct> wishPrList = wishproductService.findWishProductList(userSession.getAccount().getUserId());
+		model.addAttribute("wishPrList", wishPrList);
+		
+		return WISH_PRODUCT_LIST; 
+	}
+	
+	// 상품 위시 추가
+	@GetMapping(value="/proudct/add")
+	public String addWish(
+			@RequestParam("productId") int productId,
+			 Model model) throws Exception {
+		//int productId = Integer.parseInt(request.getParameter("productId"));
+			
+		WishProduct wish = new WishProduct();
+		wish.setProductId(productId);
+		wish.setUserId("panda");
+				
+		wishproductService.addWishproduct(wish);
+		System.out.println("찜 추가 완료");
+				
+		return WISH_PRODUCT_LIST; //	
+	}
+			
+	// 상품 위시 삭제
+	@GetMapping(value="/product/delete")
+	public String deleteWish(
+			HttpServletRequest request,
+			@RequestParam("productId") int productId) {
+		Login userSession = (Login) WebUtils.getSessionAttribute(request, "userSession");
+/*		
+		WishProduct wish = new WishProduct();
+		wish.setProductId(productId);
+		wish.setUserId("panda");*/
+			
+		wishproductService.deleteWishproduct(userSession.getAccount().getUserId(), productId);
+		
+		return "redirect" + WISH_PRODUCT_LIST; //
+	}
 
+	// 공구 위시
+	
+	// 공구 위시 리스트 불러오기
 	@RequestMapping(value="/gp/list", method = RequestMethod.GET)
 	public String gpWishList(HttpServletRequest request, Model model) throws Exception {
 		
@@ -43,7 +106,8 @@ public class WishGPController {
 		return WISH_GP_LIST;
 	}
 	
-	@RequestMapping(value="/gp", method = RequestMethod.GET)
+	// 공구 위시 등록하기
+	@RequestMapping(value="/gp/add", method = RequestMethod.GET)
 	public String wishGpRegister(HttpServletRequest request, @RequestParam("gpId") int gpId) throws Exception {
 		
 		Login userSession = (Login) WebUtils.getSessionAttribute(request, "userSession");
@@ -66,4 +130,5 @@ public class WishGPController {
 		else
 			return "redirect:"+ WISH_GP_LIST_URI;		// 위시리스트에서 위시 취소
 	}
+	
 }

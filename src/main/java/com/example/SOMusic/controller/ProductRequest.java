@@ -36,6 +36,7 @@ public class ProductRequest implements Serializable {
 	private int account;
 	private String bank;
 	private String artistName;
+	private String location;
 	
 	public ProductRequest () {}
 	public ProductRequest(int productId, String productName, MultipartFile image,
@@ -57,7 +58,7 @@ public class ProductRequest implements Serializable {
 		this.condition = condition;
 		this.artistName = artistName;
 	}
-	public ProductRequest(int productId, String productName,
+	public ProductRequest(int productId, String productName, String location,
 			MultipartFile image, int price, int shippingCost, String description,
 			int condition, String artistName) {
 		super();
@@ -65,6 +66,7 @@ public class ProductRequest implements Serializable {
 		this.productName = productName;
 		this.image = image;
 		this.price = price;
+		this.location = location;
 		this.shippingCost = shippingCost;
 		this.description = description;
 		this.condition = condition;

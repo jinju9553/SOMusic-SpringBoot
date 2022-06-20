@@ -155,11 +155,7 @@ public class ProductController implements ApplicationContextAware{
 		
 		return "redirect:" + PR_UPDATE_SEUCCESS + "?productId=" + prReq.getProductId();
 	}
-	
-	
-	
-	
-	
+
 	private String uploadFile(String studentNumber, MultipartFile report) {
 		String filename = UUID.randomUUID().toString() 
 						+ "_" + report.getOriginalFilename();

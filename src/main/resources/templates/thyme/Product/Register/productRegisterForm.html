@@ -116,6 +116,7 @@
 			<div class="image">
 			<input id="image" name="image" type="file" accept="image/*" style="display:none;"/>
                 	<label for="image">
+                	
                     	<img id="View" src="/images/uploadImg.png" width="350px" />
                     </label>
 				<br/>
@@ -139,6 +140,9 @@
 				<br/>
 				<inline class="row"><font size=4>계좌번호</font> &nbsp;&nbsp;
 				<input type="text" th:field="*{account}" style="width:150px" name ="title" size="20"></inline>
+				<br/>
+				<inline class="row"><font size=4>지역</font> &nbsp;&nbsp;
+				<input type="text" th:field="*{location}" style="width:150px" name ="title" size="20"></inline>
 				<br/>								
 				<div class="row"><font size=4>상태</font></div>
 				<input type="radio" th:field="*{condition}" name ="slvstatus" value="4"><font size=4>매우좋음</font>

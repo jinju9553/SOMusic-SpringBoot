@@ -49,6 +49,7 @@ public class MyProductController {
 		return PRODUCT_INFO;
 	}
 	
+	//구매 리스트
 	@GetMapping(value="/purchase/List")
 	public String purchaseList(HttpServletRequest request, Model model)
 	throws Exception {
@@ -68,7 +69,8 @@ public class MyProductController {
 	}	
 
 
-	@GetMapping(value="/sale/list/product")
+	//판매 리스트
+	@GetMapping(value="/sale/list")
 	public String saleList(HttpServletRequest request, Model model)
 	throws Exception {
 		Login userSession = (Login) WebUtils.getSessionAttribute(request, "userSession");

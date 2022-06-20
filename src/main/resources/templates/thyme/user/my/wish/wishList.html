@@ -15,8 +15,8 @@
 			</div>
 			<ul class="list-group">
 				<li class="list-group-item"><a th:href="@{/user/my}">내 정보 관리</a></li>
-				<li class="list-group-item"><a th:href="@{/user/my/sale/list/product}">중고거래 관리</a></li>
-				<li class="list-group-item"><a th:href="@{/user/my/gp/register/list}">공동구매 관리</a></li>
+				<li class="list-group-item"><a th:href="@{/user/my/sale/list}">중고거래 관리</a></li>
+				<li class="list-group-item"><a th:href="@{/user/my/gp/list}">공동구매 관리</a></li>
 				<li class="list-group-item active"><a>위시리스트 모아보기</a></li>
 			</ul>
 		</div>
@@ -37,10 +37,10 @@
 		<div class="element">
 			<div class="one" th:each="wish : ${wishPrList}">
 				<div class="image_view">
-					<img class="image" src="x.png"/>
+					<img class="image" th:src="@{${wish.pr.image}}"/>
 				</div>
 				<div class="element title">
-					<h5><a class="linkTitle" th:text="${wish.pr.productName}" href="#">제목</a></h5>
+					<h5><a class="linkTitle" th:text="${wish.pr.productName}" th:href="@{/product/info(productId=${wish.pr.productId})}">제목</a></h5>
 				</div>
 				<div class="btnView">
 					<div>

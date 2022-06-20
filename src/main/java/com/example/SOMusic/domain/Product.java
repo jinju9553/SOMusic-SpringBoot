@@ -44,7 +44,7 @@ public class Product implements Serializable {
 	private String sellerId; //추후에 transient를 지우고 Account와 조인
 	@Column(name="artist_name")
 	private String artistName;
-//	private String location;
+	private String location;
 //	private int shippingMethod;
 	
 //	@JoinColumn(name="artist_id")
@@ -63,6 +63,7 @@ public class Product implements Serializable {
 		productId = prReq.getProductId();
 		price = prReq.getPrice();
 		image = filename;
+		location = prReq.getLocation();
 		description = prReq.getDescription();
 		condition = prReq.getCondition();
 		bank = prReq.getBank();
