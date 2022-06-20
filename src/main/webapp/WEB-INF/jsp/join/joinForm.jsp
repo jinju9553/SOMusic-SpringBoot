@@ -106,7 +106,7 @@ function twitter() {
 		if (userSession == 'null') {
 			location.href="<c:url value='/user/loginForm' />";	// 로그인 안되어있으면 로그인 페이지로
 		} else {
-			location.href="<c:url value='/user/my/wish/gp?gpId=${joinReq.groupPurchase.gpId}' />";  // 로그인 상태면 wish 등록
+			location.href="<c:url value='/user/my/wish/gp/add?gpId=${joinReq.groupPurchase.gpId}' />";  // 로그인 상태면 wish 등록
 		}
 	}
 	

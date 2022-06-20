@@ -25,7 +25,7 @@ import com.example.SOMusic.service.JoinService;
 
 @Controller
 @SessionAttributes("userSession")
-@RequestMapping("/user/my/gp")
+@RequestMapping("/user/my")
 public class MyGPController {
 
 	private static final String MY_GP_INFO = "thyme/user/my/gp/myGPInfo";
@@ -76,7 +76,7 @@ public class MyGPController {
 			return new AccountForm(); // POST일 때 실행됨
 	}
 
-	@RequestMapping(value = "/info", method = RequestMethod.GET)
+	@RequestMapping(value = "/gp/info", method = RequestMethod.GET)
 	public String info(@RequestParam("gpId") int gpId, Model model) throws Exception {
 		
 		// 공구 검색
@@ -87,7 +87,7 @@ public class MyGPController {
 		return MY_GP_INFO;
 	}
 
-	@RequestMapping(value = "/register/list", method = RequestMethod.GET)
+	@RequestMapping(value = "/gp/list", method = RequestMethod.GET)
 	public String registerList(HttpServletRequest request,  Model model) throws Exception {
 		
 		Login userSession = (Login) WebUtils.getSessionAttribute(request, "userSession");

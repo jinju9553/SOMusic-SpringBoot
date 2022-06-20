@@ -35,10 +35,10 @@ public class MainController {
 		this.gpSvc= gpSvc;
 	}
 	
-//	@RequestMapping("/")		// '/' -> '/main' 이동
-//	public String goMain() {
-//		return "redirect:" + MAIN;
-//	}
+	@RequestMapping("/")		// '/' -> '/main' 이동
+	public String goMain() {
+		return "redirect:" + MAIN;
+	}
 	
 	@RequestMapping(value="/main", method = RequestMethod.GET)
 	public String showMainList(Model model) {
