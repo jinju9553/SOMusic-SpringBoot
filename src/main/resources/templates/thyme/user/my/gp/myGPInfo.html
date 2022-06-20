@@ -116,7 +116,7 @@ function fnExcelReport(id, title) {
 				<td class="tb" th:text="${join.refundAccount}">환불 계좌</td>
 				<td class="tb" th:text="${join.shippingRequest}">기타 정보</td>
 				<td class="tb">
-					 <form id="updateStatus" th:action="@{/user/my/gp/join/status/update}" method="POST">
+					 <form id="updateStatus" th:action="@{/user/my/join/status/update}" method="POST">
 						<input type="hidden" id="joinId" name="joinId" th:value="${join.joinId}" />
 						<input type="hidden" id="gpId" name="gpId" th:value="${gp.gpId}" />
 						<select name="status" class="status">
@@ -137,7 +137,7 @@ function fnExcelReport(id, title) {
 	</div>
 	<div style="height:10px;"></div>
 	<div th:unless="${#lists.isEmpty(gp.joinList)}" style="text-align:right;">
-		<form id="updateAllStatus" th:action="@{/user/my/gp/join/status/all/update}" method="POST">
+		<form id="updateAllStatus" th:action="@{/user/my/join/status/all/update}" method="POST">
 			<input type="hidden" id="gpId" name="gpId" th:value="${gp.gpId}" />
 			<select name="status" class="status">
 				<option value="none">==상태 변경==</option>
