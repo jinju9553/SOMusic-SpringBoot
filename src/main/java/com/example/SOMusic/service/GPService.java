@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.SOMusic.controller.GPRequest;
 import com.example.SOMusic.dao.GPDao;
-import com.example.SOMusic.dao.WishGPDAO;
+import com.example.SOMusic.dao.WishGPDao;
 import com.example.SOMusic.domain.GroupPurchase;
 import com.example.SOMusic.domain.PKWishGP;
 import com.example.SOMusic.domain.WishGroupPurchase;
@@ -27,7 +27,7 @@ public class GPService {
 	private WishGPRepository wishGpRepository;
 	
 	@Autowired
-	private WishGPDAO wishDao;
+	private WishGPDao wishDao;
 	
 	public void insertGP(GroupPurchase gp) {
 		dao.insertGP(gp);

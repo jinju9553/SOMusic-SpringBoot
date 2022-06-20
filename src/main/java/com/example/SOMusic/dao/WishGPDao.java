@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.example.SOMusic.domain.WishGroupPurchase;
 
 @Repository
-public class WishGPDAO {
+public class WishGPDao {
 
 	@PersistenceContext
 	private EntityManager em;
