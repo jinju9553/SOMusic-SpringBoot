@@ -1,7 +1,5 @@
 package com.example.SOMusic.controller;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +18,8 @@ import org.springframework.web.util.WebUtils;
 
 import com.example.SOMusic.domain.Account;
 import com.example.SOMusic.domain.Login;
-import com.example.SOMusic.domain.Purchase;
 import com.example.SOMusic.service.AccountFormValidator;
 import com.example.SOMusic.service.AccountService;
-import com.example.SOMusic.service.PurchaseService;
 
 @Controller
 @SessionAttributes({"userSession", "tempSession"})

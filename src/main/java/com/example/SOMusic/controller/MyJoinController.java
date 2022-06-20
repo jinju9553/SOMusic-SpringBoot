@@ -4,7 +4,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.example.SOMusic.domain.Join;
 import com.example.SOMusic.service.JoinService;
+import com.example.SOMusic.service.JoinValidator;
 
 @Controller
 @SessionAttributes("userSession")
@@ -42,6 +45,12 @@ public class MyJoinController {
 		return new Object[] { 1800, 3000, 6000 };
 	}
 	
+	@Autowired
+	private JoinValidator validator;
+	public void setValidator(JoinValidator validator) {
+		this.validator = validator;
+	}
+	
 	@GetMapping("/info/{joinId}")
 	public String showForm() {
 		return JOIN_INFO;
@@ -61,12 +70,17 @@ public class MyJoinController {
 	@PostMapping("/info/{joinId}")
 	public String update(
 			@ModelAttribute("joinInfoReq") Join join,
-			BindingResult result) throws Exception { 
-		//주의: form으로부터 받은 gp가 없기 때문에 gpId는 null
+			BindingResult result, Model model) throws Exception { 
 
-		//if (result.hasErrors()) {
-		//	return JOIN_INFO;
-		//}
+		validator.validate(join, result);
+
+		if (result.hasErrors()) {
+			for ( ObjectError r :  result.getAllErrors()) {
+				System.out.println(r);
+			}
+			model.addAttribute("joinInfoReq", join);
+			return JOIN_INFO;
+		}
 		
 		joinService.modifyJoin(join);
 

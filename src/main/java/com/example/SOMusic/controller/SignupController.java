@@ -23,7 +23,7 @@ import com.example.SOMusic.service.AccountService;
 @Controller
 @SessionAttributes("userSession")
 @RequestMapping("/user/register")
-public class RegisterController {
+public class SignupController {
 	
 	private static final String REGISTER_FORM = "thyme/user/account/registerForm";
 	

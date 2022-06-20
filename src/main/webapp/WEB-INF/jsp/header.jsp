@@ -51,11 +51,11 @@
 			</td>
 			
 			<td>
-				<a href="<c:url value='/product/register' />">상품 등록</a>
+				<a href="<c:url value='/product/register' />"><input class="btn" type="button" value="상품 등록하기"></a>
 			</td>
 			
 			<td>
-				<a href="<c:url value='/gp/register' />">상품 등록</a>
+				<a href="<c:url value='/gp/register' />"><input class="btn" type="button" value="공구 등록하기"></a>
 			</td>
 			
 			<td class="txRight"> <!-- 회원가입, 로그인 등 메뉴 위치 -->
