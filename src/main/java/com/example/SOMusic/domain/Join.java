@@ -84,4 +84,12 @@ public class Join implements Serializable {
 	@ManyToOne(cascade = CascadeType.ALL) //Many가 Join, One이 GroupPurchase
 	@JoinColumn(name="grouppurchase_id") //DB 상에서 FK의 이름
 	private GroupPurchase groupPurchase; //주최자 정보 포함
+	
+	public boolean matchesZipcode() {
+		return zipcode.matches("^\\d{5}$");
+	}
+	
+	public boolean matchesPhone() {
+		return phone.matches("^01([0-9])(\\d{3,4})(\\d{4})$");
+	}
 }

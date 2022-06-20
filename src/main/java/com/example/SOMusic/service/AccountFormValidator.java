@@ -39,5 +39,15 @@ public class AccountFormValidator implements Validator {
 				errors.reject("PASSWORD_MISMATCH", "*패스워드가 일치하지 않습니다.");
 			}
 		}
+		
+		if(account.getPhone() != null && account.getPhone().length() > 0) {
+			if(!account.matchesPhone())
+				errors.rejectValue("account.phone", "PHONE_NOT_CORRECT", "*잘못된 형식입니다. ex)01011113333, 0112224444");
+		}
+		
+		if(account.getZipcode() != null && account.getZipcode().length() > 0) {
+			if(!account.matchesZipcode())
+				errors.rejectValue("account.zipcode", "ZIPCODE_NOT_CORRECT", "*잘못된 형식입니다. ex)12345");
+		}
 	}
 }

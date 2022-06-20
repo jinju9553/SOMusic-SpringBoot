@@ -27,4 +27,12 @@ public class Account implements Serializable {
 	private String phone;
 	private String email;
 	private double rate;
+	
+	public boolean matchesZipcode() {
+		return zipcode.matches("^\\d{5}$");
+	}
+	
+	public boolean matchesPhone() {
+		return phone.matches("^01([0-9])(\\d{3,4})(\\d{4})$");
+	}
 }

@@ -58,4 +58,11 @@ public class Purchase implements Serializable {
 	@JoinColumn(name="product_id") //DB 상에서 FK의 이름
 	private Product product;
 
+	public boolean matchesZipcode() {
+		return zipcode.matches("^\\d{5}$");
+	}
+	
+	public boolean matchesPhone() {
+		return phone.matches("^01([0-9])(\\d{3,4})(\\d{4})$");
+	}
 }
