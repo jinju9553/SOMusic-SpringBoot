@@ -31,6 +31,7 @@ import com.example.SOMusic.service.JoinValidator;
 @RequestMapping("/join")
 public class JoinController {
 	private static final String JOIN_FORM = "join/joinForm";
+	private static final String JOIN_DONE = "thyme/join/joinDone"; 
 	
 	@Autowired
 	private JoinService joinService;
@@ -145,6 +146,6 @@ public class JoinController {
 		
 		joinService.registerJoin(join);
 
-		return "redirect:/" + "join/{gpId}";
+		return JOIN_DONE;
 	}
 }

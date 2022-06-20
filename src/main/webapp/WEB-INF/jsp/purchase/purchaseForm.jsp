@@ -36,33 +36,45 @@
   <form:errors cssClass="error" /> <br><br>
   
   <script>
-  	function setAddress(event) {
-  		if(event.target.value == '0') {
-  			console.log("주문자와 동일한 주소");
-  			//다시 호출
-  		}
-  		else if(event.target.value == '1') {
-  			console.log("새 주소 입력을 위해 폼 초기화");
-  			$(".shipping").children().next().children().val(" ");
-  		}
+  	function setAddress() {
+  		console.log("주문자와 동일"); //radio 클릭을 반복하면 event.target이 사라짐
+  		$("#consumerName").val("${userSession.account.userName}");
+  		$("#phone").val("${userSession.account.phone}");
+  		$("#zipcode").val("${userSession.account.zipcode}");
+  		$("#address").val("${userSession.account.address}");
   	}
+  	
+  	function clearAddress() {
+  		console.log("새 주소 입력을 위해 폼 초기화");
+		$(".shipping").children().next().children().val(" ");
+  	}
+  	
+  	$(document).ready(function() {
+  		var temp = $('input:radio[name="shippingMethod"]:checked').val();
+  		console.log(temp);
+  		if(temp == '0') { //init
+  			console.log("직거래");
+  			$("#location").show();
+  			$(".hide").hide();
+  		}
+  		else if(temp == '1') {
+  			console.log("택배");
+  			$("#location").hide();
+  			$(".hide").show();
+  		}
+  	});
   	
   	function setShippingMethod(event) {
   		if(event.target.value == '0') {
   			console.log("직거래");
   			$("#location").show();
-  			$(".shipping").hide();
+  			$(".hide").hide();
   		}
   		else if(event.target.value == '1') {
   			console.log("택배");
   			$("#location").hide();
-  			$(".shipping").show();
+  			$(".hide").show();
   		}
-  	}
-  	
-  	function setPaymentOption(event) {
-		console.log("선택한 버튼은 " + event.target.value);
-		//value 값에 따라 해당하는 결제 수단으로 이동(or 기타 처리)
   	}
   </script>
   
@@ -75,7 +87,7 @@
   		<td> <div class="color_purple" style="height: auto; width: 200%; border-top:1px solid; margin-bottom: 5%;"></div> </td>
   	</tr>
   	
-  	<tr> <!-- padding은 나중에 별도의 CSS 파일로 & 파일 경로 및 값은 product.name 등으로 접근 -->
+  	<tr>
   		<td rowspan="3"> <img id="noImage" src="<c:url value='../images/purchase/noImage.png'/>"> </td>
   	</tr>
   	
@@ -99,26 +111,24 @@
     <tr>
       <td>거래 방식</td>
       <td>
-      	<input type='radio' name='shippingMethod' value='0' onclick='setShippingMethod(event)'/> 직거래
-      	<input type='radio' name='shippingMethod' value='1' onclick='setShippingMethod(event)'/> 택배
-		<%-- <form:radiobuttons items="${shippingOption}" path="shippingOption"/> --%>
+      	<form:radiobutton path='shippingMethod' name="shippingMethod" value='0' onclick='setShippingMethod(event)'/> 직거래
+      	<form:radiobutton path='shippingMethod' name="shippingMethod" value='1' onclick='setShippingMethod(event)'/> 택배
       </td> 
     </tr>
     
     <c:if test="${!empty userSession.account}">
-    <tr class="shipping">
+    <tr class="shipping hide">
       <td>배송지 선택</td>
       <td>
-      	<input type='radio' name='shippingOption' value='0' onclick='setAddress(event)'/> 주문자와 동일
-      	<input type='radio' name='shippingOption' value='1' onclick='setAddress(event)'/> 신규 배송지
-		<%-- <form:radiobuttons items="${shippingOption}" path="shippingOption"/> --%>
+      	<input type='radio' name='shippingOption' onclick='setAddress()' checked="checked"/> 주문자와 동일
+      	<input type='radio' name='shippingOption' onclick='clearAddress()'/> 신규 배송지
       </td>
     </tr>
     </c:if>
   	
-    <tr class="shipping">
+    <tr class="shipping hide">
       <td>이름</td>
-      <td><form:input path="consumerName" value="${account.userName}"/> 
+      <td><form:input path="consumerName" value="${account.userName}" id="consumerName"/> 
         <form:errors path="consumerName"/></td>
     </tr>
     
@@ -128,21 +138,21 @@
         <form:errors path="location"/></td>
     </tr>
     
-    <tr>
+    <tr class="shipping">
       <td>휴대폰번호</td>
-      <td><form:input path="phone" value="${account.phone}"/>
+      <td><form:input path="phone" value="${account.phone}" id="phone"/>
         <form:errors path="phone"/></td>
     </tr>
     
-    <tr class="shipping">
+    <tr class="shipping hide">
       <td>우편번호</td>
-      <td><form:input path="zipcode" value="${account.zipcode}"/> 
+      <td><form:input path="zipcode" value="${account.zipcode}" id="zipcode"/> 
         <form:errors path="zipcode"/></td>
     </tr>
     
-    <tr class="shipping">
+    <tr class="shipping hide">
       <td>주소</td>
-      <td><form:input path="address" value="${account.address}"/> 
+      <td><form:input path="address" value="${account.address}" id="address"/> 
         <form:errors path="address"/></td>
     </tr>
     
@@ -151,20 +161,7 @@
       <td><form:textarea path="shippingRequest" placeholder="배송시 요청 사항, 직거래 희망장소 등" cols="20" rows="3"/>
         <form:errors path="shippingRequest"/></td>
     </tr>
-
-	<!-- 세부 항목 2 -->
-    <tr>
-      <td style="padding-top: 5%">
-        <font class="color_purple" size="4"><b>결제수단 선택</b></font>
-      </td>
-    </tr>
-    <tr>
-  		<td> <div class="color_purple" style="height: auto; width: 200%; border-top:1px solid; margin-bottom: 5%;"></div> </td>
-  	</tr>
   </table>
-  <c:forEach var="option" items="${paymentOption}"> <!-- 개인 간의 거래인데 과연 필요할지? -->
-	<input type="button" value="${option}" onClick="setPaymentOption(event)">
-  </c:forEach>
   
   <p style="padding-top: 5%">
 	<button class="hButton"> 등록하기 </button>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<link rel="stylesheet" th:href="@{/style/loginForm.css}" type="text/css" />
+<meta charset="UTF-8">
+<title>회원가입 완료</title>
+</head>
+<body>
+<div th:insert="~{thyme/header}"></div>
+	<div class="container" style="width: 40%;">
+		<div>
+			<h1>회원가입 완료</h1>
+				<p>가입을 축하드립니다, 
+					<b>${userSession.account.userName}(${userSession.account.userId})</b>님.</p>
+				<a th:href="@{/user/loginForm}"> 
+					<input class="btn" type="button" value="로그인 하기"></a>
+				<br>
+		</div>
+	</div>
+</body>
+</html>

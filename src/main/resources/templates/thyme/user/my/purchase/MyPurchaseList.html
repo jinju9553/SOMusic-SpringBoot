@@ -56,9 +56,6 @@
 					</div>
 					
 					<div th:unless="${purchase.product.status == 0}">
-						<div class="element" style="height:20px;">
-							상태: <a style="font-size: 14px" th:text="${purchase.product.status}"></a>
-						</div>
 						<div class="element" style="text-align: center;">
 							<a style="font-size: 12px">판매자가 폼을<br>확인했습니다</a>
 						</div>
