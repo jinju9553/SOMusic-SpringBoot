@@ -26,9 +26,11 @@ import com.example.SOMusic.service.WishProductService;
 public class WishController {
 	
 	//private static final String WISH_SUCCESS = "/product/register/success";  
-	private static final String WISH_RE = "/product/info";
-	private static final String WISH_PRODUCT_LIST ="thyme/user/my/wish/wishList";
-	
+
+	private static final String WISH_RE = "/product/info/";
+	private static final String WISH_PRODUCT_LIST ="thyme/user/my/wish/myWishProductList";
+
+
 	private static final String WISH_GP_LIST = "thyme/user/my/wish/myWishGPList";
 	private static final String WISH_GP_LIST_URI = "/user/my/wish/gp/list"; // 위시 리스트에서 삭제 -> 위시 리스트로
 	private static final String JOIN = "/join/";		// join 페이지로 uri 이동
@@ -65,13 +67,11 @@ public class WishController {
 			HttpServletRequest request,
 			@RequestParam("productId") int productId,
 			 Model model) throws Exception {
-		//int productId = Integer.parseInt(request.getParameter("productId"));
-		
+
 		Login userSession = (Login) WebUtils.getSessionAttribute(request, "userSession");
 			
 		WishProduct wish = new WishProduct();
 		wish.setProductId(productId);
-//		wish.setUserId("panda");
 		wish.setUserId(userSession.getAccount().getUserId());
 				
 		wishproductService.addWishproduct(wish);
@@ -93,7 +93,7 @@ public class WishController {
 			
 		wishproductService.deleteWishproduct(userSession.getAccount().getUserId(), productId);
 		
-		return "redirect" + WISH_PRODUCT_LIST; //
+		return  WISH_PRODUCT_LIST; //
 	}
 
 	// 공구 위시

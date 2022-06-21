@@ -80,6 +80,9 @@ public class ProductRequest implements Serializable {
 		sellerId = p.getSellerId();
 		price = p.getPrice();
 		image = getFile(p.getImage());
+		bank = p.getBank();
+		shippingCost = p.getShippingCost();
+		account = p.getAccount();		
 		description = p.getDescription();
 		condition = p.getCondition();
 		artistName = p.getArtistName();
