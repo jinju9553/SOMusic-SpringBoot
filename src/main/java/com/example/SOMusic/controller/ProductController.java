@@ -75,7 +75,7 @@ public class ProductController implements ApplicationContextAware{
 	     String PrId = request.getParameter("productId"); 
 	     System.out.println("폼백킹에서 출력합니다 : " + PrId);
 		 ProductRequest prReq = new ProductRequest();
-		 prReq.setProductId(Integer.parseInt(PrId));
+		 
 		 
 		 System.out.println("prReq의 ProductId : " + prReq.getProductId());
 		 
@@ -85,6 +85,7 @@ public class ProductController implements ApplicationContextAware{
 		  //있으면 update
 		  else {
 			  prReq.initProductReq(prSvc.findProductByProductId(Integer.parseInt(PrId))); 
+			  prReq.setProductId(Integer.parseInt(PrId));
 			  return prReq; 
 			  }
 		  }
