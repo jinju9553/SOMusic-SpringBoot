@@ -41,8 +41,6 @@
 <div align="center">
 <script type="text/javascript">
 	$(document).ready(function() {
-		$(".hidden").hide();
-		
 		$('.starRev span').click(function(){
 			$(this).parent().children('span').removeClass('on');
 			$(this).addClass('on').prevAll('span').addClass('on');
@@ -88,6 +86,24 @@
 			$(".methodAnchor").text('정보 없음');
 		}
 		
+		var condition = ${purchaseInfoReq.product.condition};
+		switch (condition) { 
+		  case 1:
+			$(".conditionAnchor").text('나쁨');
+		    break;
+		  case 2:
+			$(".conditionAnchor").text('보통');
+		    break;
+		  case 3:
+			$(".conditionAnchor").text('좋음');
+			break;
+		  case 4: 
+			$(".conditionAnchor").text('매우 좋음');
+			break;
+		  default:
+			$(".conditionAnchor").text('정보 없음');
+		}
+		
 		if (method == 0) { //직거래에서는 필요 X
 			$(".methodAnchor").parent().parent().next().hide();
 			$(".shippingMenu").hide();
@@ -102,7 +118,8 @@
 <form:form modelAttribute="purchaseInfoReq" action="${targetUrl}" method="post">
 	  <form:errors cssClass="error"/> <br><br>
 	  <input type="hidden" id="productId" name="productId" value="${purchaseInfoReq.product.productId}"/>
-  <table class="n13" width:730px;">
+	  <form:input type="hidden" path="regDate"/>
+  <table class="n13" style="width: 770px;">
   	<!-- 상품 정보 -->
   	<tr>
   		<td> <font class="color_purple" size="8"><b>상품 상세 내역</b></font> </td>
@@ -127,13 +144,18 @@
   		</td>
   	</tr>
   	<tr>
-  		<td style="padding-bottom: 10;"> 거래 지역: </td>
+  		<td style="padding-bottom: 10;"> 거래 지역: 
+  			<c:if test="${purchaseInfoReq.product.location eq null}">
+  				없음 </c:if>
+  			<c:if test="${purchaseInfoReq.product.location ne null}">
+  				${purchaseInfoReq.product.location} </c:if>
+  		</td>
   	</tr>
   	<tr>
   		<td style="padding-bottom: 10;"> 거래 상태: <a class="statusAnchor"></a></td>
   	</tr>
   	<tr>
-  		<td style="padding-bottom: 10;"> 상품 상태: ${purchaseInfoReq.product.condition} </td>
+  		<td style="padding-bottom: 10;"> 상품 상태: <a class="conditionAnchor"></a> </td>
   	</tr>
   	
   	<!-- 세부 항목 1 -->
@@ -146,7 +168,7 @@
       <td>- 판매자: ${purchaseInfoReq.product.sellerId} </td>
     </tr>  
     <tr>
-      <td>- 발매 연도: (날짜)</td>
+      <td>- <a href="/product/info/?productId=${purchaseInfoReq.product.productId}">상품 정보 바로가기></a></td>
       <td>- 판매자 별점: ${userSession.account.rate}</td>
     </tr>
     
@@ -172,7 +194,7 @@
   	</tr>
   	
   	<tr>
-    	<td>폼 작성일자: ${purchaseInfoReq.regDate}</td>
+    	<td> 폼 작성 날짜: <fmt:formatDate value="${purchaseInfoReq.regDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>	
     </tr> 
   	
   	<tr>
@@ -300,7 +322,7 @@
 			  <span class="starR2"></span>
 			</div>
 		  </td>
-		  <td style="padding-top: 5%; colspan="2" align="left"> <button>등록</button> </td>
+		  <td style="padding-top: 5%;"> <button class="btn">등록</button> </td>
 	    </tr> 
     </c:if> 
   </table>

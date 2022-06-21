@@ -40,7 +40,8 @@ function twitter() {
 				  q = Number(q) + 1;
 				  $(".quantity").val(q);
 				  $(".quantity").text(q);
-				  $(".totalAmount").text(p * q);
+				  //$(".totalAmount").text(p * q);
+				  
 				  calculateSum(); //만약 배송비가 설정되지 않았다면 상품 총액만 계산
 			  }
 		  });
@@ -53,10 +54,32 @@ function twitter() {
 				  q = Number(q) - 1;
 				  $(".quantity").val(Number(q) - 1);
 				  $(".quantity").text(Number(q) - 1);
-				  $(".totalAmount").text(p * q);
+				  //$(".totalAmount").text(p * q);
+				  
 				  calculateSum(); //만약 배송비가 설정되지 않았다면 상품 총액만 계산
 			  }
 		  });
+		  
+		  function calculateByAjax() {
+			  $.ajax({
+					type : "POST",
+					url : "/join/total",
+					data : {
+						"quantity" : $(".quantity").val(),
+						"price" : $("#price").val(),
+						"shippingCost" : $
+					},
+					success : function(data) {    
+						if (data == false) {
+							if ($('#id').val() != '') { //공백값이 아닐 때
+								$('#idAlert').text("*사용 가능한 아이디입니다.");
+							}
+						} else {
+							$('#idAlert').text("*중복된 아이디입니다.");
+						}
+					}
+				})
+		  }
 		  	  
 		//radio buttoun 옆의 label 변경
 		$("#shippingMethod1").next().text('준등기 (+${shippingCost[0]}원)');
@@ -72,10 +95,10 @@ function twitter() {
 	  		$("#address").val("${userSession.account.address}");
 	  	}
 	  	
-	  	function clearAddress() {
+	  function clearAddress() {
 	  		console.log("새 주소 입력을 위해 폼 초기화");
 			$(".shipping").children().val(" ");
-	  	}
+	  }
 	  
 	  function radioClick (event) {
 		$("#shippingCost").show();
@@ -218,6 +241,16 @@ function twitter() {
   			<a>${joinReq.groupPurchase.category}</a> 
   		</td>  
   	</tr>
+  	
+  	<!-- 세부 항목 1 -->
+    <tr>
+      <td style="padding-top: 5%;"> <font class="color_purple" size="4"><b>시작 일자</b></font> </td>
+      <td style="padding-top: 5%;"> <font class="color_purple" size="4"><b>종료 일자</b></font> </td>
+    </tr>   
+    <tr>
+      <td>- ${joinReq.groupPurchase.startDate}</td>
+      <td>- ${joinReq.groupPurchase.endDate}</td>
+    </tr>   
   	
   	<!-- 상세 설명 -->
   	<tr>

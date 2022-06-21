@@ -26,7 +26,7 @@
 </script>
 
 <body bgcolor="white">
-	<table width="100%">
+	<table style="width: 100%;">
 		<tr>
 			<td class="txLeft">
 				<a href="<c:url value='/main'/>"><img id="logo" src="<c:url value="../../images/배너(임시).png"/>"></a>
@@ -77,7 +77,7 @@
 			</td>
 		</tr>
 	</table>
-	<div class="hNavi">
+	<div class="hNavi" style="margin-bottom:5%;">
 		 <nav class="stroke">
 		    <ul class="hUl">
 		      <li class="hLi"><a href="<c:url value="/main"/>">홈</a></li>

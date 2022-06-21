@@ -21,6 +21,8 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -77,7 +79,7 @@ public class Join implements Serializable {
 	private String refundHolder; 
 	
 	@Column(name="reg_date", nullable=false)
-	@Temporal(TemporalType.TIMESTAMP)
+	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	private Date regDate;
 	
 	//12강 p51: ManyToOne에는 mappedBy 속성 불필요

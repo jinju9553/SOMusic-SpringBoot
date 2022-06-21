@@ -7,6 +7,11 @@
 </head>
 <body>
 <div th:insert="~{thyme/header}"></div>
+<script>
+	function deleteAlert() {
+		window.confirm("정말로 삭제하시겠습니까?\n삭제 후 복구할 수 없습니다.");
+	}
+</script>
 <div id="out">
 	<div class="lnb" style="float: left;">
 		<div>
@@ -46,6 +51,19 @@
 							href="#"
 							th:href="@{/join/info/{joinId}(joinId=${join.joinId})}">제목</a>
 					</h5>
+				</div>
+				<div class="btnView" style="width:15%;">
+					<div th:if="${join.status <= 1}"> 
+						<form action="#" method="GET" th:action="@{/join/delete/{joinId}(joinId=${join.joinId})}">
+							<input type="hidden" id="joinId" name="joinId" th:value="${join.joinId}" />
+							<input class="btnDelete" type="submit" value="&#215;" onClick="return deleteAlert();" />
+						</form>
+					</div>
+					<div th:unless="${join.status <= 1}">
+						<div class="element" style="text-align: center;">
+							<a style="font-size: 12px">주최자가 폼을<br>확인했습니다</a>
+						</div>
+					</div>
 				</div>
 			</div>
 

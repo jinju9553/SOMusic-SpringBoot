@@ -18,6 +18,6 @@ public interface JoinRepository extends JpaRepository<Join, Integer> {
 	
 	List<Join> findAllByGroupPurchaseGpId(int gpId);
 
-	void deleteByJoinId(String joinId);
+	void deleteByJoinId(int joinId);
 	
 }

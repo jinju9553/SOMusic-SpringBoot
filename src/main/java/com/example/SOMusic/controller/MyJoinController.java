@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.example.SOMusic.domain.Join;
@@ -85,5 +86,16 @@ public class MyJoinController {
 		joinService.modifyJoin(join);
 
 		return "redirect:/" + "join/info/{joinId}"; //본래의 경로로 redirection
+	}
+	
+	@GetMapping("/delete/{joinId}")
+	public String delete(@PathVariable("joinId") int joinId) throws Exception {
+
+		Join join = joinService.findJoinByJoinId(joinId);
+		join.setGroupPurchase(null); //연관된 객체 해제
+		
+		joinService.deleteJoin(joinId);
+		
+		return "redirect:/" + "user/my/join/list";
 	}
 }

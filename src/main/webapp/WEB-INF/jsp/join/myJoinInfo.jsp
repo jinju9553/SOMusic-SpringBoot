@@ -104,6 +104,7 @@
   	<form:input type="hidden" path="groupPurchase" />
   	<form:input type="hidden" path="consumerBank"/>
   	<form:input type="hidden" path="status"/>
+  	<form:input type="hidden" path="regDate"/>
   <table class="n13">
   	<!-- 상품 정보 -->
   	<tr>
@@ -131,7 +132,7 @@
   		<td style="padding-bottom: 10;"> 진행 상태: <a class="statusAnchor"></a></td>
   	</tr>
   	<tr>
-  		<td> 폼 작성 날짜: ${joinInfoReq.regDate} </td>
+  		<td> 폼 작성 날짜: <fmt:formatDate value="${joinInfoReq.regDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>	
   	</tr>
   	
   	<!-- 세부 항목 1 -->
