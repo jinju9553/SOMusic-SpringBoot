@@ -73,7 +73,7 @@ public class ProductController implements ApplicationContextAware{
   @ModelAttribute("PrReq")
   public ProductRequest formBacking(HttpServletRequest request) throws Exception { 
 	     String PrId = request.getParameter("productId"); 
-	     System.out.println("폼백킹에서 출력합니다 : " + PrId);
+	     System.out.println("PrReq의 PrId : " + PrId);
 		 ProductRequest prReq = new ProductRequest();
 		 
 		 

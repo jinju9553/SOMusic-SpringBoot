@@ -27,11 +27,15 @@ function twitter() {
 			    color: #FF6464;
 			    border-color: #ffeded;
 			}
-		
+			
+	.button_parents {
+		position:relative;
+	
+	}
 	#noInterest {
-				position: relative;
-				left: 80%;
-	    		top: 63%;
+				position: absolute;
+				left: 51%;
+	    		top: 82%;
 			    border: 2px solid;
 			    border-color: #d2d2d2;
 			    width: 70px;
@@ -90,6 +94,7 @@ function twitter() {
     	height: 20px;
     }
     
+    
     .btn {
     	font-size: 50px;
     	font-weight: bold;
@@ -129,10 +134,10 @@ function twitter() {
 <div th:insert="~{thyme/header}"></div>
 <div id="out">
 	<div class="top_view">
-		<tr> <td>
-	  		 <a th:href="@{/user/my/wish/product/add(productId=${viewPr.productId})}"><button id="noInterest">
+		<tr> <td class="button_parents">
+	  		 <a th:href="@{/user/my/wish/product/add(productId=${viewPr.productId})}">
+	  		 <button id="noInterest">
 	  		❤</button></a> </td>
-	  		
 	  		<div style="float: right; margin-top: 10px; margin-right: 10px;">
 				<a th:onClick="twitter()"><img style="width:30px;" th:src="@{/images/icon-twitter.png}"></a>
 	  		</div>
@@ -166,6 +171,7 @@ function twitter() {
 					<div class=comment>코멘트 :&nbsp </div>
 					<div id="sw" th:text="${viewPr.description}">			
 				</div>
+				
 				<div class="row">
 					<br>
 					<br>
@@ -183,8 +189,8 @@ function twitter() {
 					<a th:href="@{/purchase/{productId}(productId=${viewPr.productId})}">
 					<button class="btn" type="button">구매하기</button></a>
 					</div>					
-					
 				</div>
+				
 			</div>
 		</div>
 	</div>
