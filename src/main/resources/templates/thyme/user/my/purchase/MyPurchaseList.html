@@ -62,6 +62,15 @@
 					</div>
 				</div>
 			</div>
+			
+			<div class="element" th:if="${#lists.isEmpty(pList)}">
+				<div class="element" style="height: 40px;"></div>
+				<div class="element" style="text-align: center;">
+					<a>아직 구매한 중고상품 내역이 없습니다.<br></a>
+					<button class="hButton" style="margin-top: 5%;"
+						onclick="location.href ='/product/register'">중고상품 둘러보기</button>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
