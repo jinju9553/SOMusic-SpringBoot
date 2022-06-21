@@ -54,6 +54,7 @@ public class PurchaseServiceImpl implements PurchaseService {
 	}
 
 	@Override
+	@Transactional
 	public void deletePurchase(int purchaseId) {
 		purchaseRepository.deleteByPurchaseId(purchaseId);
 	}

@@ -11,7 +11,7 @@ public interface JoinService {
 	
 	void modifyJoin(Join join);
 	
-	void deleteJoin(String joinId);
+	void deleteJoin(int joinId);
 
 	//void updateStatus(String joinId);
 	

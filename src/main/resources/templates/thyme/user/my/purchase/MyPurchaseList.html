@@ -7,8 +7,12 @@
 <title>중고 거래 리스트</title>
 </head>
 <body>
-<div th:insert="~{thyme/header}">
-</div>
+<div th:insert="~{thyme/header}"></div>
+<script>
+	function deleteAlert() {
+		window.confirm("정말로 삭제하시겠습니까?\n삭제 후 복구할 수 없습니다.");
+	}
+</script>
 <div id="out">
 	<div class="lnb" style="float: left;">
 		<div>
@@ -42,33 +46,31 @@
 					<img class="image" src="@{${purchase.product.image}}"/>
 				</div>
 				<div class="element title">
-					<h5><a class="linkTitle" th:text="${purchase.product.productName}" href="#" th:href="@{/purchase/info/{purchaseId}(purchaseId=${purchase.purchaseId})}">제목</a></h5>
+					<h5><a class="linkTitle" th:text="${purchase.product.productName}" 
+						href="#" th:href="@{/purchase/info/{purchaseId}(purchaseId=${purchase.purchaseId})}">제목</a></h5>
 				</div>
 				<div class="btnView" style="width:15%;">
-					<div th:if="${purchase.product.status == 0}">
-					<!--  
-						<form action="#" method="GET" th:action="@{}">
-							<input type="hidden" id="productId" name="productId" th:value="${}" />
-							<input class="btnDelete" type="submit" value="&#215;" />
-						</form>
-					-->
-						
-					</div>
-					
-					<div th:unless="${purchase.product.status == 0}">
-						<div class="element" style="text-align: center;">
-							<a style="font-size: 12px">판매자가 폼을<br>확인했습니다</a>
+					<div th:unless="${#lists.isEmpty(pList)}">
+						<div th:if="${purchase.product.status == 0}"> 
+							<form action="#" method="GET" th:action="@{/purchase/delete/{purchaseId}(purchaseId=${purchase.purchaseId})}">
+								<input type="hidden" id="purchaseId" name="purchaseId" th:value="${purchase.purchaseId}" />
+								<input class="btnDelete" type="submit" value="&#215;" onClick="return deleteAlert();"/>
+							</form>
+						</div>
+						<div th:unless="${purchase.product.status == 0}">
+							<div class="element" style="text-align: center;">
+								<a style="font-size: 12px">판매자가 폼을<br>확인했습니다</a>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-			
 			<div class="element" th:if="${#lists.isEmpty(pList)}">
 				<div class="element" style="height: 40px;"></div>
 				<div class="element" style="text-align: center;">
-					<a>아직 구매한 중고상품 내역이 없습니다.<br></a>
+					<a>아직 구매한 중고상품이 없습니다.<br></a>
 					<button class="hButton" style="margin-top: 5%;"
-						onclick="location.href ='/product/register'">중고상품 둘러보기</button>
+						onclick="location.href ='/main/product'">중고상품 둘러보기</button>
 				</div>
 			</div>
 		</div>

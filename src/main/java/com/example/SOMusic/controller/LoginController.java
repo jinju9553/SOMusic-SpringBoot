@@ -33,7 +33,7 @@ public class LoginController {
 		Account account = accountService.getAccount(userId, password); //DB의 아이디 & 비밀번호와 대조
 		if (account == null) {
 			return new ModelAndView("Error", "message", 
-					"Invalid username or password.  Signon failed.");
+					"아이디 또는 패스워드가 잘못 되었습니다.  다시 시도해주세요.");
 		}
 		else {
 			Login userSession = new Login(account);

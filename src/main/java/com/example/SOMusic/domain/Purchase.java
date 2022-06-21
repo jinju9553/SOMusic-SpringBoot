@@ -16,6 +16,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -51,7 +53,7 @@ public class Purchase implements Serializable {
 	private String shippingRequest;
 	
 	@Column(name="reg_date", nullable=false)
-	@Temporal(TemporalType.TIMESTAMP)
+	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	private Date regDate;
 	
 	@ManyToOne(cascade = CascadeType.ALL) //Many가 Purchase, One이 Product

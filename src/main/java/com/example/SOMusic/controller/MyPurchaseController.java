@@ -84,6 +84,14 @@ public class MyPurchaseController {
 		return "redirect:/" + "purchase/info/{purchaseId}"; //본래의 경로로 redirection
 	}
 	
+	@GetMapping("/delete/{purchaseId}")
+	public String delete(@PathVariable("purchaseId") int purchaseId) throws Exception {
+
+		purchaseService.deletePurchase(purchaseId);
+		
+		return "redirect:/" + "user/my/purchase/list";
+	}
+	
 	//8.PurchaseView(Confirm) - 사용자가 작성한 구매폼을 판매자가 승인함
 	//1.폼 띄우고
 	//2.확인 버튼을 누르면 3.DAO로 넘어가서 status만 수정!

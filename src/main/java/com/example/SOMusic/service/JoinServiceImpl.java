@@ -70,9 +70,9 @@ public class JoinServiceImpl implements JoinService{
 		newJoin.setRefundHolder(joinReq.getRefundHolder());
 	}
 
-	@Transactional
 	@Override
-	public void deleteJoin(String joinId) {
+	@Transactional
+	public void deleteJoin(int joinId) {
 		joinRepository.deleteByJoinId(joinId);
 	}
 
