@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.util.WebUtils;
 
@@ -123,7 +122,7 @@ public class JoinController {
 			HttpServletRequest request,
 			@PathVariable("gpId") int gpId,
 			@ModelAttribute("joinReq") Join join,
-			BindingResult result, Model model) {
+			BindingResult result, Model model) throws Exception {
 		
 		join.setGroupPurchase(gpService.getGP(gpId));
 		Login userSession = 
@@ -148,12 +147,5 @@ public class JoinController {
 		joinService.registerJoin(join);
 
 		return JOIN_DONE;
-	}
-	
-	@ResponseBody
-	@PostMapping("/total")
-	public int calculateSum() {
-		//만드는 중
-		return 0;
 	}
 }
