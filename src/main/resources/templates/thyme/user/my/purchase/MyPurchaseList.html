@@ -43,7 +43,7 @@
 		<div class="element">
 			<div class="one" th:each="purchase : ${pList}">
 				<div class="image_view">
-					<img class="image" src="@{${purchase.product.image}}"/>
+					<img class="image" th:src="@{${purchase.product.image}}"/>
 				</div>
 				<div class="element title">
 					<h5><a class="linkTitle" th:text="${purchase.product.productName}" 

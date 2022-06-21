@@ -143,11 +143,6 @@ function twitter() {
   </script>
   
   <style>
-  		.img {
-			width: 340px;
-			height: 330px;
-		}
-		
 		.wishBtn {
 			top: 400px;
 			left: 320px;

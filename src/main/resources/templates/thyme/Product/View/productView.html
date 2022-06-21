@@ -54,7 +54,7 @@ function twitter() {
 			    font-weight: bold;
 			    background-color: white;
 			    border-radius: 10px;
-			    
+			    margin-left: 40%;
 		}	
 		
 	#noInterest {
@@ -70,6 +70,7 @@ function twitter() {
 			    color: #a0a0a0;
 			    background-color: white;
 			    border-radius: 10px;
+			    margin-left: 40%;
 			}	    
 	#out {
         width: 1000px;
@@ -120,7 +121,7 @@ function twitter() {
     }
     
     
-    .btn {
+    .btn2 {
     	font-size: 50px;
     	font-weight: bold;
     	color: #ccabaf;
@@ -131,7 +132,7 @@ function twitter() {
     	display:block;
     }
     
-    .btn:hover {
+    .btn2:hover {
     	border-bottom: 2px solid #ccabaf;
     }
     
@@ -153,95 +154,131 @@ function twitter() {
     }
 </style>
 <meta charset="UTF-8">
+<link rel="stylesheet" th:href="@{/style/gpInfo.css}" type="text/css" />
 <title>상세 정보</title>
 </head>
 <body>
-<div th:insert="~{thyme/header}"></div>
-<div id="out">
-
-
-	<div class="top_view">
-		<tr> <td class="button_parents">
-		<!-- 이미 위시 리스트에 있으면 -->
-		<div th:if="${wishPr == null}">
-			<a th:href="@{/user/my/wish/product/add(productId=${viewPr.productId})}">
-	  		 <button id="noInterest" >
-	  		❤</button></a></div>
- 		<div th:if="${wishPr != null}">
- 		<form action="#" method="GET" th:action="@{/user/my/wish/product/delete}"> 
-			<input type="hidden" id="productId" name="productId" th:value="${viewPr.productId}" />
-			<input type="hidden" id="view" name="view" value="view" />	<!--  뷰에서 삭제하는지, 리스트에서 삭제하는지 구분 -->
-			<button type="submit" id="Interest" >
-	  		❤</button></form></div> 
-						
-			<!-- <a th:href="@{/user/my/wish/product/delete(productId=${viewPr.productId})}"> -->
-	  		 	  		
-		</div>	
-
-	  		
-	  		 </td>
+	<div th:insert="~{thyme/header}"></div>
+	<div id="out">
+		<div style="float: right; margin-top: 10px; margin-right: 10px;">
+			<a th:onClick="twitter()"><img style="width: 30px;"
+				th:src="@{/images/icon-twitter.png}"></a>
 		</div>
-		
-		
-		
-	  		<div style="float: right; margin-top: 10px; margin-right: 10px;">
-				<a th:onClick="twitter()"><img style="width:30px;" th:src="@{/images/icon-twitter.png}"></a>
-	  		</div>
-  		</tr>
-		<div class="info_view">
-			<div class="image">
-				<img class="img" th:src="@{${image}}" style="width:100%"/>			
+
+		<div class="info_view" style="width: 100%">
+			<div class="image" style="margin: 10%; position: relative;">
+				<div th:if="${image != null}">
+					<img class="image" th:src="@{${image}}" style="width: 100%" /> 
+				</div>
+				<div th:if="${image == null}">
+					<img class="image" th:src="@{/images/purchase/noImage.png}" style="width: 100%" /> 
+				</div>
+				<input type="hidden" th:value="${image}">
+				
+				<div th:name="wish">
+					<div th:if="${wishPr == null}">
+						<a th:href="@{/user/my/wish/product/add(productId=${viewPr.productId})}">
+							<button id="noInterest">❤</button>
+						</a>
+					</div>
+					<div th:if="${wishPr != null}">
+						<form action="#" method="GET"
+							th:action="@{/user/my/wish/product/delete}">
+							<input type="hidden" id="productId" name="productId"
+								th:value="${viewPr.productId}" /> <input type="hidden" id="view"
+								name="view" value="view" />
+							<!--  뷰에서 삭제하는지, 리스트에서 삭제하는지 구분 -->
+							<button type="submit" id="Interest">❤</button>
+						</form>
+					</div>
+				</div>
 			</div>
+			
 			<div class="info">
-				<div class="row"><h1><p th:text="${viewPr.productName}">음반 제목</p> </h1></div>
-				<div id="blue" class="row"><h2><p th:text="${viewPr.price}">가격</p></h2> </div>
-				<div class="row">아티스트명 :&nbsp;
+				<div class="row">
+					<h1 th:text="${viewPr.productName}">음반 제목</h1>
+				</div>
+				<div id="blue" class="row">
+					<h2>\</h2><h2 th:text="${viewPr.price}">가격</h2>
+				</div>
+				<div class="row">
+					아티스트명 :&nbsp;
 					<div th:text="${viewPr.artistName}"></div>
-<!-- 					 <div th:text="${wishPr.productId}"></div> 
-					 <div th:text="${viewPr.productId}"></div> -->
-					
 				</div>
-				<div id ="comment" class="row">판매자 :&nbsp;
-					<div id="dis" th:text="${viewPr.sellerId}"></div> 
+				<div id="comment" class="row">
+					판매자 :&nbsp;
+					<div id="dis" th:text="${viewPr.sellerId}"></div>
 				</div>
-				<div id ="comment" class="row">지역 :&nbsp;
-					<div id="dis" th:text="${viewPr.location}"></div> 
-				</div>				
+				<div id="comment" class="row">
+					거래지역 :&nbsp;
+					<div id="dis" th:text="${viewPr.location}"></div>
+				</div>
 				<div class="row">
 					<div class="condition">전반적인 상태 :&nbsp;</div>
 					<div id="sw" th:switch="${viewPr.condition}">
-					<span th:case="1">나쁨</span>
-					<span th:case="2">보통</span>
-					<span th:case="3">좋음</span>
-					<span th:case="4">매우 좋음</span>
-				</div><br></div>
-				<div class="row">
-					<div class=comment>코멘트 :&nbsp; </div>
-					<div id="sw" th:text="${viewPr.description}">			
-				</div>
-				
-				<div class="row">
-					<br>
-					<br>
- 					<div th:if="${#strings.equals(buyerId, viewPr.sellerId)}"> 
-					<!-- <a th:href="@{/product/update(productId=${viewPr.productId})}">
-					<input type="hidden" id="productId" name="productId" th:field="*{viewPr.productId}" />
-					<button class="btn" type="button">
-					수정하기</button></a> -->
-					<form id="PrUpdate" action="#" method="GET" th:action="@{/product/update}">
-					<input type="hidden" id="productId" name="productId" th:value="${viewPr.productId}" />
-					<input class="btn" type="submit" value="수정하기" />
-					</form>
+						<span th:case="1">나쁨</span> <span th:case="2">보통</span> <span
+							th:case="3">좋음</span> <span th:case="4">매우 좋음</span>
 					</div>
-					<div th:unless="${#strings.equals(buyerId, viewPr.sellerId)}" >
-					<a th:href="@{/purchase/{productId}(productId=${viewPr.productId})}">
-					<button class="btn" type="button">구매하기</button></a>
-					</div>					
+					<br>
 				</div>
-				
+				<div class="row">
+					<div class=comment>코멘트 :&nbsp;</div>
+					<div id="sw" th:text="${viewPr.description}"></div>
+					<div class="row">
+						<br> <br>
+						<div th:if="${#strings.equals(buyerId, viewPr.sellerId)}" style="padding-top: 20%;">
+							<form id="PrUpdate" action="#" method="GET"
+								th:action="@{/product/update}">
+								<input type="hidden" id="productId" name="productId" th:value="${viewPr.productId}" /> 
+								<button class="hButton">수정하기</button>
+							</form>
+						</div>
+						<div th:unless="${#strings.equals(buyerId, viewPr.sellerId)}" style="padding-top: 20%;">
+							<div th:if="${viewPr.status} == 0">
+								<a th:href="@{/purchase/{productId}(productId=${viewPr.productId})}">
+									<button class="hButton">구매폼 작성하기</button>
+								</a>
+							</div>
+							<div th:unless="${viewPr.status} == 0">
+								<h2>거래중인 상품입니다.</h2>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
+		
+		<div th:if="${#strings.equals(buyerId, viewPr.sellerId)}">
+			<div class="table_view">
+				<table id="list" class="tb tb_mar">
+					<tr class="first_tr">
+						<td class="tb">폼 제출 시간</td>
+						<td class="tb">이름</td>
+						<td class="tb">기타 정보</td>
+						<td class="tb">폼 링크</td>
+					</tr>
+					<tr th:each="purchase : ${viewPr.purchaseList}"
+						th:unless="${#lists.isEmpty(viewPr.purchaseList)}">
+						<td class="tb" th:text="${purchase.regDate}">폼 제출 시간</td>
+						<td class="tb" th:text="${purchase.consumerName}">박솜솜</td>
+						<td class="tb" th:text="${purchase.shippingRequest}">기타 정보</td>
+						<td class="tb" th:if="${purchase.status == 0}">
+							<a th:href="@{/purchase/check/{purchaseId}(purchaseId=${purchase.purchaseId})}">
+								바로가기</a>
+						</td>
+						<td class="tb" th:unless="${purchase.status == 0}">
+							<a th:href="@{/purchase/check/{purchaseId}(purchaseId=${purchase.purchaseId})}">
+								바로가기(승인됨)</a>
+						</td>
+					</tr>
+					<tr th:if="${#lists.isEmpty(viewPr.purchaseList)}">
+						<td class="element" colspan="8"><a>아직 구매자가 없습니다.<br></a>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+
 	</div>
-</div>
 </body>
 </html>
