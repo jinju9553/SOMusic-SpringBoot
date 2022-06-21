@@ -29,8 +29,8 @@ function twitter() {
 			}
 		
 	#noInterest {
-				position:absolute;
-				left: 50%;
+				position: relative;
+				left: 80%;
 	    		top: 63%;
 			    border: 2px solid;
 			    border-color: #d2d2d2;
@@ -170,10 +170,14 @@ function twitter() {
 					<br>
 					<br>
  					<div th:if="${#strings.equals(userSession.getAccount().getUserId(), viewPr.sellerId)}"> 
-					<a th:href="@{/product/update(productId=${viewPr.productId})}">
+					<!-- <a th:href="@{/product/update(productId=${viewPr.productId})}">
 					<input type="hidden" id="productId" name="productId" th:field="*{viewPr.productId}" />
 					<button class="btn" type="button">
-					수정하기</button></a>
+					수정하기</button></a> -->
+					<form id="PrUpdate" action="#" method="GET" th:action="@{/product/update}">
+					<input type="hidden" id="productId" name="productId" th:value="${viewPr.productId}" />
+					<input class="btn" type="submit" value="수정하기" />
+					</form>
 					</div>
 					<div th:unless="${#strings.equals(userSession.getAccount().getUserId(), viewPr.sellerId)}" >
 					<a th:href="@{/purchase/{productId}(productId=${viewPr.productId})}">
