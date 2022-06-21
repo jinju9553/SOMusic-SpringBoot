@@ -3,9 +3,6 @@ package com.example.SOMusic.domain;
 import java.io.Serializable;
 import java.util.Objects;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
-
 public class PKWishGP implements Serializable {		// wishGP의 PK 클래스
 	
 	private String userId;
