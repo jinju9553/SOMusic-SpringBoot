@@ -73,8 +73,12 @@ public class ProductController implements ApplicationContextAware{
   @ModelAttribute("PrReq")
   public ProductRequest formBacking(HttpServletRequest request) throws Exception { 
 	     String PrId = request.getParameter("productId"); 
-	     System.out.println(PrId);
-		 ProductRequest prReq = new ProductRequest();  
+	     System.out.println("폼백킹에서 출력합니다 : " + PrId);
+		 ProductRequest prReq = new ProductRequest();
+		 prReq.setProductId(Integer.parseInt(PrId));
+		 
+		 System.out.println("prReq의 ProductId : " + prReq.getProductId());
+		 
 		  //PrId가 없으면 register 
 		  if (PrId == null) 
 			  return prReq; 
@@ -132,11 +136,12 @@ public class ProductController implements ApplicationContextAware{
 	@GetMapping(value="/update")
 	public String showUpdateForm(@RequestParam("productId") int productId, Model model) {
 		System.out.println("수정폼 불러옴");
-		System.out.println(productId);
+		System.out.println("수정폼에서 출력합니다 : " + productId);
 		
 		
 		String imgPath = prSvc.getPr(productId).getImage();
 		model.addAttribute("imgPath", imgPath);
+		model.addAttribute("ProductId", productId);
 		return Product_UPDATE_FORM;
 	}
 	

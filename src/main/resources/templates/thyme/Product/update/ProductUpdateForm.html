@@ -1,6 +1,25 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+<script type="text/javascript" src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
+<script>
+	$(function() {
+	    $("#image").on('change', function(){
+	        readURL(this);
+	    });
+	});
+	
+	function readURL(input) {
+	    if (input.files && input.files[0]) {
+	        var reader = new FileReader();
+	        reader.onload = function (e) {
+	            $('#View').attr('src', e.target.result);
+	        }
+	        $('#isModify').attr('value', 'true');
+	        reader.readAsDataURL(input.files[0]);
+	    }
+	}
+</script>
 <style type="text/css">
 
 .btn33 {
@@ -111,9 +130,7 @@
 	<div class="form_view">
 	<form action="#" th:action="@{/product/update}" th:object="${PrReq}" method="POST" enctype="multipart/form-data">
 		<input type="hidden" id="productId" name="productId" th:field="*{productId}" />
-<!--		<div class="row">
-			<h4>가격</h4>
-		</div>   -->
+
 		<div class="info_view">
 			<div class="image">			
                 	<label for="image">
@@ -123,10 +140,10 @@
                 </div>
                 <div class="row">
                     <input name="image" type="file" th:value="*{image}" th:field="*{image}" accept="image/*" style="display:none;"/>
-                   
+                    <input type="hidden" name="isModify" id="isModify" value="false" />
                 </div>
 			<div class="info">
-				<inline class="row"><font size=4>음반 제목</font> &nbsp;&nbsp;
+				<inline class="row"><font size=4>음반 제목</font> &nbsp;&nbsp;				
 				<input  type="text" class="infotext" th:field="*{productName}"  name ="productName" size="20"></inline>
 				
 				<br/>
