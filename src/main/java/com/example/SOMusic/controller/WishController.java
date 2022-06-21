@@ -18,7 +18,7 @@ import com.example.SOMusic.domain.Login;
 import com.example.SOMusic.domain.WishGroupPurchase;
 import com.example.SOMusic.domain.WishProduct;
 import com.example.SOMusic.service.GPService;
-import com.example.SOMusic.service.WishProductService;
+import com.example.SOMusic.service.ProductService;
 
 @Controller
 @SessionAttributes("userSession")
@@ -26,17 +26,19 @@ import com.example.SOMusic.service.WishProductService;
 public class WishController {
 	
 	//private static final String WISH_SUCCESS = "/product/register/success";  
-	private static final String WISH_RE = "/product/info";
-	private static final String WISH_PRODUCT_LIST ="thyme/user/my/wish/wishList";
-	
+
+	private static final String WISH_RE = "/product/info/";
+	private static final String WISH_PRODUCT_LIST ="thyme/user/my/wish/myWishProductList";
+
+
 	private static final String WISH_GP_LIST = "thyme/user/my/wish/myWishGPList";
 	private static final String WISH_GP_LIST_URI = "/user/my/wish/gp/list"; // 위시 리스트에서 삭제 -> 위시 리스트로
 	private static final String JOIN = "/join/";		// join 페이지로 uri 이동
 	
 	@Autowired
-	private WishProductService wishproductService;
-	public void setWishproductService(WishProductService wishproductService) {
-		this.wishproductService = wishproductService;
+	private ProductService prSvc;
+	public void setWishproductService(ProductService prSvc) {
+		this.prSvc = prSvc;
 	}
 	
 	@Autowired
@@ -53,7 +55,7 @@ public class WishController {
 		
 		Login userSession = (Login) WebUtils.getSessionAttribute(request, "userSession");
 		
-		List<WishProduct> wishPrList = wishproductService.findWishProductList(userSession.getAccount().getUserId());
+		List<WishProduct> wishPrList = prSvc.findWishProductList(userSession.getAccount().getUserId());
 		model.addAttribute("wishPrList", wishPrList);
 		
 		return WISH_PRODUCT_LIST; 
@@ -65,16 +67,14 @@ public class WishController {
 			HttpServletRequest request,
 			@RequestParam("productId") int productId,
 			 Model model) throws Exception {
-		//int productId = Integer.parseInt(request.getParameter("productId"));
-		
+
 		Login userSession = (Login) WebUtils.getSessionAttribute(request, "userSession");
 			
 		WishProduct wish = new WishProduct();
 		wish.setProductId(productId);
-//		wish.setUserId("panda");
 		wish.setUserId(userSession.getAccount().getUserId());
 				
-		wishproductService.addWishproduct(wish);
+		prSvc.addWishproduct(wish);
 		System.out.println("찜 추가 완료");
 				
 		return "redirect:" + WISH_RE + "?productId=" + productId; //	
@@ -91,9 +91,9 @@ public class WishController {
 		wish.setProductId(productId);
 		wish.setUserId("panda");*/
 			
-		wishproductService.deleteWishproduct(userSession.getAccount().getUserId(), productId);
+		prSvc.deleteWishproduct(userSession.getAccount().getUserId(), productId);
 		
-		return "redirect" + WISH_PRODUCT_LIST; //
+		return  WISH_PRODUCT_LIST; //
 	}
 
 	// 공구 위시

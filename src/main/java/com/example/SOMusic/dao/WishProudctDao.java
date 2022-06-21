@@ -7,11 +7,10 @@ import javax.transaction.Transactional;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
-import com.example.SOMusic.domain.Product;
 import com.example.SOMusic.domain.WishProduct;
 
 @Repository
-public class WishlistDao {
+public class WishProudctDao {
 	
 	@PersistenceContext
 	private EntityManager em;

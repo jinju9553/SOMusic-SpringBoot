@@ -6,8 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.SOMusic.repository.ProductRepository;
+import com.example.SOMusic.repository.WishProductRepository;
 import com.example.SOMusic.dao.ProductDao;
+import com.example.SOMusic.dao.WishProudctDao;
 import com.example.SOMusic.domain.Product;
+import com.example.SOMusic.domain.WishProduct;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -18,6 +21,11 @@ public class ProductServiceImpl implements ProductService {
 	@Autowired
 	private ProductDao dao;
 	
+	@Autowired
+	private WishProductRepository wpRepo;
+	
+	@Autowired
+	private WishProudctDao wishDao;
 	
 	@Override
 	public void addProduct(Product product) {
@@ -66,6 +74,27 @@ public class ProductServiceImpl implements ProductService {
 		return productRepository.findProductByProductId(productId);
 	}
 
+	// Wish Product
+	
+	@Override
+	public void addWishproduct(WishProduct wishproduct) {
+		wishDao.addWish(wishproduct);	
+	}
 
+	@Override
+	public List<WishProduct> findWishProductList(String userId) {
+		return wpRepo.findByUserId(userId);
+	}
+	
+	@Override
+	public List<WishProduct> isinterested(String userId, int productId) {
+		return wpRepo.getWishProductByproductIdAndUserId(userId, productId);
+	}
+
+	@Override
+	public void deleteWishproduct(String userId, int productId) {
+		wpRepo.deleteByproductIdAndUserId(productId, userId);
+		
+	}
 
 }
