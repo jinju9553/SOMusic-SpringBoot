@@ -126,7 +126,7 @@ function twitter() {
 		}
 		
 		.wishBtn {
-			top: 370px;
+			top: 400px;
 			left: 320px;
 			position: absolute;
 			border: 2px solid;

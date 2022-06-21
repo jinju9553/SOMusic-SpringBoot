@@ -38,12 +38,19 @@
 					<table align="left">
 						<tr>
 							<td>
+							<!--  
 								<span class="input"> 
 									<input size="40" name="keyword" type="text" placeholder="원하는 키워드로 검색해보세요." />
 								</span>
+							-->
+							
+								<div class="search__container">
+								    <input name="keyword" th:value="${keyword}" class="search__input" type="text" placeholder="SEARCH">
+								</div>
+								
 							</td>
 							<td>
-								<input class="btn" type="button" onClick="search()" value="검색">
+								<input style="background-color:transparent;  border:0px transparent solid;" class="btn" type="button" onClick="search()" value="">
 							</td>
 						</tr>
 					</table>
