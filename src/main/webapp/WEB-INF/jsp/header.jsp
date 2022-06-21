@@ -10,7 +10,7 @@
 </head>
 
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
@@ -38,12 +38,19 @@
 					<table align="left">
 						<tr>
 							<td>
+							<!--  
 								<span class="input"> 
 									<input size="40" name="keyword" type="text" placeholder="원하는 키워드로 검색해보세요." />
 								</span>
+							-->
+							
+								<div class="search__container">
+								    <input name="keyword" th:value="${keyword}" class="search__input" type="text" placeholder="SEARCH">
+								</div>
+								
 							</td>
 							<td>
-								<input class="btn" type="button" onClick="search()" value="검색">
+								<input style="background-color:transparent;  border:0px transparent solid;" class="btn" type="button" onClick="search()" value="">
 							</td>
 						</tr>
 					</table>
@@ -51,11 +58,11 @@
 			</td>
 			
 			<td>
-				<a href="<c:url value='/product/register' />">상품 등록</a>
+				<a href="<c:url value='/product/register' />"><input class="btn" type="button" value="상품 등록하기"></a>
 			</td>
 			
 			<td>
-				<a href="<c:url value='/gp/register' />">상품 등록</a>
+				<a href="<c:url value='/gp/register' />"><input class="btn" type="button" value="공구 등록하기"></a>
 			</td>
 			
 			<td class="txRight"> <!-- 회원가입, 로그인 등 메뉴 위치 -->
@@ -77,6 +84,15 @@
 			</td>
 		</tr>
 	</table>
+	<div class="hNavi">
+		 <nav class="stroke">
+		    <ul class="hUl">
+		      <li class="hLi"><a href="<c:url value="/main"/>">홈</a></li>
+		      <li class="hLi"><a href="<c:url value="/main/product"/>">중고 거래</a></li>
+		      <li class="hLi"><a href="<c:url value="/main/gp"/>">공동 구매</a></li>
+		    </ul>
+		</nav>
+	</div>
 </body>
 </html>
 	<%-- <%@ include file="IncludeQuickHeader.jsp" %> --%>

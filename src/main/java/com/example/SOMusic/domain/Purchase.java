@@ -3,6 +3,7 @@ package com.example.SOMusic.domain;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -53,8 +54,15 @@ public class Purchase implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date regDate;
 	
-	@ManyToOne //Many가 Purchase, One이 Product
+	@ManyToOne(cascade = CascadeType.ALL) //Many가 Purchase, One이 Product
 	@JoinColumn(name="product_id") //DB 상에서 FK의 이름
 	private Product product;
 
+	public boolean matchesZipcode() {
+		return zipcode.matches("^\\d{5}$");
+	}
+	
+	public boolean matchesPhone() {
+		return phone.matches("^01([0-9])(\\d{3,4})(\\d{4})$");
+	}
 }

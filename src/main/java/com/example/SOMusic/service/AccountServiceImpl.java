@@ -55,4 +55,9 @@ public class AccountServiceImpl implements AccountService {
 	public void updatePassword(Account account, String password) {
 		accountDao.updatePassword(account, password); //비밀번호 수정
 	}
+
+	@Override
+	public boolean isDuplicated(String userId) {
+		return accountRepository.existsById(userId);
+	}
 }

@@ -8,10 +8,12 @@ body {
 	background-color: #f2eee5;
 }
 
-/*�쇊履�, 以묒븰, �삤瑜몄そ �젙�젹 �냽�꽦*/
+/*table 행 좌우 정렬(align 속성을 쓸 수 없음)*/
 
 .txLeft {
 	text-align:left;
+	
+	width: 250px;
 }
 .txCenter {
 	text-align:center;
@@ -20,42 +22,37 @@ body {
 	text-align:right;
 }
 
-/*�룿�듃 媛뺤“*/
-.redFont {
-	color: red !important;
-}
-
-/*�옄二� �벐�뒗 �깋�긽*/
+/*자주 쓰는 색상*/
 .color_beige {
 	color: #f2eee5;
 }
 
-.color_purple { /*吏꾨낫�씪*/
+.color_purple {
 	color: #5f7caf; 
 }
 
-.color_lavender { /*�뿰蹂대씪*/
+.color_lavender {
 	color: #afafc7;
 }
 
-.color_pink { /*吏꾨텇�솉*/
+.color_pink {
 	color: #ccabaf;
 }
 
-.color_grey { /*�쉶�깋*/
+.color_grey {
 	color: #bababf;
 }
 
-/*踰꾪듉 遺��듃 �뒪�듃�옪1*/
-/*<p> - <a> �닚�꽌濡� �깮�꽦�븯怨� �겢�옒�뒪 �쟻�슜*/
+/*버튼 CSS*/
+/*<p> - <a> 순으로 선언 후 적용*/
 
-.transitionalButton { /*媛��옣 諛붽묑 <p>�뿉 �씠 �겢�옒�뒪 �쟻�슜*/
+.transitionalButton { /*<p>태그에 적용*/
 	font-weight: bold;
 	font-size: 14px;
 	text-align: center;
 }
 
-p > a { /*transitionalButton �븞�쓽 <a> �깭洹� �냽�꽦. <a> �븯�굹媛� 踰꾪듉 �뿭�븷�쓣 �븿*/
+p > a { /*transitionalButton 아래의 <a> 태그에 적용.*/
 	-webkit-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
 	-moz-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
 	-ms-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
@@ -131,4 +128,154 @@ a.tButton2:hover {
 .hButton:hover:before,.hButton:hover:after{
   width:100%;
   transition:800ms ease all;
+}
+
+input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+input[type=number] {
+	-moz-appearance: textfield;
+}
+
+input:focus {
+	outline: none;
+}
+
+.btn33 {
+	-webkit-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+	-moz-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+	-ms-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+	-o-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+	transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+	color: rgba(175, 175, 199, 1.0);
+	box-shadow: rgba(175, 175, 199, 0.4) 0 0px 0px 2px inset;
+	width: 100%;
+	height: 65px;
+	font-size: 18px;
+	font-weight: bold;
+	border-radius: 5px;
+	border: none;
+}
+
+.btn33:hover {
+	color: rgba(255, 255, 255, 0.85);
+	box-shadow: rgba(95, 124, 175, 0.85) 0 0px 0px 40px inset;
+}
+
+/* 네비게이션 */
+
+.hNavi {
+	margin-top: 30px;
+}
+
+.stroke {
+	width: 95%;
+	margin: 0 auto;
+	padding: 1px 0;
+  	box-shadow: 0px 2px 0px rgba(175, 175, 199, 0.5);
+}
+
+.stroke ul li {
+	display: inline-block;
+}
+
+.stroke ul li a {
+	display: block;
+	padding: 15px;
+	text-decoration: none;
+	color: #aaa;
+	font-weight: 800;
+	text-transform: uppercase;
+	margin: 0 10px;
+	font-size: 18px;
+}
+
+.stroke ul li a,
+.stroke ul li a:after,
+.stroke ul li a:before {
+	transition: all .5s;
+}
+
+.stroke ul li a:hover {
+	color: black;
+}
+
+nav.stroke ul li a {
+	position: relative;
+}
+
+nav.stroke ul li a:after {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
+	width: 0%;
+	content: '.';
+	color: transparent;
+	background: black;
+	height: 1px;
+}
+
+nav.stroke ul li a:hover:after {
+	width: 100%;
+}
+
+/* 검색 */
+
+.search__container {
+	margin-top: 5px;
+	width: 430px;
+}
+
+.search__input {
+        width: 100%;
+        padding: 12px 24px;
+
+        background-color: transparent;
+        transition: transform 250ms ease-in-out;
+        font-size: 14px;
+        line-height: 18px;
+        
+        color: #575756;
+        background-color: transparent;
+/*         background-image: url(http://mihaeltomic.com/codepen/input-search/ic_search_black_24px.svg); */
+ 
+      background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z'/%3E%3Cpath d='M0 0h24v24H0z' fill='none'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-size: 18px 18px;
+        background-position: 95% center;
+        border-radius: 50px;
+        border: 1px solid #575756;
+        transition: all 250ms ease-in-out;
+        backface-visibility: hidden;
+        transform-style: preserve-3d;
+}
+
+
+.search__input::placeholder {
+            color: color(#575756 a(0.8));
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+ }
+
+
+.search__input:hover {
+			padding: 12px 0;
+            outline: 0;
+            border: 1px solid transparent;
+            border-bottom: 1px solid #575756;
+            border-radius: 0;
+            background-position: 100% center;
+}
+
+.search__input:focus{
+            padding: 12px 0;
+            outline: 0;
+            border: 1px solid transparent;
+            border-bottom: 1px solid #575756;
+            border-radius: 0;
+            background-position: 100% center;
 }

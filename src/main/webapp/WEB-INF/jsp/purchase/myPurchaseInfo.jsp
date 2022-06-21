@@ -41,13 +41,15 @@
 <div align="center">
 <script type="text/javascript">
 	$(document).ready(function() {
+		$(".hidden").hide();
+		
 		$('.starRev span').click(function(){
 			$(this).parent().children('span').removeClass('on');
 			$(this).addClass('on').prevAll('span').addClass('on');
 			return false;
 		});
 		
-		var status = ${product.status};
+		var status = ${purchaseInfoReq.product.status};
 		switch (status) { //0: 승인 전 & 1: 승인됨, 입금 대기 & 2: 입금 완료 & 3:배송 시작 & 4: 거래 완료
 		  case 0:
 			$(".statusAnchor").text('구매폼 승인 전');
@@ -93,13 +95,14 @@
 	});
 	
 	function confirmAccount() {
-		alert("판매자의 계좌번호는 ${product.bank} ${product.account} 입니다.");
+		alert("판매자의 계좌번호는 ${purchaseInfoReq.product.bank} ${purchaseInfoReq.product.account} 입니다.");
 	}
 </script>
 
 <form:form modelAttribute="purchaseInfoReq" action="${targetUrl}" method="post">
-  <form:errors cssClass="error"/> <br><br>
-  <table class="n13">
+	  <form:errors cssClass="error"/> <br><br>
+	  <input type="hidden" id="productId" name="productId" value="${purchaseInfoReq.product.productId}"/>
+  <table class="n13" width:730px;">
   	<!-- 상품 정보 -->
   	<tr>
   		<td> <font class="color_purple" size="8"><b>상품 상세 내역</b></font> </td>
@@ -109,16 +112,19 @@
   		<td> <div class="color_purple" style="height: auto; width: 170%; border-top:1px solid; margin-bottom: 5%;"></div> </td>
   	</tr>
 
-  	<tr> <!-- padding은 나중에 별도의 CSS 파일로 & 파일 경로 및 값은 product.image 등으로 접근 -->
+  	<tr>
   		<td rowspan="6"> <img id="noImage" src="<c:url value='../../images/purchase/noImage.png'/>"> </td>
   	</tr>
   	<tr>
-  		<td style="padding-bottom: 10;"> 상품 이름: ${product.productName} </td>
+  		<td style="padding-bottom: 10;"> 상품 이름: ${purchaseInfoReq.product.productName} </td>
   	</tr>
   	<tr>
   		<td style="padding-bottom: 10;"> 상품 금액: <fmt:formatNumber
-                value="${purchaseInfoReq.totalAmount}" pattern="###,##0" /> 원</td>
-  		<td> <input type="button" value="판매자 계좌 확인" onClick="confirmAccount()"> </td>
+                value="${purchaseInfoReq.totalAmount}" pattern="###,##0" /> 원
+                <form:input type="hidden" path="totalAmount"/></td>
+  		<td colspan="2" align="left">
+  			<button class="btn" onClick="confirmAccount()">판매자 계좌 조회</button> 
+  		</td>
   	</tr>
   	<tr>
   		<td style="padding-bottom: 10;"> 거래 지역: </td>
@@ -127,7 +133,7 @@
   		<td style="padding-bottom: 10;"> 거래 상태: <a class="statusAnchor"></a></td>
   	</tr>
   	<tr>
-  		<td style="padding-bottom: 10;"> 상품 상태: ${product.condition} </td>
+  		<td style="padding-bottom: 10;"> 상품 상태: ${purchaseInfoReq.product.condition} </td>
   	</tr>
   	
   	<!-- 세부 항목 1 -->
@@ -136,16 +142,12 @@
       <td style="padding-top: 5%;"> <font class="color_purple" size="4"><b>판매자 정보</b></font> </td>
     </tr>   
     <tr>
-      <td>- 아티스트: ${product.artistName} </td>
-      <td>- 판매자: ${product.sellerId} </td> <!-- account 쪽에서 뽑아올 것 -->
-    </tr>  
-    <tr>
-      <td>- 장르: (장르 이름)</td>
-      <td>- 판매중인 상품: n개</td> <!-- 판매중인 상품 개수를 count해서 command 객체에만 넣어주기 -->
+      <td>- 아티스트: ${purchaseInfoReq.product.artistName} </td>
+      <td>- 판매자: ${purchaseInfoReq.product.sellerId} </td>
     </tr>  
     <tr>
       <td>- 발매 연도: (날짜)</td>
-      <td>- 판매자 정보 바로가기></td>
+      <td>- 판매자 별점: ${userSession.account.rate}</td>
     </tr>
     
     <!-- 세부 항목 2 -->
@@ -158,7 +160,7 @@
   	</tr>
   	
   	<tr>
-      	<td> ${product.description} </td>
+      	<td> ${purchaseInfoReq.product.description} </td>
     </tr>  
   	
   	<tr>
@@ -174,16 +176,17 @@
     </tr> 
   	
   	<tr>
-    	<td>거래 방식: <a class="methodAnchor"></a></td>
+    	<td>거래 방식: <a class="methodAnchor"></a>
+    	<form:input type="hidden" path="shippingMethod"/></td>
     </tr> 
     
     <tr>
   		<td style="padding-bottom: 5%;">
 	  		배송비: 
-	  		<c:if test="${!empty product.shippingCost}">
-	  			<fmt:formatNumber value="${product.shippingCost}" pattern="###,##0" /> 원 (상품 가격에 포함)
+	  		<c:if test="${!empty purchaseInfoReq.product.shippingCost}">
+	  			<fmt:formatNumber value="${purchaseInfoReq.product.shippingCost}" pattern="###,##0" /> 원 (상품 가격에 포함)
 	  		</c:if>
-	  		<c:if test="${empty product.shippingCost}"> 없음 </c:if>
+	  		<c:if test="${empty purchaseInfoReq.product.shippingCost}"> 없음 </c:if>
   		</td>
   	</tr>
   	
@@ -191,12 +194,13 @@
 		<td>수령인</td>
         <td>
         <c:choose>
-        	<c:when test="${product.status < 3}">
+        	<c:when test="${purchaseInfoReq.product.status < 3}">
         		<form:input path="consumerName"/> 
         		<form:errors path="consumerName"/>
         	</c:when>
         	<c:otherwise>
         		<a> ${purchaseInfoReq.consumerName} </a>
+        		<form:input type="hidden" path="consumerName"/>
         	</c:otherwise>
         </c:choose>
         
@@ -207,12 +211,13 @@
 		<td>연락처</td>
         <td>
         <c:choose>
-        	<c:when test="${product.status < 3}">
+        	<c:when test="${purchaseInfoReq.product.status < 3}">
         		<form:input path="phone"/>
         		<form:errors path="phone"/>
         	</c:when>
         	<c:otherwise>
         		<a> ${purchaseInfoReq.phone} </a>
+        		<form:input type="hidden" path="phone"/>
         	</c:otherwise>
         </c:choose>
         </td>
@@ -222,12 +227,13 @@
       <td>우편번호</td>
       <td>
       <c:choose>
-        <c:when test="${product.status < 3}">
+        <c:when test="${purchaseInfoReq.product.status < 3}">
         	<form:input path="zipcode"/> 
         	<form:errors path="zipcode"/>
         </c:when>
         <c:otherwise>
         	<a> ${purchaseInfoReq.zipcode} </a>
+        	<form:input type="hidden" path="zipcode"/>
         </c:otherwise>
       </c:choose>
       </td>
@@ -237,12 +243,13 @@
       <td>주소</td>
       <td>
       <c:choose>
-        <c:when test="${product.status < 3}">
+        <c:when test="${purchaseInfoReq.product.status < 3}">
         	<form:input path="address"/> 
         	<form:errors path="address"/>
         </c:when>
         <c:otherwise>
         	<a> ${purchaseInfoReq.address} </a>
+        	<form:input type="hidden" path="address"/>
         </c:otherwise>
       </c:choose>
       </td>
@@ -252,42 +259,31 @@
       <td>배송시 요청사항</td>
       <td>
       <c:choose>
-        <c:when test="${product.status < 3}">
+        <c:when test="${purchaseInfoReq.product.status < 3}">
         	<form:input path="shippingRequest"/> 
         	<form:errors path="shippingRequest"/>
         </c:when>
         <c:otherwise>
         	<a> ${purchaseInfoReq.shippingRequest} </a>
+        	<form:input type="hidden" path="shippingRequest"/>
         </c:otherwise>
       </c:choose>
       </td>
     </tr>
     
     <tr class="shippingMenu">
-    	<c:if test="${product.status < 3}">
-    		<td colspan="3" align="right"> <button class="btn">수정 내역 저장</button> </td>
+    	<c:if test="${purchaseInfoReq.product.status < 3}">
+    		<td colspan="2" align="right"> <button class="btn">수정 내역 저장</button> </td>
     	</c:if>
   	</tr>
   	
   	<tr>
-    	<td style="padding-top: 5%;" colspan="3" align="right">
+    	<td style="padding-top: 5%;" colspan="2" align="right">
     	<span style="color: red;"><b>*배송이 시작된 이후에는 수령인 및 배송지를 수정할 수 없습니다.</b>
     	</span></td>
   	</tr>
-  	
-  	<tr>
-  		<td style="padding-top: 5%;"> <font class="color_purple" size="4"><b>상품 문의</b></font> </td>
-  	</tr>
-  	
-  	<tr>
-  		<td> <div class="color_purple" style="height: auto; width: 170%; border-top:1px solid; margin-bottom: 5%;"></div> </td>
-  	</tr>
-  	
-  	<tr>
-      <td>다른 사용자가 문의 댓글을 작성하는 곳.</td>
-    </tr> 
     
-    <c:if test="${product.status eq 4}">
+    <c:if test="${purchaseInfoReq.product.status eq 4}">
 	    <tr> <!-- 거래 종료 이후 활성화되는 메뉴 -->
 	      <td style="padding-top: 5%;">이 거래가 만족스러우셨다면, 판매자에게 별점을 부여해주세요.</td>
 	      <td style="padding-top: 5%; padding-left: 3%;" align="right">
@@ -306,8 +302,7 @@
 		  </td>
 		  <td style="padding-top: 5%; colspan="2" align="left"> <button>등록</button> </td>
 	    </tr> 
-    </c:if>
-    
+    </c:if> 
   </table>
 </form:form>
 </div>

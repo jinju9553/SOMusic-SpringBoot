@@ -26,9 +26,11 @@ import com.example.SOMusic.service.WishProductService;
 public class WishController {
 	
 	//private static final String WISH_SUCCESS = "/product/register/success";  
+
 	private static final String WISH_RE = "/product/info/";
 	private static final String WISH_PRODUCT_LIST ="thyme/user/my/wish/myWishProductList";
-	
+
+
 	private static final String WISH_GP_LIST = "thyme/user/my/wish/myWishGPList";
 	private static final String WISH_GP_LIST_URI = "/user/my/wish/gp/list"; // 위시 리스트에서 삭제 -> 위시 리스트로
 	private static final String JOIN = "/join/";		// join 페이지로 uri 이동
@@ -62,9 +64,10 @@ public class WishController {
 	// 상품 위시 추가
 	@GetMapping(value="/product/add")
 	public String addWish(
-			@RequestParam("productId") int productId,
 			HttpServletRequest request,
+			@RequestParam("productId") int productId,
 			 Model model) throws Exception {
+
 		Login userSession = (Login) WebUtils.getSessionAttribute(request, "userSession");
 			
 		WishProduct wish = new WishProduct();
@@ -74,7 +77,7 @@ public class WishController {
 		wishproductService.addWishproduct(wish);
 		System.out.println("찜 추가 완료");
 				
-		return WISH_PRODUCT_LIST; //	
+		return "redirect:" + WISH_RE + "?productId=" + productId; //	
 	}
 			
 	// 상품 위시 삭제

@@ -19,4 +19,6 @@ public interface AccountService {
 	void deleteAccount(Account account);
 
 	void updatePassword(Account account, String password);
+
+	boolean isDuplicated(String userId);
 }

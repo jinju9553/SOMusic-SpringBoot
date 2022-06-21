@@ -2,6 +2,8 @@ package com.example.SOMusic.service;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,6 +39,18 @@ public class PurchaseServiceImpl implements PurchaseService {
 	@Override
 	public void modifyPurchase(Purchase purchase) {
 		purchaseDao.updatePurchase(purchase);
+	}
+	
+	@Override
+	@Transactional
+	public void modifyPurchaseInfo(int purchaseId, Purchase purchaseReq) {
+		Purchase purchase = this.findPurchaseByPurchaseId(purchaseId);
+		
+		purchase.setConsumerName(purchaseReq.getConsumerName());
+		purchase.setPhone(purchaseReq.getPhone());
+		purchase.setZipcode(purchaseReq.getZipcode());
+		purchase.setAddress(purchaseReq.getAddress());
+		purchase.setShippingRequest(purchaseReq.getShippingRequest());
 	}
 
 	@Override
