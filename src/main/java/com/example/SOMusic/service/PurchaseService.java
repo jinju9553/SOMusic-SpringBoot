@@ -24,4 +24,6 @@ public interface PurchaseService {
 	List<Purchase> findPurchaseList(String userId);
 
 	void modifyPurchaseInfo(int purchaseId, Purchase purchase);
+
+	void confirmPurchase(int purchaseId);
 }

@@ -8,11 +8,14 @@ body {
 	background-color: #f2eee5;
 }
 
-/*table 행 좌우 정렬(align 속성을 쓸 수 없음)*/
+.img {
+	width: 340px;
+	height: 330px;
+}
 
+/*table 행 좌우 정렬(align 속성을 쓸 수 없음)*/
 .txLeft {
 	text-align:left;
-	
 	width: 250px;
 }
 .txCenter {

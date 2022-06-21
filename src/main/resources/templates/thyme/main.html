@@ -14,7 +14,7 @@
 	<hr class="line">
 	<div class="element listView">
 		<div class="one" th:each="product : ${productList}">
-			<img class="img" th:src="@{${product.image}}">
+			<img class="img_main" th:src="@{${product.image}}">
 			<div class="title">
 				<a id="link" class="link" th:text="${product.productName}" th:href="@{/product/info(productId=${product.productId})}">상품명</a>
 			</div>
@@ -32,7 +32,7 @@
 	<hr class="line">
 	<div class="element listView">
 		<div class="one" th:each="gp : ${gpList}">
-			<img class="img" th:src="@{${gp.image}}">
+			<img class="img_main" th:src="@{${gp.image}}">
 			<div class="title">
 				<a id="link" class="link" th:text="${gp.title}" th:href="@{/join/{id}(id=${gp.gpId})}">폼 이름</a>
 			</div>

@@ -70,7 +70,7 @@
 	
 		<div class="element listView">
 			<div class="one" th:each="product : ${productList}">
-				<img class="img" th:src="@{${product.image}}">
+				<img class="img_main" th:src="@{${product.image}}">
 				<div class="title">
 					<a id="link" class="link" th:text="${product.productName}" th:href="@{/purchase/{id}(id=${product.productId})}">폼 이름</a>
 				</div>

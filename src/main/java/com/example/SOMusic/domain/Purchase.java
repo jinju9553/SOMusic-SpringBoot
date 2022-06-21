@@ -42,6 +42,7 @@ public class Purchase implements Serializable {
 	@Column(name="total_amount", nullable=false)
 	private int totalAmount;
 	
+	private int status;
 	private String address;
 	private String zipcode;
 	private String phone;

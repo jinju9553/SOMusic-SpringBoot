@@ -43,13 +43,18 @@
 					<h5><a class="linkTitle" th:text="${pr.productName}"
 					href="#" th:href="@{/product/info(productId=${pr.productId})}" >제목</a></h5>
 				</div>
-				<div class="btnView">
+				<div class="btnView" th:if="${pr.status == 0}">
 					<!-- <div class="element" th:if="${#lists.isEmpty(pr.joinList)}"> -->
 						 <form action="#" method="GET" th:action="@{/product/delete}">
 							<input type="hidden" id="productId" name="productId" th:value="${pr.productId}" />
 							<input class="btnDelete" type="submit" value="&#215;" />
 						</form> 
 					<!-- </div> -->
+				</div>
+				<div class="btnView" th:unless="${pr.status == 0}">
+					<div class="element" style="text-align: center;">
+						<a style="font-size: 12px">거래중<br>(삭제<br>불가)</a>
+					</div>
 				</div>
 			</div>
 			
