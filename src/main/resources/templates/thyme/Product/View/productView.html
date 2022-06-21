@@ -12,10 +12,17 @@ function twitter() {
     
 	var url = window.location.href;
 	
+	var count = 0;
+	
 	var sendText = name + '\n\n' + comment + "\n\n";
 	
 	window.open("https://twitter.com/intent/tweet?text=" + encodeURIComponent(sendText) + "&url=" +encodeURIComponent(url));
 }
+	function delWish() {
+		location.href="<c:url value='/user/my/wish/product/delete?productId=${viewPr.productId}' />";
+
+	
+	}
 </script>
 
 
@@ -27,11 +34,33 @@ function twitter() {
 			    color: #FF6464;
 			    border-color: #ffeded;
 			}
+			
+	.button_parents {
+		position:relative;
+	
+	}
+	
+	#Interest {
+			border-color:#ffeded;
+			color:#FF6464;
+			position: absolute;
+				left: 51%;
+	    		top: 82%;
+			    border: 2px solid;
+			    border-color: #d2d2d2;
+			    width: 70px;
+			    height: 70px;
+			    font-size: 18px;
+			    font-weight: bold;
+			    background-color: white;
+			    border-radius: 10px;
+			    
+		}	
 		
 	#noInterest {
-				position: relative;
-				left: 80%;
-	    		top: 63%;
+				position: absolute;
+				left: 51%;
+	    		top: 82%;
 			    border: 2px solid;
 			    border-color: #d2d2d2;
 			    width: 70px;
@@ -90,6 +119,7 @@ function twitter() {
     	height: 20px;
     }
     
+    
     .btn {
     	font-size: 50px;
     	font-weight: bold;
@@ -128,11 +158,32 @@ function twitter() {
 <body>
 <div th:insert="~{thyme/header}"></div>
 <div id="out">
+
+
 	<div class="top_view">
-		<tr> <td>
-	  		 <a th:href="@{/user/my/wish/product/add(productId=${viewPr.productId})}"><button id="noInterest">
-	  		❤</button></a> </td>
+		<tr> <td class="button_parents">
+		<!-- 이미 위시 리스트에 있으면 -->
+		<div th:if="${wishPr == null}">
+			<a th:href="@{/user/my/wish/product/add(productId=${viewPr.productId})}">
+	  		 <button id="noInterest" >
+	  		❤</button></a></div>
+ 		<div th:if="${wishPr != null}">
+ 		<form action="#" method="GET" th:action="@{/user/my/wish/product/delete}"> 
+			<input type="hidden" id="productId" name="productId" th:value="${viewPr.productId}" />
+			<input type="hidden" id="view" name="view" value="view" />	<!--  뷰에서 삭제하는지, 리스트에서 삭제하는지 구분 -->
+			<button type="submit" id="Interest" >
+	  		❤</button></form></div> 
+						
+			<!-- <a th:href="@{/user/my/wish/product/delete(productId=${viewPr.productId})}"> -->
+	  		 	  		
+		</div>	
+
 	  		
+	  		 </td>
+		</div>
+		
+		
+		
 	  		<div style="float: right; margin-top: 10px; margin-right: 10px;">
 				<a th:onClick="twitter()"><img style="width:30px;" th:src="@{/images/icon-twitter.png}"></a>
 	  		</div>
@@ -146,6 +197,8 @@ function twitter() {
 				<div id="blue" class="row"><h2><p th:text="${viewPr.price}">가격</p></h2> </div>
 				<div class="row">아티스트명 :&nbsp;
 					<div th:text="${viewPr.artistName}"></div>
+<!-- 					 <div th:text="${wishPr.productId}"></div> 
+					 <div th:text="${viewPr.productId}"></div> -->
 					
 				</div>
 				<div id ="comment" class="row">판매자 :&nbsp;
@@ -166,6 +219,7 @@ function twitter() {
 					<div class=comment>코멘트 :&nbsp; </div>
 					<div id="sw" th:text="${viewPr.description}">			
 				</div>
+				
 				<div class="row">
 					<br>
 					<br>
@@ -183,8 +237,8 @@ function twitter() {
 					<a th:href="@{/purchase/{productId}(productId=${viewPr.productId})}">
 					<button class="btn" type="button">구매하기</button></a>
 					</div>					
-					
 				</div>
+				
 			</div>
 		</div>
 	</div>

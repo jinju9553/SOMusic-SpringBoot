@@ -21,6 +21,7 @@ import org.springframework.web.util.WebUtils;
 
 import com.example.SOMusic.domain.Login;
 import com.example.SOMusic.domain.Product;
+import com.example.SOMusic.domain.WishProduct;
 import com.example.SOMusic.service.AccountService;
 import com.example.SOMusic.service.ProductService;
 
@@ -58,6 +59,8 @@ public class ProductViewController {
 					
 		Product viewPr = prSvc.getPr(productId);
 		
+		WishProduct wishPr = prSvc.getWishPr( userSession.getAccount().getUserId(), productId);
+		
 		System.out.println("상품: " + viewPr);
 		System.out.println("판매자아이디: " + viewPr.getSellerId());
 		System.out.println("상품 이미지 경로 : " + viewPr.getImage());
@@ -65,6 +68,7 @@ public class ProductViewController {
 		model.addAttribute("image", viewPr.getImage());
 		model.addAttribute("viewPr", viewPr);
 		model.addAttribute("buyerId", userId);
+		model.addAttribute("wishPr", wishPr);
 				
 		return "thyme/Product/View/productView";
 	}
