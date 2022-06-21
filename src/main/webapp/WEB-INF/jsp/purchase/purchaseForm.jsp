@@ -36,6 +36,13 @@
   <form:errors cssClass="error" /> <br><br>
   
   <script>
+	  $(document).ready(function() {
+		  var imgSrc = "${purchaseReq.product.image}";
+		  if (imgSrc == null) {
+			  $("#image").attr("src", "<c:url value='../images/purchase/noImage.png'/>")
+		  }
+	  });
+  
   	function setAddress() {
   		console.log("주문자와 동일"); //radio 클릭을 반복하면 event.target이 사라짐
   		$("#consumerName").val("${userSession.account.userName}");
@@ -88,11 +95,14 @@
   	</tr>
   	
   	<tr>
-  		<td rowspan="3"> <img id="noImage" src="<c:url value='../images/purchase/noImage.png'/>"> </td>
+  		<td rowspan="4"> <img id="image" class="img" src="<c:url value="${purchaseReq.product.image}"/>"> </td>
   	</tr>
   	
   	<tr>
   		<td style="padding-bottom: 5%;"> 상품 이름: ${purchaseReq.product.productName} </td> 
+  	</tr>
+  	
+  	<tr>
   		<td style="padding-bottom: 5%;"> 상품 가격: ${purchaseReq.product.price} 원</td>
   	</tr>
   	
@@ -117,7 +127,7 @@
       </td> 
     </tr>
     
-    <tr class="shipping">
+    <tr class="shipping hide">
       <td>배송지 선택</td>
       <td>
       	<input type='radio' name='shippingOption' onclick='setAddress()' checked="checked"/> 주문자와 동일
@@ -143,13 +153,13 @@
         <form:errors path="phone"/></td>
     </tr>
     
-    <tr class="shipping">
+    <tr class="shipping hide">
       <td>우편번호</td>
       <td><form:input path="zipcode" value="${account.zipcode}" id="zipcode"/> 
         <form:errors path="zipcode"/></td>
     </tr>
     
-    <tr class="shipping">
+    <tr class="shipping hide">
       <td>주소</td>
       <td><form:input path="address" value="${account.address}" id="address"/> 
         <form:errors path="address"/></td>
@@ -170,7 +180,7 @@
   </c:if>
   
   <c:if test="${userSession ne null}">
-	  <p style="padding-top: 5%">
+	  <p style="padding-top: 5%;">
 		<button class="hButton"> 등록하기 </button>
 	  </p>
   </c:if>

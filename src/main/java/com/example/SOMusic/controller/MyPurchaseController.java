@@ -23,6 +23,7 @@ import com.example.SOMusic.service.PurchaseValidator;
 @RequestMapping("/purchase")
 public class MyPurchaseController {
 	private static final String PURCHASE_INFO = "purchase/myPurchaseInfo";
+	private static final String PURCHASE_CHECK = "purchase/purchaseCheck";
 	
 	@Autowired
 	private PurchaseService purchaseService;
@@ -45,6 +46,11 @@ public class MyPurchaseController {
 	@GetMapping("/info/{purchaseId}")
 	public String showForm() {
 		return PURCHASE_INFO;
+	}
+	
+	@GetMapping("/check/{purchaseId}")
+	public String showForm2() {
+		return PURCHASE_CHECK;
 	}
 	
 	@ModelAttribute("purchaseInfoReq")
@@ -87,12 +93,21 @@ public class MyPurchaseController {
 	@GetMapping("/delete/{purchaseId}")
 	public String delete(@PathVariable("purchaseId") int purchaseId) throws Exception {
 
+		Purchase purchase = purchaseService.findPurchaseByPurchaseId(purchaseId);
+		purchase.setProduct(null);
+		
 		purchaseService.deletePurchase(purchaseId);
 		
 		return "redirect:/" + "user/my/purchase/list";
 	}
 	
+	@PostMapping("/check/{purchaseId}")
+	public String comfirm(@PathVariable("purchaseId") int purchaseId) throws Exception {
+		
+		purchaseService.confirmPurchase(purchaseId);
+		
+		return "redirect:/" + "user/my/sale/list";
+	}
 	//8.PurchaseView(Confirm) - 사용자가 작성한 구매폼을 판매자가 승인함
-	//1.폼 띄우고
 	//2.확인 버튼을 누르면 3.DAO로 넘어가서 status만 수정!
 }

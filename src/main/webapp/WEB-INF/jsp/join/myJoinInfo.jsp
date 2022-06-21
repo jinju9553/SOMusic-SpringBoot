@@ -9,34 +9,6 @@
 <html>
 <meta charset="UTF-8">
 <head> 
-	<!-- 나중에 별도의 파일로 빼기 -->
-	<style type="text/css">
-		.starR1{
-		    background: url('http://miuu227.godohosting.com/images/icon/ico_review.png') no-repeat -52px 0;
-		    background-size: auto 100%;
-		    width: 15px;
-		    height: 30px;
-		    float:left;
-		    text-indent: -9999px;
-		    cursor: pointer;
-		}
-		.starR2{
-		    background: url('http://miuu227.godohosting.com/images/icon/ico_review.png') no-repeat right 0;
-		    background-size: auto 100%;
-		    width: 15px;
-		    height: 30px;
-		    float:left;
-		    text-indent: -9999px;
-		    cursor: pointer;
-		}
-		.starR1.on{background-position:0 0;}
-		.starR2.on{background-position:-15px 0;}
-		
-		.img {
-			width: 330px;
-			height: 300px;
-		}
-	</style>
 </head>
 
 <body>
@@ -48,13 +20,6 @@
 		  if (imgSrc == null) {
 			  $("#image").attr("src", "<c:url value='../images/purchase/noImage.png'/>")
 		  }
-		  
-		//2.별점 기능
-		$('.starRev span').click(function(){
-			$(this).parent().children('span').removeClass('on');
-			$(this).addClass('on').prevAll('span').addClass('on');
-			return false;
-		});
 		
 		//3.status 값에 따른 표기
 		var status = ${joinInfoReq.status};
@@ -350,27 +315,6 @@
     	<span style="color: red;"><b>*배송이 시작된 이후에는 수령인 및 배송지를 수정할 수 없습니다.</b>
     	</span></td>
   	</tr>
-    
-    <c:if test="${joinInfoReq.status eq 4}">
-	    <tr> <!-- 거래 종료(status: 4) 이후 활성화되는 메뉴 -->
-	      <td style="padding-top: 5%;">이 거래가 만족스러우셨다면, 판매자에게 별점을 부여해주세요.</td>
-	      <td style="padding-top: 5%; padding-left: 3%;" align="right">
-			<div class="starRev">
-			  <span class="starR1 on"></span>
-			  <span class="starR2"></span>
-			  <span class="starR1"></span>
-			  <span class="starR2"></span>
-			  <span class="starR1"></span>
-			  <span class="starR2"></span>
-			  <span class="starR1"></span>
-			  <span class="starR2"></span>
-			  <span class="starR1"></span>
-			  <span class="starR2"></span>
-			</div>
-		  </td>
-	  	  <td style="padding-top: 5%; colspan="2" align="left"> <button class="btn">등록</button> </td>
-	    </tr> 
-    </c:if>
   </table>
 </form:form>
 </div>

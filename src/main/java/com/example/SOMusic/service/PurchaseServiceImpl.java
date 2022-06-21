@@ -68,4 +68,14 @@ public class PurchaseServiceImpl implements PurchaseService {
 	public int calculateTotal(Product product) {
 		return (product.getPrice() + product.getShippingCost());
 	}
+
+	@Override
+	@Transactional
+	public void confirmPurchase(int purchaseId) {
+		Purchase p = this.findPurchaseByPurchaseId(purchaseId);
+		if(p.getProduct().getStatus() == 0) { //0: 승인 전
+			p.getProduct().setStatus(1); //1: 승인됨
+			p.setStatus(1); 
+		}
+	}
 }

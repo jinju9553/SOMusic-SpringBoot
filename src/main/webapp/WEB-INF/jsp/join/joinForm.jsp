@@ -40,7 +40,7 @@ function twitter() {
 				  q = Number(q) + 1;
 				  $(".quantity").val(q);
 				  $(".quantity").text(q);
-				  //$(".totalAmount").text(p * q);
+				  $(".totalAmount").text(p * q);
 				  
 				  calculateSum(); //만약 배송비가 설정되지 않았다면 상품 총액만 계산
 			  }
@@ -54,32 +54,11 @@ function twitter() {
 				  q = Number(q) - 1;
 				  $(".quantity").val(Number(q) - 1);
 				  $(".quantity").text(Number(q) - 1);
-				  //$(".totalAmount").text(p * q);
+				  $(".totalAmount").text(p * q);
 				  
 				  calculateSum(); //만약 배송비가 설정되지 않았다면 상품 총액만 계산
 			  }
 		  });
-		  
-		  function calculateByAjax() {
-			  $.ajax({
-					type : "POST",
-					url : "/join/total",
-					data : {
-						"quantity" : $(".quantity").val(),
-						"price" : $("#price").val(),
-						"shippingCost" : $
-					},
-					success : function(data) {    
-						if (data == false) {
-							if ($('#id').val() != '') { //공백값이 아닐 때
-								$('#idAlert').text("*사용 가능한 아이디입니다.");
-							}
-						} else {
-							$('#idAlert').text("*중복된 아이디입니다.");
-						}
-					}
-				})
-		  }
 		  	  
 		//radio buttoun 옆의 label 변경
 		$("#shippingMethod1").next().text('준등기 (+${shippingCost[0]}원)');
@@ -143,11 +122,6 @@ function twitter() {
   </script>
   
   <style>
-  		.img {
-			width: 340px;
-			height: 330px;
-		}
-		
 		.wishBtn {
 			top: 400px;
 			left: 320px;
