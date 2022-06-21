@@ -6,8 +6,8 @@
 <script th:inline="javascript">
 function twitter() {
 	/*<![CDATA[*/
-    let name = /*[[ ${productReq.productName} ]]*/"";
-	let comment = /*[[ ${productReq.description} ]]*/"";
+    let name = /*[[ ${viewPr.productName} ]]*/"";
+	let comment = /*[[ ${viewPr.description} ]]*/"";
     /*]]*/
     
 	var url = window.location.href;
@@ -168,14 +168,14 @@ function twitter() {
 					<span th:case="4">매우 좋음</span>
 				</div><br></div>
 				<div class="row">
-					<div class=comment>코멘트 :&nbsp </div>
+					<div class=comment>코멘트 :&nbsp; </div>
 					<div id="sw" th:text="${viewPr.description}">			
 				</div>
 				
 				<div class="row">
 					<br>
 					<br>
- 					<div th:if="${#strings.equals(userSession.getAccount().getUserId(), viewPr.sellerId)}"> 
+ 					<div th:if="${#strings.equals(buyerId, viewPr.sellerId)}"> 
 					<!-- <a th:href="@{/product/update(productId=${viewPr.productId})}">
 					<input type="hidden" id="productId" name="productId" th:field="*{viewPr.productId}" />
 					<button class="btn" type="button">
@@ -185,7 +185,7 @@ function twitter() {
 					<input class="btn" type="submit" value="수정하기" />
 					</form>
 					</div>
-					<div th:unless="${#strings.equals(userSession.getAccount().getUserId(), viewPr.sellerId)}" >
+					<div th:unless="${#strings.equals(buyerId, viewPr.sellerId)}" >
 					<a th:href="@{/purchase/{productId}(productId=${viewPr.productId})}">
 					<button class="btn" type="button">구매하기</button></a>
 					</div>					

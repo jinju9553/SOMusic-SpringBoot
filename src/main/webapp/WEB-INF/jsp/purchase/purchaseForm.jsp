@@ -100,6 +100,7 @@
   		<td style="padding-bottom: 5%;"> 택배 거래시 배송비: ${purchaseReq.product.shippingCost} 원</td> 
   	</tr>
   	
+  	<c:if test="${userSession ne null}">
   	<!-- 세부 항목 1 -->
     <tr>
       <td style="padding-top: 5%"> <font class="color_purple" size="4"><b>구매자 정보</b></font> </td>
@@ -116,15 +117,13 @@
       </td> 
     </tr>
     
-    <c:if test="${!empty userSession.account}">
-    <tr class="shipping hide">
+    <tr class="shipping">
       <td>배송지 선택</td>
       <td>
       	<input type='radio' name='shippingOption' onclick='setAddress()' checked="checked"/> 주문자와 동일
       	<input type='radio' name='shippingOption' onclick='clearAddress()'/> 신규 배송지
       </td>
     </tr>
-    </c:if>
   	
     <tr class="shipping hide">
       <td>이름</td>
@@ -144,13 +143,13 @@
         <form:errors path="phone"/></td>
     </tr>
     
-    <tr class="shipping hide">
+    <tr class="shipping">
       <td>우편번호</td>
       <td><form:input path="zipcode" value="${account.zipcode}" id="zipcode"/> 
         <form:errors path="zipcode"/></td>
     </tr>
     
-    <tr class="shipping hide">
+    <tr class="shipping">
       <td>주소</td>
       <td><form:input path="address" value="${account.address}" id="address"/> 
         <form:errors path="address"/></td>
@@ -161,11 +160,20 @@
       <td><form:textarea path="shippingRequest" placeholder="배송시 요청 사항, 직거래 희망장소 등" cols="20" rows="3"/>
         <form:errors path="shippingRequest"/></td>
     </tr>
+    </c:if>
   </table>
   
-  <p style="padding-top: 5%">
-	<button class="hButton"> 등록하기 </button>
-  </p>
+  <c:if test="${userSession eq null}">
+    <p>로그인이 필요한 컨텐츠입니다. <br> 로그인 후 이용해주세요!</p>
+    <a href="<c:url value="/user/loginForm"/>"> 
+		<input class="btn" type="button" onClick="" value="로그인"></a>
+  </c:if>
+  
+  <c:if test="${userSession ne null}">
+	  <p style="padding-top: 5%">
+		<button class="hButton"> 등록하기 </button>
+	  </p>
+  </c:if>
   
 </form:form>
 </div>
