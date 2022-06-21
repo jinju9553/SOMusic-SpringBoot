@@ -54,12 +54,13 @@ public class ProductViewController {
 		Login userSession = (Login) WebUtils.getSessionAttribute(request, "userSession");
 
 		String userId = null;
-		if(userSession != null)
+		WishProduct wishPr = null;
+		if(userSession != null) {
 			userId = userSession.getAccount().getUserId();
+			wishPr = prSvc.getWishPr( userSession.getAccount().getUserId(), productId);
+		}
 					
 		Product viewPr = prSvc.getPr(productId);
-		
-		WishProduct wishPr = prSvc.getWishPr( userSession.getAccount().getUserId(), productId);
 		
 		System.out.println("상품: " + viewPr);
 		System.out.println("판매자아이디: " + viewPr.getSellerId());
