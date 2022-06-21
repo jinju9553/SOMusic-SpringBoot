@@ -29,7 +29,7 @@ public class WishController {
 
 	private static final String WISH_RE = "/product/info/";
 	private static final String WISH_PRODUCT_LIST ="thyme/user/my/wish/myWishProductList";
-
+	private static final String WISH_PRODUCT_LIST_URI = "/user/my/wish/product/list";
 
 	private static final String WISH_GP_LIST = "thyme/user/my/wish/myWishGPList";
 	private static final String WISH_GP_LIST_URI = "/user/my/wish/gp/list"; // 위시 리스트에서 삭제 -> 위시 리스트로
@@ -84,6 +84,7 @@ public class WishController {
 	@GetMapping(value="/product/delete")
 	public String deleteWish(
 			HttpServletRequest request,
+			@RequestParam(value="view", required=false) String view,
 			@RequestParam("productId") int productId) {
 		Login userSession = (Login) WebUtils.getSessionAttribute(request, "userSession");
 /*		
@@ -93,7 +94,13 @@ public class WishController {
 			
 		prSvc.deleteWishproduct(userSession.getAccount().getUserId(), productId);
 		
-		return  WISH_PRODUCT_LIST; //
+		if(view.equals("list")) {
+			System.out.println(view + "에서 삭제했습니다.");
+			return "redirect:" + WISH_PRODUCT_LIST_URI;
+		}
+		if(view.equals("view")) //뷰에서 삭제
+			System.out.println("뷰에서 삭제했습니다.");
+			return  "redirect:" + WISH_RE + "?productId=" + productId; 
 	}
 
 	// 공구 위시

@@ -97,4 +97,11 @@ public class ProductServiceImpl implements ProductService {
 		
 	}
 
+	@Override
+	public WishProduct getWishPr(String userId, int productId) {
+		return wpRepo.findByUserIdAndProductId(userId, productId);
+	}
+	
+	
+
 }
