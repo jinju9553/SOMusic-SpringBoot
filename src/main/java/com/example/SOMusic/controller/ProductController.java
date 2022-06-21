@@ -193,7 +193,7 @@ public class ProductController implements ApplicationContextAware{
 		//delete
 		prSvc.deleteProduct(productId);
 		
-		return "redirect:" + "/user/my/sale/list/product?sellerId=panda";
+		return "redirect:" + "/user/my/sale/list?sellerId=panda";
 	}
 	
 	
