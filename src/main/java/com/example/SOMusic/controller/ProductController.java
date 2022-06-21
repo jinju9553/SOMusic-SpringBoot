@@ -26,8 +26,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.util.WebUtils;
 
 import com.example.SOMusic.domain.GroupPurchase;
+import com.example.SOMusic.domain.Login;
 import com.example.SOMusic.domain.Product;
 import com.example.SOMusic.service.ProductService;
 
@@ -70,7 +72,8 @@ public class ProductController implements ApplicationContextAware{
 	
   @ModelAttribute("PrReq")
   public ProductRequest formBacking(HttpServletRequest request) throws Exception { 
-	     String PrId = request.getParameter("PrId"); 
+	     String PrId = request.getParameter("productId"); 
+	     System.out.println(PrId);
 		 ProductRequest prReq = new ProductRequest();  
 		  //PrId가 없으면 register 
 		  if (PrId == null) 
@@ -92,8 +95,8 @@ public class ProductController implements ApplicationContextAware{
 		
   @PostMapping(value="/register")
   public String register(@ModelAttribute("prReq") ProductRequest prReq, 
-			Errors errors, Model model) throws Exception {
-		
+			Errors errors, HttpServletRequest request, Model model) throws Exception {
+	  Login userSession = (Login) WebUtils.getSessionAttribute(request, "userSession");
 	  System.out.println("상품 등록중입니다.");
 	  
 		  //errors 
@@ -110,7 +113,7 @@ public class ProductController implements ApplicationContextAware{
 		  pr.initPr(prReq, this.uploadDirLocal + filename);
 		 
 		  //sellerId 추가   
-		  pr.setSellerId("panda");
+		  pr.setSellerId(userSession.getAccount().getUserId());
 		  //pr.setBank(Product_REGISTER_FORM);
 		  //DB에 추가
 		  prSvc.addProduct(pr);
@@ -128,18 +131,23 @@ public class ProductController implements ApplicationContextAware{
 	//update
 	@GetMapping(value="/update")
 	public String showUpdateForm(@RequestParam("productId") int productId, Model model) {
+		System.out.println("수정폼 불러옴");
+		System.out.println(productId);
+		
+		
 		String imgPath = prSvc.getPr(productId).getImage();
 		model.addAttribute("imgPath", imgPath);
 		return Product_UPDATE_FORM;
 	}
 	
 	@PostMapping(value="/update")
-	public String update(@ModelAttribute("prReq") ProductRequest prReq, 
+	public String update(@ModelAttribute("prReq") ProductRequest prReq,  HttpServletRequest request,
 						@RequestParam("imgPath") String path, @RequestParam("isModify") String isModify,
 						Model model) throws Exception {
-
-		
+		Login userSession = (Login) WebUtils.getSessionAttribute(request, "userSession");
+		System.out.println("ProductId : " + prReq.getProductId());
 		String filePath;
+		
 		if (isModify.equals("true")) {
 			String filename = uploadFile(prReq.getProductName(), prReq.getImage());
 			filePath = this.uploadDirLocal + filename;
@@ -148,7 +156,9 @@ public class ProductController implements ApplicationContextAware{
 			filePath = path;
 		
 		 Product pr = new Product(); 
+		 
 		pr.initPr(prReq, filePath);
+		pr.setSellerId(userSession.getAccount().getUserId());
 		
 		//update 
 		prSvc.updateProduct(pr);

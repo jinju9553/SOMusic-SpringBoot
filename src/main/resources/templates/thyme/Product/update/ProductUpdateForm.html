@@ -94,7 +94,8 @@
   margin: 30px;
   }
   
-  input[type="text"] {
+  .infotext {
+  background: transparent;
   border: solid 2px #afafc7; border-radius: 8px;
   }
   
@@ -122,27 +123,27 @@
                 </div>
                 <div class="row">
                     <input name="image" type="file" th:value="*{image}" th:field="*{image}" accept="image/*" style="display:none;"/>
-                    <input type="hidden" name="isModify" id="isModify" value="false" />
+                   
                 </div>
 			<div class="info">
 				<inline class="row"><font size=4>음반 제목</font> &nbsp;&nbsp;
-				<input  type="text" th:field="*{productName}" name ="productName" size="20"></inline>
+				<input  type="text" class="infotext" th:field="*{productName}"  name ="productName" size="20"></inline>
 				
 				<br/>
 				<inline class="row"><font size=4>아티스트 이름</font> &nbsp;&nbsp;
-				<input type="text" th:field="*{artistName}" name ="artistName" size="20"></inline>
+				<input type="text" class="infotext" th:field="*{artistName}" name ="artistName" size="20"></inline>
 				<br/>
 				<inline id="blue" class="row"><font size=4>가격</font> &nbsp;&nbsp;
-				<input type="text" name ="title" style="width:150px" th:field="*{price}" size="20">&nbsp;원</inline>
+				<input type="text" class="infotext" name ="title" style="width:150px" th:field="*{price}" size="20">&nbsp;원</inline>
 				<br/>
 				<inline class="row"><font size=4>배송비</font> &nbsp;&nbsp;
-				<input type="text" th:field="*{shippingCost}" style="width:150px" name ="title" size="20"> &nbsp;원</inline>
+				<input type="text" class="infotext" th:field="*{shippingCost}" style="width:150px" name ="title" size="20"> &nbsp;원</inline>
 				<br/>
 				<inline class="row"><font size=4>은행</font> &nbsp;&nbsp;
-				<input type="text" th:field="*{bank}" style="width:150px" name ="title" size="20"></inline>
+				<input type="text" class="infotext" th:field="*{bank}" style="width:150px" name ="title" size="20"></inline>
 				<br/>
 				<inline class="row"><font size=4>계좌번호</font> &nbsp;&nbsp;
-				<input type="text" th:field="*{account}" style="width:150px" name ="title" size="20"></inline>
+				<input type="text" class="infotext" th:field="*{account}" style="width:150px" name ="title" size="20"></inline>
 				<br/>								
 				<div class="row"><font size=4>상태</font></div>
 				<input type="radio" th:field="*{condition}" name ="slvstatus" value="4"><font size=4>매우좋음</font>
@@ -150,7 +151,7 @@
 				<input type="radio" th:field="*{condition}" name ="slvstatus" value="2"><font size=4>보통</font>
 				<input type="radio" th:field="*{condition}" name ="slvstatus" value="1"><font size=4>별로임</font>
 				<div class="row"><font size=4>코멘트</font></div>
-				<input type="text" name ="comment"  style="width:300px;height:40px;"th:field="*{description}" size="80">
+				<input type="text" name ="comment" class="infotext" style="width:300px;height:40px;"th:field="*{description}" size="80">
 				</div>
 				</div>
 				<br/>

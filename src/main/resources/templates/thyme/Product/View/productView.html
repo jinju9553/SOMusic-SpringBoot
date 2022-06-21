@@ -75,8 +75,7 @@ function twitter() {
     }
     
      .image {
-    	width: 100%;
-
+    	width: 70%;
     	margin-left: 30px;
     	margin-top: 20px;
     } 
@@ -131,7 +130,7 @@ function twitter() {
 <div id="out">
 	<div class="top_view">
 		<tr> <td>
-	  		 <a th:href="@{/user/wish/add(productId=${viewPr.productId})}"><button id="noInterest">
+	  		 <a th:href="@{/user/my/wish/product/add(productId=${viewPr.productId})}"><button id="noInterest">
 	  		❤</button></a> </td>
 	  		
 	  		<div style="float: right; margin-top: 10px; margin-right: 10px;">
@@ -170,14 +169,17 @@ function twitter() {
 				<div class="row">
 					<br>
 					<br>
-					<a th:href="@{/purchase/{productId}(productId=${viewPr.productId})}">
-					<button class="btn" type="button">구매하기</button>
-					</a>
-					<!-- <div th:if="${userSession.getAccount().getUserId().equals('${productReq.sellerId}')}"> -->
+ 					<div th:if="${#strings.equals(userSession.getAccount().getUserId(), viewPr.sellerId)}"> 
 					<a th:href="@{/product/update(productId=${viewPr.productId})}">
+					<input type="hidden" id="productId" name="productId" th:field="*{viewPr.productId}" />
 					<button class="btn" type="button">
 					수정하기</button></a>
 					</div>
+					<div th:unless="${#strings.equals(userSession.getAccount().getUserId(), viewPr.sellerId)}" >
+					<a th:href="@{/purchase/{productId}(productId=${viewPr.productId})}">
+					<button class="btn" type="button">구매하기</button></a>
+					</div>					
+					
 				</div>
 			</div>
 		</div>
