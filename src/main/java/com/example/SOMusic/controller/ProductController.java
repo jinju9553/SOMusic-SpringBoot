@@ -3,6 +3,7 @@ package com.example.SOMusic.controller;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +18,7 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -99,14 +101,21 @@ public class ProductController implements ApplicationContextAware{
 	 
 		
   @PostMapping(value="/register")
-  public String register(@ModelAttribute("prReq") ProductRequest prReq, 
+  public String register(@Valid @ModelAttribute("prReq") ProductRequest prReq, 
 			Errors errors, HttpServletRequest request, Model model) throws Exception {
 	  Login userSession = (Login) WebUtils.getSessionAttribute(request, "userSession");
 	  System.out.println("상품 등록중입니다.");
 	  
-		  //errors 
+	 // FieldError error = errors.getFieldError();
+	  
+		//errors 
 	  	if(errors.hasErrors()) { 
-	  		System.out.println("오류발생~");
+	  		System.out.println("오류");
+	  		System.out.println(errors.getFieldErrors());
+	  		System.out.println(errors.toString());
+	  		
+	  		model.addAttribute("prReq", prReq);
+	  		
 	  		return Product_REGISTER_FORM; 
 	  		}
 	  	

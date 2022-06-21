@@ -117,7 +117,11 @@
   border: solid 2px #afafc7; border-radius: 8px;
   }
   
-
+    .error {
+    	text-align: right;
+    	font-size: 13px;
+    	color: #5f7caf;
+    }
   
 </style>
 <meta charset="UTF-8">
@@ -137,12 +141,17 @@
                </div>
 				<br/>
 			<div class="info">
+			<div class="element">
 				<inline class="row"><font size=4>음반 제목</font> &nbsp;&nbsp;
 				<input  type="text" class="infotext" th:field="*{productName}" name ="productName" size="20"></inline>
-				
+				   <div class="element error">
+            		<span th:each="err : ${#fields.errors('productName')}" th:text="${err}">에러 메세지</span>
+            		</div>
 				<br/>
+				</div>
 				<inline class="row"><font size=4>아티스트 이름</font> &nbsp;&nbsp;
 				<input type="text"  class="infotext" th:field="*{artistName}" name ="artistName" size="20"></inline>
+				<span th:each="err : ${#fields.errors('productName')}" th:text="${err}">에러 메세지</span>
 				<br/>
 				<inline id="blue" class="row"><font size=4>가격</font> &nbsp;&nbsp;
 				<input type="text"  class="infotext" name ="title" style="width:150px" th:field="*{price}" size="20">&nbsp;원</inline>
