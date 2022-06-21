@@ -2,11 +2,10 @@ package com.example.SOMusic.service;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.SOMusic.dao.ProductDao;
 import com.example.SOMusic.domain.Product;
+import com.example.SOMusic.domain.WishProduct;
 
 @Service
 public interface ProductService {
@@ -28,5 +27,15 @@ public interface ProductService {
 	List<Product> getAllProductList();
 	
 	public List<Product> getSearchProductList(String keyword);		// 검색
+	
+	// Wish Product
+	
+	void deleteWishproduct(String userId, int productId);
+	
+	public List<WishProduct> findWishProductList(String userId);
+
+	void addWishproduct(WishProduct wishproduct);
+	
+	public List<WishProduct> isinterested(String userId, int productId);
 		
 }

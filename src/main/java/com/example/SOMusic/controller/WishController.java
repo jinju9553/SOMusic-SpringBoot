@@ -18,7 +18,7 @@ import com.example.SOMusic.domain.Login;
 import com.example.SOMusic.domain.WishGroupPurchase;
 import com.example.SOMusic.domain.WishProduct;
 import com.example.SOMusic.service.GPService;
-import com.example.SOMusic.service.WishProductService;
+import com.example.SOMusic.service.ProductService;
 
 @Controller
 @SessionAttributes("userSession")
@@ -36,9 +36,9 @@ public class WishController {
 	private static final String JOIN = "/join/";		// join 페이지로 uri 이동
 	
 	@Autowired
-	private WishProductService wishproductService;
-	public void setWishproductService(WishProductService wishproductService) {
-		this.wishproductService = wishproductService;
+	private ProductService prSvc;
+	public void setWishproductService(ProductService prSvc) {
+		this.prSvc = prSvc;
 	}
 	
 	@Autowired
@@ -55,7 +55,7 @@ public class WishController {
 		
 		Login userSession = (Login) WebUtils.getSessionAttribute(request, "userSession");
 		
-		List<WishProduct> wishPrList = wishproductService.findWishProductList(userSession.getAccount().getUserId());
+		List<WishProduct> wishPrList = prSvc.findWishProductList(userSession.getAccount().getUserId());
 		model.addAttribute("wishPrList", wishPrList);
 		
 		return WISH_PRODUCT_LIST; 
@@ -74,7 +74,7 @@ public class WishController {
 		wish.setProductId(productId);
 		wish.setUserId(userSession.getAccount().getUserId());
 				
-		wishproductService.addWishproduct(wish);
+		prSvc.addWishproduct(wish);
 		System.out.println("찜 추가 완료");
 				
 		return "redirect:" + WISH_RE + "?productId=" + productId; //	
@@ -91,7 +91,7 @@ public class WishController {
 		wish.setProductId(productId);
 		wish.setUserId("panda");*/
 			
-		wishproductService.deleteWishproduct(userSession.getAccount().getUserId(), productId);
+		prSvc.deleteWishproduct(userSession.getAccount().getUserId(), productId);
 		
 		return  WISH_PRODUCT_LIST; //
 	}
