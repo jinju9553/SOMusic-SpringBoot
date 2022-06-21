@@ -22,7 +22,7 @@ import lombok.ToString;
 
 @Entity
 @Table(name="product") //클래스 명과 테이블 명이 다르다면 지정
-@Getter @Setter
+@Getter @Setter @ToString
 @SequenceGenerator(name="SEQ_PR", sequenceName="SEQUENCE_PRODUCT", allocationSize=1)
 @SuppressWarnings("serial")
 public class Product implements Serializable {

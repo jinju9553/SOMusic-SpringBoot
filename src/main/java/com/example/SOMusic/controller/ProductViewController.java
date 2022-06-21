@@ -48,43 +48,25 @@ public class ProductViewController {
 	@GetMapping("/info")
 	public String showProductView2(
 			HttpServletRequest request,
-			@RequestParam("productId") int productId, Model model)
-			 {
-			Login userSession = (Login) WebUtils.getSessionAttribute(request, "userSession");
-			
-			String userId = null;
-			if(userSession != null)
-				userId = userSession.getAccount().getUserId();
+			@RequestParam("productId") int productId, Model model) {
 		
+		Login userSession = (Login) WebUtils.getSessionAttribute(request, "userSession");
+
+		String userId = null;
+		if(userSession != null)
+			userId = userSession.getAccount().getUserId();
+					
+		Product viewPr = prSvc.getPr(productId);
+		
+		System.out.println("상품: " + viewPr);
+		System.out.println("판매자아이디: " + viewPr.getSellerId());
+		System.out.println("상품 이미지 경로 : " + viewPr.getImage());
+		
+		model.addAttribute("image", viewPr.getImage());
+		model.addAttribute("viewPr", viewPr);
+		model.addAttribute("buyerId", userId);
 				
-				ProductRequest productReq = new ProductRequest();
-				Product product = prSvc.findProductByProductId(productId);
-			
-				//	model.addAttribute(product);
-				System.out.println("테스트입니다. 판매자아이디: " + product.getSellerId());
-				System.out.println("테스트입니다");
-				
-				Product viewPr = prSvc.getPr(productId);
-				model.addAttribute("viewPr", viewPr);
-				
-				/*
-				 * productReq.setProductName(product.getProductName());
-				 * productReq.setProductId(product.getProductId());
-				 * productReq.setPrice(product.getPrice());
-				 * productReq.setImage(product.getImage());
-				 * productReq.setDescription(product.getDescription());
-				 * productReq.setCondition(product.getCondition());
-				 * productReq.setArtistName(product.getArtistName());
-				 * productReq.setSellerId(product.getSellerId());
-				 */
-				System.out.println(viewPr.getImage());
-				model.addAttribute("image", viewPr.getImage());
-				
-			
-				model.addAttribute("productReq", productReq);
-				model.addAttribute("buyerId", userId);
-				
-				return "thyme/product/view/productView";
+		return "thyme/Product/View/productView";
 	}
 }	
 
