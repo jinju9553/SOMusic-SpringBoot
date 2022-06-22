@@ -38,8 +38,9 @@
   <script>
 	  $(document).ready(function() {
 		  var imgSrc = "${purchaseReq.product.image}";
-		  if (imgSrc == null) {
-			  $("#image").attr("src", "<c:url value='../images/purchase/noImage.png'/>")
+		  if (imgSrc == "null") {
+			  console.log("if문 안쪽");
+			  $("#image").attr("src", "../images/purchase/noImage.png")
 		  }
 	  });
   
