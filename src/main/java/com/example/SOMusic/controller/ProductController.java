@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,11 +41,11 @@ import com.example.SOMusic.service.ProductService;
 public class ProductController implements ApplicationContextAware {
 	
 	private static final String Product_REGISTER_FORM = "thyme/product/register/productRegisterForm";
-	private static final String Product_REGISTER_SEUCCESS = "/product/register/success";	// redirect
-	private static final String Product_REGISTER_SEUCCESS_View = "thyme/product/register/ProductRegisterSuccess";
+	private static final String Product_REGISTER_SUCCESS = "/product/register/success";	// redirect
+	private static final String Product_REGISTER_SUCCESS_View = "thyme/product/register/ProductRegisterSuccess";
 
 	private static final String Product_UPDATE_FORM = "thyme/Product/update/ProductUpdateForm";
-	private static final String PR_UPDATE_SEUCCESS = "/product/info";
+	private static final String PR_UPDATE_SUCCESS = "/product/info";
 
 	// 이미지 업로드
 	@Value("/upload/")
@@ -73,40 +74,26 @@ public class ProductController implements ApplicationContextAware {
 		this.validator = valitator;
 	}
 	
-	
-  @ModelAttribute("PrReq")
-  public ProductRequest formBacking(HttpServletRequest request) throws Exception { 
-	     String PrId = request.getParameter("productId"); 
-	     System.out.println("PrReq의 PrId : " + PrId);
-		 ProductRequest prReq = new ProductRequest();
-		 
-		 
-		 System.out.println("prReq의 ProductId : " + prReq.getProductId());
-		 
-		  //PrId가 없으면 register 
-		  if (PrId == null) 
-			  return prReq; 
-		  //있으면 update
-		  else {
-			  prReq.initProductReq(prSvc.findProductByProductId(Integer.parseInt(PrId))); 
-			  prReq.setProductId(Integer.parseInt(PrId));
-			  
-			  return prReq; 
-		  }
-  }
-
-		System.out.println("prReq의 ProductId : " + prReq.getProductId());
-
-		// PrId가 없으면 register
-		if (PrId == null)
-			return prReq;
-		// 있으면 update
-		else {
-			prReq.initProductReq(prSvc.findProductByProductId(Integer.parseInt(PrId)));
-			prReq.setProductId(Integer.parseInt(PrId));
-			return prReq;
-		}
-	}
+	@ModelAttribute("PrReq")
+	  public ProductRequest formBacking(HttpServletRequest request) throws Exception {
+		     String PrId = request.getParameter("productId");
+		     System.out.println("PrReq의 PrId : " + PrId);
+			 ProductRequest prReq = new ProductRequest();
+			
+			
+			 System.out.println("prReq의 ProductId : " + prReq.getProductId());
+			
+			  //PrId가 없으면 register
+			  if (PrId == null)
+				  return prReq;
+			  //있으면 update
+			  else {
+				  prReq.initProductReq(prSvc.findProductByProductId(Integer.parseInt(PrId)));
+				  prReq.setProductId(Integer.parseInt(PrId));
+				 
+				  return prReq;
+			  }
+	  }
 
   	//register
 	@GetMapping(value = "/register")
@@ -152,14 +139,14 @@ public class ProductController implements ApplicationContextAware {
 		  //DB에 추가
 		  prSvc.addProduct(pr);
 
-		return "redirect:" + Product_REGISTER_SEUCCESS; //redirect
+		return "redirect:" + Product_REGISTER_SUCCESS; //redirect
 	}
 	
 	@RequestMapping(value="/register/success", method = RequestMethod.GET)
 	public String success(Model model) throws Exception {
 		System.out.println("등록 완료");
 		
-		return Product_REGISTER_SEUCCESS_View;
+		return Product_REGISTER_SUCCESS_View;
 	}	
 	
 	//update
@@ -213,7 +200,7 @@ public class ProductController implements ApplicationContextAware {
 		//update 
 		prSvc.updateProduct(pr);
 		
-		return "redirect:" + PR_UPDATE_SEUCCESS + "?productId=" + prReq.getProductId();
+		return "redirect:" + PR_UPDATE_SUCCESS + "?productId=" + prReq.getProductId();
 	}
 
 	private String uploadFile(String studentNumber, MultipartFile report) {
