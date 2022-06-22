@@ -36,8 +36,6 @@ public interface ProductService {
 
 	void addWishproduct(WishProduct wishproduct);
 	
-	public List<WishProduct> isinterested(String userId, int productId);
-	
 	public WishProduct getWishPr(String userId, int productId);
 		
 }

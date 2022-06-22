@@ -87,11 +87,6 @@ public class ProductServiceImpl implements ProductService {
 	}
 	
 	@Override
-	public List<WishProduct> isinterested(String userId, int productId) {
-		return wpRepo.getWishProductByproductIdAndUserId(userId, productId);
-	}
-
-	@Override
 	public void deleteWishproduct(String userId, int productId) {
 		wpRepo.deleteByproductIdAndUserId(productId, userId);
 		
