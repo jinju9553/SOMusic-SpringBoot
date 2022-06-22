@@ -17,6 +17,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,6 +34,7 @@ import org.springframework.web.util.WebUtils;
 import com.example.SOMusic.domain.GroupPurchase;
 import com.example.SOMusic.domain.Login;
 import com.example.SOMusic.domain.Product;
+import com.example.SOMusic.service.ImgValidator;
 import com.example.SOMusic.service.ProductService;
 
 @Controller
@@ -71,6 +73,12 @@ public class ProductController implements ApplicationContextAware{
 		this.prSvc = prSvc;
 	}
 	
+	@Autowired // 이미지 유효성 검사
+	private ImgValidator validator;
+	public void setImgValidator(ImgValidator valitator) {
+		this.validator = valitator;
+	}
+	
 	
   @ModelAttribute("PrReq")
   public ProductRequest formBacking(HttpServletRequest request) throws Exception { 
@@ -88,9 +96,10 @@ public class ProductController implements ApplicationContextAware{
 		  else {
 			  prReq.initProductReq(prSvc.findProductByProductId(Integer.parseInt(PrId))); 
 			  prReq.setProductId(Integer.parseInt(PrId));
+			  
 			  return prReq; 
-			  }
 		  }
+  }
 
   //register
   @GetMapping(value="/register") 
@@ -101,20 +110,26 @@ public class ProductController implements ApplicationContextAware{
 	 
 		
   @PostMapping(value="/register")
-  public String register(@Valid @ModelAttribute("prReq") ProductRequest prReq, 
-			Errors errors, HttpServletRequest request, Model model) throws Exception {
+  public String register(@Valid @ModelAttribute("PrReq") ProductRequest prReq, Errors errors,
+		  					@RequestParam("imgCheck") String imgCheck, BindingResult result,
+		  					HttpServletRequest request, Model model) throws Exception {
 	  Login userSession = (Login) WebUtils.getSessionAttribute(request, "userSession");
 	  System.out.println("상품 등록중입니다.");
 	  
 	 // FieldError error = errors.getFieldError();
 	  
+	  System.out.println(prReq);	  
+	  
+	  validator.validate(imgCheck, result);
+	  
+	  
 		//errors 
-	  	if(errors.hasErrors()) { 
-	  		System.out.println("오류");
-	  		System.out.println(errors.getFieldErrors());
-	  		System.out.println(errors.toString());
-	  		
-	  		model.addAttribute("prReq", prReq);
+	  	if(errors.hasErrors() && result.hasErrors()) { 
+//	  		System.out.println("오류");
+//	  		System.out.println(errors.getFieldErrors());
+//	  		System.out.println(errors.toString());
+//	  		
+//	  		model.addAttribute("prReq", prReq);
 	  		
 	  		return Product_REGISTER_FORM; 
 	  		}
