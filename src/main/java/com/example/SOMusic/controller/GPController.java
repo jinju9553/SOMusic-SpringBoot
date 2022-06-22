@@ -42,7 +42,7 @@ public class GPController implements ApplicationContextAware {
 	private static final String GP_UPDATE_FORM = "thyme/gp/update/GPUpdateForm";
 	private static final String GP_UPDATE_SEUCCESS = "/user/my/gp/info";	// redirect : uri
 	
-	private static final String GP_DELETE = "/user/my/gp/register/list"; // 공구 삭제 후 공구 리스트로 다시 이동 uri
+	private static final String GP_DELETE = "/user/my/gp/list"; // 공구 삭제 후 공구 리스트로 다시 이동 uri
 	
 	private static final String LOGIN_FROM = "/user/loginForm";		// 로그인 폼으로 uri 이동
 	
@@ -120,7 +120,7 @@ public class GPController implements ApplicationContextAware {
 		gp.initGP(gpReq, this.uploadDirLocal + filename);
 		gp.setSellerId(userSession.getAccount().getUserId());	// 세션에서 Account.userId 삽입
 
-//		gpSvc.insertGP(gp);
+		gpSvc.insertGP(gp);
 		
 		return "redirect:" + GP_REGISTER_SEUCCESS;	// redirect로 넘기기
 	}
