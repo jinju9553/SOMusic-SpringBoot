@@ -137,7 +137,7 @@ public class ProductController implements ApplicationContextAware {
 		 
 		  //sellerId 추가   
 		  pr.setSellerId(userSession.getAccount().getUserId());
-		  //pr.setBank(Product_REGISTER_FORM);
+		  
 		  //DB에 추가
 		  prSvc.addProduct(pr);
 

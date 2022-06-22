@@ -105,7 +105,8 @@ public class ProductRequest implements Serializable {
 		image = getFile(p.getImage());
 		bank = p.getBank();
 		shippingCost = p.getShippingCost();
-		account = p.getAccount();		
+		account = p.getAccount();	
+		location = p.getLocation();
 		description = p.getDescription();
 		condition = p.getCondition();
 		artistName = p.getArtistName();
