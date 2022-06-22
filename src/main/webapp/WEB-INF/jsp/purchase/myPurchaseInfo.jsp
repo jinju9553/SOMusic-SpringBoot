@@ -18,8 +18,8 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		var imgSrc = "${purchaseInfoReq.product.image}";
-		if (imgSrc == null) {
-			$("#image").attr("src", "<c:url value='../images/purchase/noImage.png'/>")
+		if (imgSrc == "") {
+			$("#image").attr("src", "../images/purchase/noImage.png")
 		}
 		
 		var status = ${purchaseInfoReq.product.status};

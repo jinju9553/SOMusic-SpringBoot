@@ -17,6 +17,11 @@
 <div align="center">
 <script type="text/javascript">
 	$(document).ready(function() {
+		var imgSrc = "${purchaseInfoReq.product.image}";
+		if (imgSrc == "") {
+			$("#image").attr("src", "../images/purchase/noImage.png")
+		}
+		
 		var status = ${purchaseInfoReq.product.status};
 		switch (status) { //0: 승인 전 & 1: 승인됨, 입금 대기 & 2: 입금 완료 & 3:배송 시작 & 4: 거래 완료
 		  case 0:

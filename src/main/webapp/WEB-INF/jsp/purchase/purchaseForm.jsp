@@ -38,8 +38,8 @@
   <script>
 	  $(document).ready(function() {
 		  var imgSrc = "${purchaseReq.product.image}";
-		  if (imgSrc == null) {
-			  $("#image").attr("src", "<c:url value='../images/purchase/noImage.png'/>")
+		  if (imgSrc == "") {
+			  $("#image").attr("src", "../images/purchase/noImage.png")
 		  }
 	  });
   
