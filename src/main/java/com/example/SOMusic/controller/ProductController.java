@@ -183,7 +183,7 @@ public class ProductController implements ApplicationContextAware {
 	  		
 	  		model.addAttribute("prReq", prReq);
 	  		
-	  		return Product_REGISTER_FORM; 
+	  		return Product_UPDATE_FORM; 
 	  		}
 		
 		
