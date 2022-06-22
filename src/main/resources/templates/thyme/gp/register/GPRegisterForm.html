@@ -17,6 +17,7 @@
 	            $('#View').attr('src', e.target.result);
 	        }
 	        reader.readAsDataURL(input.files[0]);
+	        $('#imgCheck').attr('value', 'on');
 	    }
 	}
 </script>
@@ -72,12 +73,13 @@
             </div>
             <div class="element">
                 <div class="element image_view">
-                	<input id="image" name="image" type="file" accept="image/*" style="display:none;"/>
+                	<input id="image" name="image" th:field="*{image}" type="file" accept="image/*" style="display:none;"/>
+                	<input type="hidden" id="imgCheck" name="imgCheck" value="off"/> <!-- 이미지 넣었는지 체크 -->
                 	<label for="image">
                     	<img id="View" src="/images/uploadImg.png" width="100%" />
                     </label>
                     <div class="element error">
-		            	<span th:each="err : ${#fields.errors('title')}" th:text="${err}">에러 메세지</span>
+		            	<span th:each="err : ${#fields.errors('imgCheck')}" th:text="${err}">에러 메세지</span>
 		            </div>
                 </div>
             </div>

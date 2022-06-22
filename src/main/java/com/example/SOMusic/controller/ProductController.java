@@ -2,6 +2,8 @@ package com.example.SOMusic.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,7 +15,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,6 +31,7 @@ import org.springframework.web.util.WebUtils;
 
 import com.example.SOMusic.domain.Login;
 import com.example.SOMusic.domain.Product;
+import com.example.SOMusic.service.ImgValidator;
 import com.example.SOMusic.service.ProductService;
 
 @Controller
@@ -62,11 +67,33 @@ public class ProductController implements ApplicationContextAware {
 		this.prSvc = prSvc;
 	}
 
+	@Autowired // 이미지 유효성 검사
+	private ImgValidator validator;
+	public void setImgValidator(ImgValidator valitator) {
+		this.validator = valitator;
+	}
+	
+	
   @ModelAttribute("PrReq")
-	public ProductRequest formBacking(HttpServletRequest request) throws Exception {
-		String PrId = request.getParameter("productId");
-		System.out.println("PrReq의 PrId : " + PrId);
-		ProductRequest prReq = new ProductRequest();
+  public ProductRequest formBacking(HttpServletRequest request) throws Exception { 
+	     String PrId = request.getParameter("productId"); 
+	     System.out.println("PrReq의 PrId : " + PrId);
+		 ProductRequest prReq = new ProductRequest();
+		 
+		 
+		 System.out.println("prReq의 ProductId : " + prReq.getProductId());
+		 
+		  //PrId가 없으면 register 
+		  if (PrId == null) 
+			  return prReq; 
+		  //있으면 update
+		  else {
+			  prReq.initProductReq(prSvc.findProductByProductId(Integer.parseInt(PrId))); 
+			  prReq.setProductId(Integer.parseInt(PrId));
+			  
+			  return prReq; 
+		  }
+  }
 
 		System.out.println("prReq의 ProductId : " + prReq.getProductId());
 
@@ -89,14 +116,27 @@ public class ProductController implements ApplicationContextAware {
 	}
 		
   @PostMapping(value="/register")
-  public String register(@ModelAttribute("prReq") ProductRequest prReq, 
-			Errors errors, HttpServletRequest request, Model model) throws Exception {
+  public String register(@Valid @ModelAttribute("PrReq") ProductRequest prReq, Errors errors,
+		  					@RequestParam("imgCheck") String imgCheck, BindingResult result,
+		  					HttpServletRequest request, Model model) throws Exception {
 	  Login userSession = (Login) WebUtils.getSessionAttribute(request, "userSession");
 	  System.out.println("상품 등록중입니다.");
 	  
-		  //errors 
-	  	if(errors.hasErrors()) { 
-	  		System.out.println("오류발생~");
+	 // FieldError error = errors.getFieldError();
+	  
+	  System.out.println(prReq);	  
+	  
+	  validator.validate(imgCheck, result);
+	  
+	  
+		//errors 
+	  	if(errors.hasErrors() && result.hasErrors()) { 
+//	  		System.out.println("오류");
+//	  		System.out.println(errors.getFieldErrors());
+//	  		System.out.println(errors.toString());
+//	  		
+//	  		model.addAttribute("prReq", prReq);
+	  		
 	  		return Product_REGISTER_FORM; 
 	  		}
 	  	
@@ -118,7 +158,7 @@ public class ProductController implements ApplicationContextAware {
 	@RequestMapping(value="/register/success", method = RequestMethod.GET)
 	public String success(Model model) throws Exception {
 		System.out.println("등록 완료");
-
+		
 		return Product_REGISTER_SEUCCESS_View;
 	}	
 	
@@ -136,12 +176,27 @@ public class ProductController implements ApplicationContextAware {
 	}
 	
 	@PostMapping(value="/update")
-	public String update(@ModelAttribute("prReq") ProductRequest prReq,  HttpServletRequest request,
+	public String update(@Valid @ModelAttribute("prReq") ProductRequest prReq, 
+			Errors errors,  
+			HttpServletRequest request,
 						@RequestParam("imgPath") String path, @RequestParam("isModify") String isModify,
 						Model model) throws Exception {
+		
 		Login userSession = (Login) WebUtils.getSessionAttribute(request, "userSession");
 		System.out.println("ProductId : " + prReq.getProductId());
 		String filePath;
+		
+		
+		if(errors.hasErrors()) { 
+	  		System.out.println("Product 수정폼 오류");
+	  		System.out.println(errors.getFieldErrors());
+	  		System.out.println(errors.toString());
+	  		
+	  		model.addAttribute("prReq", prReq);
+	  		
+	  		return Product_REGISTER_FORM; 
+	  		}
+		
 		
 		if (isModify.equals("true")) {
 			String filename = uploadFile(prReq.getProductName(), prReq.getImage());

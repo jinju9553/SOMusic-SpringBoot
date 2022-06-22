@@ -8,6 +8,9 @@ import java.io.OutputStream;
 import java.io.Serializable;
 import java.nio.file.Files;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItem;
@@ -19,23 +22,43 @@ import com.example.SOMusic.domain.Product;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
-@Getter @Setter
+@Getter @Setter @ToString
 public class ProductRequest implements Serializable {
 	private int productId;
+	
+	@NotBlank(message="필수 입력 항목입니다.")
 	private String productName;
+	
 	private String sellerId;
 	
+	@Min(value=1, message="필수 입력 항목입니다.")
 	private int price;
+	
+	@Min(value=1, message="필수 입력 항목입니다.")
 	private int shippingCost;
-	//private String image;
-	private MultipartFile image;	
+
+	private MultipartFile image;
+	private String imgCheck;
+	
+	@NotBlank(message="필수 입력 항목입니다.")
 	private String description;
+	
 	private int condition;
+	
 	private int status;
+	
+	@NotNull(message="필수 입력 항목입니다.")
 	private int account;
+	
+	@NotBlank(message="필수 입력 항목입니다.")
 	private String bank;
+	
+	@NotBlank(message="필수 입력 항목입니다.")
 	private String artistName;
+	
+	@NotBlank(message="필수 입력 항목입니다.")
 	private String location;
 	
 	public ProductRequest () {}

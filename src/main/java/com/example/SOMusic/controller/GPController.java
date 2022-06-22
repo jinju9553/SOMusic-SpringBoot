@@ -14,6 +14,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +27,7 @@ import org.springframework.web.util.WebUtils;
 
 import com.example.SOMusic.domain.GroupPurchase;
 import com.example.SOMusic.domain.Login;
-import com.example.SOMusic.service.AccountService;
+import com.example.SOMusic.service.ImgValidator;
 import com.example.SOMusic.service.GPService;
 
 @Controller
@@ -65,10 +66,10 @@ public class GPController implements ApplicationContextAware {
 		this.gpSvc= gpSvc;
 	}
 	
-	@Autowired
-	private AccountService accountService;
-	public void setAccountService(AccountService accountService) {
-		this.accountService = accountService;
+	@Autowired // 이미지 유효성 검사
+	private ImgValidator validator;
+	public void setImgValidator(ImgValidator valitator) {
+		this.validator = valitator;
 	}
 	
 	@ModelAttribute("gpReq")
@@ -98,12 +99,15 @@ public class GPController implements ApplicationContextAware {
 	@RequestMapping(value="/register", method = RequestMethod.POST)
 	public String register(HttpServletRequest request,
 							@Valid @ModelAttribute("gpReq") GPRequest gpReq, Errors errors,
+							@RequestParam("imgCheck") String imgCheck, BindingResult result,
 							Model model) throws Exception {
 		
 		Login userSession = (Login) WebUtils.getSessionAttribute(request, "userSession");
-
+		
+		validator.validate(imgCheck, result); // 이미지가 삽입되었는지 유효성 체크, MultipartFile에 서블릿이 기본값을 주입하기에 null 체크X
+		
 		// 오류
-		if(errors.hasErrors()) {
+		if(errors.hasErrors() && result.hasErrors()) {
 			return GP_REGISTER_FORM;
 		}
 		
@@ -162,11 +166,11 @@ public class GPController implements ApplicationContextAware {
 		
 		String filePath;
 		if (isModify.equals("true")) {
-			String filename = uploadFile(gpReq.getTitle(), gpReq.getImage());
+			String filename = uploadFile(gpReq.getTitle(), gpReq.getImage());	// 이미지 수정된 경구
 			filePath = this.uploadDirLocal + filename;
 		}
 		else
-			filePath = path;
+			filePath = path;	// 이미지 수정 X 경우
 		
 		GroupPurchase gp = new GroupPurchase();
 		gp.initGP(gpReq, filePath);
