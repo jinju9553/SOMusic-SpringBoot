@@ -81,7 +81,7 @@
                     <input name="image" type="file" th:value="*{image}" th:field="*{image}" accept="image/*" style="display:none;"/>
                     <input type="hidden" name="isModify" id="isModify" value="false" />
                     <div class="element error">
-		            	<span th:each="err : ${#fields.errors('title')}" th:text="${err}">에러 메세지</span>
+		            	<span th:each="err : ${#fields.errors('image')}" th:text="${err}">에러 메세지</span>
 		            </div>
                 </div>
                 

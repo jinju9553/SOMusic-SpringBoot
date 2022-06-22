@@ -16,6 +16,7 @@
 	            $('#View').attr('src', e.target.result);
 	        }
 	        reader.readAsDataURL(input.files[0]);
+	        $('#imgCheck').attr('value', 'on');
 	    }
 	}
 </script>
@@ -131,56 +132,100 @@
 <div th:insert="~{thyme/header}"></div>
 <div id="out">
 	<div class="form_view">
-	<form action="#" th:action="@{/product/register}" th:object="${PrReq}" method="POST" enctype="multipart/form-data">
-		<div class="info_view">
-		<div class="element image_view">
-			<input id="image" name="image" type="file" accept="image/*" style="display:none;"/>
-                	<label for="image">              	
-                    	<img id="View" src="/images/uploadImg.png" width="100%" />
-                    </label>
-               </div>
+		<form action="#" th:action="@{/product/register}" th:object="${PrReq}" method="POST" enctype="multipart/form-data">
+			<div class="info_view">
+				<div class="element image_view">
+					<input id="image" th:field="*{image}" name="image" type="file" accept="image/*" style="display:none;"/>
+		            <input type="hidden" name="imgCheck" id="imgCheck" value="off" />
+		            <label for="image">              	
+		            	<img id="View" src="/images/uploadImg.png" width="100%" />
+		            </label>
+		            <div class="element error">
+		            		<span th:each="err : ${#fields.errors('*{imgCheck}')}" th:text="${err}">에러 메세지</span>
+		            </div>
+		        </div>
 				<br/>
-			<div class="info">
-			<div class="element">
-				<inline class="row"><font size=4>음반 제목</font> &nbsp;&nbsp;
-				<input  type="text" class="infotext" th:field="*{productName}" name ="productName" size="20"></inline>
-				   <div class="element error">
-            		<span th:each="err : ${#fields.errors('productName')}" th:text="${err}">에러 메세지</span>
-            		</div>
-				<br/>
-				</div>
-				<inline class="row"><font size=4>아티스트 이름</font> &nbsp;&nbsp;
-				<input type="text"  class="infotext" th:field="*{artistName}" name ="artistName" size="20"></inline>
-				<span th:each="err : ${#fields.errors('productName')}" th:text="${err}">에러 메세지</span>
-				<br/>
-				<inline id="blue" class="row"><font size=4>가격</font> &nbsp;&nbsp;
-				<input type="text"  class="infotext" name ="title" style="width:150px" th:field="*{price}" size="20">&nbsp;원</inline>
-				<br/>
-				<inline class="row"><font size=4>배송비</font> &nbsp;&nbsp;
-				<input type="text"  class="infotext" th:field="*{shippingCost}" style="width:150px" name ="title" size="20"> &nbsp;원</inline>
-				<br/>
-				<inline class="row"><font size=4>은행</font> &nbsp;&nbsp;
-				<input type="text"  class="infotext" th:field="*{bank}" style="width:150px" name ="title" size="20"></inline>
-				<br/>
-				<inline class="row"><font size=4>계좌번호</font> &nbsp;&nbsp;
-				<input type="text"  class="infotext" th:field="*{account}" style="width:150px" name ="title" size="20"></inline>
-				<br/>
-				<inline class="row"><font size=4>지역</font> &nbsp;&nbsp;
-				<input type="text"  class="infotext" th:field="*{location}" style="width:150px" name ="title" size="20"></inline>
-				<br/>								
-				<div class="row"><font size=4>상태</font></div>
-				<input type="radio" th:field="*{condition}" name ="slvstatus" value="4"><font size=4>매우좋음</font>
-				<input type="radio" th:field="*{condition}" name ="slvstatus" value="3"><font size=4>좋음</font>
-				<input type="radio" th:field="*{condition}" name ="slvstatus" value="2"><font size=4>보통</font>
-				<input type="radio" th:field="*{condition}" name ="slvstatus" value="1"><font size=4>별로임</font>
-				<div class="row"><font size=4>코멘트</font></div>
-				<input type="text"  class="infotext" name ="comment"  style="width:300px;height:40px;"th:field="*{description}" size="80">
-				</div>
-				</div>
-				<br/>
-				<input type="submit" class="btn33" value="상품 등록하기" />
-				</form>
+				
+				<div class="info">
+					<div class="element">
+						<inline class="row"><font size=4>음반 제목</font> &nbsp;&nbsp;
+							<input  type="text" class="infotext" th:field="*{productName}" name ="productName" size="20">
+						</inline>
+						   <div class="element error">
+		            			<span th:each="err : ${#fields.errors('productName')}" th:text="${err}">에러 메세지</span>
+		            		</div>
+						<br/>
+					</div>
+					
+					<inline class="row"><font size=4>아티스트 이름</font> &nbsp;&nbsp;
+						<input type="text"  class="infotext" th:field="*{artistName}" name ="artistName" size="20">
+					</inline>
+					<div class="element error">
+		            		<span th:each="err : ${#fields.errors('*{artistName}')}" th:text="${err}">에러 메세지</span>
+		            </div>
+					<br/>
+						
+					<inline id="blue" class="row"><font size=4>가격</font> &nbsp;&nbsp;
+						<input type="text" class="infotext" name ="price" style="width:150px" th:field="*{price}" size="20">&nbsp;원
+					</inline>
+					<div class="element error">
+		            		<span th:each="err : ${#fields.errors('*{price}')}" th:text="${err}">에러 메세지</span>
+		            </div>
+					<br/>
+					
+					<inline class="row"><font size=4>배송비</font> &nbsp;&nbsp;
+						<input type="text"  class="infotext" th:field="*{shippingCost}" style="width:150px" name ="shippingCost" size="20"> &nbsp;원
+					</inline>
+					<div class="element error">
+		            		<span th:each="err : ${#fields.errors('*{shippingCost}')}" th:text="${err}">에러 메세지</span>
+		            </div>
+					<br/>
+						
+					<inline class="row"><font size=4>은행</font> &nbsp;&nbsp;
+						<input type="text"  class="infotext" th:field="*{bank}" style="width:150px" name ="bank" size="20">
+					</inline>
+					<div class="element error">
+		            		<span th:each="err : ${#fields.errors('*{bank}')}" th:text="${err}">에러 메세지</span>
+		            </div>
+					<br/>
+					
+					<inline class="row"><font size=4>계좌번호</font> &nbsp;&nbsp;
+						<input type="text"  class="infotext" th:field="*{account}" style="width:150px" name ="account" size="20">
+					</inline>
+					<div class="element error">
+		            		<span th:each="err : ${#fields.errors('*{account}')}" th:text="${err}">에러 메세지</span>
+		            </div>
+					<br/>
+					
+					<inline class="row"><font size=4>지역</font> &nbsp;&nbsp;
+						<input type="text"  class="infotext" th:field="*{location}" style="width:150px" name ="location" size="20">
+					</inline>
+					<div class="element error">
+		            		<span th:each="err : ${#fields.errors('*{location}')}" th:text="${err}">에러 메세지</span>
+		            </div>
+					<br/>
+											
+					<div class="row"><font size=4>상태</font></div>
+					<input type="radio" th:field="*{condition}" name ="slvstatus" value="4"><font size=4>매우좋음</font>
+					<input type="radio" th:field="*{condition}" name ="slvstatus" value="3"><font size=4>좋음</font>
+					<input type="radio" th:field="*{condition}" name ="slvstatus" value="2"><font size=4>보통</font>
+					<input type="radio" th:field="*{condition}" name ="slvstatus" value="1"><font size=4>별로임</font>
+					<div class="element error">
+		            		<span th:each="err : ${#fields.errors('*{condition}')}" th:text="${err}">에러 메세지</span>
+		            </div>
+					
+					<div class="row"><font size=4>코멘트</font></div>
+					<input type="text"  class="infotext" name ="description"  style="width:300px;height:40px;"th:field="*{description}" size="80">
+					<div class="element error">
+		            		<span th:each="err : ${#fields.errors('*{description}')}" th:text="${err}">에러 메세지</span>
+		            </div>
 				</div>
 			</div>
+			
+			<br/>
+				<input type="submit" class="btn33" value="상품 등록하기" />
+		</form>
+	</div>
+</div>
 </body>
 </html>
