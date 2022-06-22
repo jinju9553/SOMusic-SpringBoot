@@ -88,7 +88,7 @@
   <table class="n13">
   	<!-- 상품 정보 -->
   	<tr>
-  		<td> <font class="color_purple" size="8"><b>상품 구매</b></font> </td>
+  		<td> <font class="color_purple" size="7"><b>상품 구매</b></font> </td>
   	</tr>
   	<tr>
   		<td> <div class="color_purple" style="height: auto; width: 200%; border-top:1px solid; margin-bottom: 5%;"></div> </td>

@@ -8,11 +8,6 @@
 </head>
 <body>
 <div th:insert="~{thyme/header}"></div>
-<script>
-	function deleteAlert() {
-		window.confirm("정말로 삭제하시겠습니까?\n삭제 후 복구할 수 없습니다.");
-	}
-</script>
 <div id="out">
 	<div class="lnb" style="float: left;">
 		<div>
@@ -30,7 +25,7 @@
 	
 	<div style="display:inline-block; width: 70%; margin-left: 5%;">
 		<div class="element">
-			<h4>상품 리스트</h4>
+			<h3 style="padding-bottom: 10px; line-height: 34px; border-bottom: 2px solid;">상품 리스트</h3>
 		</div>
 		<div class="element">
 			<nav>
@@ -43,7 +38,12 @@
 		<div class="element">
 			<div class="one" th:each="purchase : ${pList}">
 				<div class="image_view">
-					<img class="image" th:src="@{${purchase.product.image}}"/>
+					<div th:unless="${purchase.product.image == null}">
+						<img id="image "class="image" th:src="@{${purchase.product.image}}"/>
+					</div>
+					<div th:if="${purchase.product.image == null}">
+						<img id="image "class="image" th:src="@{/images/purchase/noImage.png}">
+					</div>
 				</div>
 				<div class="element title">
 					<h5><a class="linkTitle" th:text="${purchase.product.productName}" 

@@ -7,8 +7,6 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +29,6 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.WebUtils;
 
-import com.example.SOMusic.domain.GroupPurchase;
 import com.example.SOMusic.domain.Login;
 import com.example.SOMusic.domain.Product;
 import com.example.SOMusic.service.ImgValidator;
@@ -40,7 +37,7 @@ import com.example.SOMusic.service.ProductService;
 @Controller
 @SessionAttributes("userSession")
 @RequestMapping(value="/product")
-public class ProductController implements ApplicationContextAware{
+public class ProductController implements ApplicationContextAware {
 	
 	private static final String Product_REGISTER_FORM = "thyme/product/register/productRegisterForm";
 	private static final String Product_REGISTER_SEUCCESS = "/product/register/success";	// redirect
@@ -48,17 +45,14 @@ public class ProductController implements ApplicationContextAware{
 
 	private static final String Product_UPDATE_FORM = "thyme/Product/update/ProductUpdateForm";
 	private static final String PR_UPDATE_SEUCCESS = "/product/info";
-	
-	
-	
+
 	// 이미지 업로드
 	@Value("/upload/")
 	private String uploadDirLocal;
 		
 	private WebApplicationContext context;	
 	private String uploadDir;
-	
-	
+
 	@Override
 	public void setApplicationContext(ApplicationContext appContext)
 		throws BeansException {			
@@ -72,7 +66,7 @@ public class ProductController implements ApplicationContextAware{
 	public void setProductService(ProductService prSvc) { 
 		this.prSvc = prSvc;
 	}
-	
+
 	@Autowired // 이미지 유효성 검사
 	private ImgValidator validator;
 	public void setImgValidator(ImgValidator valitator) {
@@ -101,13 +95,25 @@ public class ProductController implements ApplicationContextAware{
 		  }
   }
 
-  //register
-  @GetMapping(value="/register") 
-  public String showProductRegForm() {
-	  	System.out.println("폼 불러옴");
-		 return Product_REGISTER_FORM; 
-		  }
-	 
+		System.out.println("prReq의 ProductId : " + prReq.getProductId());
+
+		// PrId가 없으면 register
+		if (PrId == null)
+			return prReq;
+		// 있으면 update
+		else {
+			prReq.initProductReq(prSvc.findProductByProductId(Integer.parseInt(PrId)));
+			prReq.setProductId(Integer.parseInt(PrId));
+			return prReq;
+		}
+	}
+
+  	//register
+	@GetMapping(value = "/register")
+	public String showProductRegForm() {
+		System.out.println("폼 불러옴");
+		return Product_REGISTER_FORM;
+	}
 		
   @PostMapping(value="/register")
   public String register(@Valid @ModelAttribute("PrReq") ProductRequest prReq, Errors errors,
@@ -134,9 +140,8 @@ public class ProductController implements ApplicationContextAware{
 	  		return Product_REGISTER_FORM; 
 	  		}
 	  	
-
 	 // 이미지 업로드
-	 String filename = uploadFile(prReq.getProductName(), prReq.getImage());		// webapp/upoad 밑에 이미지 저장		
+	 String filename = uploadFile(prReq.getProductName(), prReq.getImage()); // webapp/upoad 밑에 이미지 저장		
 	 		
 		  Product pr = new Product(); 
 		  pr.initPr(prReq, this.uploadDirLocal + filename);
@@ -232,11 +237,6 @@ public class ProductController implements ApplicationContextAware{
 		//delete
 		prSvc.deleteProduct(productId);
 		
-		return "redirect:" + "/user/my/sale/list?sellerId=panda";
+		return "redirect:" + "/user/my/sale/list";
 	}
-	
-	
-	}
-	
-
-
+}
