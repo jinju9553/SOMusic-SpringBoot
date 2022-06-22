@@ -4,8 +4,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import com.example.SOMusic.domain.Account;
-
 @Component
 public class ImgValidator implements Validator {
 
