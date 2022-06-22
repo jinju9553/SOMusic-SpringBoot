@@ -85,8 +85,7 @@ public class ProductController implements ApplicationContextAware{
 	     String PrId = request.getParameter("productId"); 
 	     System.out.println("PrReq의 PrId : " + PrId);
 		 ProductRequest prReq = new ProductRequest();
-		 
-		 
+
 		 System.out.println("prReq의 ProductId : " + prReq.getProductId());
 		 
 		  //PrId가 없으면 register 
@@ -96,7 +95,6 @@ public class ProductController implements ApplicationContextAware{
 		  else {
 			  prReq.initProductReq(prSvc.findProductByProductId(Integer.parseInt(PrId))); 
 			  prReq.setProductId(Integer.parseInt(PrId));
-			  
 			  return prReq; 
 		  }
   }
@@ -120,7 +118,7 @@ public class ProductController implements ApplicationContextAware{
 	  
 	  System.out.println(prReq);	  
 	  
-	  validator.validate(imgCheck, result);
+	  validator.validate(imgCheck, result); // 이미지가 삽입되었는지 유효성 체크, MultipartFile에 서블릿이 기본값을 주입하기에 null 체크X
 	  
 	  
 		//errors 
@@ -135,15 +133,15 @@ public class ProductController implements ApplicationContextAware{
 	  		}
 	  	
 
-	 // 이미지 업로드
-	 String filename = uploadFile(prReq.getProductName(), prReq.getImage());		// webapp/upoad 밑에 이미지 저장		
+	  	// 이미지 업로드
+	  	String filename = uploadFile(prReq.getProductName(), prReq.getImage());		// webapp/upoad 밑에 이미지 저장		
 	 		
 		  Product pr = new Product(); 
 		  pr.initPr(prReq, this.uploadDirLocal + filename);
 		 
-		  //sellerId 추가   
+		  //세션에서 Account.userId 삽입
 		  pr.setSellerId(userSession.getAccount().getUserId());
-		  //pr.setBank(Product_REGISTER_FORM);
+
 		  //DB에 추가
 		  prSvc.addProduct(pr);
 
@@ -174,8 +172,8 @@ public class ProductController implements ApplicationContextAware{
 	public String update(@Valid @ModelAttribute("prReq") ProductRequest prReq, 
 			Errors errors,  
 			HttpServletRequest request,
-						@RequestParam("imgPath") String path, @RequestParam("isModify") String isModify,
-						Model model) throws Exception {
+			@RequestParam("imgPath") String path, @RequestParam("isModify") String isModify,
+			Model model) throws Exception {
 		
 		Login userSession = (Login) WebUtils.getSessionAttribute(request, "userSession");
 		System.out.println("ProductId : " + prReq.getProductId());
@@ -189,7 +187,7 @@ public class ProductController implements ApplicationContextAware{
 	  		
 	  		model.addAttribute("prReq", prReq);
 	  		
-	  		return Product_REGISTER_FORM; 
+	  		return Product_UPDATE_FORM; 
 	  		}
 		
 		
@@ -204,6 +202,7 @@ public class ProductController implements ApplicationContextAware{
 		 
 		pr.initPr(prReq, filePath);
 		pr.setSellerId(userSession.getAccount().getUserId());
+		
 		
 		//update 
 		prSvc.updateProduct(pr);
