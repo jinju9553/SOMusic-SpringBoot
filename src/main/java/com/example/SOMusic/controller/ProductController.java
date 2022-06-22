@@ -156,12 +156,25 @@ public class ProductController implements ApplicationContextAware{
 	}
 	
 	@PostMapping(value="/update")
-	public String update(@ModelAttribute("prReq") ProductRequest prReq,  HttpServletRequest request,
+	public String update(@Valid @ModelAttribute("prReq") ProductRequest prReq, 
+			Errors errors,  HttpServletRequest request,
 						@RequestParam("imgPath") String path, @RequestParam("isModify") String isModify,
 						Model model) throws Exception {
 		Login userSession = (Login) WebUtils.getSessionAttribute(request, "userSession");
 		System.out.println("ProductId : " + prReq.getProductId());
 		String filePath;
+		
+		
+		if(errors.hasErrors()) { 
+	  		System.out.println("Product 수정폼 오류");
+	  		System.out.println(errors.getFieldErrors());
+	  		System.out.println(errors.toString());
+	  		
+	  		model.addAttribute("prReq", prReq);
+	  		
+	  		return Product_REGISTER_FORM; 
+	  		}
+		
 		
 		if (isModify.equals("true")) {
 			String filename = uploadFile(prReq.getProductName(), prReq.getImage());
