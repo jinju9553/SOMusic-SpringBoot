@@ -3,6 +3,9 @@
 <head>
 <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
 <script>
+
+	document.getElementById("def").setAttribute("checked","checked")
+
 	$(function() {
 	    $("#image").on('change', function(){
 	        readURL(this);
@@ -209,10 +212,10 @@
 					<br/>
 											
 					<div class="row"><font size=4>상태</font></div>
-					<input type="radio" th:field="*{condition}" name ="slvstatus" value="4"><font size=4>매우좋음</font>
-					<input type="radio" th:field="*{condition}" name ="slvstatus" value="3"><font size=4>좋음</font>
-					<input type="radio" th:field="*{condition}" name ="slvstatus" value="2"><font size=4>보통</font>
-					<input type="radio" th:field="*{condition}" name ="slvstatus" value="1"><font size=4>별로임</font>
+					<input id="def" type="radio" th:field="*{condition}" name ="slvstatus" value="4" checked="checked"><font size=4>매우좋음</font>
+					<input type="radio" th:field="*{condition}" name ="slvstatus" value="3" ><font size=4>좋음</font>
+					<input type="radio" th:field="*{condition}" name ="slvstatus" value="2" ><font size=4>보통</font>
+					<input type="radio" th:field="*{condition}" name ="slvstatus" value="1" ><font size=4>별로임</font>
 					<div class="element error">
 		            		<span th:each="err : ${#fields.errors('*{condition}')}" th:text="${err}">에러 메세지</span>
 		            </div>

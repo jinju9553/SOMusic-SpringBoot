@@ -163,7 +163,14 @@
 				<br/>
 				<inline class="row"><font size=4>계좌번호</font> &nbsp;&nbsp;
 				<input type="text" class="infotext" th:field="*{account}" style="width:150px" name ="title" size="20"></inline>
-				<br/>								
+				<br/>	
+					<inline class="row"><font size=4>지역</font> &nbsp;&nbsp;
+						<input type="text"  class="infotext" th:field="*{location}" style="width:150px" name ="location" size="20">
+					</inline>
+					<div class="element error">
+		            		<span th:each="err : ${#fields.errors('*{location}')}" th:text="${err}">에러 메세지</span>
+		            </div>
+					<br/>							
 				<div class="row"><font size=4>상태</font></div>
 				<input type="radio" th:field="*{condition}" name ="slvstatus" value="4"><font size=4>매우좋음</font>
 				<input type="radio" th:field="*{condition}" name ="slvstatus" value="3"><font size=4>좋음</font>

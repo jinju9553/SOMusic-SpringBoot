@@ -106,6 +106,8 @@ public class GPController implements ApplicationContextAware {
 		
 		validator.validate(imgCheck, result); // 이미지가 삽입되었는지 유효성 체크, MultipartFile에 서블릿이 기본값을 주입하기에 null 체크X
 		
+		System.out.println(gpReq);
+		
 		// 오류
 		if(errors.hasErrors() && result.hasErrors()) {
 			return GP_REGISTER_FORM;
@@ -118,7 +120,7 @@ public class GPController implements ApplicationContextAware {
 		gp.initGP(gpReq, this.uploadDirLocal + filename);
 		gp.setSellerId(userSession.getAccount().getUserId());	// 세션에서 Account.userId 삽입
 
-		gpSvc.insertGP(gp);
+//		gpSvc.insertGP(gp);
 		
 		return "redirect:" + GP_REGISTER_SEUCCESS;	// redirect로 넘기기
 	}
