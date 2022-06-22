@@ -18,9 +18,6 @@ public interface WishProductRepository extends JpaRepository<WishProduct, String
 	
 	//wishlist불러오기 
 	public List<WishProduct> findByUserId(String userId);
-	
-	
-	//wish 했는지 안했는지 
-	public List<WishProduct> getWishProductByproductIdAndUserId(String userId, int productId);
+
 	
 }
