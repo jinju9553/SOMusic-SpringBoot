@@ -72,7 +72,7 @@
 			<div class="one" th:each="product : ${productList}">
 				<img class="img_main" th:src="@{${product.image}}">
 				<div class="title">
-					<a id="link" class="link" th:text="${product.productName}" th:href="@{/purchase/{id}(id=${product.productId})}">폼 이름</a>
+					<a id="link" class="link" th:text="${product.productName}" th:href="@{/product/info(gpId=${product.productId})}">폼 이름</a>
 				</div>
 			</div>
 		</div>
