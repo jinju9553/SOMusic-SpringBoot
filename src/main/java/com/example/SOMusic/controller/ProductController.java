@@ -163,7 +163,7 @@ public class ProductController implements ApplicationContextAware {
 	}
 	
 	@PostMapping(value="/update")
-	public String update(@Valid @ModelAttribute("prReq") ProductRequest prReq, 
+	public String update(@Valid @ModelAttribute("PrReq") ProductRequest prReq, 
 			Errors errors,  
 			HttpServletRequest request,
 						@RequestParam("imgPath") String path, @RequestParam("isModify") String isModify,
