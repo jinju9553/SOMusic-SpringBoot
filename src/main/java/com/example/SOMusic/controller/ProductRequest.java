@@ -22,8 +22,9 @@ import com.example.SOMusic.domain.Product;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
-@Getter @Setter
+@Getter @Setter @ToString
 public class ProductRequest implements Serializable {
 	private int productId;
 	
@@ -35,12 +36,11 @@ public class ProductRequest implements Serializable {
 	@Min(value=1, message="필수 입력 항목입니다.")
 	private int price;
 	
-	@NotNull(message="필수 입력 항목입니다.")
+	@Min(value=1, message="필수 입력 항목입니다.")
 	private int shippingCost;
-	//private String image;
-	
-	@NotNull(message="필수 입력 항목입니다.")
+
 	private MultipartFile image;
+	private String imgCheck;
 	
 	@NotBlank(message="필수 입력 항목입니다.")
 	private String description;
