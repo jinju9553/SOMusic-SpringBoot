@@ -24,8 +24,6 @@ import com.example.SOMusic.service.ProductService;
 @SessionAttributes("userSession")
 @RequestMapping("/user/my/wish")
 public class WishController {
-	
-	//private static final String WISH_SUCCESS = "/product/register/success";  
 
 	private static final String WISH_RE = "/product/info/";
 	private static final String WISH_PRODUCT_LIST ="thyme/user/my/wish/myWishProductList";
@@ -87,10 +85,6 @@ public class WishController {
 			@RequestParam(value="view", required=false) String view,
 			@RequestParam("productId") int productId) {
 		Login userSession = (Login) WebUtils.getSessionAttribute(request, "userSession");
-/*		
-		WishProduct wish = new WishProduct();
-		wish.setProductId(productId);
-		wish.setUserId("panda");*/
 			
 		prSvc.deleteWishproduct(userSession.getAccount().getUserId(), productId);
 		
