@@ -38,8 +38,7 @@
   <script>
 	  $(document).ready(function() {
 		  var imgSrc = "${purchaseReq.product.image}";
-		  if (imgSrc == "null") {
-			  console.log("if문 안쪽");
+		  if (imgSrc == "") {
 			  $("#image").attr("src", "../images/purchase/noImage.png")
 		  }
 	  });

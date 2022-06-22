@@ -26,8 +26,8 @@ function twitter() {
   <script>
 	  $(document).ready(function() {
 		  var imgSrc = "${joinReq.groupPurchase.image}";
-		  if (imgSrc == null) {
-			  $("#image").attr("src", "<c:url value='../images/purchase/noImage.png'/>")
+		  if (imgSrc == "") {
+			  $("#image").attr("src", "../images/purchase/noImage.png")
 		  }
 		  
 		  var p = Number($("#price").text());

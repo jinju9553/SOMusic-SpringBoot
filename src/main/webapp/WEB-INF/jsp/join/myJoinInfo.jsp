@@ -18,7 +18,7 @@
 		//1.초기 이미지 세팅
 		var imgSrc = "${joinInfoReq.groupPurchase.image}";
 		  if (imgSrc == null) {
-			  $("#image").attr("src", "<c:url value='../images/purchase/noImage.png'/>")
+			  $("#image").attr("src", "../images/purchase/noImage.png")
 		  }
 		
 		//3.status 값에 따른 표기
