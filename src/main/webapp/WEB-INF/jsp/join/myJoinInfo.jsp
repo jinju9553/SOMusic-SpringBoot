@@ -17,7 +17,7 @@
 	$(document).ready(function() {
 		//1.초기 이미지 세팅
 		var imgSrc = "${joinInfoReq.groupPurchase.image}";
-		  if (imgSrc == null) {
+		  if (imgSrc == "") {
 			  $("#image").attr("src", "../images/purchase/noImage.png")
 		  }
 		
