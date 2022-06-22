@@ -181,6 +181,8 @@ public class ProductController implements ApplicationContextAware {
 	  		System.out.println(errors.getFieldErrors());
 	  		System.out.println(errors.toString());
 	  		
+	  		String imgPath = prSvc.getPr(prReq.getProductId()).getImage();
+	  		model.addAttribute("imgPath", imgPath);
 	  		model.addAttribute("prReq", prReq);
 	  		
 	  		return Product_UPDATE_FORM; 
