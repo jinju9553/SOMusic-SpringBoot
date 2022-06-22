@@ -82,6 +82,8 @@ public class ProductController implements ApplicationContextAware {
 			
 			
 			 System.out.println("prReq의 ProductId : " + prReq.getProductId());
+			 
+			 prReq.setCondition(4); //radio button 디폴트 값
 			
 			  //PrId가 없으면 register
 			  if (PrId == null)

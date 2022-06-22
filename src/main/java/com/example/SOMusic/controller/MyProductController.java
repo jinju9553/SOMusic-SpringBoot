@@ -48,26 +48,6 @@ public class MyProductController {
 		return PRODUCT_INFO;
 	}
 	
-	//구매 리스트
-	@GetMapping(value="/purchase/List")
-	public String purchaseList(HttpServletRequest request, Model model)
-	throws Exception {
-		Login userSession = (Login) WebUtils.getSessionAttribute(request, "userSession");
-		String userId = userSession.getAccount().getUserId();
-		
-		System.out.println("구매한 상품 리스트 출력중");
-		System.out.println("sellerId : " + userId);
-		
-		List<Purchase> purList = purchaseService.findPurchaseList(userId);
-		model.addAttribute("purList", purList);
-		
-		System.out.println(purList.toString());
-		
-		return MY_PURCHASE_LIST; 
-		
-	}	
-
-
 	//판매 리스트
 	@GetMapping(value="/sale/list")
 	public String saleList(HttpServletRequest request, Model model)
