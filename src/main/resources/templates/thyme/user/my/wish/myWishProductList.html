@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
 <link rel="stylesheet" th:href="@{/style/list.css}" type="text/css" />
+<meta charset="UTF-8">
 <title>위시 리스트</title>
 </head>
 <body>
@@ -24,7 +24,7 @@
 	
 	<div style="display:inline-block; width: 70%; margin-left: 5%;">
 		<div class="element">
-			<h4>상품 위시 리스트</h4>
+			<h3 style="padding-bottom: 10px; line-height: 34px; border-bottom: 2px solid;">상품 위시 리스트</h3>
 		</div>
 		<div class="element">
 			<nav>
@@ -37,7 +37,12 @@
 		<div class="element">
 			<div class="one" th:each="wish : ${wishPrList}">
 				<div class="image_view">
-					<img class="image" th:src="@{${wish.pr.image}}"/>
+					<div th:unless="${wish.pr.image == null}">
+						<img class="image" src="#" th:src="@{${wish.pr.image}}"/>
+					</div>
+					<div th:if="${wish.pr.image == null}">
+						<img class="image" th:src="@{/images/purchase/noImage.png}">
+					</div>
 				</div>
 				<div class="element title">
 					<h5><a class="linkTitle" th:text="${wish.pr.productName}" th:href="@{/product/info(productId=${wish.pr.productId})}">제목</a></h5>
@@ -52,9 +57,7 @@
 					</div>
 				</div>
 			</div>
-
-			
-			  
+  
 			<div class="element" th:if="${#lists.isEmpty(wishPrList)}">
 				<div class="element" style="height: 40px;"></div>
 				<div class="element" style="text-align: center;">

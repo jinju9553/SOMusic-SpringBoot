@@ -29,7 +29,7 @@
 
 	<div style="display:inline-block; width: 70%; margin-left: 5%;">
 		<div class="element">
-			<h4>공구 리스트</h4>
+			<h3 style="padding-bottom: 10px; line-height: 34px; border-bottom: 2px solid;">공구 리스트</h3>
 		</div>
 		<div class="element">
 			<nav>
@@ -43,7 +43,12 @@
 		<div class="element">
 			<div class="one" th:each="join : ${joinList}">
 				<div class="image_view">
-					<img class="image" th:src="@{${join.groupPurchase.image}}" />
+					<div th:unless="${join.groupPurchase.image == null}">
+						<img class="image" th:src="@{${join.groupPurchase.image}}" />
+					</div>
+					<div th:if="${join.groupPurchase.image == null}">
+						<img class="image" th:src="@{/images/purchase/noImage.png}">
+					</div>
 				</div>
 				<div class="element title">
 					<h5>

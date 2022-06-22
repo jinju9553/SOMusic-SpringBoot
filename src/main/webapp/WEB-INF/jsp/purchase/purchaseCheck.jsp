@@ -91,7 +91,7 @@
   <table class="n13" style="width: 720px;">
   	<!-- 상품 정보 -->
   	<tr>
-  		<td> <font class="color_purple" size="8"><b>거래폼 상세 정보</b></font> </td>
+  		<td> <font class="color_purple" size="7"><b>거래폼 상세 정보</b></font> </td>
   	</tr>
   	
   	<tr> <!-- div 또는 <hr> -->

@@ -26,7 +26,9 @@
 <body>
 <div th:insert="~{thyme/header}"></div>
 <div id="out">
-    <h4>공구 등록</h4>
+    <h2><font class="color_purple"><b>공동구매 등록하기</b></font></h2>
+  	<div class="color_purple" style="height: auto; width: 100%; border-top:1px solid; margin-bottom: 3%;"></div>
+
     <div style="height:20px;"></div>
     <div class="form_view">
         <form action="#" th:action="@{/gp/register}" th:object="${gpReq}" method="POST" enctype="multipart/form-data">

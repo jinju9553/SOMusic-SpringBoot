@@ -73,7 +73,7 @@
   <table class="n13">
   	<!-- 상품 정보 -->
   	<tr>
-  		<td> <font class="color_purple" size="8"><b>공동구매 상세 내역</b></font> </td>
+  		<td> <font class="color_purple" size="7"><b>공동구매 상세 내역</b></font> </td>
   	</tr>
   	
   	<tr> <!-- div 또는 <hr> -->
