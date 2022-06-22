@@ -9,12 +9,17 @@
 <div th:insert="~{thyme/header}"></div>
 <div id="out">
 	<div class="element">
-		<h4>공구 목록</h4>
+		<h4><font class="color_purple"><b>공구 목록</b></font></h4>
 	</div>
 	<hr class="line">
 	<div class="element listView">
 		<div class="one" th:each="gp : ${gpList}">
-			<img class="img_main" th:src="@{${gp.image}}">
+			<div th:unless="${gp.image == null}">
+				<img id="image "class="img_main" th:src="@{${gp.image}}">
+			</div>
+			<div th:if="${gp.image == null}">
+				<img id="image "class="img_main" th:src="@{/images/purchase/noImage.png}">
+			</div>
 			<div class="title">
 				<a id="link" class="link" th:text="${gp.title}" th:href="@{/join/{id}(id=${gp.gpId})}">폼 이름</a>
 			</div>

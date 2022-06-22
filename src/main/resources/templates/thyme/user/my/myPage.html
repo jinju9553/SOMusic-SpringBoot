@@ -66,7 +66,7 @@
 			</div>
 		</div>
 		<div class="container" style="display:inline-block; width: 70%; margin-left: 5%;">
-			<h2 style="padding-bottom: 10px; line-height: 34px; border-bottom: 2px solid #222222;">회원정보 수정</h2>
+			<h3 style="padding-bottom: 10px; line-height: 34px; border-bottom: 2px solid;">회원정보 수정</h3>
 			
 		    <form role="form" th:object="${accountForm}" th:action="@{/user/my/update}" method="post"> 
 			    <div class="form-group">
@@ -120,9 +120,9 @@
 		        <br>
 		        <input class="btn" type="submit" onClick="" value="회원정보 수정">
 		    </form>
-		    <br>
+		    <br><br>
 		    <a th:href="@{/user/my/drop}">
-		    	<input class="btn btn-warning" type="button" onClick="return deleteAlert();" value="회원 탈퇴"></a>
+		    	<input class="btn btn-danger" type="button" onClick="return deleteAlert();" value="회원 탈퇴"></a>
 		</div>
 	</div>
 </div>

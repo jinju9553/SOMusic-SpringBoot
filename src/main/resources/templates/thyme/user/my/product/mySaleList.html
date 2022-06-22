@@ -24,7 +24,7 @@
 	
 	<div style="display:inline-block; width: 70%; margin-left: 5%;">
 		<div class="element">
-			<h4>상품 리스트</h4>
+			<h3 style="padding-bottom: 10px; line-height: 34px; border-bottom: 2px solid;">상품 리스트</h3>
 		</div>
 		<div class="element">
 			<nav>
@@ -37,7 +37,12 @@
 		<div class="element">
 			<div class="one" th:each="pr : ${prList}">
 	 			<div class="image_view">
-					<img class="image" src="#" th:src="@{${pr.image}}"/>
+					<div th:unless="${pr.image == null}">
+						<img id="image "class="image" src="#" th:src="@{${pr.image}}"/>
+					</div>
+					<div th:if="${pr.image == null}">
+						<img id="image "class="image" th:src="@{/images/purchase/noImage.png}">
+					</div>
 				</div> 
 				<div class="element title">
 					<h5><a class="linkTitle" th:text="${pr.productName}"
@@ -47,7 +52,7 @@
 					<!-- <div class="element" th:if="${#lists.isEmpty(pr.joinList)}"> -->
 						 <form action="#" method="GET" th:action="@{/product/delete}">
 							<input type="hidden" id="productId" name="productId" th:value="${pr.productId}" />
-							<input class="btnDelete" type="submit" value="&#215;" />
+							<input class="btnDelete" type="submit" value="&#215;" onClick="return deleteAlert();" />
 						</form> 
 					<!-- </div> -->
 				</div>

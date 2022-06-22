@@ -9,12 +9,17 @@
 <div th:insert="~{thyme/header}"></div>
 <div id="out">
 	<div class="element">
-		<h4>상품 목록</h4>
+		<h4><font class="color_purple"><b>상품 목록</b></font></h4>
 	</div>
 	<hr class="line">
 	<div class="element listView">
 		<div class="one" th:each="product : ${productList}">
-			<img class="img_main" th:src="@{${product.image}}">
+			<div th:unless="${product.image == null}">
+				<img id="image "class="img_main" th:src="@{${product.image}}">
+			</div>
+			<div th:if="${product.image == null}">
+				<img id="image "class="img_main" th:src="@{/images/purchase/noImage.png}">
+			</div>
 			<div class="title">
 				<a id="link" class="link" th:text="${product.productName}" th:href="@{/product/info(productId=${product.productId})}">폼 이름</a>
 			</div>

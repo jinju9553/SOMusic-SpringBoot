@@ -27,7 +27,6 @@ import org.springframework.web.util.WebUtils;
 
 import com.example.SOMusic.domain.GroupPurchase;
 import com.example.SOMusic.domain.Login;
-import com.example.SOMusic.service.AccountService;
 import com.example.SOMusic.service.ImgValidator;
 import com.example.SOMusic.service.GPService;
 
