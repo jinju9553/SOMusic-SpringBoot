@@ -10,10 +10,9 @@
 	<div class="container" style="width: 40%;">
 		<div>
 			<h1>회원가입 완료</h1>
-				<p>가입을 축하드립니다, 
-					<b>${userSession.account.userName}(${userSession.account.userId})</b>님.</p>
-				<a th:href="@{/user/loginForm}"> 
-					<input class="btn" type="button" value="로그인 하기"></a>
+				<p>회원 가입을 축하드립니다!</p>
+				<a th:href="@{/main}"> 
+					<input class="btn" type="button" value="홈 화면으로"></a>
 				<br>
 		</div>
 	</div>

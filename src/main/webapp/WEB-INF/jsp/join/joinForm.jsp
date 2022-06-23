@@ -42,7 +42,7 @@ function twitter() {
 				  $(".quantity").text(q);
 				  $(".totalAmount").text(p * q);
 				  
-				  calculateSum(); //만약 배송비가 설정되지 않았다면 상품 총액만 계산
+				  calculateSum();
 			  }
 		  });
 		  
@@ -56,7 +56,7 @@ function twitter() {
 				  $(".quantity").text(Number(q) - 1);
 				  $(".totalAmount").text(p * q);
 				  
-				  calculateSum(); //만약 배송비가 설정되지 않았다면 상품 총액만 계산
+				  calculateSum();
 			  }
 		  });
 		  	  
@@ -81,8 +81,6 @@ function twitter() {
 	  
 	  function radioClick (event) {
 		$("#shippingCost").show();
-		$("#shippingCost").children().css("color", "black");
-		$("#totalShippingAmount").children().css("color", "black");
 		var s = Number(event.target.value);
 		switch(s) {
 			case 1:
@@ -262,12 +260,12 @@ function twitter() {
   	
   	<tr>
 		<td>배송비</td>
-		<td id="shippingCost"><a style="color: red;">*배송 방법을 선택해주세요</a></td>
+		<td id="shippingCost"><a>1800</a></td>
   	</tr>
   	
   	<tr>
 		<td>배송비 포함 총액</td>
-		<td id="totalShippingAmount"><a style="color: red;">*배송 방법을 선택해주세요</a></td>
+		<td id="totalShippingAmount"><a>*배송 방법을 선택해주세요</a></td>
   	</tr>
   	
   	<!-- 세부 항목 2 -->

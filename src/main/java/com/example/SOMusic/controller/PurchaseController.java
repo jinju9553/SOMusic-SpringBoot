@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -93,20 +94,23 @@ public class PurchaseController {
 			@PathVariable("productId") int productId,
 			@ModelAttribute("purchaseReq") Purchase purchaseReq,
 			BindingResult result, Model model) throws Exception {
-		System.out.println("command 객체: " + purchaseReq);
 		
-		validator.validate(purchaseReq, result);
-		
+		purchaseReq.setProduct(productService.findProductByProductId(productId));
 		Login userSession = 
 				(Login) WebUtils.getSessionAttribute(request, "userSession");
 		
+		validator.validate(purchaseReq, result);
+		
 		if (result.hasErrors()) {
+			for ( ObjectError r :  result.getAllErrors()) {
+				System.out.println(r);
+			}
+			model.addAttribute("purchaseReq", purchaseReq);
 			return PURCHASE_FORM;
 		}
 
 		Account account = accountService.getAccount(userSession.getAccount().getUserId());
 		
-		purchaseReq.setProduct(productService.findProductByProductId(productId));
 		purchaseReq.setTotalAmount(purchaseService.calculateTotal(purchaseReq.getProduct()));
 		purchaseReq.setConsumerId(account.getUserId());
 		purchaseService.registerPurchase(purchaseReq); 

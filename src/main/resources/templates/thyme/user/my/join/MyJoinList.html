@@ -9,7 +9,10 @@
 <div th:insert="~{thyme/header}"></div>
 <script>
 	function deleteAlert() {
-		window.confirm("정말로 삭제하시겠습니까?\n삭제 후 복구할 수 없습니다.");
+		if(confirm("정말로 삭제하시겠습니까?\n삭제 후 복구할 수 없습니다.")){
+			return true;
+		}
+		else return false;
 	}
 </script>
 <div id="out">

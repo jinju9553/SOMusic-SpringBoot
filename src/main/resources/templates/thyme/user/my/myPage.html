@@ -44,7 +44,11 @@
 
 <script>
 	function deleteAlert() {
-		window.confirm("정말로 탈퇴하시겠습니까?\n탈퇴 후 회원정보는 복구할 수 없습니다.");
+		if(confirm("정말로 탈퇴하시겠습니까?\n탈퇴 후 회원정보는 복구할 수 없습니다.")){
+			return true;
+		}
+		else
+			return false;
 	}
 </script>
 
