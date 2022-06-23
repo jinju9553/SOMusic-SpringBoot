@@ -2,8 +2,6 @@ package com.example.SOMusic.controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,7 +16,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -110,24 +107,15 @@ public class ProductController implements ApplicationContextAware {
 		  					HttpServletRequest request, Model model) throws Exception {
 	  Login userSession = (Login) WebUtils.getSessionAttribute(request, "userSession");
 	  System.out.println("상품 등록중입니다.");
-	  
-	 // FieldError error = errors.getFieldError();
-	  
 	  System.out.println(prReq);	  
 	  
 	  validator.validate(imgCheck, result);
 	  
 	  
 		//errors 
-	  	if(errors.hasErrors() && result.hasErrors()) { 
-//	  		System.out.println("오류");
-//	  		System.out.println(errors.getFieldErrors());
-//	  		System.out.println(errors.toString());
-//	  		
-//	  		model.addAttribute("prReq", prReq);
-	  		
-	  		return Product_REGISTER_FORM; 
-	  		}
+	  if(errors.hasErrors() && result.hasErrors()) { 
+		  return Product_REGISTER_FORM; 
+	  }
 	  	
 	 // 이미지 업로드
 	 String filename = uploadFile(prReq.getProductName(), prReq.getImage()); // webapp/upoad 밑에 이미지 저장		
@@ -186,7 +174,7 @@ public class ProductController implements ApplicationContextAware {
 	  		model.addAttribute("prReq", prReq);
 	  		
 	  		return Product_UPDATE_FORM; 
-	  		}
+	  	}
 		
 		
 		if (isModify.equals("true")) {

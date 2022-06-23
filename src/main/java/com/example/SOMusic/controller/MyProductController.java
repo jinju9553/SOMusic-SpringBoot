@@ -67,8 +67,6 @@ public class MyProductController {
 		
 	}
 	
-	//*MyPageController에서 옮겨졌습니다. 
-	//상단의 @GetMapping(value="/purchase/List")랑 겹치는 것 같은데 적당히 합치고 삭제하셔도 됩니다...
 	@GetMapping("/purchase/list")
 	public String registerList(HttpServletRequest request, Model model) throws Exception {
 

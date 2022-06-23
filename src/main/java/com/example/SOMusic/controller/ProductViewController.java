@@ -31,7 +31,6 @@ public class ProductViewController {
 
 	@RequestMapping(value="/view", method = RequestMethod.GET) 
 	public String showProductView() {
-		//prSvc.findProductByPurchaseId(productId);
 		return "thyme/product/view/productView";
 	}
 	
