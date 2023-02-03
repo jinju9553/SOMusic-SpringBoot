@@ -1,4 +1,4 @@
-package com.example.SOMusic;
+package com.example.SOMusic.Account;
 
 import com.example.SOMusic.controller.AccountForm;
 import com.example.SOMusic.domain.Account;
