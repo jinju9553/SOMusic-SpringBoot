@@ -59,8 +59,6 @@ public class MyPurchaseController {
 		if (request.getMethod().equalsIgnoreCase("GET")) {
 			Purchase purchaseReq = purchaseService.findPurchaseByPurchaseId(purchaseId);
 	
-			//model.addAttribute("product", purchaseReq.getProduct());
-	
 			return purchaseReq;
 		} 
 		else
