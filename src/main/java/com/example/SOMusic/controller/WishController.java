@@ -86,6 +86,7 @@ public class WishController {
 			@RequestParam("productId") int productId) {
 		Login userSession = (Login) WebUtils.getSessionAttribute(request, "userSession");
 			
+		//이 userSession.
 		prSvc.deleteWishproduct(userSession.getAccount().getUserId(), productId);
 		
 		if(view.equals("list")) {
@@ -103,6 +104,7 @@ public class WishController {
 	@RequestMapping(value="/gp/list", method = RequestMethod.GET)
 	public String gpWishList(HttpServletRequest request, Model model) throws Exception {
 		
+		//이 부분이 계속 반복된다. 함수를 선언해서 호출하면 좋을 것 같다는 생각
 		Login userSession = (Login) WebUtils.getSessionAttribute(request, "userSession");
 		
 		List<WishGroupPurchase> wishGpList = gpSvc.getWishGPList(userSession.getAccount().getUserId());
@@ -115,6 +117,7 @@ public class WishController {
 	@RequestMapping(value="/gp/add", method = RequestMethod.GET)
 	public String wishGpRegister(HttpServletRequest request, @RequestParam("gpId") int gpId) throws Exception {
 		
+		//문제의 부분 2
 		Login userSession = (Login) WebUtils.getSessionAttribute(request, "userSession");
 		
 		gpSvc.insertWishGP(userSession.getAccount().getUserId(), gpId);
@@ -126,6 +129,7 @@ public class WishController {
 	public String wishGpDelete(HttpServletRequest request,
 								@RequestParam("gpId") int gpId, @RequestParam("view") String view) throws Exception {
 
+		//문제의 부분 3
 		Login userSession = (Login) WebUtils.getSessionAttribute(request, "userSession");
 
 		gpSvc.deleteWishGP(userSession.getAccount().getUserId(), gpId);
