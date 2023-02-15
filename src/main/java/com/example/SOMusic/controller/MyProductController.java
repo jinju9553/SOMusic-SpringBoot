@@ -29,6 +29,8 @@ public class MyProductController {
 	private static final String MY_PURCHASE_LIST = "thyme/user/my/purchase/MyPurchaseList";
 	
 	@Autowired //주의: interface는 class가 아니므로 Bean을 생성할 수 없음
+	
+	//Svc 변수 이름 통일
 	private PurchaseService purchaseService;
 	public void setPurchaseService(PurchaseService purchaseService) {
 		this.purchaseService = purchaseService;
@@ -40,7 +42,7 @@ public class MyProductController {
 		this.prSvc = prSvc;
 	}
 	
-	@GetMapping(value="/info")
+	@GetMapping(value="/info") // 함수 이름 좀 더 구체적으로 변경
 	public String info(@RequestParam("ProductId") int ProductId, Model model) {
 		Product pr = prSvc.findProductByProductId(ProductId);
 		model.addAttribute("pr", pr);
@@ -52,8 +54,11 @@ public class MyProductController {
 	@GetMapping(value="/sale/list")
 	public String saleList(HttpServletRequest request, Model model)
 	throws Exception {
+		
+		//usersession 가져오는 함수 따로 만들기
 		Login userSession = (Login) WebUtils.getSessionAttribute(request, "userSession");
 		String sellerId = userSession.getAccount().getUserId();
+		//ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ
 		
 		System.out.println("등록한 상품 리스트 출력중");
 		System.out.println("sellerId : " + sellerId);
@@ -67,8 +72,6 @@ public class MyProductController {
 		
 	}
 	
-	//*MyPageController에서 옮겨졌습니다. 
-	//상단의 @GetMapping(value="/purchase/List")랑 겹치는 것 같은데 적당히 합치고 삭제하셔도 됩니다...
 	@GetMapping("/purchase/list")
 	public String registerList(HttpServletRequest request, Model model) throws Exception {
 

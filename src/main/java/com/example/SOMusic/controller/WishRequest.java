@@ -1,7 +1,5 @@
 package com.example.SOMusic.controller;
 
-import com.example.SOMusic.domain.Product;
-import com.example.SOMusic.domain.Account;
 import com.example.SOMusic.domain.WishProduct;
 
 import lombok.Getter;
