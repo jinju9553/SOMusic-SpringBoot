@@ -1,6 +1,7 @@
 package com.example.SOMusic.controller;
 
 import com.example.SOMusic.domain.Account;
+import com.example.SOMusic.service.AccountFormValidator;
 import com.example.SOMusic.service.AccountServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -9,10 +10,11 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(SignupControllerTest.class)
+@WebMvcTest(SignupController.class)
 public class SignupControllerTest {
 
     @Autowired
@@ -21,8 +23,11 @@ public class SignupControllerTest {
     @MockBean
     AccountServiceImpl accountService;
 
+    @MockBean
+    AccountFormValidator validator;
+
     @Test
-    public void POST_register_테스트() throws Exception{
+    void POST_register_테스트() throws Exception{
         //given
         AccountForm accountForm = createTestAccountForm();
         Account account = accountForm.getAccount();
@@ -33,17 +38,19 @@ public class SignupControllerTest {
         //when & then
         mvc.perform(MockMvcRequestBuilders.post("/user/register")
                         .param("accountForm", accountForm.toString()))
+                .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk());
     }
 
     @Test
-    public void POST_isDuplicated_테스트() throws Exception{
+    void POST_isDuplicated_테스트() throws Exception{
         //given
         String id = "amy1234";
         Mockito.when(accountService.isDuplicated(id)).thenReturn(true);
 
         //when & then
-        mvc.perform(MockMvcRequestBuilders.post("/user/register/checkId"))
+        mvc.perform(MockMvcRequestBuilders.post("/user/register/checkId?id=" + id))
+                .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk());
     }
 
