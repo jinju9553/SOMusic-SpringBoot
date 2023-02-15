@@ -1,4 +1,4 @@
-package com.example.SOMusic.Account;
+package com.example.SOMusic.service;
 
 import com.example.SOMusic.domain.Account;
 import com.example.SOMusic.repository.AccountRepository;

@@ -1,6 +1,5 @@
-package com.example.SOMusic.Account;
+package com.example.SOMusic.controller;
 
-import com.example.SOMusic.controller.AccountForm;
 import com.example.SOMusic.domain.Account;
 import com.example.SOMusic.service.AccountServiceImpl;
 import org.junit.jupiter.api.Test;
@@ -10,7 +9,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 

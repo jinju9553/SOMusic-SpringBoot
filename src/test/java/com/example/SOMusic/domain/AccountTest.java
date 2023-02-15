@@ -1,4 +1,4 @@
-package com.example.SOMusic.Account;
+package com.example.SOMusic.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
