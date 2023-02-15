@@ -15,6 +15,7 @@ import lombok.*;
 @SuppressWarnings("serial")
 public class Account implements Serializable {
 
+	//TODO: 코드만으로는 뭐가 필수 컬럼인지 모르겠음.
 	@Id @Column(name="user_id", updatable=false)
 	private String userId;
 	

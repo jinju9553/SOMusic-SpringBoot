@@ -12,6 +12,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 @WebMvcTest(SignupControllerTest.class)
 public class SignupControllerTest {
 
@@ -31,8 +33,9 @@ public class SignupControllerTest {
         Mockito.when(accountService.getAccount(id)).thenReturn(account);
 
         //when & then
-        mvc.perform(MockMvcRequestBuilders.post("/user/register"))
-                .andDo(MockMvcResultHandlers.print());
+        mvc.perform(MockMvcRequestBuilders.post("/user/register")
+                        .param("accountForm", accountForm.toString()))
+                .andExpect(status().isOk());
     }
 
     @Test
@@ -43,7 +46,7 @@ public class SignupControllerTest {
 
         //when & then
         mvc.perform(MockMvcRequestBuilders.post("/user/register/checkId"))
-                .andDo(MockMvcResultHandlers.print());
+                .andExpect(status().isOk());
     }
 
     public AccountForm createTestAccountForm(){
