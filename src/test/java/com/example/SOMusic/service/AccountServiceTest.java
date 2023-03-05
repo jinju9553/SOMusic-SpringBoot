@@ -2,8 +2,6 @@ package com.example.SOMusic.service;
 
 import com.example.SOMusic.domain.Account;
 import com.example.SOMusic.repository.AccountRepository;
-import com.example.SOMusic.service.AccountService;
-import com.example.SOMusic.service.AccountServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
