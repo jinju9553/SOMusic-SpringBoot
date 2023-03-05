@@ -27,8 +27,8 @@ public class AccountRepositoryTest {
 
     @Test
     void Account_리스트_불러오기_테스트(){
-        Account result1 = accountRepository.save(account1);
-        Account result2 = accountRepository.save(account2);
+        accountRepository.save(account1);
+        accountRepository.save(account2);
 
         List<Account> accounts = accountRepository.findAll();
 
