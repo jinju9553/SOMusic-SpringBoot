@@ -3,6 +3,7 @@ package com.example.SOMusic.controller;
 import com.example.SOMusic.domain.Account;
 import com.example.SOMusic.service.AccountFormValidator;
 import com.example.SOMusic.service.AccountServiceImpl;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,8 @@ public class SignupControllerTest {
     AccountFormValidator validator;
 
     @Test
-    void POST_register_테스트() throws Exception{
+    @DisplayName("POST_register_테스트")
+    void register() throws Exception {
         //given
         AccountForm accountForm = createTestAccountForm();
         Account account = accountForm.getAccount();
@@ -43,7 +45,8 @@ public class SignupControllerTest {
     }
 
     @Test
-    void POST_isDuplicated_테스트() throws Exception{
+    @DisplayName("POST_isDuplicated_테스트")
+    void check() throws Exception {
         //given
         String id = "amy1234";
         Mockito.when(accountService.isDuplicated(id)).thenReturn(true);
