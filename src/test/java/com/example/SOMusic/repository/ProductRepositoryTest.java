@@ -1,4 +1,4 @@
-package com.example.SOMusic;
+package com.example.SOMusic.repository;
 
 import static org.junit.Assert.assertEquals;
 
