@@ -3,6 +3,7 @@ package com.example.SOMusic.repository;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.example.SOMusic.domain.Account;
+import com.example.SOMusic.domain.TestAccount;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -15,8 +16,8 @@ public class AccountRepositoryTest {
     private static final int LIST_SIZE = 2;
     @Autowired
     AccountRepository accountRepository;
-    Account account1 = createTestAccount();
-    Account account2 = createAnotherTestAccount();
+    Account account1 = TestAccount.createTestAccount();
+    Account account2 = TestAccount.createAnotherTestAccount();
 
     @Test
     void Account_저장_성공_테스트(){
@@ -53,27 +54,5 @@ public class AccountRepositoryTest {
                 "01011112222", "amy1234@gmail.com");
 
         assertThat(searchResult.getUserName()).isEqualTo(account.getUserName());
-    }
-
-    public Account createTestAccount(){
-        Account account = new Account();
-
-        account.setUserId("mark123");
-        account.setUserName("mark");
-        account.setEmail("mark123@gmail.com");
-        account.setPhone("01012345678");
-
-        return account;
-    }
-
-    public Account createAnotherTestAccount(){
-        Account account = new Account();
-
-        account.setUserId("amy1234");
-        account.setUserName("amy");
-        account.setEmail("amy1234@gmail.com");
-        account.setPhone("01011112222");
-
-        return account;
     }
 }
