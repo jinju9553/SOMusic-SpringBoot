@@ -1,6 +1,7 @@
 package com.example.SOMusic.controller;
 
 import com.example.SOMusic.domain.Account;
+import com.example.SOMusic.domain.TestAccount;
 import com.example.SOMusic.service.AccountFormValidator;
 import com.example.SOMusic.service.AccountServiceImpl;
 import org.junit.jupiter.api.DisplayName;
@@ -13,7 +14,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(SignupController.class)
 public class SignupControllerTest {
@@ -27,48 +28,53 @@ public class SignupControllerTest {
     @MockBean
     AccountFormValidator validator;
 
+    private static final String URI_TEMPLATE = "/user/register";
+    private static final String REGISTER_FORM = "thyme/user/account/registerForm";
+    private static final String REGISTER_DONE = "thyme/user/account/signupDone";
+
+    @Test
+    @DisplayName("GET_formBacking_테스트")
+    void formBacking() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.get(URI_TEMPLATE))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("accountForm"));
+    }
+
+    @Test
+    @DisplayName("GET_showForm_테스트")
+    void showForm() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.get(URI_TEMPLATE))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(status().isOk())
+                .andExpect(view().name(REGISTER_FORM));
+    }
+
     @Test
     @DisplayName("POST_register_테스트")
     void register() throws Exception {
-        //given
-        AccountForm accountForm = createTestAccountForm();
-        Account account = accountForm.getAccount();
+        Account account = TestAccount.createTestAccount();
+        AccountForm accountForm = new AccountForm(account);
         String id = account.getUserId();
 
         Mockito.when(accountService.getAccount(id)).thenReturn(account);
 
-        //when & then
-        mvc.perform(MockMvcRequestBuilders.post("/user/register")
+        mvc.perform(MockMvcRequestBuilders.post(URI_TEMPLATE)
                         .param("accountForm", accountForm.toString()))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(view().name(REGISTER_DONE))
+                .andExpect(model().attributeExists("accountForm"));
     }
 
     @Test
     @DisplayName("POST_isDuplicated_테스트")
     void check() throws Exception {
-        //given
         String id = "amy1234";
         Mockito.when(accountService.isDuplicated(id)).thenReturn(true);
 
-        //when & then
-        mvc.perform(MockMvcRequestBuilders.post("/user/register/checkId?id=" + id))
+        mvc.perform(MockMvcRequestBuilders.post(URI_TEMPLATE + "/checkId?id=" + id))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk());
     }
-
-    public AccountForm createTestAccountForm(){
-        AccountForm accountForm = new AccountForm();
-        Account account = accountForm.getAccount();
-
-        account.setUserId("mark123");
-        account.setUserName("mark");
-        account.setEmail("mark123@gmail.com");
-        account.setPhone("01012345678");
-
-        accountForm.setAccount(account);
-
-        return accountForm;
-    }
-
 }
