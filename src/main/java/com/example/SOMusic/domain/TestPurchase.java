@@ -30,7 +30,7 @@ public class TestPurchase {
     public static Purchase createAnotherTestPurchase(){
         purchase.setPurchaseId(PURCHASE_ID);
         purchase.setConsumerId(CONSUMER_ID);
-        purchase.setConsumerName("mark");
+        purchase.setConsumerName("mango");
         purchase.setTotalAmount(8);
         purchase.setStatus(2);
         purchase.setShippingMethod(2);
