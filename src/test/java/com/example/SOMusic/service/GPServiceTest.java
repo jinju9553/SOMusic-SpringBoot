@@ -24,7 +24,9 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.example.SOMusic.dao.GPDao;
 import com.example.SOMusic.domain.GroupPurchase;
+import com.example.SOMusic.domain.WishGroupPurchase;
 import com.example.SOMusic.repository.GPRepository;
+import com.example.SOMusic.repository.WishGPRepository;
 
 @ExtendWith(SpringExtension.class)
 class GPServiceTest {
@@ -32,11 +34,14 @@ class GPServiceTest {
 	@Mock
 	GPDao dao;
 	
-	@InjectMocks
+	@Mock
 	GPService gpSvc;
 	
 	@Mock
 	GPRepository gpRepository;
+	
+	@Mock
+	WishGPRepository wishRepository;
 	
 	@BeforeEach
 	void setUp() {
@@ -53,6 +58,23 @@ class GPServiceTest {
 		gpSvc.insertGP(gp);
 		
 		assertEquals("aaa", gp.getTitle());
+		
+		Mockito.verify(gpSvc, Mockito.times(1)).insertGP(gp);
+		
+	}
+	
+	@Test
+	@DisplayName("공구 수정")
+	void update() {
+		
+		GroupPurchase gp = new GroupPurchase();
+		gp.setTitle("aaa");
+		
+		gpSvc.updateGP(gp);
+		
+		assertEquals("aaa", gp.getTitle());
+		
+		Mockito.verify(gpSvc, Mockito.times(1)).updateGP(gp);
 		
 	}
 	
@@ -72,30 +94,20 @@ class GPServiceTest {
 	}
 	
 	@Test
-	@DisplayName("공구 리스트")
-	void GPList() {
+	@DisplayName("공구 가져오기")
+	void get() {
 		
-		GroupPurchase gp1 = new GroupPurchase(1, "hi", "aaa", "link", 
+		GroupPurchase gp = new GroupPurchase(1, "hi", "aaa", "link", 
 				LocalDate.of(2023, 1, 1), LocalDate.of(2023, 1, 31),
 				"music", "3333", "bank", 1000, "Is is");
 		
-		GroupPurchase gp2 = new GroupPurchase(2, "hi", "bbb", "link", 
-				LocalDate.of(2023, 1, 1), LocalDate.of(2023, 1, 31),
-				"music", "3333", "bank", 1000, "Is is");
+		gpSvc.insertGP(gp);
 		
+		GroupPurchase result = gpSvc.getGP(1);
 		
-		List<GroupPurchase> gpList = new ArrayList<>();
-		gpList.add(gp1);
-		gpList.add(gp2);
-		
-		Mockito.when(gpRepository.findAll()).thenReturn(gpList);
-		
-		List<GroupPurchase> result = gpSvc.getAllGPList();
-		
-		assertEquals(result.size(), 2);
-		
+		assertEquals(gp, result);
+	
 	}
-
 	
 	@Test
 	@DisplayName("등록한 공구 불러오기 - 판매자 아이디로 공구 반환")
@@ -124,6 +136,69 @@ class GPServiceTest {
 		assertEquals(result.size(), 2);
 		
 	}
+	
+	@Test
+	@DisplayName("공구 리스트")
+	void GPList() {
+		
+		GroupPurchase gp1 = new GroupPurchase(1, "hi", "aaa", "link", 
+				LocalDate.of(2023, 1, 1), LocalDate.of(2023, 1, 31),
+				"music", "3333", "bank", 1000, "Is is");
+		
+		GroupPurchase gp2 = new GroupPurchase(2, "hi", "bbb", "link", 
+				LocalDate.of(2023, 1, 1), LocalDate.of(2023, 1, 31),
+				"music", "3333", "bank", 1000, "Is is");
+		
+		
+		List<GroupPurchase> gpList = new ArrayList<>();
+		gpList.add(gp1);
+		gpList.add(gp2);
+		
+		Mockito.when(gpRepository.findAll()).thenReturn(gpList);
+		
+		List<GroupPurchase> result = gpSvc.getAllGPList();
+		
+		assertEquals(result.size(), 2);
+		
+	}
+	
+	@Test
+	@DisplayName("위시 공구 리스트")
+	void WishGPList() {
+		
+		GroupPurchase gp1 = new GroupPurchase(1, "hi", "aaa", "link", 
+				LocalDate.of(2023, 1, 1), LocalDate.of(2023, 1, 31),
+				"music", "3333", "bank", 1000, "Is is");
+		
+		GroupPurchase gp2 = new GroupPurchase(2, "hi", "bbb", "link", 
+				LocalDate.of(2023, 1, 1), LocalDate.of(2023, 1, 31),
+				"music", "3333", "bank", 1000, "Is is");
+		
+		GroupPurchase gpResult1 = gpRepository.save(gp1);
+		GroupPurchase gpResult2 = gpRepository.save(gp2);
+		
+		WishGroupPurchase wish1 = new WishGroupPurchase("hi", gpResult1.getGpId());
+		WishGroupPurchase wish2 = new WishGroupPurchase("hi", gpResult2.getGpId());
+		
+		wish1.setGp(gp1);
+		wish2.setGp(gp2);
+		
+		List<WishGroupPurchase> wishList = new ArrayList<>();
+		wishList.add(wish1);
+		wishList.add(wish2);
+		
+		Mockito.when(wishRepository.findByUserId("hi")).thenReturn(wishList);
+		
+		List<WishGroupPurchase> result = gpSvc.getWishGPList("hi");
+		
+		
+		
+		assertEquals(result.size(), 2);
+		
+	}
+
+	
+	
 	
 
 
