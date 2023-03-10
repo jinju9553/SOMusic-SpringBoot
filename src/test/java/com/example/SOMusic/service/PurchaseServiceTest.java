@@ -5,10 +5,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.example.SOMusic.dao.PurchaseDao;
 import com.example.SOMusic.domain.Product;
 import com.example.SOMusic.domain.Purchase;
+import com.example.SOMusic.domain.TestPurchase;
 import com.example.SOMusic.repository.PurchaseRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -24,6 +26,8 @@ class PurchaseServiceTest {
     private static final int PURCHASE_ID = 5723;
     private static final String CONSUMER_ID = "mark123";
 
+    private final ArgumentCaptor<Purchase> captor = ArgumentCaptor.forClass(Purchase.class);
+
     @InjectMocks
     PurchaseService purchaseService = new PurchaseServiceImpl();
 
@@ -33,21 +37,20 @@ class PurchaseServiceTest {
     @Mock
     PurchaseDao purchaseDao;
 
-    Purchase purchase1 = createTestPurchase();
-    Purchase purchase2 = createTestPurchase();
+    Purchase purchase1 = TestPurchase.createTestPurchase();
+    Purchase purchase2 = TestPurchase.createTestPurchase();
 
     @Test
     @DisplayName("Service_Dao를_통한_Purchase_등록")
     void registerPurchase() {
-        //TODO: 리턴타입이 없어서 Mockito.when을 쓸 수 없음
-        //dao
-    }
+        int purchaseId = purchase1.getPurchaseId();
 
-    @Test
-    @DisplayName("Service_Dao를_통한_Purchase_변경")
-    void modifyPurchase() {
-        //TODO: 리턴타입이 없어서 Mockito.when을 쓸 수 없음
-        //dao
+        purchaseDao.createPurchase(purchase1);
+
+        Mockito.verify(purchaseDao).createPurchase(captor.capture());
+        int result = captor.getValue().getPurchaseId();
+
+        assertThat(result).isEqualTo(purchaseId);
     }
 
     @Test
@@ -112,32 +115,11 @@ class PurchaseServiceTest {
 
     @Test
     void modifyPurchaseInfo() {
-        //TODO: 함수를 새로 설계하고 그 이후 테스트코드 작성할 것
+        //TODO: 함수를 새로 설계하고 그 이후 테스트코드 다시 작성할 예정
     }
 
     @Test
     void confirmPurchase() {
-        //TODO: 함수를 새로 설계하고 그 이후 테스트코드 작성할 것
-    }
-
-    public Purchase createTestPurchase(){
-        Purchase purchase = new Purchase();
-
-        purchase.setPurchaseId(PURCHASE_ID);
-        purchase.setConsumerId(CONSUMER_ID);
-        purchase.setConsumerName("mark");
-        purchase.setTotalAmount(3);
-        purchase.setStatus(1);
-        purchase.setShippingMethod(0);
-
-        purchase.setRegDate(new Date());
-
-        Product product = new Product();
-        product.setPrice(10_000);
-        product.setShippingCost(2_000);
-
-        purchase.setProduct(new Product());
-
-        return purchase;
+        //TODO: 함수를 새로 설계하고 그 이후 테스트코드 다시 작성할 예정
     }
 }

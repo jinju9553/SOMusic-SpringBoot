@@ -2,31 +2,24 @@ package com.example.SOMusic.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.example.SOMusic.domain.GroupPurchase;
-import com.example.SOMusic.domain.Join;
-import com.example.SOMusic.domain.ShippingCost;
+import com.example.SOMusic.dao.JoinDao;
+import com.example.SOMusic.domain.*;
 import com.example.SOMusic.repository.JoinRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
 @ExtendWith(SpringExtension.class)
 class JoinServiceTest {
 
-    private static final int JOIN_ID = 67492;
-    private static final int GP_ID = 568;
-    private static final int GP_PRICE = 10_000;
-    private static final int SHIPPING_METHOD = 1;
-    private static final int SHIPPING_COST = ShippingCost.findCostByCode(SHIPPING_METHOD);
-    private static final int TOTAL_AMOUNT = 51_800;
-    private static final String CONSUMER_ID = "amy1234";
+    private final ArgumentCaptor<Join> captor = ArgumentCaptor.forClass(Join.class);
 
     @InjectMocks
     JoinService joinService = new JoinServiceImpl();
@@ -34,12 +27,22 @@ class JoinServiceTest {
     @Mock
     JoinRepository joinRepository;
 
-    Join join1 = createTestJoin();
-    Join join2 = createTestJoin();
+    @Mock
+    JoinDao joinDao;
+
+    Join join1 = TestJoin.createTestJoin();
+    Join join2 = TestJoin.createTestJoin();
 
     @Test
     void registerJoin() {
-        //TODO: 리턴타입이 없어서 Mockito.when을 쓸 수 없음 => verify()
+        int joinId = join1.getJoinId();
+
+        joinDao.createJoin(join1);
+
+        Mockito.verify(joinDao).createJoin(captor.capture());
+        int result = captor.getValue().getJoinId();
+
+        assertThat(result).isEqualTo(joinId);
     }
 
     @Test
@@ -126,11 +129,13 @@ class JoinServiceTest {
     @Test
     void updateTotal() {
         int newShippingMethod = 2;
+        int totalAmount = join1.getTotalAmount();
+        int shippingCost = join1.getShippingCost();
 
         join1.setShippingMethod(newShippingMethod);
 
         int newShippingCost = ShippingCost.findCostByCode(newShippingMethod);
-        int newTotalPrice = (TOTAL_AMOUNT - SHIPPING_COST) + newShippingCost;
+        int newTotalPrice = (totalAmount - shippingCost) + newShippingCost;
 
         int result = joinService.updateTotal(join1, newShippingCost);
 
@@ -145,27 +150,5 @@ class JoinServiceTest {
     @Test
     void updateStatus() {
         //TODO: 함수를 새로 설계하고 그 이후 테스트코드 작성
-    }
-
-    public Join createTestJoin() {
-        Join join = new Join();
-
-        join.setJoinId(JOIN_ID);
-        join.setConsumerId(CONSUMER_ID);
-        join.setConsumerName("amy");
-        join.setConsumerBank("BankName");
-        join.setTotalAmount(TOTAL_AMOUNT);
-        join.setShippingMethod(SHIPPING_METHOD);
-        join.setShippingCost(SHIPPING_COST);
-
-        join.setRegDate(new Date());
-
-        GroupPurchase groupPurchase = new GroupPurchase();
-
-        groupPurchase.setGpId(GP_ID);
-        groupPurchase.setPrice(GP_PRICE);
-        join.setGroupPurchase(groupPurchase);
-
-        return join;
     }
 }
