@@ -84,7 +84,7 @@ class MyPurchaseControllerTest {
         Mockito.when(productService.findProductByProductId(productId)).thenReturn(product);
 
         Mockito.doNothing().when(validator).validate(purchase, bindingResult);
-        Mockito.doNothing().when(purchaseService).modifyPurchaseInfo(purchaseId, purchase);
+        Mockito.doNothing().when(purchaseService).modifyPurchaseInfo(purchase, purchase);
 
         mvc.perform(MockMvcRequestBuilders.post(URI_TEMPLATE + "/info/" + purchaseId)
                         .param("productId", String.valueOf(productId)))
