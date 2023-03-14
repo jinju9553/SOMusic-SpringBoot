@@ -30,22 +30,23 @@ class SearchControllerTest {
 	
 	@MockBean
 	ProductService prSvc;
+	
+	private static final String GP_SEARCH = "thyme/search/GPSearchList";
+	private static final String PRODUCT_SEARCH = "thyme/search/ProductSearchList";
 
 	@Test
 	@DisplayName("상품 검색")
-	void prSearch() throws Exception {
+	public void prSearch() throws Exception {
 
-		List<Product> prList = new ArrayList<>();
-		Product pr = new Product();
-		pr.setProductName("aabb");
-		prList.add(pr);
-		
+		List<Product> prList = getPrList();
 		String keyword = "aa";
 		
 		Mockito.when(prSvc.getSearchProductList(keyword)).thenReturn(prList);
 		
 		mvc.perform(MockMvcRequestBuilders.get("/main/product/search").param("keyword", keyword))
 			.andDo(MockMvcResultHandlers.print())
+			.andExpect(MockMvcResultMatchers.status().isOk())
+			.andExpect(MockMvcResultMatchers.view().name(PRODUCT_SEARCH))
 			.andExpect(MockMvcResultMatchers.model().attribute("productList", prList))
 			.andExpect(MockMvcResultMatchers.model().attribute("keyword", keyword));
 		
@@ -53,22 +54,48 @@ class SearchControllerTest {
 	
 	@Test
 	@DisplayName("공구 검색")
-	void gpSearch() throws Exception {
+	public void gpSearch() throws Exception {
 
-		List<GroupPurchase> gpList = gpSvc.get4GPList();
-		GroupPurchase gp = new GroupPurchase();
-		gp.setTitle("aaa");
-		gpList.add(gp);
-		
+		List<GroupPurchase> gpList = getGPList();
 		String keyword = "aa";
 		
 		Mockito.when(gpSvc.getSearchGPList(keyword)).thenReturn(gpList);
 		
 		mvc.perform(MockMvcRequestBuilders.get("/main/gp/search").param("keyword", keyword))
 			.andDo(MockMvcResultHandlers.print())
+			.andExpect(MockMvcResultMatchers.status().isOk())
+			.andExpect(MockMvcResultMatchers.view().name(GP_SEARCH))
 			.andExpect(MockMvcResultMatchers.model().attribute("gpList", gpList))
 			.andExpect(MockMvcResultMatchers.model().attribute("keyword", keyword));
 		
+	}
+	
+	public List<Product> getPrList() {
+		Product pr1 = new Product();
+		pr1.setProductName("pr1");
+		
+		Product pr2 = new Product();
+		pr2.setProductName("pr2");
+		
+		List<Product> prList = new ArrayList<>();
+		prList.add(pr1);
+		prList.add(pr2);
+		
+		return prList;
+	}
+	
+	public List<GroupPurchase> getGPList() {
+		GroupPurchase gp1 = new GroupPurchase();
+		gp1.setTitle("gp1");
+		
+		GroupPurchase gp2 = new GroupPurchase();
+		gp2.setTitle("gp2");
+		
+		List<GroupPurchase> gpList = new ArrayList<>();
+		gpList.add(gp1);
+		gpList.add(gp2);
+		
+		return gpList;
 	}
 
 }

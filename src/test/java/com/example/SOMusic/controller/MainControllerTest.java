@@ -30,10 +30,25 @@ class MainControllerTest {
 	
 	@MockBean
 	ProductService prSvc;
-
+	
+	private static final String MAIN = "/main";		// '/'가 들어오면 '/main' 실행
+	private static final String MAIN_VIEW = "thyme/main";
+	private static final String MAIN_GP_VIEW = "thyme/gp/list/GPListView";
+	private static final String MAIN_PRODUCT_VIEW = "thyme/Product/list/ProductListView";
+	
+	@Test
+	@DisplayName("루트 메인화면 이동")
+	public void rootMain() throws Exception {
+		
+		mvc.perform(MockMvcRequestBuilders.get("/"))
+			.andDo(MockMvcResultHandlers.print())
+			.andExpect(MockMvcResultMatchers.redirectedUrl(MAIN));
+		
+	}
+	
 	@Test
 	@DisplayName("메인화면 리스트")
-	void main() throws Exception {
+	public void main() throws Exception {
 
 		List<Product> prList = getPrList();
 		List<GroupPurchase> gpList = getGPList();
@@ -44,6 +59,7 @@ class MainControllerTest {
 		mvc.perform(MockMvcRequestBuilders.get("/main"))
 			.andDo(MockMvcResultHandlers.print())
 			.andExpect(MockMvcResultMatchers.status().isOk())
+			.andExpect(MockMvcResultMatchers.view().name(MAIN_VIEW))
 			.andExpect(MockMvcResultMatchers.model().attribute("gpList", gpList))
 			.andExpect(MockMvcResultMatchers.model().attribute("productList", prList));
 		
@@ -51,7 +67,7 @@ class MainControllerTest {
 	
 	@Test
 	@DisplayName("상품 메인 리스트")
-	void prList() throws Exception {
+	public void prList() throws Exception {
 
 		List<Product> prList = getPrList();
 		
@@ -60,13 +76,14 @@ class MainControllerTest {
 		mvc.perform(MockMvcRequestBuilders.get("/main/product"))
 			.andDo(MockMvcResultHandlers.print())
 			.andExpect(MockMvcResultMatchers.status().isOk())
+			.andExpect(MockMvcResultMatchers.view().name(MAIN_PRODUCT_VIEW))
 			.andExpect(MockMvcResultMatchers.model().attribute("productList", prList));
 		
 	}
 	
 	@Test
 	@DisplayName("공구 메인 리스트")
-	void gpList() throws Exception {
+	public void gpList() throws Exception {
 
 		List<GroupPurchase> gpList = getGPList();
 		
@@ -75,11 +92,12 @@ class MainControllerTest {
 		mvc.perform(MockMvcRequestBuilders.get("/main/gp"))
 			.andDo(MockMvcResultHandlers.print())
 			.andExpect(MockMvcResultMatchers.status().isOk())
+			.andExpect(MockMvcResultMatchers.view().name(MAIN_GP_VIEW))
 			.andExpect(MockMvcResultMatchers.model().attribute("gpList", gpList));
 		
 	}
 	
-	List<Product> getPrList() {
+	public List<Product> getPrList() {
 		Product pr1 = new Product();
 		pr1.setProductName("pr1");
 		
@@ -93,7 +111,7 @@ class MainControllerTest {
 		return prList;
 	}
 	
-	List<GroupPurchase> getGPList() {
+	public List<GroupPurchase> getGPList() {
 		GroupPurchase gp1 = new GroupPurchase();
 		gp1.setTitle("gp1");
 		

@@ -65,7 +65,7 @@ class WishControllerTest {
 
 	@Test
 	@DisplayName("상품 위시 리스트")
-	void wishProductList() throws Exception {
+	public void wishProductList() throws Exception {
 		
 		List<WishProduct> prList = getWishPrList();
 		String userId = userSession.getAccount().getUserId();
@@ -81,7 +81,7 @@ class WishControllerTest {
 	
 	@Test
 	@DisplayName("상품 위시 추가")
-	void addWishProduct() throws Exception {
+	public void addWishProduct() throws Exception {
 		
 		WishProduct wish = getWishPr();
 		int productId = wish.getProductId();
@@ -89,15 +89,19 @@ class WishControllerTest {
 		Mockito.doNothing().when(prSvc).addWishproduct(wish);
 		
 		mvc.perform(MockMvcRequestBuilders.get("/user/my/wish/product/add")
-										.param("productId", String.valueOf(productId)).session(session))
+										.param("productId", String.valueOf(productId))
+										.session(session))
 			.andDo(MockMvcResultHandlers.print())
+			.andExpect(MockMvcResultMatchers.status().is3xxRedirection())
 			.andExpect(MockMvcResultMatchers.redirectedUrl(WISH_RE + "?productId=" + productId));
+		
+		Mockito.verify(prSvc).addWishproduct(wish);
 		
 	}
 	
 	@Test
 	@DisplayName("상품 위시 삭제 - 리스트뷰에서")
-	void deleteWishPrFromListView() throws Exception {
+	public void deleteWishPrFromListView() throws Exception {
 		int productId = getWishPr().getProductId();
 		String userId = userSession.getAccount().getUserId();
 		
@@ -107,13 +111,16 @@ class WishControllerTest {
 				.param("view", "list").param("productId", String.valueOf(productId))
 				.session(session))
 				.andDo(MockMvcResultHandlers.print())
+				.andExpect(MockMvcResultMatchers.status().is3xxRedirection())
 				.andExpect(MockMvcResultMatchers.redirectedUrl(WISH_PRODUCT_LIST_URI));
+		
+		Mockito.verify(prSvc).deleteWishproduct(userId, productId);
 		
 	}
 	
 	@Test
 	@DisplayName("상품 위시 삭제 - 뷰에서")
-	void deleteWishPrFromView() throws Exception {
+	public void deleteWishPrFromView() throws Exception {
 		int productId = getWishPr().getProductId();
 		String userId = userSession.getAccount().getUserId();
 		
@@ -123,13 +130,16 @@ class WishControllerTest {
 				.param("view", "view").param("productId", String.valueOf(productId))
 				.session(session))
 				.andDo(MockMvcResultHandlers.print())
+				.andExpect(MockMvcResultMatchers.status().is3xxRedirection())
 				.andExpect(MockMvcResultMatchers.redirectedUrl(WISH_RE + "?productId=" + productId));
+		
+		Mockito.verify(prSvc).deleteWishproduct(userId, productId);
 		
 	}
 	
 	@Test
 	@DisplayName("공구 위시 리스트")
-	void wishGPList() throws Exception {
+	public void wishGPList() throws Exception {
 		
 		List<WishGroupPurchase> gpList = getWishGPList();
 		String userId = userSession.getAccount().getUserId();
@@ -141,11 +151,12 @@ class WishControllerTest {
 			.andExpect(MockMvcResultMatchers.status().isOk())
 			.andExpect(MockMvcResultMatchers.view().name(WISH_GP_LIST))
 			.andExpect(MockMvcResultMatchers.model().attribute("wishGpList", gpList));
+		
 	}
 	
 	@Test
 	@DisplayName("공구 위시 추가")
-	void addWishGP() throws Exception {
+	public void addWishGP() throws Exception {
 		
 		WishGroupPurchase wish = getWishGP();
 		int gpId = wish.getGpId();
@@ -156,13 +167,16 @@ class WishControllerTest {
 		mvc.perform(MockMvcRequestBuilders.get("/user/my/wish/gp/add")
 										.param("gpId", String.valueOf(gpId)).session(session))
 			.andDo(MockMvcResultHandlers.print())
+			.andExpect(MockMvcResultMatchers.status().is3xxRedirection())
 			.andExpect(MockMvcResultMatchers.redirectedUrl(JOIN + gpId));
+		
+		Mockito.verify(gpSvc).insertWishGP(userId, gpId);
 		
 	}
 	
 	@Test
 	@DisplayName("공구 위시 삭제 - join form 뷰에서")
-	void deleteWishGPFromJoin() throws Exception {
+	public void deleteWishGPFromJoin() throws Exception {
 		int gpId = getWishGP().getGpId();
 		String userId = userSession.getAccount().getUserId();
 		
@@ -172,13 +186,16 @@ class WishControllerTest {
 				.param("view", "join").param("gpId", String.valueOf(gpId))
 				.session(session))
 				.andDo(MockMvcResultHandlers.print())
+				.andExpect(MockMvcResultMatchers.status().is3xxRedirection())
 				.andExpect(MockMvcResultMatchers.redirectedUrl(JOIN + gpId));
+		
+		Mockito.verify(gpSvc).deleteWishGP(userId, gpId);
 		
 	}
 	
 	@Test
 	@DisplayName("상품 위시 삭제 - 리스트뷰에서")
-	void deleteWishGPFromList() throws Exception {
+	public void deleteWishGPFromList() throws Exception {
 		int gpId = getWishGP().getGpId();
 		String userId = userSession.getAccount().getUserId();
 		
@@ -188,11 +205,14 @@ class WishControllerTest {
 				.param("view", "list").param("gpId", String.valueOf(gpId))
 				.session(session))
 				.andDo(MockMvcResultHandlers.print())
+				.andExpect(MockMvcResultMatchers.status().is3xxRedirection())
 				.andExpect(MockMvcResultMatchers.redirectedUrl(WISH_GP_LIST_URI));
+		
+		Mockito.verify(gpSvc).deleteWishGP(userId, gpId);
 		
 	}
 	
-	WishProduct getWishPr() {
+	public WishProduct getWishPr() {
 		Product p = new Product();
 		p.setProductId(1);
 		p.setProductName("aaa");
@@ -210,13 +230,12 @@ class WishControllerTest {
 		WishProduct wish = new WishProduct();
 		wish.setProductId(1);
 		wish.setUserId(userId);
-		
 		wish.setPr(p);
 		
 		return wish;
 	}
 	
-	List<WishProduct> getWishPrList() {
+	public List<WishProduct> getWishPrList() {
 		WishProduct wish = getWishPr();
 		
 		List<WishProduct> wishList = new ArrayList<>();
@@ -225,7 +244,7 @@ class WishControllerTest {
 		return wishList;
 	}
 	
-	WishGroupPurchase getWishGP() {
+	public WishGroupPurchase getWishGP() {
 		GroupPurchase gp = new GroupPurchase(1, "hi", "aaa", "link",
 				LocalDate.of(2023, 1, 1), LocalDate.of(2023, 1, 31),
 				"music", "3333", "bank", 1000, "Is is\n good");
@@ -238,7 +257,7 @@ class WishControllerTest {
 		return wish;
 	}
 	
-	List<WishGroupPurchase> getWishGPList() {
+	public List<WishGroupPurchase> getWishGPList() {
 		WishGroupPurchase wish = getWishGP();
 		
 		List<WishGroupPurchase> wishList = new ArrayList<>();

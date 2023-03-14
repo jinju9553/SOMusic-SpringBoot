@@ -135,6 +135,7 @@ class MyGPControllerTest {
 										.param("status", String.valueOf(status))
 										.session(session))
 			.andDo(MockMvcResultHandlers.print())
+			.andExpect(MockMvcResultMatchers.status().is3xxRedirection())
 			.andExpect(MockMvcResultMatchers.redirectedUrl("/user/my/gp/info?gpId=" + gpId));
 			
 		Mockito.verify(joinSvc, Mockito.times(1)).updateStatus(gpId, status);
@@ -155,6 +156,7 @@ class MyGPControllerTest {
 										.param("status", String.valueOf(status))
 										.session(session))
 			.andDo(MockMvcResultHandlers.print())
+			.andExpect(MockMvcResultMatchers.status().is3xxRedirection())
 			.andExpect(MockMvcResultMatchers.redirectedUrl("/user/my/gp/info?gpId=1"));
 
 		Mockito.verify(joinSvc, Mockito.times(1)).updateAllStatus(gpId, status);
