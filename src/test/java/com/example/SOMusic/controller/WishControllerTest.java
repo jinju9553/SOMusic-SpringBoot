@@ -52,6 +52,7 @@ class WishControllerTest {
 	
 	@BeforeEach()
     public void setup() {
+		
 		Account account = new Account();
 		account.setUserName("hi-he");
 		account.setUserId("hi");
