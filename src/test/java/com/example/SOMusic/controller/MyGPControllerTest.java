@@ -66,7 +66,7 @@ class MyGPControllerTest {
 		
 		Mockito.when(gpSvc.getGP(1)).thenReturn(gp);
 		
-		mvc.perform(MockMvcRequestBuilders.get("/user/my/gp/info").param("gpId", "1").session(session).contentType(MediaType.APPLICATION_JSON))
+		mvc.perform(MockMvcRequestBuilders.get("/user/my/gp/info").param("gpId", "1").session(session))
 			.andDo(MockMvcResultHandlers.print())
 			.andExpect(MockMvcResultMatchers.model().attribute("gp", gp));//??????????????
 //			.andExpect(MockMvcResultMatchers.jsonPath("$.GroupPurchase.description").value("Is is<br> good!"));
