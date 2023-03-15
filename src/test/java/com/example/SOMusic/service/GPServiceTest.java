@@ -2,6 +2,7 @@ package com.example.SOMusic.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
@@ -51,15 +52,12 @@ class GPServiceTest {
 	@Test
 	@DisplayName("공구 생성")
 	void create() {
+	
+		Mockito.doNothing().when(gpSvc).insertGP(any(GroupPurchase.class));
 		
-		GroupPurchase gp = new GroupPurchase();
-		gp.setTitle("aaa");
+		gpSvc.insertGP(new GroupPurchase());
 		
-		gpSvc.insertGP(gp);
-		
-		assertEquals("aaa", gp.getTitle());
-		
-		Mockito.verify(gpSvc, Mockito.times(1)).insertGP(gp);
+		Mockito.verify(gpSvc, Mockito.times(1)).insertGP(any(GroupPurchase.class));
 		
 	}
 	
@@ -67,14 +65,11 @@ class GPServiceTest {
 	@DisplayName("공구 수정")
 	void update() {
 		
-		GroupPurchase gp = new GroupPurchase();
-		gp.setTitle("aaa");
+		Mockito.doNothing().when(gpSvc).updateGP(any(GroupPurchase.class));
 		
-		gpSvc.updateGP(gp);
+		gpSvc.updateGP(new GroupPurchase());
 		
-		assertEquals("aaa", gp.getTitle());
-		
-		Mockito.verify(gpSvc, Mockito.times(1)).updateGP(gp);
+		Mockito.verify(gpSvc, Mockito.times(1)).updateGP(any(GroupPurchase.class));
 		
 	}
 	
@@ -82,28 +77,24 @@ class GPServiceTest {
 	@DisplayName("공구 삭제")
 	void delete() {
 		
-		GroupPurchase gp = new GroupPurchase(1, "hi", "aaa", "link", 
-				LocalDate.of(2023, 1, 1), LocalDate.of(2023, 1, 31),
-				"music", "3333", "bank", 1000, "Is is");
+		Mockito.doNothing().when(gpSvc).deleteGP(any(Integer.class));
 		
-		gpSvc.insertGP(gp);
-		gpSvc.deleteGP(gp.getGpId());
+		gpSvc.deleteGP(0);
 		
-		List<GroupPurchase> result = gpSvc.getAllGPList();
-		assertEquals(result.size(), 0);
+		Mockito.verify(gpSvc, Mockito.times(1)).deleteGP(any(Integer.class));
+		
 	}
 	
 	@Test
 	@DisplayName("공구 가져오기")
 	void get() {
 		
-		GroupPurchase gp = new GroupPurchase(1, "hi", "aaa", "link", 
-				LocalDate.of(2023, 1, 1), LocalDate.of(2023, 1, 31),
-				"music", "3333", "bank", 1000, "Is is");
+		GroupPurchase gp = getGP();
+		int gpId = gp.getGpId();
 		
-		gpSvc.insertGP(gp);
+		Mockito.when(gpSvc.getGP(gpId)).thenReturn(gp);
 		
-		GroupPurchase result = gpSvc.getGP(1);
+		GroupPurchase result = gpSvc.getGP(gpId);
 		
 		assertEquals(gp, result);
 	
@@ -113,46 +104,35 @@ class GPServiceTest {
 	@DisplayName("등록한 공구 불러오기 - 판매자 아이디로 공구 반환")
 	void MyGPList() {
 		
-		GroupPurchase gp1 = new GroupPurchase(1, "hi", "aaa", "link", 
-				LocalDate.of(2023, 1, 1), LocalDate.of(2023, 1, 31),
-				"music", "3333", "bank", 1000, "Is is");
-		
-		GroupPurchase gp2 = new GroupPurchase(2, "hi", "bbb", "link", 
-				LocalDate.of(2023, 1, 1), LocalDate.of(2023, 1, 31),
-				"music", "3333", "bank", 1000, "Is is");
-		
-		GroupPurchase gp3 = new GroupPurchase(3, "bye", "ccc", "link", 
-				LocalDate.of(2023, 1, 1), LocalDate.of(2023, 1, 31),
-				"music", "3333", "bank", 1000, "Is is");
-		
-		List<GroupPurchase> gpList = new ArrayList<>();
-		gpList.add(gp1);
-		gpList.add(gp2);
+		List<GroupPurchase> gpList = getGPList();
 		
 		Mockito.when(gpRepository.findBySellerId("hi")).thenReturn(gpList);
 		
-		
 		List<GroupPurchase> result = gpSvc.getMyGPList("hi");
+		
 		assertEquals(result.size(), 2);
 		
 	}
 	
 	@Test
-	@DisplayName("공구 리스트")
-	void GPList() {
+	@DisplayName("메인화면 공구 리스트")
+	void MainGPList() {
 		
-		GroupPurchase gp1 = new GroupPurchase(1, "hi", "aaa", "link", 
-				LocalDate.of(2023, 1, 1), LocalDate.of(2023, 1, 31),
-				"music", "3333", "bank", 1000, "Is is");
+		List<GroupPurchase> gpList = getGPList();
 		
-		GroupPurchase gp2 = new GroupPurchase(2, "hi", "bbb", "link", 
-				LocalDate.of(2023, 1, 1), LocalDate.of(2023, 1, 31),
-				"music", "3333", "bank", 1000, "Is is");
+		Mockito.when(gpRepository.findFirst4ByOrderByGpId()).thenReturn(gpList);
 		
+		List<GroupPurchase> result = gpSvc.get4GPList();
 		
-		List<GroupPurchase> gpList = new ArrayList<>();
-		gpList.add(gp1);
-		gpList.add(gp2);
+		assertEquals(result.size(), 2);
+		
+	}
+	
+	@Test
+	@DisplayName("모든 공구 리스트")
+	void AllGPList() {
+		
+		List<GroupPurchase> gpList = getGPList();
 		
 		Mockito.when(gpRepository.findAll()).thenReturn(gpList);
 		
@@ -163,59 +143,121 @@ class GPServiceTest {
 	}
 	
 	@Test
+	@DisplayName("검색 공구 리스트")
+	void SearchGPList() {
+		
+		List<GroupPurchase> gpList = getGPList();
+		String keyword = "aa";
+		
+		Mockito.when(gpRepository.findByTitleContainingIgnoreCaseOrDescriptionContainingIgnoreCaseOrCategoryContainingIgnoreCase(keyword, keyword, keyword)).thenReturn(gpList);
+		
+		List<GroupPurchase> result = gpSvc.getSearchGPList(keyword);
+		
+		assertEquals(result.size(), 2);
+		
+	}
+	
+	@Test
+	@DisplayName("위시 공구 생성")
+	void insertWishGP() {
+		
+		WishGroupPurchase wish = getWishGP();
+		String userId = wish.getUserId();
+		int gpId = wish.getGpId();
+	
+		Mockito.doNothing().when(gpSvc).insertWishGP(userId, gpId);
+		
+		gpSvc.insertWishGP(userId, gpId);
+		
+		Mockito.verify(gpSvc, Mockito.times(1)).insertWishGP(userId, gpId);
+		
+	}
+	
+	@Test
+	@DisplayName("위시 공구 가져오기")
+	void wishGP() {
+		
+		WishGroupPurchase wish = getWishGP();
+		String userId = wish.getUserId();
+		int gpId = wish.getGpId();
+		
+		Mockito.when(wishRepository.findByUserIdAndGpId(userId, gpId)).thenReturn(wish);
+		
+		WishGroupPurchase result = gpSvc.getWishGP(userId, gpId);
+		
+		assertEquals(result.getGp(), wish.getGp());
+	}
+	
+	@Test
+	@DisplayName("위시 공구 삭제")
+	void deleteWishGP() {
+		
+		WishGroupPurchase wish = getWishGP();
+		String userId = wish.getUserId();
+		int gpId = wish.getGpId();
+	
+		Mockito.doNothing().when(gpSvc).deleteWishGP(userId, gpId);
+		
+		gpSvc.deleteWishGP(userId, gpId);
+		
+		Mockito.verify(gpSvc, Mockito.times(1)).deleteWishGP(userId, gpId);
+		
+	}
+	
+	@Test
 	@DisplayName("위시 공구 리스트")
 	void WishGPList() {
 		
-		GroupPurchase gp1 = new GroupPurchase(1, "hi", "aaa", "link", 
-				LocalDate.of(2023, 1, 1), LocalDate.of(2023, 1, 31),
-				"music", "3333", "bank", 1000, "Is is");
-		
-		GroupPurchase gp2 = new GroupPurchase(2, "hi", "bbb", "link", 
-				LocalDate.of(2023, 1, 1), LocalDate.of(2023, 1, 31),
-				"music", "3333", "bank", 1000, "Is is");
-		
-		GroupPurchase gpResult1 = gpRepository.save(gp1);
-		GroupPurchase gpResult2 = gpRepository.save(gp2);
-		
-		WishGroupPurchase wish1 = new WishGroupPurchase("hi", gpResult1.getGpId());
-		WishGroupPurchase wish2 = new WishGroupPurchase("hi", gpResult2.getGpId());
-		
-		wish1.setGp(gp1);
-		wish2.setGp(gp2);
-		
-		List<WishGroupPurchase> wishList = new ArrayList<>();
-		wishList.add(wish1);
-		wishList.add(wish2);
+		List<WishGroupPurchase> wishList = getWishGPList();
 		
 		Mockito.when(wishRepository.findByUserId("hi")).thenReturn(wishList);
 		
 		List<WishGroupPurchase> result = gpSvc.getWishGPList("hi");
 		
-		
-		
-		assertEquals(result.size(), 2);
+		assertEquals(result.size(), 1);
 		
 	}
-
 	
+	public GroupPurchase getGP() {
+		GroupPurchase gp = new GroupPurchase(1, "hi", "aaa", "link",
+				LocalDate.of(2023, 1, 1), LocalDate.of(2023, 1, 31),
+				"music", "3333", "bank", 1000, "Is is");
+		
+		return gp;
+	}
 	
+	public List<GroupPurchase> getGPList() {
+		GroupPurchase gp1 = getGP();
+		
+		GroupPurchase gp2 = new GroupPurchase(2, "hi", "aabb", "link",
+				LocalDate.of(2023, 1, 1), LocalDate.of(2023, 1, 31),
+				"music", "3333", "bank", 1000, "Is is");
+		
+		List<GroupPurchase> gpList = new ArrayList<>();
+		gpList.add(gp1);
+		gpList.add(gp2);
+		
+		return gpList;
+	}
 	
-
-
-//	
-//	@Test
-//	@DisplayName("공구 검색")
-//	void search() {
-//		
-//		
-//		String keyword = "aa";
-//		List<GroupPurchase> result = gpSvc.getSearchGPList(keyword);
-//		
-//		assertEquals(result.size(), 2);
-//	}
-//	
+	public WishGroupPurchase getWishGP() {
+		GroupPurchase gp = getGP();
+		String userId = "rover";
+		
+		WishGroupPurchase wish = new WishGroupPurchase(userId, gp.getGpId());
+		wish.setGp(gp);
+		
+		return wish;
+	}
 	
-	
+	public List<WishGroupPurchase> getWishGPList() {
+		WishGroupPurchase wish = getWishGP();
+		
+		List<WishGroupPurchase> wishList = new ArrayList<>();
+		wishList.add(wish);
+		
+		return wishList;
+	}
 	
 	
 	

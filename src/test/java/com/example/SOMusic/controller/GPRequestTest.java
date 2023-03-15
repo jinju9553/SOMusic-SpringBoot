@@ -11,7 +11,7 @@ import org.springframework.mock.web.MockMultipartFile;
 class GPRequestTest {
 
 	@Test
-	void gpReq() {
+	public void gpReq() {
 		
 		byte[] fileContent = "Image Link".getBytes();
         String filename = "test.png";
