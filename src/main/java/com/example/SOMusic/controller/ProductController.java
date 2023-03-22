@@ -146,7 +146,7 @@ public class ProductController implements ApplicationContextAware {
 		System.out.println("수정폼에서 출력합니다 : " + productId);
 		
 		
-		String imgPath = prSvc.getPr(productId).getImage();
+		String imgPath = prSvc.findProductByProductId(productId).getImage();
 		model.addAttribute("imgPath", imgPath);
 		model.addAttribute("ProductId", productId);
 		return Product_UPDATE_FORM;
@@ -169,7 +169,7 @@ public class ProductController implements ApplicationContextAware {
 	  		System.out.println(errors.getFieldErrors());
 	  		System.out.println(errors.toString());
 	  		
-	  		String imgPath = prSvc.getPr(prReq.getProductId()).getImage();
+	  		String imgPath = prSvc.findProductByProductId(prReq.getProductId()).getImage();
 	  		model.addAttribute("imgPath", imgPath);
 	  		model.addAttribute("prReq", prReq);
 	  		

@@ -28,6 +28,7 @@ public class SignupControllerTest {
         Account account = accountForm.getAccount();
         String id = account.getUserId();
 
+        
         Mockito.when(accountService.getAccount(id)).thenReturn(account);
 
         //when & then
