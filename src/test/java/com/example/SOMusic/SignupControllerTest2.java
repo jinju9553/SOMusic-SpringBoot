@@ -12,8 +12,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
-@WebMvcTest(SignupControllerTest.class)
-public class SignupControllerTest {
+@WebMvcTest(SignupControllerTest2.class)
+public class SignupControllerTest2 {
 
     @Autowired
     MockMvc mvc;
