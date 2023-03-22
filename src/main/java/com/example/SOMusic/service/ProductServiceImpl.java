@@ -69,10 +69,6 @@ public class ProductServiceImpl implements ProductService {
 		return productRepository.findByProductNameContainingIgnoreCaseOrDescriptionContainingIgnoreCaseOrArtistNameContainingIgnoreCase(keyword, keyword, keyword);
 	}
 
-	@Override
-	public Product getPr(int productId) {
-		return productRepository.findProductByProductId(productId);
-	}
 
 	// Wish Product
 	

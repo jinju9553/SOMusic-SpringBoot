@@ -56,9 +56,12 @@ public class MyProductController {
 	throws Exception {
 		
 		//usersession 가져오는 함수 따로 만들기
-		Login userSession = (Login) WebUtils.getSessionAttribute(request, "userSession");
+		//Login userSession = (Login) WebUtils.getSessionAttribute(request, "userSession");
+		//String sellerId = userSession.getAccount().getUserId();
+		//
+		
+		Login userSession = getSession(request);
 		String sellerId = userSession.getAccount().getUserId();
-		//ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ
 		
 		System.out.println("등록한 상품 리스트 출력중");
 		System.out.println("sellerId : " + sellerId);
@@ -72,6 +75,8 @@ public class MyProductController {
 		
 	}
 	
+
+	
 	@GetMapping("/purchase/list")
 	public String registerList(HttpServletRequest request, Model model) throws Exception {
 
@@ -84,4 +89,13 @@ public class MyProductController {
 
 		return MY_PURCHASE_LIST;
 	}
-}
+	
+	
+	public Login getSession (HttpServletRequest request) {
+		Login userSession = (Login) WebUtils.getSessionAttribute(request, "userSession");
+		return userSession;
+		
+	}
+
+	}
+

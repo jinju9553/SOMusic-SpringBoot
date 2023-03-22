@@ -30,6 +30,15 @@ public class WishProduct implements Serializable {
 	@Column(name="PRODUCT_ID")
 	private int productId;
 	
+	public WishProduct(String userId, int productId) {
+		this.userId = userId;
+		this.productId = productId;
+	}
+
+	public WishProduct() {
+		// TODO Auto-generated constructor stub
+	}
+
 	@Override
 	public String toString() {
 		return "관심 상품 목록 [[productId= " + productId +"]], ";
