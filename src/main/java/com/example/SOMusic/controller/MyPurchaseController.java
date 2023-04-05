@@ -100,7 +100,8 @@ public class MyPurchaseController {
     @PostMapping("/check/{purchaseId}")
     public String confirm(@PathVariable("purchaseId") int purchaseId) throws Exception {
 
-        purchaseService.confirmPurchase(purchaseId);
+        Purchase purchase = purchaseService.findPurchaseByPurchaseId(purchaseId);
+        purchaseService.confirmPurchase(purchase);
 
         return "redirect:/" + "user/my/sale/list";
     }
