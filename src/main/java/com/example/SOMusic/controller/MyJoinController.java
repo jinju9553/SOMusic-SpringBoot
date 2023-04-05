@@ -74,7 +74,7 @@ public class MyJoinController {
     public String update(
             @ModelAttribute("joinInfoReq") Join join,
             BindingResult result, Model model) throws Exception {
-
+        
         validator.validate(join, result);
 
         if (result.hasErrors()) {
@@ -82,7 +82,10 @@ public class MyJoinController {
             return JOIN_INFO;
         }
 
-        joinService.modifyJoin(join);
+        int joinId = join.getJoinId();
+        Join oldJoin = joinService.findJoinByJoinId(joinId);
+
+        joinService.modifyJoin(oldJoin, join);
 
         return "redirect:/" + "join/info/{joinId}";
     }

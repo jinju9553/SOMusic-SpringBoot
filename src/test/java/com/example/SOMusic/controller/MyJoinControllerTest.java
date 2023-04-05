@@ -69,7 +69,7 @@ class MyJoinControllerTest {
         int joinId = join.getJoinId();
 
         Mockito.doNothing().when(validator).validate(join, bindingResult);
-        Mockito.doNothing().when(joinService).modifyJoin(join);
+        Mockito.doNothing().when(joinService).modifyJoin(join, join);
 
         mvc.perform(MockMvcRequestBuilders.post(URI_TEMPLATE + "/info/" + joinId))
                 .andDo(MockMvcResultHandlers.print())
