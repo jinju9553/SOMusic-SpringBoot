@@ -22,6 +22,7 @@ public class JoinController {
 
     private static final int INITIAL_QUANTITY = 1;
     private static final int INITIAL_SHIPPING_METHOD = 1;
+    private static final int INITIAL_STATUS = 1;
     private static final String JOIN_FORM = "join/joinForm";
     private static final String JOIN_DONE = "thyme/join/joinDone";
 
@@ -91,6 +92,7 @@ public class JoinController {
         return JOIN_FORM;
     }
 
+
     @ModelAttribute("joinReq")
     public Join formBacking(HttpServletRequest request,
                             @PathVariable("gpId") int gpId, Model model) {
@@ -153,7 +155,7 @@ public class JoinController {
         }
 
         GroupPurchase groupPurchase = gpService.getGP(gpId);
-        join = initJoin(join, userId, groupPurchase); //TODO: 변수 재할당
+        join = initJoin(join, userId, groupPurchase);
 
         joinService.registerJoin(join);
 
@@ -161,12 +163,11 @@ public class JoinController {
     }
 
     private Join initJoin(Join join, String userId, GroupPurchase groupPurchase) {
-        //TODO: 이 요소들을 form에서 숨김처리해서 받을 수는 없을까?
         join.setGroupPurchase(groupPurchase);
         join.setConsumerId(userId);
         join.setShippingCost(joinService.initShippingCost(join));
         join.setTotalAmount(joinService.calculateTotal(groupPurchase, join));
-        join.setStatus(1);
+        join.setStatus(INITIAL_STATUS);
         join.setRegDate(new Date());
 
         return join;
