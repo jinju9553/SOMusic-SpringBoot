@@ -63,6 +63,8 @@ class GPControllerTest {
 	
 	private static final String GP_DELETE = "/user/my/gp/list";
 	
+	private static final String LOGIN_FROM = "/user/loginForm";
+	
     @BeforeEach()
     public void setUp() throws Exception {
     	
@@ -77,6 +79,18 @@ class GPControllerTest {
     	
         request = new MockHttpServletRequest();
     }
+    
+    @Test
+	@DisplayName("로그아웃 상태에서 등록하려면 로그인 폼으로 이동")
+	public void register_logout() throws Exception {
+    	
+		mvc.perform(MockMvcRequestBuilders.get("/gp/register"))
+			.andDo(MockMvcResultHandlers.print())
+//			.andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+//			.andExpect(MockMvcResultMatchers.redirectedUrl(LOGIN_FROM))
+			.andExpect(MockMvcResultMatchers.view().name("thyme/user/account/loginForm"));
+
+	}
 	
 	@Test
 	@DisplayName("공구 등록 폼으로 이동")
