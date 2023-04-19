@@ -137,36 +137,38 @@ public class JoinController {
     public String register(
             HttpServletRequest request,
             @PathVariable("gpId") int gpId,
-            @ModelAttribute("joinReq") Join join,
+            @ModelAttribute("joinReq") Join joinReq,
             BindingResult result, Model model) throws Exception {
 
         Login userSession =
                 (Login) WebUtils.getSessionAttribute(request, "userSession");
 
-        validator.validate(join, result);
+        validator.validate(joinReq, result);
 
         String userId = (userSession.getAccount()).getUserId();
         if (result.hasErrors()) {
             WishGroupPurchase wishGp = gpService.getWishGP(userId, gpId);
             model.addAttribute("wishGp", wishGp);
-            model.addAttribute("joinReq", join);
+            model.addAttribute("joinReq", joinReq);
 
             return JOIN_FORM;
         }
 
         GroupPurchase groupPurchase = gpService.getGP(gpId);
-        join = initJoin(join, userId, groupPurchase);
+        Join join = initJoin(joinReq, userId, groupPurchase);
 
         joinService.registerJoin(join);
 
         return JOIN_DONE;
     }
 
-    private Join initJoin(Join join, String userId, GroupPurchase groupPurchase) {
+    private Join initJoin(Join joinReq, String userId, GroupPurchase groupPurchase) {
+        Join join = joinReq;
+
         join.setGroupPurchase(groupPurchase);
         join.setConsumerId(userId);
-        join.setShippingCost(joinService.initShippingCost(join));
-        join.setTotalAmount(joinService.calculateTotal(groupPurchase, join));
+        join.setShippingCost(joinService.initShippingCost(joinReq));
+        join.setTotalAmount(joinService.calculateTotal(groupPurchase, joinReq));
         join.setStatus(INITIAL_STATUS);
         join.setRegDate(new Date());
 

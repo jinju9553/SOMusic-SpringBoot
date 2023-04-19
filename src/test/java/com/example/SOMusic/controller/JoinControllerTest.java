@@ -1,10 +1,12 @@
 package com.example.SOMusic.controller;
 
 import com.example.SOMusic.domain.*;
-import com.example.SOMusic.service.*;
+import com.example.SOMusic.service.AccountServiceImpl;
+import com.example.SOMusic.service.GPService;
+import com.example.SOMusic.service.JoinServiceImpl;
+import com.example.SOMusic.service.JoinValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -14,11 +16,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
-import javax.management.ObjectName;
-import java.util.Date;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(JoinController.class)
