@@ -3,7 +3,6 @@ package com.example.SOMusic.controller;
 import com.example.SOMusic.domain.Product;
 import com.example.SOMusic.domain.Purchase;
 import com.example.SOMusic.domain.TestPurchase;
-import com.example.SOMusic.service.ProductService;
 import com.example.SOMusic.service.ProductServiceImpl;
 import com.example.SOMusic.service.PurchaseServiceImpl;
 import com.example.SOMusic.service.PurchaseValidator;
@@ -17,7 +16,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.validation.BindingResult;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(MyPurchaseController.class)
@@ -111,7 +109,7 @@ class MyPurchaseControllerTest {
     void confirm() throws Exception {
         int purchaseId = purchase.getPurchaseId();
 
-        Mockito.doNothing().when(purchaseService).confirmPurchase(purchaseId);
+        Mockito.doNothing().when(purchaseService).confirmPurchase(purchase);
 
         mvc.perform(MockMvcRequestBuilders.post(URI_TEMPLATE + "/check/" + purchaseId))
                 .andDo(MockMvcResultHandlers.print())

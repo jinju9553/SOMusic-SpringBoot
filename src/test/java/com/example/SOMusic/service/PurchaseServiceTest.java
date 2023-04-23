@@ -1,13 +1,10 @@
 package com.example.SOMusic.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import com.example.SOMusic.dao.PurchaseDao;
 import com.example.SOMusic.domain.Product;
 import com.example.SOMusic.domain.Purchase;
 import com.example.SOMusic.domain.TestPurchase;
 import com.example.SOMusic.repository.PurchaseRepository;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -16,16 +13,17 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(SpringExtension.class)
 class PurchaseServiceTest {
 
-    private static final int PURCHASE_ID = 5723;
-    private static final String CONSUMER_ID = "mark123";
-
+    private static final int CONFIRMED = 1;
+    private static final String NEW_PHONE = "01057939101";
+    private static final String NEW_ADDRESS = "planet";
     private final ArgumentCaptor<Purchase> captor = ArgumentCaptor.forClass(Purchase.class);
 
     @InjectMocks
@@ -41,7 +39,6 @@ class PurchaseServiceTest {
     Purchase purchase2 = TestPurchase.createTestPurchase();
 
     @Test
-    @DisplayName("Service_Dao를_통한_Purchase_등록")
     void registerPurchase() {
         int purchaseId = purchase1.getPurchaseId();
 
@@ -54,7 +51,6 @@ class PurchaseServiceTest {
     }
 
     @Test
-    @DisplayName("Service_최종금액_계산_테스트")
     void calculateTotal() {
         Product product = purchase1.getProduct();
         int price = product.getPrice();
@@ -68,7 +64,6 @@ class PurchaseServiceTest {
     }
 
     @Test
-    @DisplayName("Service_구매아이디로_구매정보_찾기_테스트")
     void findPurchaseByPurchaseId() {
         int purchaseId = purchase1.getPurchaseId();
 
@@ -81,7 +76,6 @@ class PurchaseServiceTest {
     }
 
     @Test
-    @DisplayName("Service_사용자아이디로_구매정보_찾기_테스트")
     void findPurchaseByUserId() {
         String userId = purchase1.getConsumerId();
 
@@ -94,7 +88,6 @@ class PurchaseServiceTest {
     }
 
     @Test
-    @DisplayName("Service_사용자아이디로_모든_구매정보_찾기_테스트")
     void findPurchaseList() {
         String userId = purchase1.getConsumerId();
 
@@ -115,11 +108,38 @@ class PurchaseServiceTest {
 
     @Test
     void modifyPurchaseInfo() {
-        //TODO: 함수를 새로 설계하고 그 이후 테스트코드 다시 작성할 예정
+        String initialId = purchase1.getConsumerId();
+        String initialPhone = purchase1.getPhone();
+        String initialAddress = purchase1.getAddress();
+
+        Purchase purchaseReq = getTestPurchaseReq(purchase1);
+
+        purchaseService.modifyPurchaseInfo(purchase1, purchaseReq);
+
+        assertThat(purchase1.getPhone()).isNotEqualTo(initialPhone);
+        assertThat(purchase1.getAddress()).isNotEqualTo(initialAddress);
+        assertThat(purchase1.getConsumerId()).isEqualTo(initialId);
+    }
+
+    private Purchase getTestPurchaseReq(Purchase purchase) {
+        Purchase purchaseReq = new Purchase();
+
+        purchaseReq.setConsumerName(purchase.getConsumerName());
+        purchaseReq.setPhone(NEW_PHONE);
+        purchaseReq.setAddress(NEW_ADDRESS);
+        purchaseReq.setZipcode(purchase.getZipcode());
+        purchaseReq.setShippingRequest(purchase.getShippingRequest());
+
+        return purchaseReq;
     }
 
     @Test
     void confirmPurchase() {
-        //TODO: 함수를 새로 설계하고 그 이후 테스트코드 다시 작성할 예정
+        int initialStatus = purchase1.getStatus();
+
+        purchaseService.confirmPurchase(purchase1);
+
+        assertThat(purchase1.getStatus()).isEqualTo(CONFIRMED);
+        assertThat(purchase1.getStatus()).isNotEqualTo(initialStatus);
     }
 }

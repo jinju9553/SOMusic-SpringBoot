@@ -7,14 +7,15 @@ public class TestPurchase {
     private static final int PURCHASE_ID = 5723;
     private static final int PRODUCT_ID = 173;
     private static final String CONSUMER_ID = "mark123";
-    private static Purchase purchase = new Purchase();
 
-    public static Purchase createTestPurchase(){
+    public static Purchase createTestPurchase() {
+        Purchase purchase = new Purchase();
+
         purchase.setPurchaseId(PURCHASE_ID);
         purchase.setConsumerId(CONSUMER_ID);
         purchase.setConsumerName("mark");
         purchase.setTotalAmount(3);
-        purchase.setStatus(1);
+        purchase.setStatus(0);
         purchase.setShippingMethod(0);
 
         purchase.setRegDate(new Date());
@@ -27,7 +28,9 @@ public class TestPurchase {
         return purchase;
     }
 
-    public static Purchase createAnotherTestPurchase(){
+    public static Purchase createAnotherTestPurchase() {
+        Purchase purchase = new Purchase();
+
         purchase.setPurchaseId(PURCHASE_ID);
         purchase.setConsumerId(CONSUMER_ID);
         purchase.setConsumerName("mango");
