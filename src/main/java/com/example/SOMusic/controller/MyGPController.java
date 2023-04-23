@@ -31,6 +31,10 @@ public class MyGPController {
 	private static final String MY_GP_INFO = "thyme/user/my/gp/myGPInfo";
 	private static final String MY_REGISTER_LIST = "thyme/user/my/gp/MyGPList";
 	private static final String MY_JOIN_LIST = "thyme/user/my/join/MyJoinList";
+	private static final String My_GP_INFO_URI = "/user/my/gp/info?gpId=";
+	
+	Login userSession;
+	String userId;
 
 	@Autowired
 	private GPService gpSvc;
@@ -63,13 +67,17 @@ public class MyGPController {
 	// user 정보를 포함하는 formBacking
 	@ModelAttribute("accountForm")
 	public AccountForm formBacking(HttpServletRequest request) {
+		
+		userSession = (Login) WebUtils.getSessionAttribute(request, "userSession");
+		userId = userSession.getAccount().getUserId();
+		
 		if (request.getMethod().equalsIgnoreCase("GET")) {
 
 			// 1.UserSession에서 UserId를 가져온다.
-			Login userSession = (Login) WebUtils.getSessionAttribute(request, "userSession");
+//			Login userSession = (Login) WebUtils.getSessionAttribute(request, "userSession");
 
 			// 2.세션에서 얻은 Id로 사용자 정보를 가져온다.
-			AccountForm accountForm = new AccountForm(accountService.getAccount(userSession.getAccount().getUserId()));
+			AccountForm accountForm = new AccountForm(accountService.getAccount(userId));
 
 			return accountForm;
 		} else
@@ -79,9 +87,7 @@ public class MyGPController {
 	@RequestMapping(value = "/gp/info", method = RequestMethod.GET)
 	public String info(@RequestParam("gpId") int gpId, Model model) throws Exception {
 		
-		// 공구 검색
-		GroupPurchase gp = gpSvc.getGP(gpId);
-		gp.setDescription(gp.getDescription().replace("\n", "<br>")); // 줄바꿈 --> <br> 태그로
+		GroupPurchase gp = getReplacedDescGP(gpId);
 		model.addAttribute("gp", gp);
 
 		return MY_GP_INFO;
@@ -89,10 +95,8 @@ public class MyGPController {
 
 	@RequestMapping(value = "/gp/list", method = RequestMethod.GET)
 	public String registerList(HttpServletRequest request,  Model model) throws Exception {
-		
-		Login userSession = (Login) WebUtils.getSessionAttribute(request, "userSession");
 
-		List<GroupPurchase> gpList = gpSvc.getMyGPList(userSession.getAccount().getUserId());
+		List<GroupPurchase> gpList = gpSvc.getMyGPList(userId);
 		model.addAttribute("gpList", gpList);
 
 		return MY_REGISTER_LIST;
@@ -100,10 +104,8 @@ public class MyGPController {
 
 	@RequestMapping(value = "/join/list", method = RequestMethod.GET)
 	public String joinList(HttpServletRequest request, Model model) throws Exception {
-		
-		Login userSession = (Login) WebUtils.getSessionAttribute(request, "userSession");
 
-		List<Join> joinList = joinService.findAllByUserId(userSession.getAccount().getUserId());
+		List<Join> joinList = joinService.findAllByUserId(userId);
 		model.addAttribute("joinList", joinList);
 
 		return MY_JOIN_LIST;
@@ -115,7 +117,7 @@ public class MyGPController {
 
 		joinService.updateStatus(joinId, status);
 
-		return "redirect:" + "/user/my/gp/info?gpId=" + gpId;
+		return "redirect:" + My_GP_INFO_URI + gpId;
 	}
 
 	@RequestMapping(value = "/join/status/all/update", method = RequestMethod.POST) // 모든 join의 상태 일괄 변경
@@ -124,11 +126,24 @@ public class MyGPController {
 
 		System.out.println("join 상태 수정 : " + gpId + ", " + status);
 
-		if (status.equals("none")) // ==상태변경== 클릭시 다시 info로
-			return "redirect:" + "/user/my/gp/info?gpId=" + gpId;
-
-		joinService.updateAllStatus(gpId, Integer.parseInt(status));
-
-		return "redirect:" + "/user/my/gp/info?gpId=" + gpId;
+//		if (status.equals("none")) // ==상태변경== 클릭시 다시 info로
+//			return "redirect:" + My_GP_INFO_URI + gpId;
+//		joinService.updateAllStatus(gpId, Integer.parseInt(status));
+		
+		if (!status.equals("none"))
+			joinService.updateAllStatus(gpId, Integer.parseInt(status));
+		
+		return "redirect:" + My_GP_INFO_URI + gpId;
+	}
+	
+	public GroupPurchase getReplacedDescGP(int gpId) {
+		GroupPurchase gp = gpSvc.getGP(gpId);
+		
+		String beforeDesc = gp.getDescription();
+		String afterDesc = beforeDesc.replace("\n", "<br>");
+		
+		gp.setDescription(afterDesc); // 줄바꿈 --> <br> 태그로
+		
+		return gp;
 	}
 }
