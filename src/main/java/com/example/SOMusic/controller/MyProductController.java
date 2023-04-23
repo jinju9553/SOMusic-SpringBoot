@@ -30,21 +30,20 @@ public class MyProductController {
 	
 	@Autowired //주의: interface는 class가 아니므로 Bean을 생성할 수 없음
 	
-	//Svc 변수 이름 통일
-	private PurchaseService purchaseService;
-	public void setPurchaseService(PurchaseService purchaseService) {
-		this.purchaseService = purchaseService;
+	private PurchaseService purchaseSvc;
+	public void setpurchaseSvc(PurchaseService purchaseSvc) {
+		this.purchaseSvc = purchaseSvc;
 	}	
 	
 	@Autowired
-	private ProductService prSvc;
-	public void setPrService(ProductService prSvc) {
-		this.prSvc = prSvc;
+	private ProductService productSvc;
+	public void setPrService(ProductService productSvc) {
+		this.productSvc = productSvc;
 	}
 	
-	@GetMapping(value="/info") // 함수 이름 좀 더 구체적으로 변경
-	public String info(@RequestParam("ProductId") int ProductId, Model model) {
-		Product pr = prSvc.findProductByProductId(ProductId);
+	@GetMapping(value="/info")
+	public String Productinfo(@RequestParam("ProductId") int ProductId, Model model) {
+		Product pr = productSvc.findProductByProductId(ProductId);
 		model.addAttribute("pr", pr);
 		
 		return PRODUCT_INFO;
@@ -55,10 +54,10 @@ public class MyProductController {
 	public String saleList(HttpServletRequest request, Model model)
 	throws Exception {
 		
-		//usersession 가져오는 함수 따로 만들기
+		//usersession 가져오는 함수 따로 만들기. 
+		//이러나 저러나 지저분한건 똑같은 것 같은데..
 		//Login userSession = (Login) WebUtils.getSessionAttribute(request, "userSession");
 		//String sellerId = userSession.getAccount().getUserId();
-		//
 		
 		Login userSession = getSession(request);
 		String sellerId = userSession.getAccount().getUserId();
@@ -66,7 +65,7 @@ public class MyProductController {
 		System.out.println("등록한 상품 리스트 출력중");
 		System.out.println("sellerId : " + sellerId);
 		
-		List<Product> prList = prSvc.getMyPrList(sellerId);
+		List<Product> prList = productSvc.getMyPrList(sellerId);
 		model.addAttribute("prList", prList);
 		
 		System.out.println(prList.toString());
@@ -82,7 +81,7 @@ public class MyProductController {
 
 		Login userSession = (Login) WebUtils.getSessionAttribute(request, "userSession");
 
-		List<Purchase> pList = purchaseService.findPurchaseList(userSession.getAccount().getUserId());
+		List<Purchase> pList = purchaseSvc.findPurchaseList(userSession.getAccount().getUserId());
 		model.addAttribute("pList", pList);
 
 		System.out.println("구매한 상품 리스트 : " + pList.toString());
