@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +18,36 @@ class GPRepositoryTest {
 	@Autowired
 	GPRepository gpRepository;
 	
+	GroupPurchase gp1;
+	
+	@BeforeEach
+	void setup() {
+		
+		gp1 = new GroupPurchase();
+		gp1.setTitle("aaa");
+		gp1.setSellerId("hi");
+		
+		GroupPurchase gp2 = new GroupPurchase();
+		gp2.setTitle("bbb");
+		gp2.setSellerId("hi");
+		
+		GroupPurchase gp3 = new GroupPurchase();
+		gp3.setTitle("aabb");
+		gp3.setSellerId("bye");
+		
+		gp1 = gpRepository.save(gp1);
+		
+		gpRepository.save(gp2);
+		gpRepository.save(gp3);
+	
+	}
+	
 	@Test
 	@DisplayName("공구 생성 확인")
 	void create() {
 		
 		GroupPurchase gp = new GroupPurchase();
-		gp.setTitle("aaa");
+		gp.setTitle("ccc");
 		
 		GroupPurchase result = gpRepository.save(gp);
 	
@@ -33,19 +58,10 @@ class GPRepositoryTest {
 	@Test
 	@DisplayName("공구 리스트")
 	void GPList() {
-		
-		GroupPurchase gp1 = new GroupPurchase();
-		gp1.setTitle("aaa");
-		
-		GroupPurchase gp2 = new GroupPurchase();
-		gp2.setTitle("bbb");
-		
-		gpRepository.save(gp1);
-		gpRepository.save(gp2);
-		
+
 		List<GroupPurchase> result = gpRepository.findAll();
 		
-		assertEquals(result.size(), 2);
+		assertEquals(result.size(), 3);
 		
 	}
 	
@@ -53,16 +69,7 @@ class GPRepositoryTest {
 	@DisplayName("공구 아이디로 검색")
 	void GPId() {
 		
-		GroupPurchase gp1 = new GroupPurchase();
-		gp1.setTitle("aaa");
-		
-		GroupPurchase gp2 = new GroupPurchase();
-		gp2.setTitle("bbb");
-		
-		GroupPurchase gpResult = gpRepository.save(gp1);
-		gpRepository.save(gp2);
-		
-		GroupPurchase result = gpRepository.findByGpId(gpResult.getGpId());
+		GroupPurchase result = gpRepository.findByGpId(gp1.getGpId());
 		
 		assertEquals(result.getTitle(), gp1.getTitle());
 		
@@ -72,22 +79,6 @@ class GPRepositoryTest {
 	@DisplayName("판매자 아이디로 공구 검색")
 	void SellerId() {
 		
-		GroupPurchase gp1 = new GroupPurchase();
-		gp1.setTitle("aaa");
-		gp1.setSellerId("hi");
-		
-		GroupPurchase gp2 = new GroupPurchase();
-		gp2.setTitle("bbb");
-		gp2.setSellerId("hi");
-		
-		GroupPurchase gp3 = new GroupPurchase();
-		gp2.setTitle("ccc");
-		gp3.setSellerId("bye");
-		
-		gpRepository.save(gp1);
-		gpRepository.save(gp2);
-		gpRepository.save(gp3);
-		
 		List<GroupPurchase> result = gpRepository.findBySellerId("hi");
 		
 		assertEquals(result.size(), 2);
@@ -95,52 +86,43 @@ class GPRepositoryTest {
 	}
 	
 	@Test
-	@DisplayName("공구 검색")
-	void search() {
+	@DisplayName("공구 삭제")
+	void GPIdDelete() {
 		
-		GroupPurchase gp1 = new GroupPurchase();
-		gp1.setTitle("aaa");
-		gp1.setSellerId("hi");
+		gpRepository.deleteByGpId(gp1.getGpId());
 		
-		GroupPurchase gp2 = new GroupPurchase();
-		gp2.setTitle("bbb");
-		gp2.setSellerId("hi");
-		
-		GroupPurchase gp3 = new GroupPurchase();
-		gp2.setTitle("aabb");
-		gp3.setSellerId("bye");
-		
-		gpRepository.save(gp1);
-		gpRepository.save(gp2);
-		gpRepository.save(gp3);
-		
-		String keyword = "aa";
-		List<GroupPurchase> result = gpRepository.findByTitleContainingIgnoreCaseOrDescriptionContainingIgnoreCaseOrCategoryContainingIgnoreCase(keyword, keyword, keyword);
+		List<GroupPurchase> result = gpRepository.findAll();
 		
 		assertEquals(result.size(), 2);
 		
 	}
 	
 	@Test
-	@DisplayName("공구 삭제")
-	void GPIdDelete() {
+	@DisplayName("메인화면의 공구 리스트")
+	void getMainGPList() {
 		
-		GroupPurchase gp1 = new GroupPurchase();
-		gp1.setTitle("aaa");
-		gp1.setSellerId("hi");
+		List<GroupPurchase> result = gpRepository.findFirst4ByOrderByGpId();
 		
-		GroupPurchase gp2 = new GroupPurchase();
-		gp2.setTitle("bbb");
-		gp2.setSellerId("hi");
-		
-		GroupPurchase gpResult = gpRepository.save(gp1);
-		gpRepository.save(gp2);
-		
-		gpRepository.deleteByGpId(gpResult.getGpId());
+		assertEquals(result.size(), 3);
+	}
+	
+	@Test
+	@DisplayName("모든 공구 리스트")
+	void getAllGPList() {
 		
 		List<GroupPurchase> result = gpRepository.findAll();
 		
-		assertEquals(result.size(), 1);
+		assertEquals(result.size(), 3);
+	}
+	
+	@Test
+	@DisplayName("공구 검색")
+	void search() {
+		
+		String keyword = "aa";
+		List<GroupPurchase> result = gpRepository.findByTitleContainingIgnoreCaseOrDescriptionContainingIgnoreCaseOrCategoryContainingIgnoreCase(keyword, keyword, keyword);
+		
+		assertEquals(result.size(), 2);
 		
 	}
 	

@@ -36,15 +36,17 @@ import com.example.SOMusic.service.GPService;
 public class GPController implements ApplicationContextAware {
 	
 	private static final String GP_REGISTER_FORM = "thyme/gp/register/GPRegisterForm";
-	private static final String GP_REGISTER_SEUCCESS = "/gp/register/success";	// redirect : uri
+	private static final String GP_REGISTER_SEUCCESS = "/gp/register/success";
 	private static final String GP_REGISTER_SEUCCESS_View = "thyme/gp/register/GPRegisterSuccess";
 	
 	private static final String GP_UPDATE_FORM = "thyme/gp/update/GPUpdateForm";
-	private static final String GP_UPDATE_SEUCCESS = "/user/my/gp/info";	// redirect : uri
+	private static final String GP_UPDATE_SEUCCESS = "/user/my/gp/info";
 	
 	private static final String GP_DELETE = "/user/my/gp/list"; // 공구 삭제 후 공구 리스트로 다시 이동 uri
 	
-	private static final String LOGIN_FROM = "/user/loginForm";		// 로그인 폼으로 uri 이동
+	private static final String LOGIN_FROM = "/user/loginForm";
+	
+	public Login userSession;
 	
 	// 이미지 업로드를 위해
 	@Value("/upload/")
@@ -66,34 +68,39 @@ public class GPController implements ApplicationContextAware {
 		this.gpSvc= gpSvc;
 	}
 	
-	@Autowired // 이미지 유효성 검사
+	@Autowired
 	private ImgValidator validator;
 	public void setImgValidator(ImgValidator valitator) {
 		this.validator = valitator;
 	}
 	
+	@SuppressWarnings("finally")
 	@ModelAttribute("gpReq")
 	public GPRequest formBacking(HttpServletRequest request) throws Exception {
+		
+		userSession = (Login) WebUtils.getSessionAttribute(request, "userSession");
+		
 		String gpId = request.getParameter("gpId");
 		GPRequest gpReq = new GPRequest();
-		if (gpId == null)
-			return 	gpReq;		// 등록
-		else {
+		
+		try {
 			gpReq.initGpReq(gpSvc.getGP(Integer.parseInt(gpId)));
-			return gpReq;		// 수정
+		} finally {
+			return gpReq;
 		}
+		
 	}
-	
-	// 공구 등록
 	
 	@RequestMapping(value="/register", method = RequestMethod.GET)
 	public String showRegisterForm(HttpServletRequest request) {
 		
 		Login userSession = (Login) WebUtils.getSessionAttribute(request, "userSession");
+		
 		if(userSession == null)		// 로그인 X -> 로그인 폼
 			return "redirect:" + LOGIN_FROM;
 		
-		return GP_REGISTER_FORM;
+		return GP_REGISTER_FORM;   // null 처리 대해
+		
 	}
 	
 	@RequestMapping(value="/register", method = RequestMethod.POST)
@@ -102,27 +109,22 @@ public class GPController implements ApplicationContextAware {
 							@RequestParam("imgCheck") String imgCheck, BindingResult result,
 							Model model) throws Exception {
 		
-		Login userSession = (Login) WebUtils.getSessionAttribute(request, "userSession");
-		
-		validator.validate(imgCheck, result); // 이미지가 삽입되었는지 유효성 체크, MultipartFile에 서블릿이 기본값을 주입하기에 null 체크X
+		validator.validate(imgCheck, result); // 이미지가 삽입되었는지 유효성 체크
 		
 		System.out.println(gpReq);
 		
-		// 오류
 		if(errors.hasErrors() && result.hasErrors()) {
 			return GP_REGISTER_FORM;
 		}
 		
-		// 이미지 업로드
-		String filename = uploadFile(gpReq.getTitle(), gpReq.getImage());		// webapp/upoad 밑에 이미지 저장
+		String filePath = getFilePath(gpReq);
 				
-		GroupPurchase gp = new GroupPurchase();
-		gp.initGP(gpReq, this.uploadDirLocal + filename);
-		gp.setSellerId(userSession.getAccount().getUserId());	// 세션에서 Account.userId 삽입
+		GroupPurchase gp = makeGP(gpReq, filePath);
+		gp.setSellerId(userSession.getAccount().getUserId());
 
 		gpSvc.insertGP(gp);
 		
-		return "redirect:" + GP_REGISTER_SEUCCESS;	// redirect로 넘기기
+		return "redirect:" + GP_REGISTER_SEUCCESS;
 	}
 	
 	@RequestMapping(value="/register/success", method = RequestMethod.GET)
@@ -143,8 +145,6 @@ public class GPController implements ApplicationContextAware {
 		return filename;
 	}
 
-	// 등록한 공구 정보 수정
-	
 	@RequestMapping(value="/update", method = RequestMethod.GET)
 	public String showUpdateForm(@RequestParam("gpId") int gpId, Model model) {
 		
@@ -156,42 +156,48 @@ public class GPController implements ApplicationContextAware {
 	
 	@RequestMapping(value="/update", method = RequestMethod.POST)
 	public String update(@Valid @ModelAttribute("gpReq") GPRequest gpReq, Errors errors,
-						@RequestParam("imgPath") String path, @RequestParam("isModify") String isModify,
+						@RequestParam("imgPath") String filePath, @RequestParam("isModify") String isModify,
 						Model model) throws Exception {
-		// 오류
+
 		if(errors.hasErrors()) {
-			String imgPath = gpSvc.getGP(gpReq.getGpId()).getImage();
+			int gpId = gpReq.getGpId();
+			String imgPath = gpSvc.getGP(gpId).getImage();
+			
 			model.addAttribute("imgPath", imgPath);
 			
 			return GP_UPDATE_FORM;
 		}
 		
-		String filePath;
-		if (isModify.equals("true")) {
-			String filename = uploadFile(gpReq.getTitle(), gpReq.getImage());	// 이미지 수정된 경구
-			filePath = this.uploadDirLocal + filename;
-		}
-		else
-			filePath = path;	// 이미지 수정 X 경우
+		if (isModify.equals("true"))	// 이미지 수정된 경우
+			filePath = getFilePath(gpReq);
 		
-		GroupPurchase gp = new GroupPurchase();
-		gp.initGP(gpReq, filePath);
+		GroupPurchase gp = makeGP(gpReq, filePath);
 		
-		// 공구 수정
 		gpSvc.updateGP(gp);
 		
 		return "redirect:" + GP_UPDATE_SEUCCESS + "?gpId=" + gpReq.getGpId();
 	}
 	
-	// 등록한 공구 정보 삭제
-	
 	@RequestMapping(value="/delete", method = RequestMethod.GET)
 	public String delete(@RequestParam("gpId") int gpId) {
-		
-		// 삭제
+
 		gpSvc.deleteGP(gpId);
 			
 		return "redirect:" + GP_DELETE;
+	}
+	
+	public GroupPurchase makeGP(GPRequest gpReq, String filePath) {
+		GroupPurchase gp = new GroupPurchase();
+		gp.initGP(gpReq, filePath);
+		
+		return gp;
+	}
+	
+	public String getFilePath(GPRequest gpReq) {
+		String fileName = uploadFile(gpReq.getTitle(), gpReq.getImage());
+		String filePath = this.uploadDirLocal + fileName;
+		
+		return filePath;
 	}
 	
 }

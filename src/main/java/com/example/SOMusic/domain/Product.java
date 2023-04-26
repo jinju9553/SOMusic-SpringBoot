@@ -63,6 +63,39 @@ public class Product implements Serializable {
 				  "]";
 	}
 	
+	public Product() {}
+	
+	public Product(String productName, int price, String image, String desc, int condition,
+			int cost, int status, int account, String bank, String sellerId, String artistName, String location) {
+		this.productName = productName;
+		this.price = price;
+		this.image = image;
+		this.description = desc;
+		this.condition = condition;
+		this.shippingCost = cost;
+		this.status = status;
+		this.account = account;
+		this.bank = bank;
+		this.sellerId = sellerId;
+		this.artistName = artistName;
+		this.location = location;
+	}
+	public Product(int prId, String productName, int price, String image, String desc, int condition,
+			int cost, int status, int account, String bank, String sellerId, String artistName, String location) {
+		this.productId = prId;
+		this.productName = productName;
+		this.price = price;
+		this.image = image;
+		this.description = desc;
+		this.condition = condition;
+		this.shippingCost = cost;
+		this.status = status;
+		this.account = account;
+		this.bank = bank;
+		this.sellerId = sellerId;
+		this.artistName = artistName;
+		this.location = location;
+	}	
 	public void initPr(ProductRequest prReq, String filename) {
 		productName = prReq.getProductName();
 		productId = prReq.getProductId();

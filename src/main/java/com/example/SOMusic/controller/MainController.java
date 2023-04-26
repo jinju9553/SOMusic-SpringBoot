@@ -35,7 +35,7 @@ public class MainController {
 		this.gpSvc= gpSvc;
 	}
 	
-	@RequestMapping("/")		// '/' -> '/main' 이동
+	@RequestMapping("/")
 	public String goMain() {
 		return "redirect:" + MAIN;
 	}

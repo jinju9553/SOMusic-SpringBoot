@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -43,6 +44,18 @@ public class WishController {
 	private GPService gpSvc;
 	public void setGPService(GPService gpSvc) {
 		this.gpSvc= gpSvc;
+	}
+	
+	Login userSession;
+	String userId;
+	
+	@ModelAttribute("userId")   // setup과 유사한 어노테이션 존재하는가
+	public void formBacking(HttpServletRequest request) {
+		
+		userSession = (Login) WebUtils.getSessionAttribute(request, "userSession");
+		userId = userSession.getAccount().getUserId();
+		
+	
 	}
 	
 	// 상품 위시

@@ -48,12 +48,14 @@ public class ProductViewController {
 			wishPr = prSvc.getWishPr(userSession.getAccount().getUserId(), productId);
 		}
 					
-		Product viewPr = prSvc.getPr(productId);
+		Product viewPr = prSvc.findProductByProductId(productId);
 		
 		System.out.println("상품: " + viewPr);
 		System.out.println("판매자아이디: " + viewPr.getSellerId());
 		System.out.println("상품 이미지 경로 : " + viewPr.getImage());
 		
+		
+		//이부분은 어쩔 수 없는거겠지..
 		model.addAttribute("image", viewPr.getImage());
 		model.addAttribute("viewPr", viewPr);
 		model.addAttribute("buyerId", userId);

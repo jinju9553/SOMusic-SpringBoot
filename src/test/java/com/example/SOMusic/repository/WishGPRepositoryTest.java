@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,23 +21,48 @@ class WishGPRepositoryTest {
 	
 	@Autowired
 	WishGPRepository wishRepository;
+	
+	GroupPurchase gp1;
+	
+	@BeforeEach
+	void setup() {
+		
+		gp1 = new GroupPurchase();
+		gp1.setTitle("Rover");
+		gp1.setSellerId("kai");
+		
+		GroupPurchase gp2 = new GroupPurchase();
+		gp2.setTitle("Hi-five");
+		gp2.setSellerId("TeStar");
+
+		gp1 = gpRepository.save(gp1);
+		gp2 = gpRepository.save(gp2);
+
+		WishGroupPurchase wish1 = new WishGroupPurchase("hi", gp1.getGpId());
+		wish1.setGp(gp1);
+		
+		WishGroupPurchase wish2 = new WishGroupPurchase("hi", gp2.getGpId());
+		wish2.setGp(gp2);
+		
+		wishRepository.save(wish1);
+		wishRepository.save(wish2);
+	
+	}
 
 	@Test
 	@DisplayName("위시 공구 생성 확인")
 	void create() {
 		
 		GroupPurchase gp = new GroupPurchase();
-		gp.setSellerId("hi");
-		gp.setTitle("aaa");
+		gp.setSellerId("basket");
+		gp.setTitle("mitsu");
+		gp = gpRepository.save(gp);
 		
-		GroupPurchase result = gpRepository.save(gp);
-		
-		WishGroupPurchase wish = new WishGroupPurchase("hi", result.getGpId());
+		WishGroupPurchase wish = new WishGroupPurchase("hi", gp.getGpId());
 		wish.setGp(gp);
+		wish = wishRepository.save(wish);
 		
-		WishGroupPurchase result2 = wishRepository.save(wish);
-		
-		assertEquals(result2.getGp().getTitle(), "aaa");
+		assertEquals(wish.getGp().getTitle(), gp.getTitle());
 		
 	}
 	
@@ -44,59 +70,9 @@ class WishGPRepositoryTest {
 	@DisplayName("위시 공구 가져오기")
 	void wishGP() {
 		
-		GroupPurchase gp1 = new GroupPurchase();
-		gp1.setTitle("aaa");
-		gp1.setSellerId("hi");
+		WishGroupPurchase result = wishRepository.findByUserIdAndGpId("hi", gp1.getGpId());
 		
-		GroupPurchase gp2 = new GroupPurchase();
-		gp2.setTitle("bbb");
-		gp2.setSellerId("hi");
-		
-		GroupPurchase gpResult1 = gpRepository.save(gp1);
-		GroupPurchase gpResult2 = gpRepository.save(gp2);
-		
-		WishGroupPurchase wish1 = new WishGroupPurchase("hi", gpResult1.getGpId());
-		WishGroupPurchase wish2 = new WishGroupPurchase("hi", gpResult2.getGpId());
-		
-		wish1.setGp(gp1);
-		wish2.setGp(gp2);
-		
-		wishRepository.save(wish1);
-		wishRepository.save(wish2);
-		
-		WishGroupPurchase result = wishRepository.findByUserIdAndGpId("hi", gpResult1.getGpId());
-		
-		assertEquals(result.getGp().getTitle(), "aaa");
-		
-	}
-	
-	@Test
-	@DisplayName("위시 공구 리스트")
-	void wishList() {
-		
-		GroupPurchase gp1 = new GroupPurchase();
-		gp1.setTitle("aaa");
-		gp1.setSellerId("hi");
-		
-		GroupPurchase gp2 = new GroupPurchase();
-		gp2.setTitle("bbb");
-		gp2.setSellerId("hi");
-		
-		GroupPurchase gpResult1 = gpRepository.save(gp1);
-		GroupPurchase gpResult2 = gpRepository.save(gp2);
-		
-		WishGroupPurchase wish1 = new WishGroupPurchase("hi", gpResult1.getGpId());
-		WishGroupPurchase wish2 = new WishGroupPurchase("hi", gpResult2.getGpId());
-		
-		wish1.setGp(gp1);
-		wish2.setGp(gp2);
-		
-		wishRepository.save(wish1);
-		wishRepository.save(wish2);
-		
-		List<WishGroupPurchase> result = wishRepository.findByUserId("hi");
-		
-		assertEquals(result.size(), 2);
+		assertEquals(result.getGp().getTitle(), "Rover");
 		
 	}
 	
@@ -104,39 +80,22 @@ class WishGPRepositoryTest {
 	@DisplayName("위시 공구 삭제")
 	void delete() {
 		
-		GroupPurchase gp1 = new GroupPurchase();
-		gp1.setTitle("aaa");
-		gp1.setSellerId("hi");
+		wishRepository.deleteByUserIdAndGpId("hi", gp1.getGpId());
 		
-		GroupPurchase gp2 = new GroupPurchase();
-		gp2.setTitle("bbb");
-		gp2.setSellerId("hi");
+		List<WishGroupPurchase> result = wishRepository.findByUserId("hi");
 		
-		GroupPurchase gpResult1 = gpRepository.save(gp1);
-		GroupPurchase gpResult2 = gpRepository.save(gp2);
+		assertEquals(result.size(), 1);
 		
-		WishGroupPurchase wish1 = new WishGroupPurchase("hi", gpResult1.getGpId());
-		WishGroupPurchase wish2 = new WishGroupPurchase("hi", gpResult2.getGpId());
-		
-		wish1.setGp(gp1);
-		wish2.setGp(gp2);
-		
-		wishRepository.save(wish1);
-		wishRepository.save(wish2);
+	}
+	
+	@Test
+	@DisplayName("위시 공구 리스트")
+	void wishList() {
 		
 		List<WishGroupPurchase> result = wishRepository.findByUserId("hi");
 		
 		assertEquals(result.size(), 2);
 		
-		wishRepository.deleteByUserIdAndGpId("hi", gpResult1.getGpId());
-		
-		List<WishGroupPurchase> result2 = wishRepository.findByUserId("hi");
-		
-		assertEquals(result2.size(), 1);
-		
 	}
-	
-	
-	
 
 }
