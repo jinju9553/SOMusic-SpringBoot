@@ -1,34 +1,31 @@
 package com.example.SOMusic.service;
 
-import java.util.List;
-
 import com.example.SOMusic.domain.GroupPurchase;
 import com.example.SOMusic.domain.Join;
 
+import java.util.List;
+
 public interface JoinService {
-	
-	void registerJoin(Join join);
-	
-	void modifyJoin(Join join);
-	
-	void deleteJoin(int joinId);
 
-	//void updateStatus(String joinId);
-	
-	/* Spring Data JPA */
-	Join findJoinByJoinId(int joinId);
-	
-	List<Join> findAllByUserId(String userId);
-	
-	List<Join> findAllByGroupPurchaseGpId(int gpId);
+    void registerJoin(Join join);
 
-	int calculateTotal(GroupPurchase groupPurchase, Join join);
+    void modifyJoin(Join join, Join joinReq);
 
-	int initShippingCost(Join join);
+    void deleteJoin(int joinId);
 
-	int updateTotal(Join join, int newShippingCost);
-	
-	void updateAllStatus(int gpId, int status);
-	
-	public void updateStatus(int joinId, int status);
+    Join findJoinByJoinId(int joinId);
+
+    List<Join> findAllByUserId(String userId);
+
+    List<Join> findAllByGroupPurchaseGpId(int gpId);
+
+    int calculateTotal(GroupPurchase groupPurchase, Join join);
+
+    int initShippingCost(Join join);
+
+    int calculateUpdatedTotal(Join join, int newShippingCost);
+
+    void updateAllStatus(List<Join> joins, int status);
+
+    public void updateStatus(Join join, int status);
 }
