@@ -55,7 +55,7 @@ public class ProductServiceImpl implements ProductService {
 		return productRepository.findProductBySellerId(sellerId);
 	}
 
-	public List<Product> get4ProductList() {
+	public List<Product> getMainProductList() {
 		return productRepository.findFirst4ByOrderByProductId();
 	}
 	
@@ -66,7 +66,8 @@ public class ProductServiceImpl implements ProductService {
 	
 	@Override
 	public List<Product> getSearchProductList(String keyword) {
-		return productRepository.findByProductNameContainingIgnoreCaseOrDescriptionContainingIgnoreCaseOrArtistNameContainingIgnoreCase(keyword, keyword, keyword);
+		return productRepository.findByProductNameContainingIgnoreCaseOrDescriptionContainingIgnoreCaseOrArtistNameContainingIgnoreCase(
+				keyword, keyword, keyword);
 	}
 
 

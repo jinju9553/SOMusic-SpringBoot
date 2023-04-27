@@ -31,7 +31,7 @@ public class MyGPController {
 	private static final String MY_GP_INFO = "thyme/user/my/gp/myGPInfo";
 	private static final String MY_REGISTER_LIST = "thyme/user/my/gp/MyGPList";
 	private static final String MY_JOIN_LIST = "thyme/user/my/join/MyJoinList";
-	private static final String My_GP_INFO_URI = "/user/my/gp/info?gpId=";
+	private static final String MY_GP_INFO_URI = "/user/my/gp/info?gpId=";
 	
 	Login userSession;
 	String userId;
@@ -55,7 +55,7 @@ public class MyGPController {
 	}
 
 	@ModelAttribute("joinStatus")
-	public Map<Integer, String> joinStatus() { // 0: join 이전 & 1: 승인됨, 입금 대기 & 2: 입금 완료, 배송 대기중 & 3:배송 시작 & 4: 거래 완료
+	public Map<Integer, String> joinStatus() {
 		Map<Integer, String> status = new HashMap<Integer, String>();
 		status.put(1, "입금 대기");
 		status.put(2, "입금 완료");
@@ -64,7 +64,6 @@ public class MyGPController {
 		return status;
 	}
 
-	// user 정보를 포함하는 formBacking
 	@ModelAttribute("accountForm")
 	public AccountForm formBacking(HttpServletRequest request) {
 		
@@ -72,16 +71,10 @@ public class MyGPController {
 		userId = userSession.getAccount().getUserId();
 		
 		if (request.getMethod().equalsIgnoreCase("GET")) {
-
-			// 1.UserSession에서 UserId를 가져온다.
-//			Login userSession = (Login) WebUtils.getSessionAttribute(request, "userSession");
-
-			// 2.세션에서 얻은 Id로 사용자 정보를 가져온다.
 			AccountForm accountForm = new AccountForm(accountService.getAccount(userId));
-
 			return accountForm;
 		} else
-			return new AccountForm(); // POST일 때 실행됨
+			return new AccountForm();
 	}
 
 	@RequestMapping(value = "/gp/info", method = RequestMethod.GET)
@@ -111,39 +104,36 @@ public class MyGPController {
 		return MY_JOIN_LIST;
 	}
 
-	@RequestMapping(value = "/join/status/update", method = RequestMethod.POST) // 한개의 join에 대한 상태 변경
+	@RequestMapping(value = "/join/status/update", method = RequestMethod.POST)
 	public String updateJoinStatus(@RequestParam("joinId") int joinId, @RequestParam("gpId") int gpId,
-			@RequestParam("status") int status) throws Exception {
+								@RequestParam("status") int status) throws Exception {
 
 		joinService.updateStatus(joinId, status);
 
-		return "redirect:" + My_GP_INFO_URI + gpId;
+		return "redirect:" + MY_GP_INFO_URI + gpId;
 	}
 
-	@RequestMapping(value = "/join/status/all/update", method = RequestMethod.POST) // 모든 join의 상태 일괄 변경
-	public String updateAllJoinStatus(@RequestParam("gpId") int gpId, @RequestParam("status") String status)
-			throws Exception {
+	@RequestMapping(value = "/join/status/all/update", method = RequestMethod.POST)
+	public String updateAllJoinStatus(@RequestParam("gpId") int gpId, @RequestParam("status") String status) throws Exception {
 
-		System.out.println("join 상태 수정 : " + gpId + ", " + status);
-
-//		if (status.equals("none")) // ==상태변경== 클릭시 다시 info로
-//			return "redirect:" + My_GP_INFO_URI + gpId;
-//		joinService.updateAllStatus(gpId, Integer.parseInt(status));
-		
-		if (!status.equals("none"))
+		if (isUpdateJoinStatus(status))
 			joinService.updateAllStatus(gpId, Integer.parseInt(status));
 		
-		return "redirect:" + My_GP_INFO_URI + gpId;
+		return "redirect:" + MY_GP_INFO_URI + gpId;
 	}
 	
-	public GroupPurchase getReplacedDescGP(int gpId) {
+	private GroupPurchase getReplacedDescGP(int gpId) {
 		GroupPurchase gp = gpSvc.getGP(gpId);
 		
 		String beforeDesc = gp.getDescription();
 		String afterDesc = beforeDesc.replace("\n", "<br>");
 		
-		gp.setDescription(afterDesc); // 줄바꿈 --> <br> 태그로
+		gp.setDescription(afterDesc);
 		
 		return gp;
+	}
+	
+	private boolean isUpdateJoinStatus(String status) {
+		return !status.equals("none");
 	}
 }

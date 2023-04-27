@@ -97,7 +97,8 @@ public class GPRequest implements Serializable {
 		File file = new File(path);
 		
 		try {
-			FileItem fileItem = new DiskFileItem("mainFile", Files.probeContentType(file.toPath()), false, file.getName(), (int) file.length(), file.getParentFile());
+			FileItem fileItem = new DiskFileItem("mainFile", Files.probeContentType(file.toPath()), false,
+												file.getName(), (int) file.length(), file.getParentFile());
 		    
 			InputStream input = new FileInputStream(file);
 		    OutputStream os = fileItem.getOutputStream();

@@ -11,7 +11,7 @@ class WishGroupPurchaseTest {
 
 	@Test
 	@DisplayName("위시 공구 생성")
-	void crate() {
+	void create() {
 		WishGroupPurchase wish = new WishGroupPurchase("hi", 1);
 		
 		GroupPurchase gp = new GroupPurchase(1, "hi", "aaa", "link",

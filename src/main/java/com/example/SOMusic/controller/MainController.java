@@ -18,7 +18,7 @@ import com.example.SOMusic.service.ProductService;
 @SessionAttributes("userSession")
 public class MainController {
 	
-	private static final String MAIN = "/main";		// '/'가 들어오면 '/main' 실행
+	private static final String MAIN = "/main";
 	private static final String MAIN_VIEW = "thyme/main";
 	private static final String MAIN_GP_VIEW = "thyme/gp/list/GPListView";
 	private static final String MAIN_PRODUCT_VIEW = "thyme/Product/list/ProductListView";
@@ -43,8 +43,8 @@ public class MainController {
 	@RequestMapping(value="/main", method = RequestMethod.GET)
 	public String showMainList(Model model) {
 		
-		List<Product> productList = prSvc.get4ProductList();
-		List<GroupPurchase> gpList = gpSvc.get4GPList();
+		List<Product> productList = prSvc.getMainProductList();
+		List<GroupPurchase> gpList = gpSvc.getMainGPList();
 		
 		model.addAttribute("gpList", gpList);
 		model.addAttribute("productList", productList);

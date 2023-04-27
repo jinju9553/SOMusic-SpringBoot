@@ -3,7 +3,8 @@ package com.example.SOMusic.domain;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class PKWishGP implements Serializable {		// wishGP의 PK 클래스
+@SuppressWarnings("serial")
+public class PKWishGP implements Serializable {
 	
 	private String userId;
 	private int gpId;

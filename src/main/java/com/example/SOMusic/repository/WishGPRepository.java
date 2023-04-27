@@ -10,11 +10,11 @@ import com.example.SOMusic.domain.WishGroupPurchase;
 
 public interface WishGPRepository extends JpaRepository<WishGroupPurchase, Integer> {
 
-	public WishGroupPurchase findByUserIdAndGpId(String userId, int gpId);	// 위시 검색
+	public WishGroupPurchase findByUserIdAndGpId(String userId, int gpId);
 	
 	@Transactional
-	public void deleteByUserIdAndGpId(String userId, int gpId);		// 위시 삭제
+	public void deleteByUserIdAndGpId(String userId, int gpId);
 	
-	public List<WishGroupPurchase> findByUserId(String userId);		// 위시 리스트 불러오기
+	public List<WishGroupPurchase> findByUserId(String userId);
 	
 }

@@ -53,8 +53,8 @@ class MainControllerTest {
 		List<Product> prList = getPrList();
 		List<GroupPurchase> gpList = getGPList();
 		
-		Mockito.when(prSvc.get4ProductList()).thenReturn(prList);
-		Mockito.when(gpSvc.get4GPList()).thenReturn(gpList);
+		Mockito.when(prSvc.getMainProductList()).thenReturn(prList);
+		Mockito.when(gpSvc.getMainGPList()).thenReturn(gpList);
 		
 		mvc.perform(MockMvcRequestBuilders.get("/main"))
 			.andDo(MockMvcResultHandlers.print())
