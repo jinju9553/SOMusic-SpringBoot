@@ -44,7 +44,6 @@ public class ProductController implements ApplicationContextAware {
 	private static final String Product_UPDATE_FORM = "thyme/Product/update/ProductUpdateForm";
 	private static final String PR_UPDATE_SUCCESS = "/product/info";
 
-	// 이미지 업로드
 	@Value("/upload/")
 	private String uploadDirLocal;
 		
@@ -60,12 +59,12 @@ public class ProductController implements ApplicationContextAware {
 	}
 	
 	@Autowired
-	private ProductService prSvc;
-	public void setProductService(ProductService prSvc) { 
-		this.prSvc = prSvc;
+	private ProductService productService;
+	public void setProductService(ProductService productService) { 
+		this.productService = productService;
 	}
 
-	@Autowired // 이미지 유효성 검사
+	@Autowired
 	private ImgValidator validator;
 	public void setImgValidator(ImgValidator valitator) {
 		this.validator = valitator;
@@ -75,26 +74,21 @@ public class ProductController implements ApplicationContextAware {
 	  public ProductRequest formBacking(HttpServletRequest request) throws Exception {
 		     String PrId = request.getParameter("productId");
 		     System.out.println("PrReq의 PrId : " + PrId);
-			 ProductRequest prReq = new ProductRequest();
-			
-			
+			 ProductRequest prReq = new ProductRequest();		
 			 System.out.println("prReq의 ProductId : " + prReq.getProductId());
 			 
 			 prReq.setCondition(4);
-			
-			  //PrId가 없으면 register
+
 			  if (PrId == null)
 				  return prReq;
-			  //있으면 update
 			  else {
-				  prReq.initProductReq(prSvc.findProductByProductId(Integer.parseInt(PrId)));
-				  prReq.setProductId(Integer.parseInt(PrId));
-				 
+				  prReq.initProductReq(productService.findProductByProductId(Integer.parseInt(PrId)));
+				  prReq.setProductId(Integer.parseInt(PrId));				 
 				  return prReq;
 			  }
 	  }
 
-  	//register
+
 	@GetMapping(value = "/register")
 	public String showProductRegForm() {
 		System.out.println("폼 불러옴");
@@ -105,31 +99,25 @@ public class ProductController implements ApplicationContextAware {
   public String register(@Valid @ModelAttribute("PrReq") ProductRequest prReq, Errors errors,
 		  					@RequestParam("imgCheck") String imgCheck, BindingResult result,
 		  					HttpServletRequest request, Model model) throws Exception {
-	  Login userSession = (Login) WebUtils.getSessionAttribute(request, "userSession");
+	
+	  Login userSession = getSession(request);
 	  System.out.println("상품 등록중입니다.");
 	  System.out.println(prReq);	  
 	  
 	  validator.validate(imgCheck, result);
-	  
-	  
-		//errors 
+
 	  if(errors.hasErrors() && result.hasErrors()) { 
 		  return Product_REGISTER_FORM; 
 	  }
-	  	
-	 // 이미지 업로드
+
 	 String filename = uploadFile(prReq.getProductName(), prReq.getImage()); // webapp/upoad 밑에 이미지 저장		
 	 		
 		  Product pr = new Product(); 
 		  pr.initPr(prReq, this.uploadDirLocal + filename);
-		 
-		  //sellerId 추가   
 		  pr.setSellerId(userSession.getAccount().getUserId());
-		  
-		  //DB에 추가
-		  prSvc.addProduct(pr);
+		  productService.addProduct(pr);
 
-		return "redirect:" + Product_REGISTER_SUCCESS; //redirect
+		return "redirect:" + Product_REGISTER_SUCCESS; 
 	}
 	
 	@RequestMapping(value="/register/success", method = RequestMethod.GET)
@@ -139,16 +127,15 @@ public class ProductController implements ApplicationContextAware {
 		return Product_REGISTER_SUCCESS_View;
 	}	
 	
-	//update
+
 	@GetMapping(value="/update")
 	public String showUpdateForm(@RequestParam("productId") int productId, Model model) {
-		System.out.println("수정폼 불러옴");
-		System.out.println("수정폼에서 출력합니다 : " + productId);
-		
-		
-		String imgPath = prSvc.findProductByProductId(productId).getImage();
+		System.out.println("현재 수정중인 productId : " + productId);
+	
+		String imgPath = productService.findProductByProductId(productId).getImage();
 		model.addAttribute("imgPath", imgPath);
 		model.addAttribute("ProductId", productId);
+		
 		return Product_UPDATE_FORM;
 	}
 	
@@ -159,7 +146,7 @@ public class ProductController implements ApplicationContextAware {
 						@RequestParam("imgPath") String path, @RequestParam("isModify") String isModify,
 						Model model) throws Exception {
 		
-		Login userSession = (Login) WebUtils.getSessionAttribute(request, "userSession");
+		Login userSession = getSession(request);
 		System.out.println("ProductId : " + prReq.getProductId());
 		String filePath;
 		
@@ -169,7 +156,7 @@ public class ProductController implements ApplicationContextAware {
 	  		System.out.println(errors.getFieldErrors());
 	  		System.out.println(errors.toString());
 	  		
-	  		String imgPath = prSvc.findProductByProductId(prReq.getProductId()).getImage();
+	  		String imgPath = productService.findProductByProductId(prReq.getProductId()).getImage();
 	  		model.addAttribute("imgPath", imgPath);
 	  		model.addAttribute("prReq", prReq);
 	  		
@@ -188,9 +175,7 @@ public class ProductController implements ApplicationContextAware {
 		 
 		pr.initPr(prReq, filePath);
 		pr.setSellerId(userSession.getAccount().getUserId());
-		
-		//update 
-		prSvc.updateProduct(pr);
+		productService.updateProduct(pr);
 		
 		return "redirect:" + PR_UPDATE_SUCCESS + "?productId=" + prReq.getProductId();
 	}
@@ -207,15 +192,19 @@ public class ProductController implements ApplicationContextAware {
 		}
 		return filename;
 	}	
-	
-	//delete
+
 	@GetMapping(value="/delete")
 	public String delete(@RequestParam("productId") int productId) {
 		System.out.println(productId + " 삭제됨");
-		
-		//delete
-		prSvc.deleteProduct(productId);
+
+		productService.deleteProduct(productId);
 		
 		return "redirect:" + "/user/my/sale/list";
+	}
+	
+	public Login getSession (HttpServletRequest request) {
+		Login userSession = (Login) WebUtils.getSessionAttribute(request, "userSession");
+		return userSession;
+		
 	}
 }

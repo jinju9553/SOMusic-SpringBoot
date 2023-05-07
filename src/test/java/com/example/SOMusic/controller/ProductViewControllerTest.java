@@ -61,8 +61,8 @@ class ProductViewControllerTest {
 	}
 	
 	@Test
-	@DisplayName("showProductView2")
-	void showProductView2() throws Exception {
+	@DisplayName("showProductInfo")
+	void showProductInfo() throws Exception {
 		
 		Product pr = pr();
 		
