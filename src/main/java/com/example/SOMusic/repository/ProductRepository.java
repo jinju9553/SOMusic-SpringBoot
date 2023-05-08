@@ -22,7 +22,7 @@ public interface ProductRepository extends JpaRepository<Product, String> {
 	public List<Product> findAll();		// 모든 상품
 	
 	
-	// 상품 검색
+	// 상품 검색 //
 	public List<Product> findByProductNameContainingIgnoreCaseOrDescriptionContainingIgnoreCaseOrArtistNameContainingIgnoreCase(String keyword1, String keyword2, String keyword3);		
 
 }
