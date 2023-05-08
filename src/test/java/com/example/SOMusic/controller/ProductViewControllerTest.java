@@ -3,14 +3,10 @@ package com.example.SOMusic.controller;
 import com.example.SOMusic.domain.Account;
 import com.example.SOMusic.domain.Login;
 import com.example.SOMusic.domain.Product;
-import com.example.SOMusic.domain.Purchase;
 import com.example.SOMusic.service.ProductServiceImpl;
 import com.example.SOMusic.service.PurchaseServiceImpl;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -61,8 +57,8 @@ class ProductViewControllerTest {
 	}
 	
 	@Test
-	@DisplayName("showProductView2")
-	void showProductView2() throws Exception {
+	@DisplayName("showProductInfo")
+	void showProductInfo() throws Exception {
 		
 		Product pr = pr();
 		
