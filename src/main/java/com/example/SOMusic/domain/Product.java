@@ -20,7 +20,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name="product") //클래스 명과 테이블 명이 다르다면 지정
+@Table(name="product") 
 @Getter @Setter @ToString
 @SequenceGenerator(name="SEQ_PR", sequenceName="SEQUENCE_PRODUCT", allocationSize=1)
 @SuppressWarnings("serial")
@@ -43,15 +43,11 @@ public class Product implements Serializable {
 	private String bank;
 	
 	@Column(name="SELLER_ID") 
-	private String sellerId; //추후에 transient를 지우고 Account와 조인
+	private String sellerId; 
 	@Column(name="artist_name")
 	private String artistName;
 	private String location;
-//	private int shippingMethod;
-	
-//	@JoinColumn(name="artist_id")
-//	private Artist artist;
-	
+
 	@OneToMany(mappedBy="product", cascade = CascadeType.ALL)
 	private List<Purchase> purchaseList;
 	
