@@ -1,27 +1,21 @@
 package com.example.SOMusic.controller;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.util.WebUtils;
-
 import com.example.SOMusic.domain.GroupPurchase;
 import com.example.SOMusic.domain.Join;
 import com.example.SOMusic.domain.Login;
 import com.example.SOMusic.service.AccountService;
 import com.example.SOMusic.service.GPService;
 import com.example.SOMusic.service.JoinService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.WebUtils;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @SessionAttributes("userSession")
@@ -77,38 +71,38 @@ public class MyGPController {
 			return new AccountForm();
 	}
 
-	@RequestMapping(value = "/gp/info", method = RequestMethod.GET)
-	public String info(@RequestParam("gpId") int gpId, Model model) throws Exception {
-		
-		GroupPurchase gp = getReplacedDescGP(gpId);
-		model.addAttribute("gp", gp);
+  @RequestMapping(value = "/gp/info", method = RequestMethod.GET)
+  public String info(@RequestParam("gpId") int gpId, Model model) throws Exception {
 
-		return MY_GP_INFO;
-	}
+      GroupPurchase gp = getReplacedDescGP(gpId);
+      model.addAttribute("gp", gp);
 
-	@RequestMapping(value = "/gp/list", method = RequestMethod.GET)
-	public String registerList(HttpServletRequest request,  Model model) throws Exception {
+      return MY_GP_INFO;
+  }
 
-		List<GroupPurchase> gpList = gpSvc.getMyGPList(userId);
-		model.addAttribute("gpList", gpList);
+  @RequestMapping(value = "/gp/list", method = RequestMethod.GET)
+  public String registerList(HttpServletRequest request, Model model) throws Exception {
 
-		return MY_REGISTER_LIST;
-	}
+      List<GroupPurchase> gpList = gpSvc.getMyGPList(userId);
+      model.addAttribute("gpList", gpList);
 
-	@RequestMapping(value = "/join/list", method = RequestMethod.GET)
-	public String joinList(HttpServletRequest request, Model model) throws Exception {
+      return MY_REGISTER_LIST;
+  }
 
-		List<Join> joinList = joinService.findAllByUserId(userId);
-		model.addAttribute("joinList", joinList);
+  @RequestMapping(value = "/join/list", method = RequestMethod.GET)
+  public String joinList(HttpServletRequest request, Model model) throws Exception {
 
-		return MY_JOIN_LIST;
-	}
+      List<Join> joinList = joinService.findAllByUserId(userId);
+      model.addAttribute("joinList", joinList);
+
+      return MY_JOIN_LIST;
+  }
 
 	@RequestMapping(value = "/join/status/update", method = RequestMethod.POST)
 	public String updateJoinStatus(@RequestParam("joinId") int joinId, @RequestParam("gpId") int gpId,
 								@RequestParam("status") int status) throws Exception {
-
-		joinService.updateStatus(joinId, status);
+        Join join = joinService.findJoinByJoinId(joinId);
+        joinService.updateStatus(join, status);
 
 		return "redirect:" + MY_GP_INFO_URI + gpId;
 	}
@@ -136,4 +130,5 @@ public class MyGPController {
 	private boolean isUpdateJoinStatus(String status) {
 		return !status.equals("none");
 	}
+
 }

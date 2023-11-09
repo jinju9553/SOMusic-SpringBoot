@@ -28,36 +28,31 @@ public class MyProductController {
 	private static final String PRODUCT_INFO = "thyme/Product/View/productView";
 	private static final String MY_PURCHASE_LIST = "thyme/user/my/purchase/MyPurchaseList";
 	
-	@Autowired //주의: interface는 class가 아니므로 Bean을 생성할 수 없음
-	
+	@Autowired 	
 	private PurchaseService purchaseSvc;
 	public void setpurchaseSvc(PurchaseService purchaseSvc) {
 		this.purchaseSvc = purchaseSvc;
 	}	
 	
 	@Autowired
-	private ProductService productSvc;
-	public void setPrService(ProductService productSvc) {
-		this.productSvc = productSvc;
+	private ProductService productService;
+	public void setPrService(ProductService productService) {
+		this.productService = productService;
 	}
 	
 	@GetMapping(value="/info")
 	public String Productinfo(@RequestParam("ProductId") int ProductId, Model model) {
-		Product pr = productSvc.findProductByProductId(ProductId);
+		Product pr = productService.findProductByProductId(ProductId);
 		model.addAttribute("pr", pr);
 		
 		return PRODUCT_INFO;
 	}
 	
-	//판매 리스트
+
 	@GetMapping(value="/sale/list")
 	public String saleList(HttpServletRequest request, Model model)
 	throws Exception {
-		
-		//usersession 가져오는 함수 따로 만들기. 
-		//이러나 저러나 지저분한건 똑같은 것 같은데..
-		//Login userSession = (Login) WebUtils.getSessionAttribute(request, "userSession");
-		//String sellerId = userSession.getAccount().getUserId();
+
 		
 		Login userSession = getSession(request);
 		String sellerId = userSession.getAccount().getUserId();
@@ -65,7 +60,7 @@ public class MyProductController {
 		System.out.println("등록한 상품 리스트 출력중");
 		System.out.println("sellerId : " + sellerId);
 		
-		List<Product> prList = productSvc.getMyPrList(sellerId);
+		List<Product> prList = productService.getMyPrList(sellerId);
 		model.addAttribute("prList", prList);
 		
 		System.out.println(prList.toString());
@@ -79,8 +74,8 @@ public class MyProductController {
 	@GetMapping("/purchase/list")
 	public String registerList(HttpServletRequest request, Model model) throws Exception {
 
-		Login userSession = (Login) WebUtils.getSessionAttribute(request, "userSession");
-
+		Login userSession = getSession(request);
+		 
 		List<Purchase> pList = purchaseSvc.findPurchaseList(userSession.getAccount().getUserId());
 		model.addAttribute("pList", pList);
 

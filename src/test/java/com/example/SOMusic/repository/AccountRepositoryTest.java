@@ -1,14 +1,15 @@
 package com.example.SOMusic.repository;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import com.example.SOMusic.domain.Account;
 import com.example.SOMusic.domain.TestAccount;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 public class AccountRepositoryTest {
@@ -20,14 +21,16 @@ public class AccountRepositoryTest {
     Account account2 = TestAccount.createAnotherTestAccount();
 
     @Test
-    void Account_저장_성공_테스트(){
+    @DisplayName("Account_저장_성공_테스트")
+    void save() {
         Account result = accountRepository.save(account1);
 
         assertThat(result.getUserId()).isEqualTo(account1.getUserId());
     }
 
     @Test
-    void Account_리스트_불러오기_테스트(){
+    @DisplayName("Account_리스트_불러오기_테스트")
+    void findAll() {
         accountRepository.save(account1);
         accountRepository.save(account2);
 
@@ -37,7 +40,8 @@ public class AccountRepositoryTest {
     }
 
     @Test
-    void 전화번호_이메일_계정찾기_테스트(){
+    @DisplayName("전화번호_이메일_계정찾기_테스트")
+    void findAccountByUserIdAndPhone() {
         Account account = accountRepository.save(account2);
 
         Account searchResult = accountRepository.findAccountByUserIdAndPhone(
@@ -47,7 +51,8 @@ public class AccountRepositoryTest {
     }
 
     @Test
-    void 아이디_전화번호_계정찾기_테스트(){
+    @DisplayName("아이디_전화번호_계정찾기_테스트")
+    void findAccountByPhoneAndEmail() {
         Account account = accountRepository.save(account2);
 
         Account searchResult = accountRepository.findAccountByPhoneAndEmail(

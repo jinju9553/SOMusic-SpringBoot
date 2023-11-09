@@ -47,7 +47,7 @@ public class WishController {
 
 	@GetMapping(value="/product/list")
 	public String WishList(HttpServletRequest request, Model model) throws Exception {
-		
+	
 		Login userSession = getUserSession(request);
 		
 		List<WishProduct> wishPrList = prSvc.findWishProductList(userSession.getAccount().getUserId());
@@ -68,7 +68,7 @@ public class WishController {
 		prSvc.addWishproduct(wish);
 		System.out.println("찜 추가 완료");
 				
-		return "redirect:" + WISH_RE + "?productId=" + productId; //	
+		return "redirect:" + WISH_RE + "?productId=" + productId;	
 	}
 			
 	@GetMapping(value="/product/delete")
@@ -76,14 +76,14 @@ public class WishController {
 							@RequestParam("productId") int productId) {
 		
 		Login userSession = getUserSession(request);
-			
+	
 		prSvc.deleteWishproduct(userSession.getAccount().getUserId(), productId);
 		
 		if(view.equals("list")) {
 			System.out.println(view + "에서 삭제했습니다.");
 			return "redirect:" + WISH_PRODUCT_LIST_URI;
 		}
-		
+
 		if(view.equals("view"))
 			System.out.println("뷰에서 삭제했습니다.");
 			return  "redirect:" + WISH_RE + "?productId=" + productId; 
@@ -93,18 +93,18 @@ public class WishController {
 	public String wishGpList(HttpServletRequest request, Model model) throws Exception {
 		
 		Login userSession = getUserSession(request);
-		
+
 		List<WishGroupPurchase> wishGpList = gpSvc.getWishGPList(userSession.getAccount().getUserId());
 		model.addAttribute("wishGpList", wishGpList);
 		
 		return WISH_GP_LIST;
 	}
-	
+
 	@RequestMapping(value="/gp/add", method = RequestMethod.GET)
 	public String wishGpRegister(HttpServletRequest request, @RequestParam("gpId") int gpId) throws Exception {
 		
 		Login userSession = getUserSession(request);
-		
+    
 		gpSvc.insertWishGP(userSession.getAccount().getUserId(), gpId);
 
 		return "redirect:" + JOIN + gpId;
@@ -113,7 +113,6 @@ public class WishController {
 	@RequestMapping(value="/gp/delete", method = RequestMethod.GET)
 	public String wishGpDelete(HttpServletRequest request,
 								@RequestParam("gpId") int gpId, @RequestParam("view") String view) throws Exception {
-
 		Login userSession = getUserSession(request);
 
 		gpSvc.deleteWishGP(userSession.getAccount().getUserId(), gpId);
@@ -131,5 +130,5 @@ public class WishController {
 	private boolean isFromJoinView(String view) {
 		return view.equals("join");
 	}
-	
+  
 }
