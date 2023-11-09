@@ -69,7 +69,7 @@ public class SignupControllerTest {
 
     @Test
     @DisplayName("POST_isDuplicated_테스트")
-    void check() throws Exception {
+    void isDuplicated() throws Exception {
         String id = "amy1234";
         Mockito.when(accountService.isDuplicated(id)).thenReturn(true);
 
