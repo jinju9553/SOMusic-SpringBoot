@@ -122,7 +122,7 @@ class GPServiceTest {
 		
 		Mockito.when(gpRepository.findFirst4ByOrderByGpId()).thenReturn(gpList);
 		
-		List<GroupPurchase> result = gpSvc.get4GPList();
+		List<GroupPurchase> result = gpSvc.getMainGPList();
 		
 		assertEquals(result.size(), 2);
 		

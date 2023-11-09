@@ -47,32 +47,33 @@ public class GPService {
 		return gpRepository.findBySellerId(sellerId);
 	}
 	
-	public List<GroupPurchase> get4GPList() {		// 메인에 보여줄 4개의 공구
+	public List<GroupPurchase> getMainGPList() {
 		return gpRepository.findFirst4ByOrderByGpId();
 	}
 	
-	public List<GroupPurchase> getAllGPList() {		// 모든 공구
+	public List<GroupPurchase> getAllGPList() {
 		return gpRepository.findAll();
 	}
 	
-	public List<GroupPurchase> getSearchGPList(String keyword) {		// 검색
-		return gpRepository.findByTitleContainingIgnoreCaseOrDescriptionContainingIgnoreCaseOrCategoryContainingIgnoreCase(keyword, keyword, keyword);
+	public List<GroupPurchase> getSearchGPList(String keyword) {
+		return gpRepository.findByTitleContainingIgnoreCaseOrDescriptionContainingIgnoreCaseOrCategoryContainingIgnoreCase(
+				keyword, keyword, keyword);
 	}
 	
-	public void insertWishGP(String userId, int gpId) {		// 위시 추가
+	public void insertWishGP(String userId, int gpId) {
 		WishGroupPurchase wish = new WishGroupPurchase(userId, gpId);
 		wishDao.insertWishGP(wish);
 	}
 	
-	public WishGroupPurchase getWishGP(String userId, int gpId) {	// 위시 검색
+	public WishGroupPurchase getWishGP(String userId, int gpId) {
 		return wishGpRepository.findByUserIdAndGpId(userId, gpId);
 	}
 	
-	public void deleteWishGP(String userId, int gpId) {		// 위시 삭제
+	public void deleteWishGP(String userId, int gpId) {
 		wishGpRepository.deleteByUserIdAndGpId(userId, gpId);
 	}
 	
-	public List<WishGroupPurchase> getWishGPList(String userId) {		// 위시리스트 불러오기
+	public List<WishGroupPurchase> getWishGPList(String userId) {
 		return wishGpRepository.findByUserId(userId);
 	}
 	

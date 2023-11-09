@@ -37,18 +37,17 @@ public class GPController implements ApplicationContextAware {
 	
 	private static final String GP_REGISTER_FORM = "thyme/gp/register/GPRegisterForm";
 	private static final String GP_REGISTER_SEUCCESS = "/gp/register/success";
-	private static final String GP_REGISTER_SEUCCESS_View = "thyme/gp/register/GPRegisterSuccess";
+	private static final String GP_REGISTER_SEUCCESS_VIEW = "thyme/gp/register/GPRegisterSuccess";
 	
 	private static final String GP_UPDATE_FORM = "thyme/gp/update/GPUpdateForm";
 	private static final String GP_UPDATE_SEUCCESS = "/user/my/gp/info";
 	
-	private static final String GP_DELETE = "/user/my/gp/list"; // 공구 삭제 후 공구 리스트로 다시 이동 uri
+	private static final String GP_DELETE = "/user/my/gp/list";
 	
-	private static final String LOGIN_FROM = "/user/loginForm";
+	private static final String LOGIN_FORM = "/user/loginForm";
 	
-	public Login userSession;
+	private Login userSession;
 	
-	// 이미지 업로드를 위해
 	@Value("/upload/")
 	private String uploadDirLocal;
 		
@@ -88,19 +87,15 @@ public class GPController implements ApplicationContextAware {
 		} finally {
 			return gpReq;
 		}
-		
 	}
 	
 	@RequestMapping(value="/register", method = RequestMethod.GET)
 	public String showRegisterForm(HttpServletRequest request) {
 		
-		Login userSession = (Login) WebUtils.getSessionAttribute(request, "userSession");
+		if(isLoggedIn(userSession))
+			return "redirect:" + LOGIN_FORM;
 		
-		if(userSession == null)		// 로그인 X -> 로그인 폼
-			return "redirect:" + LOGIN_FROM;
-		
-		return GP_REGISTER_FORM;   // null 처리 대해
-		
+		return GP_REGISTER_FORM;
 	}
 	
 	@RequestMapping(value="/register", method = RequestMethod.POST)
@@ -109,11 +104,9 @@ public class GPController implements ApplicationContextAware {
 							@RequestParam("imgCheck") String imgCheck, BindingResult result,
 							Model model) throws Exception {
 		
-		validator.validate(imgCheck, result); // 이미지가 삽입되었는지 유효성 체크
+		validator.validate(imgCheck, result);
 		
-		System.out.println(gpReq);
-		
-		if(errors.hasErrors() && result.hasErrors()) {
+		if(existFormAndImageError(errors, result)) {
 			return GP_REGISTER_FORM;
 		}
 		
@@ -129,7 +122,7 @@ public class GPController implements ApplicationContextAware {
 	
 	@RequestMapping(value="/register/success", method = RequestMethod.GET)
 	public String success(Model model) throws Exception {
-		return GP_REGISTER_SEUCCESS_View;
+		return GP_REGISTER_SEUCCESS_VIEW;
 	}
 	
 	private String uploadFile(String studentNumber, MultipartFile report) {
@@ -159,7 +152,7 @@ public class GPController implements ApplicationContextAware {
 						@RequestParam("imgPath") String filePath, @RequestParam("isModify") String isModify,
 						Model model) throws Exception {
 
-		if(errors.hasErrors()) {
+		if(existFormError(errors)) {
 			int gpId = gpReq.getGpId();
 			String imgPath = gpSvc.getGP(gpId).getImage();
 			
@@ -168,7 +161,7 @@ public class GPController implements ApplicationContextAware {
 			return GP_UPDATE_FORM;
 		}
 		
-		if (isModify.equals("true"))	// 이미지 수정된 경우
+		if (isModify.equals("true"))
 			filePath = getFilePath(gpReq);
 		
 		GroupPurchase gp = makeGP(gpReq, filePath);
@@ -186,18 +179,30 @@ public class GPController implements ApplicationContextAware {
 		return "redirect:" + GP_DELETE;
 	}
 	
-	public GroupPurchase makeGP(GPRequest gpReq, String filePath) {
+	private GroupPurchase makeGP(GPRequest gpReq, String filePath) {
 		GroupPurchase gp = new GroupPurchase();
 		gp.initGP(gpReq, filePath);
 		
 		return gp;
 	}
 	
-	public String getFilePath(GPRequest gpReq) {
+	private String getFilePath(GPRequest gpReq) {
 		String fileName = uploadFile(gpReq.getTitle(), gpReq.getImage());
 		String filePath = this.uploadDirLocal + fileName;
 		
 		return filePath;
+	}
+	
+	private static boolean isLoggedIn(Login userSession) {
+        return (userSession != null);
+    }
+	
+	private boolean existFormAndImageError(Errors errors, BindingResult result) {
+		return errors.hasErrors() && result.hasErrors();
+	}
+	
+	private boolean existFormError(Errors errors) {
+		return errors.hasErrors();
 	}
 	
 }

@@ -20,11 +20,11 @@ public interface ProductService {
 
 	Product findProductByProductId(int productId);
 	
-	List<Product> get4ProductList();	// 메인에 보여줄 4개 상품
+	List<Product> getMainProductList();
 	
 	List<Product> getAllProductList();
 	
-	public List<Product> getSearchProductList(String keyword);		// 검색
+	public List<Product> getSearchProductList(String keyword);
 	
 	// Wish Product
 	
